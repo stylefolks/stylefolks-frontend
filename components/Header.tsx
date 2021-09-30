@@ -2,10 +2,11 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useMe } from '../hooks/useMe';
 import { isLoggedInVar, userInfoVar } from '../lib/apolloClient';
+import UtilStyle from '../styles/Util.module.scss';
 import Nav from './Nav';
-
 export default function Header() {
-  const { pathname } = useRouter();
+  const router = useRouter();
+  const { pathname } = router;
   const [queryReadyToStart, { data, loading, error }] = useMe();
 
   useEffect(() => {
@@ -27,9 +28,13 @@ export default function Header() {
   return (
     <>
       <header>
-        <h1>The Folks</h1>
-        <h4>Combined Fashion Community</h4>
-
+        <div
+          onClick={() => router.push('/')}
+          className={UtilStyle.flexColumnCenter}
+        >
+          <h1>The Folks</h1>
+          <h4>The Advanced Fashion Community</h4>
+        </div>
         <span>{isLoggedInVar() ? data?.me.role : ''}</span>
         <style jsx>{`
           header {
@@ -43,7 +48,8 @@ export default function Header() {
             align-items: center;
           }
           h1 {
-            font-size: min(7vw, 36px);
+            width: fit-content;
+            text-align: center;
           }
           h4 {
             font-size: 1vw;
@@ -51,7 +57,7 @@ export default function Header() {
           }
         `}</style>
       </header>
-      <Nav />
+      <Nav loading={loading} />
     </>
   );
 }

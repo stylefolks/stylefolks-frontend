@@ -1,86 +1,88 @@
 import { gql, useMutation } from '@apollo/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '../components/Button';
 import { FormError } from '../components/FormError';
 import GoogleLoginButton from '../components/GoogleLoginButton';
-import { authTokenVar, isLoggedInVar } from '../lib/apolloClient';
-import { login, loginVariables } from '../src/__generated__/login';
+import {
+  createAccount,
+  createAccountVariables,
+} from '../src/__generated__/createAccount';
+import { UserRole } from '../src/__generated__/globalTypes';
 import LoginStyle from '../styles/Login.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
-interface ILoginForm {
+interface ICreateAccountForm {
   email: string;
   password: string;
+  nickname: string;
 }
 
-export const LOGIN_MUTATION = gql`
-  mutation login($loginInput: LoginInput!) {
-    login(input: $loginInput) {
+export const CREATE_ACCOUNT_MUTATION = gql`
+  mutation createAccount($createAccountInput: CreateAccountInput!) {
+    createAccount(input: $createAccountInput) {
       ok
-      token
       error
     }
   }
 `;
 
-export const Login = () => {
+export const CreateAccount = () => {
   const router = useRouter();
-  const onCompleted = (data: login) => {
-    const {
-      login: { error, ok, token },
-    } = data;
-    console.log('login Status', data);
-    if (ok && token) {
-      localStorage?.setItem('folks-token', token);
-      authTokenVar(token);
-      isLoggedInVar(true);
+  const onCompleted = (data: createAccount) => {
+    if (data.createAccount.ok) {
+      alert('가입하신 메일을 통해 인증을 완료해주세요!');
       router.push('/');
-    } else {
-      if (error) {
-        console.error(error);
-        alert('로그인 에러가 발생했습니다.');
-      }
     }
+    console.log(data);
   };
 
-  const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
-    login,
-    loginVariables
-  >(LOGIN_MUTATION, {
-    onCompleted,
-  });
+  const [
+    createAccountMutation,
+    { data: createAccountMuataionResult, loading },
+  ] = useMutation<createAccount, createAccountVariables>(
+    CREATE_ACCOUNT_MUTATION,
+    {
+      onCompleted,
+    }
+  );
 
   const {
     register,
     getValues,
     formState: { errors, isValid },
     handleSubmit,
-  } = useForm<ILoginForm>({
+  } = useForm<ICreateAccountForm>({
     mode: 'onChange',
   });
 
   const onSubmit = () => {
+    //role은 유저로 자동  넘어가는게 정상
     if (!loading) {
-      const { email, password } = getValues();
-      console.log('....??');
-      loginMutation({
+      const { email, password, nickname } = getValues();
+      createAccountMutation({
         variables: {
-          loginInput: { email, password },
+          createAccountInput: {
+            email: email,
+            password: password,
+            nickname: nickname,
+            role: UserRole.User,
+          },
         },
       });
+      // loginMutation({
+      //   variables: {
+      //     loginInput: { email, password },
+      //   },
+      // });
     }
   };
-  useEffect(() => {
-    console.log(errors.email);
-  }, [errors.email]);
 
   return (
     <>
-      <title>The Folks | Login</title>
+      <title>The Folks | Create-Account</title>
       <section>
-        <h2>Welcome Back!</h2>
+        <h2>Create Your Own Account</h2>
         <form onSubmit={handleSubmit(onSubmit)} className={UtilStyle.form}>
           <div className={UtilStyle.inputWrapper}>
             <label htmlFor="email">Email</label>
@@ -121,13 +123,35 @@ export const Login = () => {
               )}
             </div>
           </div>
+
+          <div className={UtilStyle.inputWrapper}>
+            <label htmlFor="nickname">Nickname</label>
+            <input
+              {...register('nickname', {
+                required: '닉네임을 입력해주세요',
+              })}
+              className={UtilStyle.input}
+              type="text"
+              name="nickname"
+              placeholder="Nickname"
+            />
+
+            <div className={UtilStyle.errorFormWrapper}>
+              {errors?.nickname?.message && (
+                <FormError errorMessage={errors?.nickname?.message} />
+              )}
+            </div>
+          </div>
+
           <Button
             canClick={isValid}
             actionText="SUBMIT"
             loading={loading}
           ></Button>
-          {loginMutationResult?.login.error && (
-            <FormError errorMessage={loginMutationResult.login.error} />
+          {createAccountMuataionResult?.createAccount.error && (
+            <FormError
+              errorMessage={createAccountMuataionResult?.createAccount.error}
+            />
           )}
         </form>
         <div className={LoginStyle.divideWrapper}>
@@ -138,7 +162,7 @@ export const Login = () => {
         <GoogleLoginButton />
         <div className={LoginStyle.registerButtonWrapper}>
           <span>The Folks에 처음이신가요?</span>
-          <Link href="/create-account">
+          <Link href="/register">
             <a>회원가입 하러 가기</a>
           </Link>
         </div>
@@ -161,4 +185,4 @@ export const Login = () => {
   );
 };
 
-export default Login;
+export default CreateAccount;

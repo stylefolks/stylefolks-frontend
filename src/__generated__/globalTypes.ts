@@ -22,6 +22,13 @@ export enum UserRole {
   User = "User",
 }
 
+export interface CreateAccountInput {
+  email: string;
+  password: string;
+  nickname: string;
+  role: UserRole;
+}
+
 export interface GetPostForMainCategoryPageInput {
   firstCategoryName: FirstCategoryName;
   postCount?: number | null;

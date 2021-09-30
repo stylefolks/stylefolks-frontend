@@ -1,27 +1,30 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import { useMe } from '../hooks/useMe';
-import { isLoggedInVar, userInfoVar } from '../lib/apolloClient';
+import React from 'react';
+import { isLoggedInVar } from '../lib/apolloClient';
 
-const Nav = () => {
+interface IProps {
+  loading: boolean;
+}
+
+const Nav: React.FC<IProps> = ({ loading }) => {
   const { pathname } = useRouter();
-  const [queryReadyToStart, { data, loading, error }] = useMe();
-  useEffect(() => {
-    queryReadyToStart();
-    if (!loading && data?.me.email) {
-      isLoggedInVar(true);
-      userInfoVar({
-        email: data.me.email,
-        id: data.me.id,
-        role: data.me.role,
-      });
-    }
-    if (error) {
-      isLoggedInVar(false);
-    }
-    //verified는 이메일 인증 안된것으로 나중에 위에 배너띄워주던지 해보자 ..
-  }, []);
+  // const [queryReadyToStart, { data, loading, error }] = useMe();
+  // useEffect(() => {
+  //   queryReadyToStart();
+  //   if (!loading && data?.me.email) {
+  //     isLoggedInVar(true);
+  //     userInfoVar({
+  //       email: data.me.email,
+  //       id: data.me.id,
+  //       role: data.me.role,
+  //     });
+  //   }
+  //   if (error) {
+  //     isLoggedInVar(false);
+  //   }
+  //   //verified는 이메일 인증 안된것으로 나중에 위에 배너띄워주던지 해보자 ..
+  // }, []);
 
   return (
     <nav>

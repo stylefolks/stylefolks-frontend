@@ -10,10 +10,9 @@ export const FormError: React.FC<IFormErrorProps> = ({ errorMessage }) => {
       <span role="alert">{errorMessage}</span>
       <style jsx>{`
         span {
-          padding: 1.5em;
-          font-size: 14px;
-          color: white;
-          background-color: red;
+          padding: 0.5em 0;
+          color: pink;
+          font-size: 0.6rem;
         }
       `}</style>
     </>

@@ -7,7 +7,7 @@ const Logout = () => {
   useEffect(() => {
     isLoggedInVar(false);
     localStorage.removeItem('folks-token');
-    router.push('/');
+    router.push('/login');
   }, []);
   return <div></div>;
 };
