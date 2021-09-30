@@ -1,8 +1,12 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useMe } from '../hooks/useMe';
 
 export default function Header() {
   const { pathname } = useRouter();
+  const { data, loading, error } = useMe();
+
+  console.log(data);
 
   return (
     <header>
@@ -14,9 +18,16 @@ export default function Header() {
           |About About|
         </a>
       </Link>
-      <Link href="/login">
-        <a className={pathname === '/about' ? 'is-active' : ''}>|Login|</a>
-      </Link>
+      {data?.me?.verified ? (
+        <Link href="/logout">
+          <a>LogOut</a>
+        </Link>
+      ) : (
+        <Link href="/login">
+          <a className={pathname === '/about' ? 'is-active' : ''}>|Login|</a>
+        </Link>
+      )}
+
       <Link href="/about">
         <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
       </Link>
