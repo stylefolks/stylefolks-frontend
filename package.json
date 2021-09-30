@@ -6,15 +6,27 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "apollo:codegen": "rimraf pages/__generated__ && apollo client:codegen pages/__generated__ --target=typescript --outputFlat"
   },
   "dependencies": {
+    "@apollo/client": "^3.4.15",
+    "@types/prop-types": "^15.7.4",
+    "@types/scheduler": "^0.16.2",
+    "deepmerge": "^4.2.2",
+    "graphql": "^15.6.0",
+    "lodash": "^4.17.21",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "rimraf": "^3.0.2",
+    "styled-jsx": "^4.0.1"
   },
   "devDependencies": {
+    "@types/node": "^16.10.1",
+    "@types/react": "^17.0.24",
     "eslint": "7.32.0",
-    "eslint-config-next": "11.1.2"
+    "eslint-config-next": "11.1.2",
+    "typescript": "^4.4.3"
   }
 }
