@@ -14,6 +14,9 @@ export default function Header() {
           |About About|
         </a>
       </Link>
+      <Link href="/login">
+        <a className={pathname === '/about' ? 'is-active' : ''}>|Login|</a>
+      </Link>
       <Link href="/about">
         <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
       </Link>
