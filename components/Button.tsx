@@ -33,6 +33,12 @@ export const Button: React.FC<IButtonProps> = ({
           height: ${height};
           font-size: ${fontSize}
           transition: all 0.5s ease-in-out;
+          color: black;
+          width: 100%;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          margin: 2rem 0;
         }
 
         button:hover {

@@ -1,5 +1,14 @@
 const Footer = () => {
-  return <div>Footer</div>;
+  return (
+    <>
+      <footer>Footer</footer>
+      <style jsx>{`
+        footer {
+          height: 100px;
+        }
+      `}</style>
+    </>
+  );
 };
 
 export default Footer;

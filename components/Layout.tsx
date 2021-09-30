@@ -8,7 +8,9 @@ const Layout: React.FC<ILayout> = ({ children }) => {
       <section>{children}</section>
       <style jsx>{`
         section {
-          min-height: calc(100vh + 20px);
+          height: 100%;
+          min-height: calc(100vh - 200px - 25px);
+          //min-height: calc(100vh + 20px);
           padding: 0;
         }
       `}</style>

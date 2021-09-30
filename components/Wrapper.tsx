@@ -4,13 +4,16 @@ export default function App({ children }) {
       {children}
       <style jsx global>{`
         * {
-          font-family: Menlo, Monaco, 'Lucida Console', 'Liberation Mono',
+          font-family: GillSansMTStd-Medium, GillSans, Calibri, sans-serif,
+            Menlo, Monaco, 'Lucida Console', 'Liberation Mono',
             'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New',
             monospace, serif;
         }
         body {
           margin: 0;
-          padding: 25px 50px;
+          font-size: 0.8rem;
+          font-weight: 400;
+          line-height: 1.5;
         }
         a {
           color: #22bad9;
@@ -40,6 +43,10 @@ export default function App({ children }) {
         }
         button:focus {
           outline: none;
+        }
+        h1 {
+          margin: 0;
+          padding: 0;
         }
       `}</style>
     </main>

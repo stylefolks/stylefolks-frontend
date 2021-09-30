@@ -1,69 +1,57 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useMe } from '../hooks/useMe';
-import { authTokenVar, isLoggedInVar } from '../lib/apolloClient';
+import { isLoggedInVar, userInfoVar } from '../lib/apolloClient';
+import Nav from './Nav';
 
 export default function Header() {
   const { pathname } = useRouter();
   const [queryReadyToStart, { data, loading, error }] = useMe();
 
-  console.log('In Header', authTokenVar(), data, loading, error);
-
   useEffect(() => {
     queryReadyToStart();
-    if (!loading && data?.me.verified) {
+    if (!loading && data?.me.email) {
       isLoggedInVar(true);
+      userInfoVar({
+        email: data.me.email,
+        id: data.me.id,
+        role: data.me.role,
+      });
     }
+    if (error) {
+      isLoggedInVar(false);
+    }
+    //verified는 이메일 인증 안된것으로 나중에 위에 배너띄워주던지 해보자 ..
   }, []);
 
   return (
-    <header>
-      <Link href="/">
-        <a className={pathname === '/' ? 'is-active' : ''}>Home</a>
-      </Link>
-      <Link href="/about/about">
-        <a className={pathname === '/about' ? 'is-active' : ''}>
-          |About About|
-        </a>
-      </Link>
-      {isLoggedInVar() ? (
-        // <button onClick={doLogOut}>Log out</button>
-        <Link href="/logout">
-          <a>{loading ? 'Loading...' : 'Logout'}</a>
-        </Link>
-      ) : (
-        <Link href="/login">
-          <a className={pathname === '/about' ? 'is-active' : ''}>
-            <a>{loading ? 'Loading...' : 'Login'}</a>
-          </a>
-        </Link>
-      )}
+    <>
+      <header>
+        <h1>The Folks</h1>
+        <h4>Combined Fashion Community</h4>
 
-      <Link href="/about">
-        <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
-      </Link>
-      <Link href="/client-only">
-        <a className={pathname === '/client-only' ? 'is-active' : ''}>
-          Client-Only
-        </a>
-      </Link>
-      <Link href="/ssr">
-        <a className={pathname === '/ssr' ? 'is-active' : ''}>SSR</a>
-      </Link>
-      <style jsx>{`
-        header {
-          margin-bottom: 25px;
-        }
-        a {
-          font-size: 14px;
-          margin-right: 15px;
-          text-decoration: none;
-        }
-        .is-active {
-          text-decoration: underline;
-        }
-      `}</style>
-    </header>
+        <span>{isLoggedInVar() ? data?.me.role : ''}</span>
+        <style jsx>{`
+          header {
+            height: 100px;
+            margin-bottom: 25px;
+            background-color: white;
+            border-bottom: 1px solid #efeff0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+          h1 {
+            font-size: min(7vw, 36px);
+          }
+          h4 {
+            font-size: 1vw;
+            margin: 0;
+          }
+        `}</style>
+      </header>
+      <Nav />
+    </>
   );
 }
