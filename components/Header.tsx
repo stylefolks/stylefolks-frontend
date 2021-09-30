@@ -1,46 +1,63 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-
+import { useEffect } from 'react';
+import { useMe } from '../hooks/useMe';
+import { isLoggedInVar, userInfoVar } from '../lib/apolloClient';
+import UtilStyle from '../styles/Util.module.scss';
+import Nav from './Nav';
 export default function Header() {
-  const { pathname } = useRouter();
+  const router = useRouter();
+  const { pathname } = router;
+  const [queryReadyToStart, { data, loading, error }] = useMe();
+
+  useEffect(() => {
+    queryReadyToStart();
+    if (!loading && data?.me.email) {
+      isLoggedInVar(true);
+      userInfoVar({
+        email: data.me.email,
+        id: data.me.id,
+        role: data.me.role,
+      });
+    }
+    if (error) {
+      isLoggedInVar(false);
+    }
+    //verified는 이메일 인증 안된것으로 나중에 위에 배너띄워주던지 해보자 ..
+  }, []);
 
   return (
-    <header>
-      <Link href="/">
-        <a className={pathname === '/' ? 'is-active' : ''}>Home</a>
-      </Link>
-      <Link href="/about/about">
-        <a className={pathname === '/about' ? 'is-active' : ''}>
-          |About About|
-        </a>
-      </Link>
-      <Link href="/login">
-        <a className={pathname === '/about' ? 'is-active' : ''}>|Login|</a>
-      </Link>
-      <Link href="/about">
-        <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
-      </Link>
-      <Link href="/client-only">
-        <a className={pathname === '/client-only' ? 'is-active' : ''}>
-          Client-Only
-        </a>
-      </Link>
-      <Link href="/ssr">
-        <a className={pathname === '/ssr' ? 'is-active' : ''}>SSR</a>
-      </Link>
-      <style jsx>{`
-        header {
-          margin-bottom: 25px;
-        }
-        a {
-          font-size: 14px;
-          margin-right: 15px;
-          text-decoration: none;
-        }
-        .is-active {
-          text-decoration: underline;
-        }
-      `}</style>
-    </header>
+    <>
+      <header>
+        <div
+          onClick={() => router.push('/')}
+          className={UtilStyle.flexColumnCenter}
+        >
+          <h1>The Folks</h1>
+          <h4>The Advanced Fashion Community</h4>
+        </div>
+        <span>{isLoggedInVar() ? data?.me.role : ''}</span>
+        <style jsx>{`
+          header {
+            height: 100px;
+            margin-bottom: 25px;
+            background-color: white;
+            border-bottom: 1px solid #efeff0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          }
+          h1 {
+            width: fit-content;
+            text-align: center;
+          }
+          h4 {
+            font-size: 1vw;
+            margin: 0;
+          }
+        `}</style>
+      </header>
+      <Nav loading={loading} />
+    </>
   );
 }

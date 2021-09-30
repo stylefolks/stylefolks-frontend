@@ -14,9 +14,29 @@ export enum FirstCategoryName {
   TALK = "TALK",
 }
 
+export enum UserRole {
+  Brand = "Brand",
+  Manager = "Manager",
+  Master = "Master",
+  Publisher = "Publisher",
+  User = "User",
+}
+
+export interface CreateAccountInput {
+  email: string;
+  password: string;
+  nickname: string;
+  role: UserRole;
+}
+
 export interface GetPostForMainCategoryPageInput {
   firstCategoryName: FirstCategoryName;
   postCount?: number | null;
+}
+
+export interface LoginInput {
+  email: string;
+  password: string;
 }
 
 //==============================================================
