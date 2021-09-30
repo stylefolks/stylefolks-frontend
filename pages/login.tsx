@@ -1,12 +1,11 @@
 import { gql, useMutation } from '@apollo/client';
-import Header from 'next/head';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Button } from '../components/Button';
 import { FormError } from '../components/FormError';
 import { authTokenVar, isLoggedInVar } from '../lib/apolloClient';
+import { login, loginVariables } from '../src/__generated__/login';
 import homeStyle from '../styles/Home.module.css';
-import { login, loginVariables } from './__generated__/login';
 
 interface ILoginForm {
   email: string;
@@ -73,7 +72,9 @@ export const Login = () => {
 
   return (
     <>
-      <Header>The Folks | Login</Header>
+      <head>
+        <title>The Folks | Login</title>
+      </head>
       <section className={homeStyle.container}>
         <h4>Welcome Back!</h4>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "apollo:codegen": "rimraf pages/__generated__ && apollo client:codegen pages/__generated__ --target=typescript --outputFlat"
+    "apollo:codegen": "rimraf src/__generated__ && apollo client:codegen src/__generated__ --target=typescript --outputFlat"
   },
   "dependencies": {
     "@apollo/client": "^3.4.15",

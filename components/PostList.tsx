@@ -2,24 +2,9 @@ import { gql, NetworkStatus, useQuery } from '@apollo/client';
 import {
   getPostForMainCategoryPage,
   getPostForMainCategoryPageVariables,
-} from '../pages/__generated__/getPostForMainCategoryPage';
-import { FirstCategoryName } from '../pages/__generated__/globalTypes';
+} from '../src/__generated__/getPostForMainCategoryPage';
+import { FirstCategoryName } from '../src/__generated__/globalTypes';
 import ErrorMessage from './ErrorMessage';
-
-// export const ALL_POSTS_QUERY = gql`
-//   query allPosts($first: Int!, $skip: Int!) {
-//     allPosts(orderBy: { createdAt: desc }, first: $first, skip: $skip) {
-//       id
-//       title
-//       votes
-//       url
-//       createdAt
-//     }
-//     _allPostsMeta {
-//       count
-//     }
-//   }
-// `;
 
 export const GET_POST_FOR_MAIN_CATEGORY_PAGE = gql`
   query getPostForMainCategoryPage($input: GetPostForMainCategoryPageInput!) {

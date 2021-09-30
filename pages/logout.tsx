@@ -9,6 +9,6 @@ const Logout = () => {
     localStorage.removeItem('folks-token');
     router.push('/');
   }, []);
-  return <div>Logout</div>;
+  return <div></div>;
 };
 export default Logout;
