@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMe } from '../hooks/useMe';
+import { authTokenVar } from '../lib/apolloClient';
 
 export default function Header() {
   const { pathname } = useRouter();
   const { data, loading, error } = useMe();
 
-  console.log(data);
+  console.log('In Header', authTokenVar(), data, loading, error);
 
   return (
     <header>

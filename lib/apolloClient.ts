@@ -3,10 +3,8 @@ import {
   createHttpLink,
   InMemoryCache,
   makeVar,
-  split,
 } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import { concatPagination, getMainDefinition } from '@apollo/client/utilities';
+import { concatPagination } from '@apollo/client/utilities';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
@@ -23,28 +21,32 @@ let apolloClient;
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
+  headers: {
+    'folks-token': authTokenVar() || '',
+  },
 });
 
-const authLink = setContext((_, { headers }) => {
-  return {
-    ...headers,
-    'folks-token': authTokenVar() || '',
-  };
-});
+//컨텍스트에서 처리하는건 웹소켓 연결 시 가능한거임 ㅇㅇ..
+// const authLink = setContext((_, { headers }) => {
+//   return {
+//     ...headers,
+//     'folks-token': authTokenVar() || '',
+//   };
+// });
 
 //나중에 웹소켓 연결 시 하단 split링크 사용
-const splitLink = split(({ query }) => {
-  const definition = getMainDefinition(query);
-  return (
-    definition.kind === 'OperationDefinition' &&
-    definition.operation === 'subscription'
-  );
-}, authLink.concat(httpLink));
+// const splitLink = split(({ query }) => {
+//   const definition = getMainDefinition(query);
+//   return (
+//     definition.kind === 'OperationDefinition' &&
+//     definition.operation === 'subscription'
+//   );
+// }, authLink.concat(httpLink));
 
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: authLink.concat(httpLink),
+    link: httpLink,
     cache: new InMemoryCache({
       typePolicies: {
         Query: {

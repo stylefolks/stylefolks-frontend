@@ -1,5 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 import Header from 'next/head';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Button } from '../components/Button';
 import { FormError } from '../components/FormError';
@@ -23,6 +24,7 @@ export const LOGIN_MUTATION = gql`
 `;
 
 export const Login = () => {
+  const router = useRouter();
   const onCompleted = (data: login) => {
     const {
       login: { error, ok, token },
@@ -32,6 +34,7 @@ export const Login = () => {
       localStorage?.setItem('folks-token', token);
       authTokenVar(token);
       isLoggedInVar(true);
+      router.push('/');
     } else {
       if (error) {
         console.error(error);
