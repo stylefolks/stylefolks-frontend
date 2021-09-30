@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 // import { ME_QUERY } from '../graphql/queries';
 import { meQuery } from '../pages/__generated__/meQuery';
 
@@ -14,5 +14,5 @@ export const ME_QUERY = gql`
 `;
 
 export const useMe = () => {
-  return useQuery<meQuery>(ME_QUERY);
+  return useLazyQuery<meQuery>(ME_QUERY);
 };

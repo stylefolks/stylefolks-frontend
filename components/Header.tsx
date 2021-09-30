@@ -1,13 +1,21 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useMe } from '../hooks/useMe';
-import { authTokenVar } from '../lib/apolloClient';
+import { authTokenVar, isLoggedInVar } from '../lib/apolloClient';
 
 export default function Header() {
   const { pathname } = useRouter();
-  const { data, loading, error } = useMe();
+  const [queryReadyToStart, { data, loading, error }] = useMe();
 
   console.log('In Header', authTokenVar(), data, loading, error);
+
+  useEffect(() => {
+    queryReadyToStart();
+    if (!loading && data?.me.verified) {
+      isLoggedInVar(true);
+    }
+  }, []);
 
   return (
     <header>
@@ -19,13 +27,16 @@ export default function Header() {
           |About About|
         </a>
       </Link>
-      {data?.me?.verified ? (
+      {isLoggedInVar() ? (
+        // <button onClick={doLogOut}>Log out</button>
         <Link href="/logout">
-          <a>LogOut</a>
+          <a>{loading ? 'Loading...' : 'Logout'}</a>
         </Link>
       ) : (
         <Link href="/login">
-          <a className={pathname === '/about' ? 'is-active' : ''}>|Login|</a>
+          <a className={pathname === '/about' ? 'is-active' : ''}>
+            <a>{loading ? 'Loading...' : 'Login'}</a>
+          </a>
         </Link>
       )}
 
