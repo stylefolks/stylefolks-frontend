@@ -1,10 +1,8 @@
-import UtilStyle from '../styles/Util.module.scss';
+import GNBStyle from '../styles/GNB.module.scss';
 
 const BurgerButton = () => {
   return (
-    <button
-      className={`${UtilStyle.burgerButtonContainer} ${UtilStyle.flexColumnCenter}`}
-    >
+    <button className={GNBStyle.burgerButtonContainer}>
       <div />
       <div />
       <div />

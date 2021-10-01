@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { isLoggedInVar } from '../lib/apolloClient';
 import vacantImage from '../public/solidwhite.png';
 import { UserRole } from '../src/__generated__/globalTypes';
 import ProfileStyle from '../styles/Profile.module.scss';
@@ -26,22 +27,26 @@ const Profile: React.FC<IProps> = ({
     <>
       <div
         className={`${ProfileStyle.profileContainer} ${UtilStyle.flexCenter}`}
-        onClick={() => router.push(`/user/${id}`)}
       >
-        <div onClick={() => setIsVisible((prev) => !prev)}>
+        {isLoggedInVar() === true ? (
           <Image
             className={ProfileStyle.profileImage}
             src={profileImage ? profileImage : vacantImage}
-            width="45px"
-            height="45px"
+            width={
+              (window.innerWidth * 4) / 100 >= 40
+                ? (window.innerWidth * 4) / 100
+                : '40px'
+            }
+            height={
+              (window.innerWidth * 4) / 100 >= 40
+                ? (window.innerWidth * 4) / 100
+                : '40px'
+            }
             alt="profileImage"
           />
-        </div>
-        <div>
-          <h2>Mail | {email}</h2>
-          <h3>NickName | {nickname}</h3>
-          <h3>User Role | {role}</h3>
-        </div>
+        ) : (
+          <span onClick={() => router.push('/login')}>Log In</span>
+        )}
       </div>
       <style jsx>{`
         .profileWrapper {

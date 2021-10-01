@@ -45,6 +45,7 @@ export default function Header() {
   return (
     <>
       <header className={GNBStyle.headerContainer}>
+        <BurgerButton />
         <div
           onClick={() => router.push('/')}
           className={`${UtilStyle.flexColumnCenter} ${UtilStyle.clickable}`}
@@ -52,18 +53,15 @@ export default function Header() {
           <h1>The Folks</h1>
           <h4>The Advanced Fashion Community</h4>
         </div>
-        {isLoggedInVar() === true && !isSmall ? (
-          <Profile
-            email={data?.me.email}
-            id={data?.me.id}
-            nickname={data?.me.nickname}
-            profileImage={data?.me.profileImage}
-            role={data?.me.role}
-          />
-        ) : (
-          ''
-        )}
-        {isSmall && <BurgerButton />}
+
+        <Profile
+          email={data?.me.email}
+          id={data?.me.id}
+          nickname={data?.me.nickname}
+          profileImage={data?.me.profileImage}
+          role={data?.me.role}
+        />
+
         <style jsx>{`
  */
         `}</style>
