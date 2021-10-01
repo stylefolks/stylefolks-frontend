@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Button } from '../components/Button';
 import { FormError } from '../components/FormError';
-import GoogleLoginButton from '../components/GoogleLoginButton';
 import {
   createAccount,
   createAccountVariables,
@@ -15,9 +14,11 @@ import UtilStyle from '../styles/Util.module.scss';
 interface ICreateAccountForm {
   email: string;
   password: string;
+  checkPassword: string;
   nickname: string;
 }
 
+//https://codesandbox.io/s/react-hook-form-password-match-check-standard-validation-eo6en?file=/src/index.js:974-982
 export const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccount($createAccountInput: CreateAccountInput!) {
     createAccount(input: $createAccountInput) {
@@ -29,12 +30,39 @@ export const CREATE_ACCOUNT_MUTATION = gql`
 
 export const CreateAccount = () => {
   const router = useRouter();
+
+  const {
+    register,
+    getValues,
+    formState: { errors, isValid },
+    handleSubmit,
+  } = useForm<ICreateAccountForm>({
+    mode: 'onChange',
+  });
+
+  const { password, checkPassword, email, nickname } = getValues();
+
   const onCompleted = (data: createAccount) => {
     if (data.createAccount.ok) {
       alert('가입하신 메일을 통해 인증을 완료해주세요!');
       router.push('/');
     }
-    console.log(data);
+  };
+
+  const onSubmit = () => {
+    //role은 유저로 자동  넘어가는게 정상
+    if (!loading) {
+      createAccountMutation({
+        variables: {
+          createAccountInput: {
+            email: email,
+            password: password,
+            nickname: nickname,
+            role: UserRole.User,
+          },
+        },
+      });
+    }
   };
 
   const [
@@ -46,37 +74,6 @@ export const CreateAccount = () => {
       onCompleted,
     }
   );
-
-  const {
-    register,
-    getValues,
-    formState: { errors, isValid },
-    handleSubmit,
-  } = useForm<ICreateAccountForm>({
-    mode: 'onChange',
-  });
-
-  const onSubmit = () => {
-    //role은 유저로 자동  넘어가는게 정상
-    if (!loading) {
-      const { email, password, nickname } = getValues();
-      createAccountMutation({
-        variables: {
-          createAccountInput: {
-            email: email,
-            password: password,
-            nickname: nickname,
-            role: UserRole.User,
-          },
-        },
-      });
-      // loginMutation({
-      //   variables: {
-      //     loginInput: { email, password },
-      //   },
-      // });
-    }
-  };
 
   return (
     <>
@@ -123,6 +120,26 @@ export const CreateAccount = () => {
               )}
             </div>
           </div>
+          <div className={UtilStyle.inputWrapper}>
+            <label htmlFor="checkPassword">Repeat password</label>
+            <input
+              {...register('checkPassword', {
+                required: '비밀번호 확인을 위해 입력해주세요.',
+                validate: (value) =>
+                  value === password || 'The passwords do not match',
+              })}
+              name="checkPassword"
+              type="password"
+              required
+              placeholder="Password Check"
+              className={UtilStyle.input}
+            />
+            <div className={UtilStyle.errorFormWrapper}>
+              {errors.checkPassword && (
+                <FormError errorMessage="비밀번호를 확인해주세요" />
+              )}
+            </div>
+          </div>
 
           <div className={UtilStyle.inputWrapper}>
             <label htmlFor="nickname">Nickname</label>
@@ -145,7 +162,7 @@ export const CreateAccount = () => {
 
           <Button
             canClick={isValid}
-            actionText="SUBMIT"
+            actionText="Be Our Folks"
             loading={loading}
           ></Button>
           {createAccountMuataionResult?.createAccount.error && (
@@ -154,16 +171,11 @@ export const CreateAccount = () => {
             />
           )}
         </form>
-        <div className={LoginStyle.divideWrapper}>
-          <div />
-          <span> OR </span>
-          <div />
-        </div>
-        <GoogleLoginButton />
+
         <div className={LoginStyle.registerButtonWrapper}>
-          <span>The Folks에 처음이신가요?</span>
-          <Link href="/register">
-            <a>회원가입 하러 가기</a>
+          <span>이미 회원이신가요?</span>
+          <Link href="/login">
+            <a>로그인하러 가기</a>
           </Link>
         </div>
       </section>

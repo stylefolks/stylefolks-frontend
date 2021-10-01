@@ -40,7 +40,6 @@ export default function PostList() {
     notifyOnNetworkStatusChange: true,
   });
 
-  console.log('@@', data);
 
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
 

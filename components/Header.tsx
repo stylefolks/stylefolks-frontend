@@ -35,7 +35,6 @@ export default function Header() {
           <h1>The Folks</h1>
           <h4>The Advanced Fashion Community</h4>
         </div>
-        <span>{isLoggedInVar() ? data?.me.role : ''}</span>
         <style jsx>{`
           header {
             height: 100px;

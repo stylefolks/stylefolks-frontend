@@ -1,3 +1,5 @@
+import UtilStyle from '../styles/Util.module.scss';
+
 interface ILayout {
   children: React.ReactNode;
 }
@@ -5,7 +7,7 @@ interface ILayout {
 const Layout: React.FC<ILayout> = ({ children }) => {
   return (
     <>
-      <section>{children}</section>
+      <section className={UtilStyle.flexColumnCenter}>{children}</section>
       <style jsx>{`
         section {
           height: 100%;
