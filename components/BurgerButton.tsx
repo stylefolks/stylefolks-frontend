@@ -1,10 +1,12 @@
-import UtilStyle from '../styles/Util.module.scss';
+import ButtonStyle from '../styles/Buttons.module.scss';
 
-const BurgerButton = () => {
+interface IBurgerButtonProps {
+  onClick: () => null;
+}
+
+const BurgerButton = ({ onClick }) => {
   return (
-    <button
-      className={`${UtilStyle.burgerButtonContainer} ${UtilStyle.flexColumnCenter}`}
-    >
+    <button className={ButtonStyle.burgerButtonContainer} onClick={onClick}>
       <div />
       <div />
       <div />

@@ -1,39 +1,35 @@
 .profileContainer {
-  position: absolute;
-  right: 8vw;
-  top: 12px;
-  display: flex;
+  height: fit-content;
+  position: relative;
   border: 1px solid #efeff0;
-  padding: 0.2rem 0.6rem;
-  border-radius: 12px;
-  transition: all 0.3s ease-in-out;
-
-  & > div:nth-child(2) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    margin-left: 14px;
-  }
-
-  h2,
-  h3 {
-    margin: 0;
-    padding: 0;
-  }
+  border-radius: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    border: 1px solid black;
+    border: 1px solid #22bad9;
   }
 }
 
 .profileImage {
-  border: 1px solid #efeff0 !important;
   border-radius: 100%;
 }
 
-.profileWrapper {
-  position: relative;
+.popupProfileText {
+  width: 100%;
+  background-color: white;
+  & > span {
+    width: 8vw;
+    text-align: center;
+    font-size: 1vw;
+    padding: 0px 1vw;
+    border-radius: 2px;
+
+    &:hover {
+      color: #22bad9;
+      background-color: #efeff0;
+    }
+  }
 }
 
 @keyframes slideIn {

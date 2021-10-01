@@ -1,0 +1,84 @@
+//https://stackoverflow.com/questions/18920542/draw-an-x-in-css
+.quitButtonContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: white;
+  border: none;
+  box-shadow: 2px 2px 4px 0 white;
+  cursor: pointer;
+
+  &:hover {
+    div {
+      &:before,
+      &:after {
+        background-color: #22bad9;
+      }
+    }
+  }
+
+  &:active {
+    div {
+      &:before,
+      &:after {
+        background-color: #ccc;
+      }
+    }
+  }
+
+  div {
+    min-width: 40px;
+    min-height: 40px;
+    // background-color: red;
+    position: relative;
+    border-radius: 6px;
+
+    &:before,
+    &:after {
+      position: absolute;
+      content: ' ';
+      width: 36px;
+      top: 18px;
+      height: 4px;
+      box-shadow: 0 0 2px 0 #ccc;
+      background-color: black;
+    }
+
+    &:before {
+      transform: rotate(45deg);
+      left: 2px;
+    }
+
+    &:after {
+      transform: rotate(-45deg);
+      right: 2px;
+    }
+  }
+}
+
+.burgerButtonContainer {
+  border: none;
+  width: 4vw;
+  height: 4vw;
+  min-width: 40px;
+  min-height: 40px;
+  border: 1px solid white;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+
+  div {
+    border-bottom: 0.2vw solid black;
+    width: 100%;
+    margin: 2px 0px;
+    transition: all 0.15s ease-in-out;
+  }
+
+  &:hover {
+    div {
+      border-bottom: 0.2vw solid #22bad9;
+    }
+  }
+}
