@@ -67,6 +67,11 @@ function createApolloClient() {
                 return isLoggedInVar();
               },
             },
+            userInfo: {
+              read() {
+                return userInfoVar();
+              },
+            },
             allPosts: concatPagination(),
           },
         },

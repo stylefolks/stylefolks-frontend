@@ -6,20 +6,29 @@
 import { UserRole } from "./globalTypes";
 
 // ====================================================
-// GraphQL query operation: meQuery
+// GraphQL query operation: findById
 // ====================================================
 
-export interface meQuery_me {
+export interface findById_findById_user {
   __typename: "User";
   id: number;
   nickname: string;
   email: string;
   role: UserRole;
-  verified: boolean;
   profileImg: string | null;
-  link: string | null;
 }
 
-export interface meQuery {
-  me: meQuery_me;
+export interface findById_findById {
+  __typename: "FindByIdOutput";
+  ok: boolean;
+  error: string | null;
+  user: findById_findById_user | null;
+}
+
+export interface findById {
+  findById: findById_findById;
+}
+
+export interface findByIdVariables {
+  userId: number;
 }
