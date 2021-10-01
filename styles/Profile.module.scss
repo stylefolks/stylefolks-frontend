@@ -1,5 +1,6 @@
 .profileContainer {
   height: fit-content;
+  position: relative;
   border: 1px solid #efeff0;
   border-radius: 100%;
   cursor: pointer;
@@ -12,6 +13,23 @@
 
 .profileImage {
   border-radius: 100%;
+}
+
+.popupProfileText {
+  width: 100%;
+  background-color: white;
+  & > span {
+    width: 8vw;
+    text-align: center;
+    font-size: 1vw;
+    padding: 0px 1vw;
+    border-radius: 2px;
+
+    &:hover {
+      color: #22bad9;
+      background-color: #efeff0;
+    }
+  }
 }
 
 @keyframes slideIn {
