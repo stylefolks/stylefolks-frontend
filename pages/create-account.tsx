@@ -14,6 +14,7 @@ import UtilStyle from '../styles/Util.module.scss';
 interface ICreateAccountForm {
   email: string;
   password: string;
+  checkPassword: string;
   nickname: string;
 }
 
@@ -28,23 +29,6 @@ export const CREATE_ACCOUNT_MUTATION = gql`
 
 export const CreateAccount = () => {
   const router = useRouter();
-  const onCompleted = (data: createAccount) => {
-    if (data.createAccount.ok) {
-      alert('가입하신 메일을 통해 인증을 완료해주세요!');
-      router.push('/');
-    }
-    console.log(data);
-  };
-
-  const [
-    createAccountMutation,
-    { data: createAccountMuataionResult, loading },
-  ] = useMutation<createAccount, createAccountVariables>(
-    CREATE_ACCOUNT_MUTATION,
-    {
-      onCompleted,
-    }
-  );
 
   const {
     register,
@@ -54,6 +38,15 @@ export const CreateAccount = () => {
   } = useForm<ICreateAccountForm>({
     mode: 'onChange',
   });
+
+  const { password, repassword } = getValues();
+
+  const onCompleted = (data: createAccount) => {
+    if (data.createAccount.ok) {
+      alert('가입하신 메일을 통해 인증을 완료해주세요!');
+      router.push('/');
+    }
+  };
 
   const onSubmit = () => {
     //role은 유저로 자동  넘어가는게 정상
@@ -69,13 +62,18 @@ export const CreateAccount = () => {
           },
         },
       });
-      // loginMutation({
-      //   variables: {
-      //     loginInput: { email, password },
-      //   },
-      // });
     }
   };
+
+  const [
+    createAccountMutation,
+    { data: createAccountMuataionResult, loading },
+  ] = useMutation<createAccount, createAccountVariables>(
+    CREATE_ACCOUNT_MUTATION,
+    {
+      onCompleted,
+    }
+  );
 
   return (
     <>
@@ -119,6 +117,27 @@ export const CreateAccount = () => {
             <div className={UtilStyle.errorFormWrapper}>
               {errors.password?.message && (
                 <FormError errorMessage={errors.password?.message} />
+              )}
+            </div>
+          </div>
+          <div className={UtilStyle.inputWrapper}>
+            <label htmlFor="checkPassword">Repeat password</label>
+            <input
+              {...register('checkPassword', {
+                required: '비밀번호 확인을 위해 입력해주세요.',
+                validate: (value) =>
+                  value === getValues().password ||
+                  'The passwords do not match',
+              })}
+              name="checkPassword"
+              type="password"
+              required
+              placeholder="Password Check"
+              className={UtilStyle.input}
+            />
+            <div className={UtilStyle.errorFormWrapper}>
+              {errors.checkPassword && (
+                <FormError errorMessage="비밀번호를 확인해주세요" />
               )}
             </div>
           </div>
