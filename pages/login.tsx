@@ -1,7 +1,6 @@
 import { gql, useMutation } from '@apollo/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '../components/Button';
 import { FormError } from '../components/FormError';
@@ -31,7 +30,6 @@ export const Login = () => {
     const {
       login: { error, ok, token },
     } = data;
-    console.log('login Status', data);
     if (ok && token) {
       localStorage?.setItem('folks-token', token);
       authTokenVar(token);
@@ -64,7 +62,6 @@ export const Login = () => {
   const onSubmit = () => {
     if (!loading) {
       const { email, password } = getValues();
-      console.log('....??');
       loginMutation({
         variables: {
           loginInput: { email, password },
@@ -72,9 +69,6 @@ export const Login = () => {
       });
     }
   };
-  useEffect(() => {
-    console.log(errors.email);
-  }, [errors.email]);
 
   return (
     <>

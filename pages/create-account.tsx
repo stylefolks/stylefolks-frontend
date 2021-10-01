@@ -18,6 +18,7 @@ interface ICreateAccountForm {
   nickname: string;
 }
 
+//https://codesandbox.io/s/react-hook-form-password-match-check-standard-validation-eo6en?file=/src/index.js:974-982
 export const CREATE_ACCOUNT_MUTATION = gql`
   mutation createAccount($createAccountInput: CreateAccountInput!) {
     createAccount(input: $createAccountInput) {
@@ -39,7 +40,7 @@ export const CreateAccount = () => {
     mode: 'onChange',
   });
 
-  const { password, repassword } = getValues();
+  const { password, checkPassword, email, nickname } = getValues();
 
   const onCompleted = (data: createAccount) => {
     if (data.createAccount.ok) {
@@ -51,7 +52,6 @@ export const CreateAccount = () => {
   const onSubmit = () => {
     //role은 유저로 자동  넘어가는게 정상
     if (!loading) {
-      const { email, password, nickname } = getValues();
       createAccountMutation({
         variables: {
           createAccountInput: {
@@ -126,8 +126,7 @@ export const CreateAccount = () => {
               {...register('checkPassword', {
                 required: '비밀번호 확인을 위해 입력해주세요.',
                 validate: (value) =>
-                  value === getValues().password ||
-                  'The passwords do not match',
+                  value === password || 'The passwords do not match',
               })}
               name="checkPassword"
               type="password"

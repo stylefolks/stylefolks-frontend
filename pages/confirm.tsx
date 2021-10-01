@@ -18,7 +18,6 @@ const VERIFY_EMAIL_MUTATION = gql`
 
 const Confirm: React.FC = () => {
   const onCompleted = (data: verifyEmail) => {
-    console.log(data);
     if (data.verifyEmail.ok) {
       router.push('/login');
     }
@@ -37,11 +36,9 @@ const Confirm: React.FC = () => {
 
   const router = useRouter();
   const { code } = router.query;
-  console.log(router.query.code);
 
   useEffect(() => {
     if (router.query.code) {
-      console.log('code', code);
       verifyEmailMutation({
         variables: {
           input: { code: router.query.code as string },
