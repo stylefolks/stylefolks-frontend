@@ -11,14 +11,14 @@ import Profile from './Profile';
 export default function Header() {
   const router = useRouter();
   const [queryReadyToStart, { data, loading, error }] = useMe();
-  const [isSmall, setIsSmall] = useState<boolean>(false);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const handleResize = () => {
-    if (window.innerWidth > 1100) {
-      return setIsSmall(false);
-    }
-    return setIsSmall(true);
-  };
+  // const handleResize = () => {
+  //   if (window.innerWidth > 1100) {
+  //     return setIsSmall(false);
+  //   }
+  //   return setIsSmall(true);
+  // };
 
   useEffect(() => {
     queryReadyToStart();
@@ -34,18 +34,28 @@ export default function Header() {
       isLoggedInVar(false);
     }
 
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+    // window.addEventListener('resize', handleResize);
+    // handleResize();
+    // return () => {
+    //   window.removeEventListener('resize', handleResize);
+    // };
     //verified는 이메일 인증 안된것으로 나중에 위에 배너띄워주던지 해보자 ..
   }, []);
+
+  const onClick = () => {
+    setIsVisible((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (isVisible) {
+      setIsVisible((prev) => !prev);
+    }
+  }, [router.pathname]);
 
   return (
     <>
       <header className={GNBStyle.headerContainer}>
-        <BurgerButton />
+        <BurgerButton onClick={onClick} />
         <div
           onClick={() => router.push('/')}
           className={`${UtilStyle.flexColumnCenter} ${UtilStyle.clickable}`}
@@ -58,7 +68,7 @@ export default function Header() {
           email={data?.me.email}
           id={data?.me.id}
           nickname={data?.me.nickname}
-          profileImage={data?.me.profileImage}
+          profileImage={data?.me.profileImg}
           role={data?.me.role}
         />
 
@@ -66,7 +76,7 @@ export default function Header() {
  */
         `}</style>
       </header>
-      <Nav loading={loading} />
+      <Nav onClick={onClick} isVisible={isVisible} />
     </>
   );
 }

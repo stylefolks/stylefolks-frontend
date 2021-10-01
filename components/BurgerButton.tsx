@@ -1,8 +1,12 @@
-import GNBStyle from '../styles/GNB.module.scss';
+import ButtonStyle from '../styles/Buttons.module.scss';
 
-const BurgerButton = () => {
+interface IBurgerButtonProps {
+  onClick: () => null;
+}
+
+const BurgerButton = ({ onClick }) => {
   return (
-    <button className={GNBStyle.burgerButtonContainer}>
+    <button className={ButtonStyle.burgerButtonContainer} onClick={onClick}>
       <div />
       <div />
       <div />

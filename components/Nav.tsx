@@ -2,9 +2,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import GNBStyle from '../styles/GNB.module.scss';
-import UtilStyle from '../styles/Util.module.scss';
+import QuitButton from './QuitButton';
 interface IProps {
-  loading: boolean;
+  onClick: () => void;
+  isVisible: boolean;
 }
 interface INavMap {
   name: string;
@@ -18,24 +19,26 @@ const NAV_MAP: INavMap[] = [
   { name: 'Folks', pathname: '/folks' },
 ];
 
-const Nav: React.FC<IProps> = ({ loading }) => {
+const Nav: React.FC<IProps> = ({ onClick, isVisible }) => {
   const { pathname } = useRouter();
 
   return (
-    <nav className={`${UtilStyle.flexSpaceBetween} ${GNBStyle.navConatiner}`}>
+    <nav
+      className={
+        isVisible
+          ? `${GNBStyle.navContainer} ${GNBStyle.visible}`
+          : `${GNBStyle.navContainer} ${GNBStyle.invisible}`
+      }
+    >
       {NAV_MAP.map((el) => (
         <Link href={el.pathname} key={el.name}>
-          <a className={pathname === el.pathname ? 'is-active' : ''}>
+          <a className={pathname === el.pathname ? `${GNBStyle.isActive}` : ''}>
             {el.name}
           </a>
         </Link>
       ))}
 
-      <style jsx>{`
-        .is-active {
-          text-decoration: underline;
-        }
-      `}</style>
+      <QuitButton onClick={onClick} />
     </nav>
   );
 };
