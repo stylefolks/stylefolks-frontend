@@ -79,7 +79,7 @@ export const Login = () => {
   return (
     <>
       <title>The Folks | Login</title>
-      <section>
+      <section className="loginConatiner">
         <h2>Welcome Back!</h2>
         <form onSubmit={handleSubmit(onSubmit)} className={UtilStyle.form}>
           <div className={UtilStyle.inputWrapper}>
@@ -144,13 +144,14 @@ export const Login = () => {
         </div>
       </section>
       <style jsx>{`
-        section {
+        .loginConatiner {
           margin: 0;
           padding: 7vw;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          width: 50vw;
         }
 
         button {

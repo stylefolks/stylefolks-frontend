@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { Button } from '../components/Button';
 import { FormError } from '../components/FormError';
-import GoogleLoginButton from '../components/GoogleLoginButton';
 import {
   createAccount,
   createAccountVariables,
@@ -145,7 +144,7 @@ export const CreateAccount = () => {
 
           <Button
             canClick={isValid}
-            actionText="SUBMIT"
+            actionText="Be Our Folks"
             loading={loading}
           ></Button>
           {createAccountMuataionResult?.createAccount.error && (
@@ -154,16 +153,11 @@ export const CreateAccount = () => {
             />
           )}
         </form>
-        <div className={LoginStyle.divideWrapper}>
-          <div />
-          <span> OR </span>
-          <div />
-        </div>
-        <GoogleLoginButton />
+
         <div className={LoginStyle.registerButtonWrapper}>
-          <span>The Folks에 처음이신가요?</span>
-          <Link href="/register">
-            <a>회원가입 하러 가기</a>
+          <span>이미 회원이신가요?</span>
+          <Link href="/login">
+            <a>로그인하러 가기</a>
           </Link>
         </div>
       </section>

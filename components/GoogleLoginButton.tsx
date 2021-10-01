@@ -6,12 +6,21 @@ const GoogleLoginButton = () => {
   return (
     <>
       <button className={UtilStyle.button}>
-        <Image src={GoogleLogo} alt="googleLogo" width="15px" height="15px" />
+        <Image
+          src={GoogleLogo}
+          alt="googleLogo"
+          width="15px"
+          height="15px"
+          className="imageHover"
+        />
         <span>START WITH GOOGLE</span>
       </button>
       <style jsx>{`
         button {
           width: 100%;
+        }
+        .imageHover:hover {
+          background-color: black;
         }
       `}</style>
     </>
