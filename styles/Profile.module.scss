@@ -1,0 +1,79 @@
+.profileContainer {
+  position: absolute;
+  right: 8vw;
+  top: 12px;
+  display: flex;
+  border: 1px solid #efeff0;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+
+  & > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-left: 14px;
+  }
+
+  h2,
+  h3 {
+    margin: 0;
+    padding: 0;
+  }
+
+  &:hover {
+    border: 1px solid black;
+  }
+}
+
+.profileImage {
+  border: 1px solid #efeff0 !important;
+  border-radius: 100%;
+}
+
+.profileWrapper {
+  position: relative;
+}
+
+@keyframes slideIn {
+  100% {
+    transform: translateY(0);
+    opacity: 100;
+  }
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+}
+
+@keyframes slideOut {
+  100% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  0% {
+    transform: translateY(10px);
+    opacity: 100;
+  }
+}
+
+.popupWrapper {
+  border: 1px solid #efeff0;
+}
+
+.visibleProfile {
+  visibility: visible;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+  animation-duration: 0.6s;
+  animation-name: slideIn;
+}
+
+.unvisibleProfile {
+  visibility: hidden;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+  animation-duration: 0.6s;
+  animation-name: slideOut;
+}
