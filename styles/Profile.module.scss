@@ -18,10 +18,11 @@
 .popupProfileText {
   width: 100%;
   background-color: white;
+
   & > span {
-    width: 8vw;
+    width: 170px;
     text-align: center;
-    font-size: 1vw;
+    font-size: 20px;
     padding: 0px 1vw;
     border-radius: 2px;
 
@@ -68,8 +69,13 @@
 
 .unvisibleProfile {
   visibility: hidden;
-  position: absolute;
-  transition: all 0.3s ease-in-out;
-  animation-duration: 0.6s;
+  width: 0px;
+  height: 0px;
+  animation-duration: 0.3s;
   animation-name: slideOut;
+  span {
+    width: 0px;
+    height: 0px;
+    font-size: 0px;
+  }
 }

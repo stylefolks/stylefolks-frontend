@@ -38,12 +38,14 @@ const Confirm: React.FC = () => {
   const { code } = router.query;
 
   useEffect(() => {
-    if (router.query.code) {
+    if (router.query.code && typeof router.query.code === 'string') {
       verifyEmailMutation({
         variables: {
-          input: { code: router.query.code as string },
+          input: { code: router.query.code },
         },
       });
+    } else {
+      alert('Code have problems \n Please ask to manager');
     }
   }, [code]);
 

@@ -16,7 +16,9 @@ interface IProps {
 
 interface IModalState {
   isVisible: boolean;
-  location: number;
+  top: number;
+  right: number;
+  direction: number;
 }
 
 const Profile: React.FC<IProps> = ({
@@ -30,7 +32,9 @@ const Profile: React.FC<IProps> = ({
   const ref = React.createRef<HTMLDivElement>();
   const [modalState, setModalState] = useState<IModalState>({
     isVisible: false,
-    location: 0,
+    top: 0,
+    right: 0,
+    direction: 0,
   });
 
   return (
@@ -42,7 +46,15 @@ const Profile: React.FC<IProps> = ({
           onClick={() => {
             setModalState({
               isVisible: !modalState.isVisible,
-              location: ref.current.clientHeight + 10,
+              top: ref.current.clientHeight + 10,
+              right:
+                ref.current.getBoundingClientRect().right -
+                ref.current.getBoundingClientRect().left -
+                ref.current.getBoundingClientRect().width,
+              direction:
+                (window.innerWidth * 4) / 100 >= 40
+                  ? (window.innerWidth * 4) / 100 / 2
+                  : 40 / 2,
             });
 
             // console.log(ref.current.clientHeight);
@@ -63,7 +75,13 @@ const Profile: React.FC<IProps> = ({
             }
             alt="profileImage"
           />
-          <div className={modalState.isVisible ? 'profilePopup' : 'inVisible'}>
+          <div
+            className={
+              modalState.isVisible
+                ? 'profilePopup'
+                : `${ProfileStyle.unvisibleProfile}`
+            }
+          >
             <div className="direction" />
             <div
               className={`${ProfileStyle.popupProfileText} ${UtilStyle.flexColumnCenter}`}
@@ -75,21 +93,75 @@ const Profile: React.FC<IProps> = ({
           </div>
         </div>
       ) : (
-        <span onClick={() => router.push('/login')}>Do Login</span>
+        <button onClick={() => router.push('/login')} className="loginText">
+          Login
+        </button>
       )}
       <style jsx>{`
+        .loginText {
+          font-size: 1vw;
+          border: 1px solid #efeff0;
+          border-radius: 2px;
+          padding: 1vw;
+          color: black;
+        }
+
+        .loginText:hover {
+          background-color: #efeff0;
+          color: #22bad9;
+        }
+
+        @keyframes slideIn {
+          100% {
+            transform: translateY(0);
+            opacity: 100;
+          }
+          0% {
+            transform: translateY(10px);
+            opacity: 0;
+          }
+        }
+
+        @keyframes slideOut {
+          100% {
+            transform: translateY(-10px);
+            opacity: 0;
+          }
+          0% {
+            transform: translateY(10px);
+            opacity: 100;
+          }
+        }
+
         .profilePopup {
           position: absolute;
           visibility: visible;
-          top: ${`${modalState.location}px`};
+          top: ${`${modalState.top}px`};
+          right: ${`${modalState.right}px`};
           border: 1px solid black;
           border-radius: 2px;
+          animation-duration: 0.3s;
+          animation-name: slideIn;
+          z-index: 2;
+        }
+        .direction {
+          position: absolute;
+          top: -6px;
+          right: calc(${`${modalState.direction}px`} - 8px);
+          width: 14px;
+          height: 14px;
+          border: 1px solid black;
+          transform: rotate(45deg);
+          background-color: white;
+          z-index: -1;
         }
 
         .inVisible {
           visibility: hidden;
           width: 0px;
           height: 0px;
+          animation-duration: 0.3s;
+          animation-name: slideOut;
         }
       `}</style>
     </>
