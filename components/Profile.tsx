@@ -3,13 +3,9 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { isLoggedInVar } from '../lib/apolloClient';
 import vacantImage from '../public/solidwhite.png';
-import { UserRole } from '../src/__generated__/globalTypes';
 import ProfileStyle from '../styles/Profile.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
 interface IProps {
-  nickname?: string;
-  email?: string;
-  role?: UserRole;
   profileImage?: string;
   id?: number;
 }
@@ -21,13 +17,7 @@ interface IModalState {
   direction: number;
 }
 
-const Profile: React.FC<IProps> = ({
-  nickname,
-  profileImage,
-  email,
-  id,
-  role,
-}) => {
+const Profile: React.FC<IProps> = ({ profileImage, id }) => {
   const router = useRouter();
   const ref = React.createRef<HTMLDivElement>();
   const [modalState, setModalState] = useState<IModalState>({
@@ -86,31 +76,21 @@ const Profile: React.FC<IProps> = ({
             <div
               className={`${ProfileStyle.popupProfileText} ${UtilStyle.flexColumnCenter}`}
             >
-              <span>Profile</span>
+              <span onClick={() => router.push(`/user/${id}`)}>Profile</span>
               <span>Post</span>
               <span onClick={() => router.push('/logout')}>Log Out</span>
             </div>
           </div>
         </div>
       ) : (
-        <button onClick={() => router.push('/login')} className="loginText">
+        <button
+          onClick={() => router.push('/login')}
+          className={ProfileStyle.loginText}
+        >
           Login
         </button>
       )}
       <style jsx>{`
-        .loginText {
-          font-size: 1vw;
-          border: 1px solid #efeff0;
-          border-radius: 2px;
-          padding: 1vw;
-          color: black;
-        }
-
-        .loginText:hover {
-          background-color: #efeff0;
-          color: #22bad9;
-        }
-
         @keyframes slideIn {
           100% {
             transform: translateY(0);
@@ -119,17 +99,6 @@ const Profile: React.FC<IProps> = ({
           0% {
             transform: translateY(10px);
             opacity: 0;
-          }
-        }
-
-        @keyframes slideOut {
-          100% {
-            transform: translateY(-10px);
-            opacity: 0;
-          }
-          0% {
-            transform: translateY(10px);
-            opacity: 100;
           }
         }
 
@@ -144,6 +113,7 @@ const Profile: React.FC<IProps> = ({
           animation-name: slideIn;
           z-index: 2;
         }
+
         .direction {
           position: absolute;
           top: -6px;
@@ -154,14 +124,6 @@ const Profile: React.FC<IProps> = ({
           transform: rotate(45deg);
           background-color: white;
           z-index: -1;
-        }
-
-        .inVisible {
-          visibility: hidden;
-          width: 0px;
-          height: 0px;
-          animation-duration: 0.3s;
-          animation-name: slideOut;
         }
       `}</style>
     </>

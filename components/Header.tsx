@@ -13,13 +13,6 @@ export default function Header() {
   const [queryReadyToStart, { data, loading, error }] = useMe();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  // const handleResize = () => {
-  //   if (window.innerWidth > 1100) {
-  //     return setIsSmall(false);
-  //   }
-  //   return setIsSmall(true);
-  // };
-
   useEffect(() => {
     queryReadyToStart();
     if (!loading && data?.me.email) {
@@ -33,13 +26,6 @@ export default function Header() {
     if (error) {
       isLoggedInVar(false);
     }
-
-    // window.addEventListener('resize', handleResize);
-    // handleResize();
-    // return () => {
-    //   window.removeEventListener('resize', handleResize);
-    // };
-    //verified는 이메일 인증 안된것으로 나중에 위에 배너띄워주던지 해보자 ..
   }, []);
 
   const onClick = () => {
@@ -64,13 +50,7 @@ export default function Header() {
           <h4>The Advanced Fashion Community</h4>
         </div>
 
-        <Profile
-          email={data?.me.email}
-          id={data?.me.id}
-          nickname={data?.me.nickname}
-          profileImage={data?.me.profileImg}
-          role={data?.me.role}
-        />
+        <Profile id={data?.me.id} profileImage={data?.me.profileImg} />
 
         <style jsx>{`
  */

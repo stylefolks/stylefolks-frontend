@@ -33,17 +33,6 @@
   }
 }
 
-@keyframes slideIn {
-  100% {
-    transform: translateY(0);
-    opacity: 100;
-  }
-  0% {
-    transform: translateY(10px);
-    opacity: 0;
-  }
-}
-
 @keyframes slideOut {
   100% {
     transform: translateY(-10px);
@@ -59,23 +48,27 @@
   border: 1px solid #efeff0;
 }
 
-.visibleProfile {
-  visibility: visible;
-  position: absolute;
-  transition: all 0.3s ease-in-out;
-  animation-duration: 0.6s;
-  animation-name: slideIn;
-}
-
 .unvisibleProfile {
   visibility: hidden;
   width: 0px;
   height: 0px;
-  animation-duration: 0.3s;
-  animation-name: slideOut;
+
   span {
     width: 0px;
     height: 0px;
     font-size: 0px;
+  }
+}
+
+.loginText {
+  font-size: 1vw;
+  border: 1px solid #efeff0;
+  border-radius: 2px;
+  padding: 1vw;
+  color: black;
+
+  &:hover {
+    background-color: #efeff0;
+    color: #22bad9;
   }
 }

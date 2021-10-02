@@ -49,8 +49,6 @@ const Confirm: React.FC = () => {
     }
   }, [code]);
 
-  // /confirm?code=1245982d-8f2c-44b6-9f05-c205e392c460
-  // /post/abc?foo=bar
   return (
     <div>
       {loading ? 'Wait For Confirming You!' : 'Verify DONE!'}
