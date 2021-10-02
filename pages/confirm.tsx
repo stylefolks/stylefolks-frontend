@@ -38,17 +38,17 @@ const Confirm: React.FC = () => {
   const { code } = router.query;
 
   useEffect(() => {
-    if (router.query.code) {
+    if (router.query.code && typeof router.query.code === 'string') {
       verifyEmailMutation({
         variables: {
-          input: { code: router.query.code as string },
+          input: { code: router.query.code },
         },
       });
+    } else {
+      alert('Code have problems \n Please ask to manager');
     }
   }, [code]);
 
-  // /confirm?code=1245982d-8f2c-44b6-9f05-c205e392c460
-  // /post/abc?foo=bar
   return (
     <div>
       {loading ? 'Wait For Confirming You!' : 'Verify DONE!'}
