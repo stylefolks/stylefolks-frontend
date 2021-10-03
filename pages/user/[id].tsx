@@ -10,7 +10,10 @@ import {
   userInfoVar,
 } from '../../lib/apolloClient';
 import vacantImage from '../../public/solidwhite.png';
-import { findByNickName_findByNickName_user } from '../../src/__generated__/findByNickName';
+import {
+  findByNickName_findByNickName,
+  findByNickName_findByNickName_user,
+} from '../../src/__generated__/findByNickName';
 
 const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
   ({
@@ -31,7 +34,9 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
 
     useEffect(() => {
       queryReadyToStart();
-      if (!loading && !error) {
+
+      if ((!loading && error) || !data) {
+        router.push('/');
       }
     }, []);
 
@@ -62,13 +67,15 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const apolloClient = initializeApollo();
 
-  const data: { data: { findByNickName } } = await apolloClient.query({
-    query: FIND_BY_NICKNAME,
-    variables: {
-      nickname: params?.id,
-    },
-  });
+  const data: { data: { findByNickName: findByNickName_findByNickName } } =
+    await apolloClient.query({
+      query: FIND_BY_NICKNAME,
+      variables: {
+        nickname: params?.id,
+      },
+    });
   console.log(typeof data, data.data.findByNickName.user);
+
   if (!data) {
     return {
       redirect: {

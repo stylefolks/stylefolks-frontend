@@ -8,6 +8,7 @@ import UtilStyle from '../styles/Util.module.scss';
 interface IProps {
   profileImage?: string;
   id?: number;
+  nickname?: string;
 }
 
 interface IModalState {
@@ -17,7 +18,7 @@ interface IModalState {
   direction: number;
 }
 
-const Profile: React.FC<IProps> = ({ profileImage, id }) => {
+const Profile: React.FC<IProps> = ({ profileImage, id, nickname }) => {
   const router = useRouter();
   const ref = React.createRef<HTMLDivElement>();
   const [modalState, setModalState] = useState<IModalState>({
@@ -76,7 +77,9 @@ const Profile: React.FC<IProps> = ({ profileImage, id }) => {
             <div
               className={`${ProfileStyle.popupProfileText} ${UtilStyle.flexColumnCenter}`}
             >
-              <span onClick={() => router.push(`/user/${id}`)}>Profile</span>
+              <span onClick={() => router.push(`/user/${nickname}`)}>
+                Profile
+              </span>
               <span>Post</span>
               <span onClick={() => router.push('/logout')}>Log Out</span>
             </div>
