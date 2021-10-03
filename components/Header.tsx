@@ -50,7 +50,11 @@ export default function Header() {
           <h4>The Advanced Fashion Community</h4>
         </div>
 
-        <Profile id={data?.me.id} profileImage={data?.me.profileImg} />
+        <Profile
+          id={data?.me.id}
+          profileImage={data?.me.profileImg}
+          nickname={data?.me.nickname}
+        />
 
         <style jsx>{`
  */

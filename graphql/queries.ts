@@ -28,4 +28,20 @@ export const FIND_BY_ID_QUERY = gql`
     }
   }
 `;
+
+export const FIND_BY_NICKNAME = gql`
+  query findByNickName($nickname: String!) {
+    findByNickName(nickname: $nickname) {
+      ok
+      error
+      user {
+        id
+        nickname
+        email
+        role
+        profileImg
+      }
+    }
+  }
+`;
 export default {};

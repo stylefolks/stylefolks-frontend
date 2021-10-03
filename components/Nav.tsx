@@ -15,6 +15,7 @@ interface INavMap {
 const NAV_MAP: INavMap[] = [
   { name: 'Home', pathname: '/' },
   { name: 'Talk', pathname: '/talk' },
+  { name: 'Crew', pathname: '/crew' },
   { name: 'Column', pathname: '/column' },
   { name: 'Folks', pathname: '/folks' },
 ];
