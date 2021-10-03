@@ -1,26 +1,75 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { FIND_BY_ID_QUERY } from '../../graphql/queries';
-import { addApolloState, initializeApollo } from '../../lib/apolloClient';
-import { findById_findById } from '../../src/__generated__/findById';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { FIND_BY_NICKNAME } from '../../graphql/queries';
+import { useMe } from '../../hooks/useMe';
+import {
+  addApolloState,
+  initializeApollo,
+  userInfoVar,
+} from '../../lib/apolloClient';
+import vacantImage from '../../public/solidwhite.png';
+import { findByNickName_findByNickName_user } from '../../src/__generated__/findByNickName';
 
 const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
-  ({ data }) => {
-    const { ok, error, user } = data as findById_findById;
-    console.log('@@@ in comp', data?.user);
-    return <div>Hello User number: {data?.user?.email}</div>;
+  ({
+    data,
+    paramsId,
+  }: {
+    data: findByNickName_findByNickName_user;
+    paramsId: string;
+  }) => {
+    const router = useRouter();
+    const [queryReadyToStart, { data: loginUserData, loading, error }] =
+      useMe();
+    const [isUser, setIsUser] = useState<boolean>(false);
+
+    const userInfor = userInfoVar();
+    console.log(userInfor);
+    console.log('In COmp', data);
+
+    useEffect(() => {
+      queryReadyToStart();
+      if (!loading && !error) {
+      }
+    }, []);
+
+    useEffect(() => {
+      if (loginUserData?.me.nickname === paramsId) {
+        console.log(loginUserData?.me.id, paramsId);
+
+        setIsUser(true);
+      }
+    }, [loginUserData]);
+
+    return (
+      <>
+        <Image
+          src={data?.profileImg ? data?.profileImg : vacantImage}
+          alt="profile-image"
+          width="40px"
+          height="40px"
+        />
+        {isUser ? <span>You are user</span> : <span>NO USER</span>}
+
+        <div>Hello User Email: {data?.email}</div>
+        <div>Hello User NickName: {data?.nickname}</div>
+      </>
+    );
   };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const apolloClient = initializeApollo();
 
-  const data: findById_findById = await apolloClient.query({
-    query: FIND_BY_ID_QUERY,
+  const data: { data: { findByNickName } } = await apolloClient.query({
+    query: FIND_BY_NICKNAME,
     variables: {
-      userId: +params?.id,
+      nickname: params?.id,
     },
   });
-  console.log(data);
-  if (!data.ok) {
+  console.log(typeof data, data.data.findByNickName.user);
+  if (!data) {
     return {
       redirect: {
         destination: '/',
@@ -30,7 +79,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 
   return addApolloState(apolloClient, {
-    props: { data },
+    props: { data: data.data.findByNickName.user, paramsId: params?.id },
   });
 };
 
