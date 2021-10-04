@@ -20,8 +20,8 @@ const Upload = () => {
       <Button canClick={false} actionText="Upload!" loading={false} />
       <style jsx>{`
         .wrapper {
-          width: 99%;
-          margin-left: 0.1vw;
+          width: 95%;
+          margin: 2vh 0;
         }
 
         @media screen and (max-width: 110px) {
