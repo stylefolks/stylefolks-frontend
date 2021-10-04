@@ -16,21 +16,20 @@ export default function Header() {
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (!loading && data?.me.email) {
-      isLoggedInVar(true);
-      dispatch(
-        upadateUser({
-          email: data.me.email,
-          id: data.me.id.toString(),
-          role: data.me.role,
-        })
-      );
-    }
-    if (error) {
-      isLoggedInVar(false);
-    }
-  }, []);
+  if (!loading && data?.me.email) {
+    isLoggedInVar(true);
+    dispatch(
+      upadateUser({
+        email: data.me.email,
+        id: data.me.id.toString(),
+        role: data.me.role,
+      })
+    );
+  }
+
+  if (error) {
+    isLoggedInVar(false);
+  }
 
   const onClick = () => {
     setIsVisible((prev) => !prev);

@@ -55,14 +55,26 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     <div>
       <EditorWithForwardedRef
         {...props}
-        initialValue={initialValue || 'hello react editor world!'}
+        initialValue={initialValue || 'Wirte Your Own Story!'}
         previewStyle={previewStyle || 'vertical'}
-        height={height || '600px'}
+        height={height || '90vh'}
         initialEditType={initialEditType || 'wysiwyg'}
         useCommandShortcut={useCommandShortcut || true}
         ref={editorRef}
         onChange={handleChange}
+        toolbarItems={[
+          ['image', 'table', 'link'],
+          ['heading', 'bold', 'italic', 'strike'],
+          ['hr', 'quote'],
+          // ['ul', 'ol', 'task', 'indent', 'outdent'],
+          // ['code', 'codeblock'],
+        ]}
       />
+      <style jsx>{`
+        .toastui-editor-popup {
+          right: 12px;
+        }
+      `}</style>
     </div>
   );
 };

@@ -5,21 +5,33 @@ import CategorySelector from '../components/CategorySelector';
 import WysiwygEditor from '../components/Editor';
 import { RootState } from '../store/modules';
 import { upadatePost } from '../store/modules/uploadReducer';
-
 const Upload = () => {
   const dispatch = useDispatch();
-  const uploadState = useSelector((state: RootState) => state.upload);
+  const { post } = useSelector((state: RootState) => state.upload);
 
   return (
-    <div>
+    <div className="wrapper">
       <CategorySelector />
       <WysiwygEditor
-        onChange={(content) =>
-          dispatch(upadatePost({ ...uploadState, content }))
-        }
+        onChange={(content) => dispatch(upadatePost({ ...post, content }))}
       />
 
       <Button canClick={false} actionText="Upload!" loading={false} />
+      <style jsx>{`
+        .wrapper {
+          width: 99%;
+          margin-left: 0.1vw;
+        }
+
+        @media screen and (max-width: 110px) {
+          .toastui-editor-popup {
+            position: absolute;
+            right: 0px !important;
+            top: auto !important;
+            left: auto !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };
