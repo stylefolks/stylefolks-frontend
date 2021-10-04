@@ -14,6 +14,18 @@ export enum FirstCategoryName {
   TALK = "TALK",
 }
 
+export enum SecondCategoryName {
+  ARTICLE = "ARTICLE",
+  BRAND = "BRAND",
+  CHALLENGE = "CHALLENGE",
+  FREE = "FREE",
+  NOTICE = "NOTICE",
+  OOTD = "OOTD",
+  PUBLISHER = "PUBLISHER",
+  REVIEW = "REVIEW",
+  USER = "USER",
+}
+
 export enum UserRole {
   Brand = "Brand",
   Manager = "Manager",

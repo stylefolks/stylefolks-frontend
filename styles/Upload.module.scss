@@ -1,0 +1,13 @@
+.uploadContainer {
+  width: 99%;
+  margin-left: 0.1vw;
+
+  @media screen and (max-width: 110px) {
+    .toastui-editor-popup {
+      position: absolute;
+      right: 0px !important;
+      top: auto !important;
+      left: auto !important;
+    }
+  }
+}

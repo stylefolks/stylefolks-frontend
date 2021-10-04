@@ -80,7 +80,7 @@ const Profile: React.FC<IProps> = ({ profileImage, id, nickname }) => {
               <span onClick={() => router.push(`/user/${nickname}`)}>
                 Profile
               </span>
-              <span>Post</span>
+              <span onClick={() => router.push(`/upload`)}>Post</span>
               <span onClick={() => router.push('/logout')}>Log Out</span>
             </div>
           </div>

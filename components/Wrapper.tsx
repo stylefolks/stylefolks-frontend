@@ -54,6 +54,15 @@ export default function App({ children }) {
           margin: 0;
           padding: 0;
         }
+
+        @media screen and (max-width: 600px) {
+          .toastui-editor-popup {
+            position: absolute;
+            right: 0px !important;
+            top: auto !important;
+            left: auto !important;
+          }
+        }
       `}</style>
     </main>
   );
