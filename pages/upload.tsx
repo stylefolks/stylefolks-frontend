@@ -13,6 +13,7 @@ const Upload = () => {
     <div className="wrapper">
       <CategorySelector />
       <WysiwygEditor
+        height={'90vh'}
         onChange={(content) => dispatch(upadatePost({ ...post, content }))}
       />
 

@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/modules';
 import { upadatePost } from '../store/modules/uploadReducer';
 import CategoryStyle from '../styles/Category.module.scss';
-import UtilStyle from '../styles/Util.module.scss';
 
 const CategorySelector = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -14,8 +13,9 @@ const CategorySelector = () => {
       <span>Write Your Own Story named as</span>
       <input
         autoFocus={true}
-        className={`${UtilStyle.input}`}
+        // className={`${UtilStyle.input}`}
         type="text"
+        placeholder="Title"
         value={post.title}
         onChange={(e) =>
           dispatch(upadatePost({ ...post, title: e.target.value }))

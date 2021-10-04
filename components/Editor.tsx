@@ -70,11 +70,6 @@ const WysiwygEditor: React.FC<Props> = (props) => {
           // ['code', 'codeblock'],
         ]}
       />
-      <style jsx>{`
-        .toastui-editor-popup {
-          right: 12px;
-        }
-      `}</style>
     </div>
   );
 };
