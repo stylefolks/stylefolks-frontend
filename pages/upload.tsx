@@ -4,7 +4,7 @@ import { Button } from '../components/Button';
 import CategorySelector from '../components/CategorySelector';
 import WysiwygEditor from '../components/Editor';
 import { RootState } from '../store/modules';
-import { upadatePost } from '../store/modules/eachReducer';
+import { upadatePost } from '../store/modules/uploadReducer';
 
 const Upload = () => {
   const dispatch = useDispatch();

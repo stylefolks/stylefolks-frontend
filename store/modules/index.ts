@@ -1,8 +1,14 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { AnyAction, combineReducers } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
-import uploadReducer from './eachReducer';
+import uploadReducer from './uploadReducer';
+import userReducer from './userReducer';
 
-const reducer = (state, action) => {
+const rootReducer = combineReducers({
+  upload: uploadReducer,
+  user: userReducer,
+});
+
+const reducerForNext = (state, action: AnyAction) => {
   if (action.type === HYDRATE) {
     //when SSR HYDRATE Action do synchrozie store of server with client
     return {
@@ -11,11 +17,8 @@ const reducer = (state, action) => {
     };
   }
 
-  return combineReducers({
-    upload: uploadReducer,
-    //add more in here
-  })(state, action);
+  return rootReducer(state, action);
 };
 
-export type RootState = ReturnType<typeof reducer>;
-export default reducer;
+export type RootState = ReturnType<typeof rootReducer>;
+export default reducerForNext;

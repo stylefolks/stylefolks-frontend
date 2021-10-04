@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FirstCategoryName } from './../../src/__generated__/globalTypes';
+import { FirstCategoryName } from '../../src/__generated__/globalTypes';
 
-interface IPostState {
+export interface IPostState {
   title: string;
   content: string;
   firstCategory: FirstCategoryName;

@@ -24,8 +24,7 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     paramsId: string;
   }) => {
     const router = useRouter();
-    const [queryReadyToStart, { data: loginUserData, loading, error }] =
-      useMe();
+    const { data: loginUserData, loading, error } = useMe();
     const [isUser, setIsUser] = useState<boolean>(false);
 
     const userInfor = userInfoVar();
@@ -33,8 +32,6 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     console.log('In COmp', data);
 
     useEffect(() => {
-      queryReadyToStart();
-
       if ((!loading && error) || !data) {
         router.push('/');
       }

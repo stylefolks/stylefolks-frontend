@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useMe } from '../hooks/useMe';
-import { isLoggedInVar, userInfoVar } from '../lib/apolloClient';
+import { isLoggedInVar } from '../lib/apolloClient';
+import { upadateUser } from '../store/modules/userReducer';
 import GNBStyle from '../styles/GNB.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
 import BurgerButton from './BurgerButton';
@@ -10,18 +12,20 @@ import Profile from './Profile';
 
 export default function Header() {
   const router = useRouter();
-  const [queryReadyToStart, { data, loading, error }] = useMe();
+  const { data, loading, error } = useMe();
+  const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    queryReadyToStart();
     if (!loading && data?.me.email) {
       isLoggedInVar(true);
-      userInfoVar({
-        email: data.me.email,
-        id: data.me.id,
-        role: data.me.role,
-      });
+      dispatch(
+        upadateUser({
+          email: data.me.email,
+          id: data.me.id.toString(),
+          role: data.me.role,
+        })
+      );
     }
     if (error) {
       isLoggedInVar(false);
