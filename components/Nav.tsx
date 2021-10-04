@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import GNBStyle from '../styles/GNB.module.scss';
 import QuitButton from './QuitButton';
 interface IProps {
@@ -22,6 +22,11 @@ const NAV_MAP: INavMap[] = [
 
 const Nav: React.FC<IProps> = ({ onClick, isVisible }) => {
   const { pathname } = useRouter();
+
+  useEffect(() => {
+    isVisible && (document.body.style.overflow = 'hidden');
+    !isVisible && (document.body.style.overflow = 'unset');
+  }, [isVisible]);
 
   return (
     <nav

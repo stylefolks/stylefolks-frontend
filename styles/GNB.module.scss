@@ -4,6 +4,7 @@
   top: 0px;
   bottom: 0px;
   width: 100vw;
+  height: 100%;
   max-width: 512px;
   border-right: 1px solid black;
   background-color: white;
@@ -11,6 +12,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 
   a {
     width: 100%;
