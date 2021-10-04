@@ -4,11 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { FIND_BY_NICKNAME } from '../../graphql/queries';
 import { useMe } from '../../hooks/useMe';
-import {
-  addApolloState,
-  initializeApollo,
-  userInfoVar,
-} from '../../lib/apolloClient';
+import { addApolloState, initializeApollo } from '../../lib/apolloClient';
 import vacantImage from '../../public/solidwhite.png';
 import {
   findByNickName_findByNickName,
@@ -27,8 +23,6 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     const { data: loginUserData, loading, error } = useMe();
     const [isUser, setIsUser] = useState<boolean>(false);
 
-    const userInfor = userInfoVar();
-    console.log(userInfor);
     console.log('In COmp', data);
 
     useEffect(() => {

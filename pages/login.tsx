@@ -31,9 +31,9 @@ export const Login = () => {
       login: { error, ok, token },
     } = data;
     if (ok && token) {
+      isLoggedInVar(true);
       localStorage?.setItem('folks-token', token);
       authTokenVar(token);
-      isLoggedInVar(true);
       router.push('/');
     } else {
       if (error) {
@@ -43,12 +43,10 @@ export const Login = () => {
     }
   };
 
-  const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
-    login,
-    loginVariables
-  >(LOGIN_MUTATION, {
-    onCompleted,
-  });
+  const [loginMutation, { data: loginMutationResult, loading, error }] =
+    useMutation<login, loginVariables>(LOGIN_MUTATION, {
+      onCompleted,
+    });
 
   const {
     register,
