@@ -40,7 +40,6 @@ export default function PostList() {
     notifyOnNetworkStatusChange: true,
   });
 
-
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
 
   // const loadMorePosts = () => {
@@ -70,7 +69,7 @@ export default function PostList() {
           </li>
         ))} */}
 
-        {data.getPostForMainCategoryPage.post.map((el) => (
+        {data?.getPostForMainCategoryPage?.post?.map((el) => (
           <li key={el.id}>{el.id}</li>
         ))}
       </ul>

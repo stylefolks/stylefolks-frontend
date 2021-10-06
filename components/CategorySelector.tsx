@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getCategory,
@@ -27,23 +28,46 @@ const GET_CATEGORY = gql`
   }
 `;
 
+const CATEGORY_MAP_BY_ROLE = {
+  [UserRole.User]: [FirstCategoryName.TALK],
+  [UserRole.Publisher]: [FirstCategoryName.TALK, FirstCategoryName.COLUMN],
+  [UserRole.Manager]: [
+    FirstCategoryName.TALK,
+    FirstCategoryName.COLUMN,
+    FirstCategoryName.CREW,
+  ],
+  [UserRole.Brand]: [FirstCategoryName.FOLKS],
+  [UserRole.Master]: [
+    FirstCategoryName.TALK,
+    FirstCategoryName.COLUMN,
+    FirstCategoryName.CREW,
+    FirstCategoryName.FOLKS,
+  ],
+};
+
 const CategorySelector = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const { post } = useSelector((state: RootState) => state.upload);
+  const [pickFirstCategory, setPickFirstCategory] = useState<FirstCategoryName>(
+    FirstCategoryName.TALK
+  );
   const dispatch = useDispatch();
   const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY);
   let SecondCategoryArray: getCategory_getCategory_categories[];
-  let FirstCategoryArray;
+  let FirstCategoryArray: FirstCategoryName[];
 
-  if (!loading) {
-    console.log(data || error);
-    if (user.role === UserRole.User) {
-      SecondCategoryArray = data.getCategory.categories.filter(
-        (el) => el.firstCategory.name === FirstCategoryName.TALK
-      );
-      FirstCategoryArray = [FirstCategoryName.TALK];
-    }
+  if (loading) {
+    return <div>Loading ...</div>;
   }
+
+  if (error) {
+    return <div>Error!</div>;
+  }
+
+  SecondCategoryArray = data?.getCategory.categories.filter(
+    (el) => pickFirstCategory === el.firstCategory.name
+  );
+  FirstCategoryArray = [...CATEGORY_MAP_BY_ROLE[user.role]];
 
   return (
     <>
@@ -52,7 +76,6 @@ const CategorySelector = () => {
           <span>Write Your Own Story named as </span>
           <input
             autoFocus={true}
-            // className={`${UtilStyle.input}`}
             type="text"
             placeholder="Title"
             value={post.title}
@@ -62,12 +85,20 @@ const CategorySelector = () => {
           />
           <span> in </span>
           <select>
-            {SecondCategoryArray?.map((el) => (
-              <option key={el.id}>{el.name}</option>
-            ))}
+            {SecondCategoryArray.length === 0 ? (
+              <option>NONE</option>
+            ) : (
+              SecondCategoryArray?.map((el) => (
+                <option key={el.id}>{el.name}</option>
+              ))
+            )}
           </select>
           <span> at </span>
-          <select>
+          <select
+            onChange={(el) => {
+              setPickFirstCategory(el.target.value as FirstCategoryName);
+            }}
+          >
             {FirstCategoryArray.map((el, index) => (
               <option key={el + index}>{el}</option>
             ))}

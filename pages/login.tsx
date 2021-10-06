@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '../components/Button';
 import { FormError } from '../components/FormError';
 import GoogleLoginButton from '../components/GoogleLoginButton';
-import { authTokenVar, isLoggedInVar } from '../lib/apolloClient';
+import { isLoggedInVar } from '../lib/apolloClient';
 import { login, loginVariables } from '../src/__generated__/login';
 import LoginStyle from '../styles/Login.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
@@ -26,29 +26,9 @@ export const LOGIN_MUTATION = gql`
 
 export const Login = () => {
   const router = useRouter();
-  const onCompleted = (data: login) => {
-    const {
-      login: { error, ok, token },
-    } = data;
-    if (ok && token) {
-      localStorage?.setItem('folks-token', token);
-      authTokenVar(token);
-      isLoggedInVar(true);
-      router.push('/');
-    } else {
-      if (error) {
-        console.error(error);
-        alert('로그인 에러가 발생했습니다.');
-      }
-    }
-  };
-
-  const [loginMutation, { data: loginMutationResult, loading }] = useMutation<
-    login,
-    loginVariables
-  >(LOGIN_MUTATION, {
-    onCompleted,
-  });
+  if (router.query.keyword === 'true') {
+    router.push('/login');
+  }
 
   const {
     register,
@@ -69,6 +49,30 @@ export const Login = () => {
       });
     }
   };
+
+  const onCompleted = (data: login) => {
+    const {
+      login: { error, ok, token },
+    } = data;
+    if (ok && token) {
+      isLoggedInVar(true);
+      localStorage.setItem('folks-token', token);
+      if (localStorage.getItem('folks-token')) {
+        router.push('/');
+      }
+    } else {
+      isLoggedInVar(false);
+      if (error) {
+        console.error(error);
+        alert('로그인 에러가 발생했습니다.');
+      }
+    }
+  };
+
+  const [loginMutation, { data: loginMutationResult, loading, error }] =
+    useMutation<login, loginVariables>(LOGIN_MUTATION, {
+      onCompleted,
+    });
 
   return (
     <>

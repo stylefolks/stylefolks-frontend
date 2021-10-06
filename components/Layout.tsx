@@ -1,4 +1,6 @@
 import UtilStyle from '../styles/Util.module.scss';
+import Footer from './Footer';
+import Header from './Header';
 
 interface ILayout {
   children: React.ReactNode;
@@ -7,9 +9,13 @@ interface ILayout {
 const Layout: React.FC<ILayout> = ({ children }) => {
   return (
     <>
-      <section className={UtilStyle.flexColumnCenter}>{children}</section>
+      <Header />
+      <section className={`${UtilStyle.flexColumnCenter} .section-main`}>
+        {children}
+      </section>
+      <Footer />
       <style jsx>{`
-        section {
+        .section-main {
           height: 100%;
           min-height: calc(100vh - 200px - 25px);
           //min-height: calc(100vh + 20px);

@@ -1,14 +1,15 @@
 import InfoBox from '../components/InfoBox';
 import PostList from '../components/PostList';
 import Submit from '../components/Submit';
-
-const IndexPage = () => (
-  <>
-    <InfoBox>ℹ️ This page shows how to use SSG with Apollo.</InfoBox>
-    <Submit />
-    <PostList />
-  </>
-);
+const IndexPage = () => {
+  return (
+    <>
+      <InfoBox>ℹ️ This page shows how to use SSG with Apollo.</InfoBox>
+      <Submit />
+      <PostList />
+    </>
+  );
+};
 
 // export async function getStaticProps() {
 //   const apolloClient = initializeApollo();

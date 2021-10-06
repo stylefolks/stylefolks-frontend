@@ -3,13 +3,21 @@ import { UserRole } from '../../src/__generated__/globalTypes';
 
 export interface IUserState {
   email: string;
-  id: string;
+  id: string | null;
   role: UserRole;
+  profileImg: string;
+  nickname: string;
   // secondCategory: SecondCategoryName;
 }
 
 const initialState = {
-  user: { email: '', id: '', role: UserRole.User },
+  user: {
+    email: '',
+    id: null,
+    role: UserRole.User,
+    profileImg: '',
+    nickname: '',
+  },
 };
 
 const uploadSlice = createSlice({
