@@ -96,7 +96,6 @@ const CategorySelector = () => {
           <span> at </span>
           <select
             onChange={(el) => {
-              console.log('!!', el.target.value);
               setPickFirstCategory(el.target.value as FirstCategoryName);
             }}
           >

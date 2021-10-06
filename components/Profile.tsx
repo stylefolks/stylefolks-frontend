@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { isLoggedInVar } from '../lib/apolloClient';
+import { authTokenVar, isLoggedInVar } from '../lib/apolloClient';
 import vacantImage from '../public/solidwhite.png';
 import ProfileStyle from '../styles/Profile.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
+
 interface IProps {
-  profileImage?: string;
+  profileImg?: string;
   id?: number;
   nickname?: string;
 }
@@ -18,7 +19,7 @@ interface IModalState {
   direction: number;
 }
 
-const Profile: React.FC<IProps> = ({ profileImage, id, nickname }) => {
+const Profile: React.FC<IProps> = ({ profileImg, id, nickname }) => {
   const router = useRouter();
   const ref = React.createRef<HTMLDivElement>();
   const [modalState, setModalState] = useState<IModalState>({
@@ -28,71 +29,68 @@ const Profile: React.FC<IProps> = ({ profileImage, id, nickname }) => {
     direction: 0,
   });
 
+  const doLogout = () => {
+    authTokenVar('');
+    localStorage.clear();
+    isLoggedInVar(false);
+    router.push('/login');
+  };
+
   return (
     <>
-      {isLoggedInVar() === true ? (
+      <div
+        ref={ref}
+        className={`${ProfileStyle.profileContainer} ${UtilStyle.flexCenter}`}
+        onClick={() => {
+          setModalState({
+            isVisible: !modalState.isVisible,
+            top: ref.current.clientHeight + 10,
+            right:
+              ref.current.getBoundingClientRect().right -
+              ref.current.getBoundingClientRect().left -
+              ref.current.getBoundingClientRect().width,
+            direction:
+              (window.innerWidth * 4) / 100 >= 40
+                ? (window.innerWidth * 4) / 100 / 2
+                : 40 / 2,
+          });
+        }}
+      >
+        <Image
+          className={ProfileStyle.profileImage}
+          src={profileImg ? profileImg : vacantImage}
+          width={
+            (window.innerWidth * 4) / 100 >= 40
+              ? (window.innerWidth * 4) / 100
+              : '40px'
+          }
+          height={
+            (window.innerWidth * 4) / 100 >= 40
+              ? (window.innerWidth * 4) / 100
+              : '40px'
+          }
+          alt="profileImage"
+        />
         <div
-          ref={ref}
-          className={`${ProfileStyle.profileContainer} ${UtilStyle.flexCenter}`}
-          onClick={() => {
-            setModalState({
-              isVisible: !modalState.isVisible,
-              top: ref.current.clientHeight + 10,
-              right:
-                ref.current.getBoundingClientRect().right -
-                ref.current.getBoundingClientRect().left -
-                ref.current.getBoundingClientRect().width,
-              direction:
-                (window.innerWidth * 4) / 100 >= 40
-                  ? (window.innerWidth * 4) / 100 / 2
-                  : 40 / 2,
-            });
-
-            // console.log(ref.current.clientHeight);
-          }}
+          className={
+            modalState.isVisible
+              ? 'profilePopup'
+              : `${ProfileStyle.unvisibleProfile}`
+          }
         >
-          <Image
-            className={ProfileStyle.profileImage}
-            src={profileImage ? profileImage : vacantImage}
-            width={
-              (window.innerWidth * 4) / 100 >= 40
-                ? (window.innerWidth * 4) / 100
-                : '40px'
-            }
-            height={
-              (window.innerWidth * 4) / 100 >= 40
-                ? (window.innerWidth * 4) / 100
-                : '40px'
-            }
-            alt="profileImage"
-          />
+          <div className="direction" />
           <div
-            className={
-              modalState.isVisible
-                ? 'profilePopup'
-                : `${ProfileStyle.unvisibleProfile}`
-            }
+            className={`${ProfileStyle.popupProfileText} ${UtilStyle.flexColumnCenter}`}
           >
-            <div className="direction" />
-            <div
-              className={`${ProfileStyle.popupProfileText} ${UtilStyle.flexColumnCenter}`}
-            >
-              <span onClick={() => router.push(`/user/${nickname}`)}>
-                Profile
-              </span>
-              <span onClick={() => router.push(`/upload`)}>Post</span>
-              <span onClick={() => router.push('/logout')}>Log Out</span>
-            </div>
+            <span onClick={() => router.push(`/user/${nickname}`)}>
+              Profile
+            </span>
+            <span onClick={() => router.push(`/upload`)}>Post</span>
+            <span onClick={doLogout}>Log Out</span>
           </div>
         </div>
-      ) : (
-        <button
-          onClick={() => router.push('/login')}
-          className={ProfileStyle.loginText}
-        >
-          Login
-        </button>
-      )}
+      </div>
+
       <style jsx>{`
         @keyframes slideIn {
           100% {

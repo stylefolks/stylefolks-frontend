@@ -1,14 +1,30 @@
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import InfoBox from '../components/InfoBox';
 import PostList from '../components/PostList';
 import Submit from '../components/Submit';
+import { authTokenVar } from '../lib/apolloClient';
+const IndexPage = () => {
+  const router = useRouter();
 
-const IndexPage = () => (
-  <>
-    <InfoBox>ℹ️ This page shows how to use SSG with Apollo.</InfoBox>
-    <Submit />
-    <PostList />
-  </>
-);
+  useEffect(() => {
+    if (
+      (localStorage.getItem('folks-token') && authTokenVar() === '') ||
+      authTokenVar() === null
+    ) {
+      authTokenVar(localStorage.getItem('folks-token'));
+      router.reload();
+    }
+  }, []);
+
+  return (
+    <>
+      <InfoBox>ℹ️ This page shows how to use SSG with Apollo.</InfoBox>
+      <Submit />
+      <PostList />
+    </>
+  );
+};
 
 // export async function getStaticProps() {
 //   const apolloClient = initializeApollo();

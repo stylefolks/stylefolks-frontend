@@ -23,8 +23,6 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     const { data: loginUserData, loading, error } = useMe();
     const [isUser, setIsUser] = useState<boolean>(false);
 
-    console.log('In COmp', data);
-
     useEffect(() => {
       if ((!loading && error) || !data) {
         router.push('/');
@@ -33,8 +31,6 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
 
     useEffect(() => {
       if (loginUserData?.me.nickname === paramsId) {
-        console.log(loginUserData?.me.id, paramsId);
-
         setIsUser(true);
       }
     }, [loginUserData]);
@@ -65,7 +61,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
         nickname: params?.id,
       },
     });
-  console.log(typeof data, data.data.findByNickName.user);
 
   if (!data) {
     return {

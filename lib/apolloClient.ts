@@ -8,20 +8,14 @@ import { concatPagination } from '@apollo/client/utilities';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
-import { UserRole } from '../src/__generated__/globalTypes';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
 const token =
-  typeof window !== 'undefined' ? localStorage?.getItem('folks-token') : '';
+  typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
 
 export const isLoggedInVar = makeVar(Boolean(token));
 export const authTokenVar = makeVar(token);
-export const userInfoVar = makeVar<{
-  email?: string;
-  id?: number;
-  role?: UserRole;
-}>({});
 
 let apolloClient;
 
@@ -65,11 +59,6 @@ function createApolloClient() {
             isLoggedIn: {
               read() {
                 return isLoggedInVar();
-              },
-            },
-            userInfo: {
-              read() {
-                return userInfoVar();
               },
             },
             allPosts: concatPagination(),
