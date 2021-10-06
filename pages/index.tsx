@@ -1,21 +1,19 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import InfoBox from '../components/InfoBox';
 import PostList from '../components/PostList';
 import Submit from '../components/Submit';
-import { authTokenVar } from '../lib/apolloClient';
 const IndexPage = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    if (
-      (localStorage.getItem('folks-token') && authTokenVar() === '') ||
-      authTokenVar() === null
-    ) {
-      authTokenVar(localStorage.getItem('folks-token'));
-      router.reload();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (
+  //     (localStorage.getItem('folks-token') && authTokenVar() === '') ||
+  //     authTokenVar() === null
+  //   ) {
+  //     authTokenVar(localStorage.getItem('folks-token'));
+  //     router.reload();
+  //   }
+  // }, []);
 
   return (
     <>
