@@ -30,7 +30,7 @@ export const Header = () => {
     }
   );
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const ls = typeof window !== 'undefined' ? window?.localStorage : '';
+
   const onClick = () => {
     setIsVisible((prev) => !prev);
   };
