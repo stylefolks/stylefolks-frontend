@@ -3,7 +3,6 @@ import { Editor as EditorType, EditorProps } from '@toast-ui/react-editor';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
-
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
 }
@@ -42,7 +41,6 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     if (!editorRef.current) {
       return;
     }
-
     const instance = editorRef.current.getInstance();
     const valueType = props.valueType || 'markdown';
 
@@ -50,6 +48,27 @@ const WysiwygEditor: React.FC<Props> = (props) => {
       valueType === 'markdown' ? instance.getMarkdown() : instance.getHTML()
     );
   }, [props, editorRef]);
+
+  const uploadImage = async (blob: File | Blob) => {
+    let formdata = new FormData();
+    console.log(blob);
+    formdata.append('file', blob);
+
+    try {
+      const res = await (
+        await fetch('http://localhost:4000/images', {
+          method: 'POST',
+          body: formdata,
+        })
+      ).json();
+
+      console.log('@@@@@');
+      return res?.url;
+    } catch (error) {
+      console.log(error);
+      alert('이미지 업로드 에러 발생');
+    }
+  };
 
   return (
     <div>
@@ -62,6 +81,13 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         useCommandShortcut={useCommandShortcut || true}
         ref={editorRef}
         onChange={handleChange}
+        hooks={{
+          addImageBlobHook: async (blob, callback) => {
+            const upload = await uploadImage(blob);
+            callback(upload, 'alt text');
+            return false;
+          },
+        }}
         toolbarItems={[
           ['image', 'table', 'link'],
           ['heading', 'bold', 'italic', 'strike'],

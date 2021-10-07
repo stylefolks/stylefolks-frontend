@@ -11,6 +11,7 @@ import BurgerButton from './BurgerButton';
 import Nav from './Nav';
 import Profile from './Profile';
 
+//https://stackoverflow.com/questions/66499705/how-would-i-update-the-authorization-header-from-a-cookie-on-a-graphql-apollo-mu
 export const Header = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState<boolean>(false);

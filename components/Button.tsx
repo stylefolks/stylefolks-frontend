@@ -7,16 +7,19 @@ interface IButtonProps {
   width?: string;
   height?: string;
   fontSize?: string;
+  onClick?: () => void;
 }
 
 export const Button: React.FC<IButtonProps> = ({
   canClick,
   loading,
   actionText,
+  onClick,
 }) => {
   return (
     <>
       <button
+        onClick={onClick}
         className={`${UtilStyle.button} ${
           canClick ? 'ableButton' : 'disabledClickButton'
         }`}

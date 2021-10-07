@@ -1,15 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FirstCategoryName } from '../../src/__generated__/globalTypes';
 
 export interface IPostState {
   title: string;
-  content: string;
-  firstCategory: FirstCategoryName;
+  contents: string;
+  titleImg: string;
+  firstCategoryId: number | null;
+  secondCategoryId: number | null;
+
   // secondCategory: SecondCategoryName;
 }
 
 const initialState = {
-  post: { title: '', content: '', firstCategory: FirstCategoryName.TALK },
+  post: {
+    title: '',
+    contents: '',
+    titleImg: '',
+    firstCategoryId: null,
+    secondCategoryId: null,
+  },
 };
 
 const uploadSlice = createSlice({
