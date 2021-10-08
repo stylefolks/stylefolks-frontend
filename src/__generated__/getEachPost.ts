@@ -3,9 +3,23 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { SecondCategoryName } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: getEachPost
 // ====================================================
+
+export interface getEachPost_getEachPost_post_firstCategory {
+  __typename: "FirstCategory";
+  name: string;
+  id: number;
+}
+
+export interface getEachPost_getEachPost_post_secondCategory {
+  __typename: "SecondCategory";
+  name: SecondCategoryName | null;
+  id: number;
+}
 
 export interface getEachPost_getEachPost_post_user {
   __typename: "User";
@@ -18,6 +32,8 @@ export interface getEachPost_getEachPost_post {
   title: string;
   titleImg: string | null;
   contents: string;
+  firstCategory: getEachPost_getEachPost_post_firstCategory | null;
+  secondCategory: getEachPost_getEachPost_post_secondCategory | null;
   user: getEachPost_getEachPost_post_user;
 }
 

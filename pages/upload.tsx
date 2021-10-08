@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../components/Button';
 import CategorySelector from '../components/CategorySelector';
 import WysiwygEditor from '../components/Editor';
+import TitleImagePicker from '../components/TitleImagePicker';
 import { ME_QUERY } from '../graphql/queries';
 import {
   createPost,
@@ -25,7 +26,9 @@ const CREATE_POST_MUTATION = gql`
 const Upload = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useQuery(ME_QUERY);
-  const { post } = useSelector((state: RootState) => state.upload);
+  const { post, titleImageArr } = useSelector(
+    (state: RootState) => state.upload
+  );
   const router = useRouter();
 
   const createPostonCompleted = (data: createPost) => {
@@ -73,7 +76,9 @@ const Upload = () => {
         height={'90vh'}
         onChange={(contents) => dispatch(upadatePost({ ...post, contents }))}
       />
-
+      <div>
+        <TitleImagePicker />
+      </div>
       {/* <button onClick={onClick}>upload!</button> */}
       <Button
         canClick={false}
@@ -83,6 +88,7 @@ const Upload = () => {
       />
       <style jsx>{`
         .wrapper {
+          max-width: 860px;
           width: 95%;
           margin: 2vh 0;
         }

@@ -1,11 +1,11 @@
 import { gql, NetworkStatus, useQuery } from '@apollo/client';
+import Link from 'next/link';
 import {
   getPostForMainCategoryPage,
   getPostForMainCategoryPageVariables,
 } from '../src/__generated__/getPostForMainCategoryPage';
 import { FirstCategoryName } from '../src/__generated__/globalTypes';
 import ErrorMessage from './ErrorMessage';
-
 export const GET_POST_FOR_MAIN_CATEGORY_PAGE = gql`
   query getPostForMainCategoryPage($input: GetPostForMainCategoryPageInput!) {
     getPostForMainCategoryPage(input: $input) {
@@ -13,6 +13,10 @@ export const GET_POST_FOR_MAIN_CATEGORY_PAGE = gql`
       error
       post {
         id
+        title
+        user {
+          nickname
+        }
       }
     }
   }
@@ -31,7 +35,7 @@ export default function PostList() {
     variables: {
       input: {
         postCount: 1,
-        firstCategoryName: FirstCategoryName.TALK,
+        firstCategoryName: FirstCategoryName.FOLKS,
       },
     },
     // Setting this value to true will make the component rerender when
@@ -70,7 +74,9 @@ export default function PostList() {
         ))} */}
 
         {data?.getPostForMainCategoryPage?.post?.map((el) => (
-          <li key={el.id}>{el.id}</li>
+          <Link href={`post/${el.id}`} key={el.id}>
+            <a>{el.title}</a>
+          </Link>
         ))}
       </ul>
       {/* {areMorePosts && (
