@@ -45,6 +45,7 @@ export interface CreatePostInput {
   title: string;
   contents: string;
   titleImg?: string | null;
+  isUploaded?: boolean | null;
   firstCategoryId: number;
   secondCategoryId?: number | null;
 }

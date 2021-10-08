@@ -15,7 +15,7 @@ interface IUploadState {
   titleImageArr: string[];
 }
 
-const initialState: IUploadState = {
+export const uploadInitialState: IUploadState = {
   post: {
     title: '',
     contents: '',
@@ -29,7 +29,7 @@ const initialState: IUploadState = {
 
 const uploadSlice = createSlice({
   name: 'upload',
-  initialState,
+  initialState: uploadInitialState,
   reducers: {
     upadatePost(state, action: PayloadAction<IUploadState['post']>) {
       state.post = action.payload;
@@ -37,9 +37,14 @@ const uploadSlice = createSlice({
     updateTitleImageArr(state, action: PayloadAction<string>) {
       state.titleImageArr = [...state.titleImageArr, action.payload];
     },
+    initializeUploadState(state) {
+      state.post = uploadInitialState.post;
+      state.titleImageArr = uploadInitialState.titleImageArr;
+    },
   },
 });
 
 const { actions, reducer } = uploadSlice;
-export const { upadatePost, updateTitleImageArr } = actions;
+export const { upadatePost, updateTitleImageArr, initializeUploadState } =
+  actions;
 export default reducer;
