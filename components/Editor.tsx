@@ -51,7 +51,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
 
   const uploadImage = async (blob: File | Blob) => {
     let formdata = new FormData();
-    console.log(blob);
+
     formdata.append('file', blob);
 
     try {
@@ -62,7 +62,6 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         })
       ).json();
 
-      console.log('@@@@@');
       return res?.url;
     } catch (error) {
       console.log(error);
@@ -83,6 +82,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         onChange={handleChange}
         hooks={{
           addImageBlobHook: async (blob, callback) => {
+            alert('이미지 업로드중');
             const upload = await uploadImage(blob);
             callback(upload, 'alt text');
             return false;

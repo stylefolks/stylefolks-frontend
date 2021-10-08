@@ -99,12 +99,12 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
 
   const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY);
 
-  let firstCategoryArray = data?.getCategory.categories.filter((el) =>
+  const firstCategoryArray = data?.getCategory.categories.filter((el) =>
     FIRST_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(
       el.name as FirstCategoryName
     )
   );
-  let secondCategoryArray = data?.getCategory.categories.filter(
+  const secondCategoryArray = data?.getCategory.categories.filter(
     (el) => el.id === post.firstCategoryId
   );
 
@@ -115,10 +115,24 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
           ...post,
           firstCategoryName: firstCategoryArray[0].name,
           firstCategoryId: firstCategoryArray[0].id,
+          secondCategoryId: firstCategoryArray[0].secondCategory[0].id,
         })
       );
     }
   }, [loading]);
+
+  useEffect(() => {
+    if (!loading) {
+      dispatch(
+        upadatePost({
+          ...post,
+          secondCategoryId: secondCategoryArray[0]?.secondCategory.filter(
+            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
+          )[0].id,
+        })
+      );
+    }
+  }, [post.firstCategoryId]);
 
   if (loading) {
     return <div>Loading ...</div>;
