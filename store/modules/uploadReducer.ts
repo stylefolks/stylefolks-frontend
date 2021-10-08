@@ -4,6 +4,7 @@ export interface IPostState {
   title: string;
   contents: string;
   titleImg: string;
+  firstCategoryName: string;
   firstCategoryId: number | null;
   secondCategoryId: number | null;
 
@@ -15,6 +16,7 @@ const initialState = {
     title: '',
     contents: '',
     titleImg: '',
+    firstCategoryName: '',
     firstCategoryId: null,
     secondCategoryId: null,
   },

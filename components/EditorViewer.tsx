@@ -41,7 +41,6 @@ const EditorViewerWithProps: React.FC<IEditorViewerProps> = (props) => {
         ref={viewerRef}
         initialValue={content}
       />
-      <div>Hello EditorViewer Sth</div>
       {/* <div id="viewer"></div> */}
     </>
   );
