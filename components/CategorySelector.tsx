@@ -1,15 +1,16 @@
 import { gql, useQuery } from '@apollo/client';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useMe } from '../hooks/useMe';
+import { getCategory } from '../src/__generated__/getCategory';
 import {
-  getCategory,
-  getCategory_getCategory_categories,
-} from '../src/__generated__/getCategory';
-import { FirstCategoryName, UserRole } from '../src/__generated__/globalTypes';
+  FirstCategoryName,
+  SecondCategoryName,
+  UserRole,
+} from '../src/__generated__/globalTypes';
 import { RootState } from '../store/modules';
 import { upadatePost } from '../store/modules/uploadReducer';
 import CategoryStyle from '../styles/Category.module.scss';
-import { Button } from './Button';
 
 const GET_CATEGORY = gql`
   query getCategory {
@@ -19,17 +20,17 @@ const GET_CATEGORY = gql`
       categories {
         id
         name
-        firstCategory {
-          id
+        secondCategory {
           name
+          id
         }
       }
     }
   }
 `;
 
-const CATEGORY_MAP_BY_ROLE = {
-  [UserRole.User]: [FirstCategoryName.TALK],
+const FIRST_CATEGORY_MAP_BY_ROLE = {
+  [UserRole.User]: [FirstCategoryName.TALK, FirstCategoryName.FOLKS],
   [UserRole.Publisher]: [FirstCategoryName.TALK, FirstCategoryName.COLUMN],
   [UserRole.Manager]: [
     FirstCategoryName.TALK,
@@ -45,16 +46,93 @@ const CATEGORY_MAP_BY_ROLE = {
   ],
 };
 
-const CategorySelector = () => {
-  const { user } = useSelector((state: RootState) => state.user);
-  const { post } = useSelector((state: RootState) => state.upload);
-  const [pickFirstCategory, setPickFirstCategory] = useState<FirstCategoryName>(
-    FirstCategoryName.TALK
-  );
+const SECOND_CATEGORY_MAP_BY_ROLE = {
+  [UserRole.User]: [
+    SecondCategoryName.FREE,
+    SecondCategoryName.OOTD,
+    SecondCategoryName.REVIEW,
+    SecondCategoryName.CHALLENGE,
+  ],
+  [UserRole.Publisher]: [
+    SecondCategoryName.FREE,
+    SecondCategoryName.OOTD,
+    SecondCategoryName.REVIEW,
+    SecondCategoryName.CHALLENGE,
+    SecondCategoryName.PUBLISHER,
+  ],
+  [UserRole.Manager]: [
+    SecondCategoryName.FREE,
+    SecondCategoryName.OOTD,
+    SecondCategoryName.REVIEW,
+    SecondCategoryName.CHALLENGE,
+  ],
+  [UserRole.Brand]: [
+    SecondCategoryName.ARTICLE,
+    SecondCategoryName.NOTICE,
+    SecondCategoryName.BRAND,
+  ],
+  [UserRole.Master]: [
+    SecondCategoryName.FREE,
+    SecondCategoryName.OOTD,
+    SecondCategoryName.REVIEW,
+    SecondCategoryName.CHALLENGE,
+    SecondCategoryName.USER,
+    SecondCategoryName.PUBLISHER,
+    SecondCategoryName.ARTICLE,
+    SecondCategoryName.NOTICE,
+    SecondCategoryName.BRAND,
+  ],
+};
+
+const NO_SECOND_CATEGORY_LIST = [
+  // FirstCategoryName.COLUMN,
+  FirstCategoryName.CREW,
+];
+interface IProps {
+  role?: UserRole;
+}
+
+const CategorySelector: React.FC<IProps> = ({ role }) => {
   const dispatch = useDispatch();
+  const { data: user } = useMe();
+  const { post } = useSelector((state: RootState) => state.upload);
+
   const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY);
-  let SecondCategoryArray: getCategory_getCategory_categories[];
-  let FirstCategoryArray: FirstCategoryName[];
+
+  const firstCategoryArray = data?.getCategory.categories.filter((el) =>
+    FIRST_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(
+      el.name as FirstCategoryName
+    )
+  );
+  const secondCategoryArray = data?.getCategory.categories.filter(
+    (el) => el.id === post.firstCategoryId
+  );
+
+  useEffect(() => {
+    if (!loading) {
+      dispatch(
+        upadatePost({
+          ...post,
+          firstCategoryName: firstCategoryArray[0].name,
+          firstCategoryId: firstCategoryArray[0].id,
+          secondCategoryId: firstCategoryArray[0].secondCategory[0].id,
+        })
+      );
+    }
+  }, [loading]);
+
+  useEffect(() => {
+    if (!loading) {
+      dispatch(
+        upadatePost({
+          ...post,
+          secondCategoryId: secondCategoryArray[0]?.secondCategory.filter(
+            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
+          )[0].id,
+        })
+      );
+    }
+  }, [post.firstCategoryId]);
 
   if (loading) {
     return <div>Loading ...</div>;
@@ -63,11 +141,6 @@ const CategorySelector = () => {
   if (error) {
     return <div>Error!</div>;
   }
-
-  SecondCategoryArray = data?.getCategory.categories.filter(
-    (el) => pickFirstCategory === el.firstCategory.name
-  );
-  FirstCategoryArray = [...CATEGORY_MAP_BY_ROLE[user.role]];
 
   return (
     <>
@@ -83,29 +156,58 @@ const CategorySelector = () => {
               dispatch(upadatePost({ ...post, title: e.target.value }))
             }
           />
-          <span> in </span>
-          <select>
-            {SecondCategoryArray.length === 0 ? (
-              <option>NONE</option>
-            ) : (
-              SecondCategoryArray?.map((el) => (
-                <option key={el.id}>{el.name}</option>
-              ))
-            )}
-          </select>
+          {NO_SECOND_CATEGORY_LIST.includes(
+            post.firstCategoryName as FirstCategoryName
+          ) ? (
+            <span></span>
+          ) : (
+            <>
+              <span> in </span>
+              <select
+                onChange={(el) => {
+                  const selectedIndex = el.target.options.selectedIndex;
+                  const secondCategoryId =
+                    +el.target.options[selectedIndex].getAttribute('data-key');
+                  dispatch(upadatePost({ ...post, secondCategoryId }));
+                }}
+              >
+                {secondCategoryArray[0]?.secondCategory
+                  .filter((el) =>
+                    SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
+                  )
+                  .map((el) => (
+                    <option key={el.id} data-key={el.id}>
+                      {el.name}
+                    </option>
+                  ))}
+              </select>
+            </>
+          )}
+
           <span> at </span>
           <select
             onChange={(el) => {
-              setPickFirstCategory(el.target.value as FirstCategoryName);
+              const selectedIndex = el.target.options.selectedIndex;
+              const firstCategoryId =
+                +el.target.options[selectedIndex].getAttribute('data-key');
+              dispatch(
+                upadatePost({
+                  ...post,
+                  firstCategoryId,
+                  firstCategoryName: el.target.value,
+                })
+              );
             }}
           >
-            {FirstCategoryArray.map((el, index) => (
-              <option key={el + index}>{el}</option>
+            {firstCategoryArray.map((el) => (
+              <option key={el.id} data-key={el.id}>
+                {el?.name}
+              </option>
             ))}
           </select>
         </div>
 
-        <Button canClick={false} actionText="Upload!" loading={false} />
+        {/* <Button canClick={false} actionText="Upload!" loading={false} /> */}
         <style jsx>{`
           /* section {
           width: 100%;

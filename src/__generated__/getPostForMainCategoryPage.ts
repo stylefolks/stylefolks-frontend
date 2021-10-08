@@ -9,9 +9,16 @@ import { GetPostForMainCategoryPageInput } from "./globalTypes";
 // GraphQL query operation: getPostForMainCategoryPage
 // ====================================================
 
+export interface getPostForMainCategoryPage_getPostForMainCategoryPage_post_user {
+  __typename: "User";
+  nickname: string;
+}
+
 export interface getPostForMainCategoryPage_getPostForMainCategoryPage_post {
   __typename: "Posts";
   id: number;
+  title: string;
+  user: getPostForMainCategoryPage_getPostForMainCategoryPage_post_user;
 }
 
 export interface getPostForMainCategoryPage_getPostForMainCategoryPage {

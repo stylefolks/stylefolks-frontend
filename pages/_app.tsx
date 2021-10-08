@@ -6,7 +6,6 @@ import { wrapper } from '../store';
 
 const App = ({ Component, pageProps }) => {
   const apolloClient = useApollo(pageProps);
-
   return (
     <ApolloProvider client={apolloClient}>
       <Wrapper>

@@ -9,17 +9,17 @@ import { SecondCategoryName } from "./globalTypes";
 // GraphQL query operation: getCategory
 // ====================================================
 
-export interface getCategory_getCategory_categories_firstCategory {
-  __typename: "FirstCategory";
+export interface getCategory_getCategory_categories_secondCategory {
+  __typename: "SecondCategory";
+  name: SecondCategoryName | null;
   id: number;
-  name: string;
 }
 
 export interface getCategory_getCategory_categories {
-  __typename: "SecondCategory";
+  __typename: "FirstCategory";
   id: number;
-  name: SecondCategoryName | null;
-  firstCategory: getCategory_getCategory_categories_firstCategory;
+  name: string;
+  secondCategory: getCategory_getCategory_categories_secondCategory[];
 }
 
 export interface getCategory_getCategory {

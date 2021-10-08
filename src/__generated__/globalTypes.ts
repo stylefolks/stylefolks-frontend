@@ -41,6 +41,15 @@ export interface CreateAccountInput {
   role: UserRole;
 }
 
+export interface CreatePostInput {
+  title: string;
+  contents: string;
+  titleImg?: string | null;
+  isUploaded?: boolean | null;
+  firstCategoryId: number;
+  secondCategoryId?: number | null;
+}
+
 export interface GetPostForMainCategoryPageInput {
   firstCategoryName: FirstCategoryName;
   postCount?: number | null;
