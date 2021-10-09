@@ -45,7 +45,14 @@ export interface CreatePostInput {
   title: string;
   contents: string;
   titleImg?: string | null;
-  isUploaded?: boolean | null;
+  firstCategoryId: number;
+  secondCategoryId?: number | null;
+}
+
+export interface CreateTempInput {
+  title: string;
+  contents: string;
+  titleImg?: string | null;
   firstCategoryId: number;
   secondCategoryId?: number | null;
 }

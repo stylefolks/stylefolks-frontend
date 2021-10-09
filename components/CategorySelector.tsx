@@ -114,8 +114,8 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
         upadatePost({
           ...post,
           firstCategoryName: firstCategoryArray[0].name,
-          firstCategoryId: firstCategoryArray[0].id,
-          secondCategoryId: firstCategoryArray[0].secondCategory[0].id,
+          firstCategoryId: firstCategoryArray[0]?.id,
+          secondCategoryId: firstCategoryArray[0]?.secondCategory[0]?.id,
         })
       );
     }
@@ -128,7 +128,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
           ...post,
           secondCategoryId: secondCategoryArray[0]?.secondCategory.filter(
             (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
-          )[0].id,
+          )[0]?.id,
         })
       );
     }
@@ -176,7 +176,11 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                     SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
                   )
                   .map((el) => (
-                    <option key={el.id} data-key={el.id}>
+                    <option
+                      key={el.id}
+                      data-key={el.id}
+                      selected={el.id === post.secondCategoryId}
+                    >
                       {el.name}
                     </option>
                   ))}
@@ -200,20 +204,16 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
             }}
           >
             {firstCategoryArray.map((el) => (
-              <option key={el.id} data-key={el.id}>
+              <option
+                key={el.id}
+                data-key={el.id}
+                selected={el.id === post.firstCategoryId}
+              >
                 {el?.name}
               </option>
             ))}
           </select>
         </div>
-
-        {/* <Button canClick={false} actionText="Upload!" loading={false} /> */}
-        <style jsx>{`
-          /* section {
-          width: 100%;
-          border: 1px solid black;
-        } */
-        `}</style>
       </section>
     </>
   );

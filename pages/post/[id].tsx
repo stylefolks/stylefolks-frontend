@@ -7,6 +7,7 @@ import {
   getEachPostVariables,
 } from '../../src/__generated__/getEachPost';
 import CategoryStyle from '../../styles/Category.module.scss';
+
 const GET_EACH_POST_QUERY = gql`
   query getEachPost($postId: Int!) {
     getEachPost(postId: $postId) {

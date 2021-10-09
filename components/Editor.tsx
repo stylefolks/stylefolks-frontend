@@ -77,7 +77,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     <div>
       <EditorWithForwardedRef
         {...props}
-        initialValue={initialValue || 'Wirte Your Own Story!'}
+        initialValue={initialValue || ''}
         previewStyle={previewStyle || 'vertical'}
         height={height || '90vh'}
         initialEditType={initialEditType || 'wysiwyg'}
