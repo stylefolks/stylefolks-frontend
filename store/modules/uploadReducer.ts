@@ -13,6 +13,8 @@ export interface IPostState {
 interface IUploadState {
   post: IPostState;
   titleImageArr: string[];
+  isTemp: boolean;
+  pickTempId: number | null;
 }
 
 export const uploadInitialState: IUploadState = {
@@ -25,6 +27,8 @@ export const uploadInitialState: IUploadState = {
     secondCategoryId: null,
   },
   titleImageArr: [],
+  isTemp: false,
+  pickTempId: null,
 };
 
 const uploadSlice = createSlice({
@@ -37,14 +41,31 @@ const uploadSlice = createSlice({
     updateTitleImageArr(state, action: PayloadAction<string>) {
       state.titleImageArr = [...state.titleImageArr, action.payload];
     },
+    setTitleImageArr(state, action: PayloadAction<string[]>) {
+      state.titleImageArr = [...state.titleImageArr, ...action.payload];
+    },
+    setIsTemp(state, action: PayloadAction<boolean>) {
+      state.isTemp = action.payload;
+    },
+    setPickTempId(state, action: PayloadAction<number>) {
+      state.pickTempId = action.payload;
+    },
     initializeUploadState(state) {
       state.post = uploadInitialState.post;
       state.titleImageArr = uploadInitialState.titleImageArr;
+      state.isTemp = false;
+      state.pickTempId = null;
     },
   },
 });
 
 const { actions, reducer } = uploadSlice;
-export const { upadatePost, updateTitleImageArr, initializeUploadState } =
-  actions;
+export const {
+  upadatePost,
+  updateTitleImageArr,
+  initializeUploadState,
+  setIsTemp,
+  setPickTempId,
+  setTitleImageArr,
+} = actions;
 export default reducer;

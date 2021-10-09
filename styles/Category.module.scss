@@ -1,6 +1,6 @@
 .categoryContainer {
-  width: 100%;
-  font-size: 150%;
+  // width: 100%;
+  font-size: 22px;
   margin: 0;
   display: flex;
   flex-wrap: wrap;
@@ -8,11 +8,15 @@
   margin: 2vh 0;
 
   input {
-    font-size: 150%;
+    font-size: 22px;
+    border: 1px solid white;
+    &:focus {
+      border: 1px solid black;
+    }
   }
 
   select {
-    font-size: 150%;
+    font-size: 22px;
     height: 100%;
     border: 0.5px solid white;
     background-color: white;

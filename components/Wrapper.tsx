@@ -33,7 +33,7 @@ export default function App({ children }) {
           align-items: center;
           background-color: white;
           border: 0;
-          color: white;
+          color: black;
           display: flex;
           padding: 5px 7px;
           transition: background-color 0.3s;
