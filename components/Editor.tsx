@@ -2,8 +2,10 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor as EditorType, EditorProps } from '@toast-ui/react-editor';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { updateTitleImageArr } from '../store/modules/uploadReducer';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/modules';
+import { setIsTemp, updateTitleImageArr } from '../store/modules/uploadReducer';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
@@ -37,6 +39,9 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     useCommandShortcut,
   } = props;
   const dispatch = useDispatch();
+  const { post, isTemp, pickTempId } = useSelector(
+    (state: RootState) => state.upload
+  );
   const editorRef = React.useRef<EditorType>();
   const handleChange = React.useCallback(() => {
     if (!editorRef.current) {
@@ -73,11 +78,19 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     }
   };
 
+  useEffect(() => {
+    if (isTemp) {
+      dispatch(setIsTemp(false));
+      editorRef?.current?.getInstance().setHTML(post.contents); //여기서 초기값을 잡아주는걸로 ..
+    }
+  }, [isTemp, post.contents]);
+
   return (
     <div>
       <EditorWithForwardedRef
         {...props}
-        initialValue={initialValue || ''}
+        initialValue={initialValue}
+        placeholder="Write your own story!"
         previewStyle={previewStyle || 'vertical'}
         height={height || '90vh'}
         initialEditType={initialEditType || 'wysiwyg'}

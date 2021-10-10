@@ -44,4 +44,31 @@ export const FIND_BY_NICKNAME = gql`
     }
   }
 `;
+
+export const GET_USER_TEMP = gql`
+  query getUserTemp($userId: Int!) {
+    getUserTemp(userId: $userId) {
+      ok
+      error
+      temps {
+        id
+        title
+        titleImg
+        contents
+        firstCategory {
+          id
+          name
+        }
+        secondCategory {
+          id
+          name
+        }
+        image {
+          link
+          id
+        }
+      }
+    }
+  }
+`;
 export default {};

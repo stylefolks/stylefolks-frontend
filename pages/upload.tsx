@@ -190,33 +190,23 @@ const Upload = () => {
     <>
       <div className="wrapper">
         <CategorySelector role={data?.me.role} />
-        {isTemp ? (
-          <>
-            {/* <span>임시저장 글 불러오기</span> */}
-            <WysiwygEditor
-              initialValue={post.contents}
-              height={'90vh'}
-              onChange={(contents) =>
-                dispatch(upadatePost({ ...post, contents }))
-              }
-            />
-          </>
-        ) : (
-          <WysiwygEditor
-            initialValue={'yohoho'}
-            height={'90vh'}
-            onChange={(contents) =>
-              dispatch(upadatePost({ ...post, contents }))
-            }
-          />
-        )}
+
+        <WysiwygEditor
+          autofocus={false}
+          initialValue={''}
+          height={'90vh'}
+          onChange={(contents) => dispatch(upadatePost({ ...post, contents }))}
+        />
+
         <TitleImagePicker />
         <div className="buttonWrapper">
           <Button
             canClick={false}
-            actionText={isTemp ? 'Modifications completed' : 'Temporarily Save'}
+            actionText={
+              pickTempId ? 'Modifications completed' : 'Temporarily Save'
+            }
             loading={false}
-            onClick={isTemp ? handleTempModify : handleTempSave}
+            onClick={pickTempId ? handleTempModify : handleTempSave}
           />
           <Button
             canClick={false}

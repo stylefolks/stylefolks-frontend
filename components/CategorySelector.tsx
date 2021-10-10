@@ -97,7 +97,10 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   const { data: user } = useMe();
   const { post } = useSelector((state: RootState) => state.upload);
 
-  const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY);
+  const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY, {
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'network-only',
+  });
 
   const firstCategoryArray = data?.getCategory.categories.filter((el) =>
     FIRST_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(
@@ -164,6 +167,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
             <>
               <span> in </span>
               <select
+                value={post.secondCategoryId}
                 onChange={(el) => {
                   const selectedIndex = el.target.options.selectedIndex;
                   const secondCategoryId =
@@ -176,11 +180,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                     SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
                   )
                   .map((el) => (
-                    <option
-                      key={el.id}
-                      data-key={el.id}
-                      selected={el.id === post.secondCategoryId}
-                    >
+                    <option key={el.id} data-key={el.id}>
                       {el.name}
                     </option>
                   ))}
@@ -190,6 +190,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
 
           <span> at </span>
           <select
+            value={post.firstCategoryId}
             onChange={(el) => {
               const selectedIndex = el.target.options.selectedIndex;
               const firstCategoryId =
@@ -204,11 +205,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
             }}
           >
             {firstCategoryArray.map((el) => (
-              <option
-                key={el.id}
-                data-key={el.id}
-                selected={el.id === post.firstCategoryId}
-              >
+              <option key={el.id} data-key={el.id}>
                 {el?.name}
               </option>
             ))}
