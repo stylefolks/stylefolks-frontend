@@ -133,6 +133,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
         ...input,
         firstCategoryId: firstCategory.id,
         secondCategoryId: secondCategory?.id,
+        secondCategoryName: secondCategory?.name,
         firstCategoryName: firstCategory.name,
       })
     );

@@ -81,7 +81,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
   useEffect(() => {
     if (isTemp) {
       dispatch(setIsTemp(false));
-      editorRef?.current?.getInstance().setHTML(post.contents); //여기서 초기값을 잡아주는걸로 ..
+      editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
     }
   }, [isTemp, post.contents]);
 

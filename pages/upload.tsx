@@ -146,6 +146,8 @@ const Upload = () => {
   const handleTempModify = () => {
     const { title, contents, titleImg, firstCategoryId, secondCategoryId } =
       post;
+
+    console.log('수정할때 id값은 이거임', firstCategoryId, secondCategoryId);
     modifyTempMutation({
       variables: {
         input: {

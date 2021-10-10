@@ -117,6 +117,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
         upadatePost({
           ...post,
           firstCategoryName: firstCategoryArray[0].name,
+          secondCategoryName: firstCategoryArray[0]?.secondCategory[0]?.name,
           firstCategoryId: firstCategoryArray[0]?.id,
           secondCategoryId: firstCategoryArray[0]?.secondCategory[0]?.id,
         })
@@ -129,6 +130,9 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
       dispatch(
         upadatePost({
           ...post,
+          secondCategoryName: secondCategoryArray[0]?.secondCategory.filter(
+            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
+          )[0]?.name,
           secondCategoryId: secondCategoryArray[0]?.secondCategory.filter(
             (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
           )[0]?.id,
@@ -167,12 +171,18 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
             <>
               <span> in </span>
               <select
-                value={post.secondCategoryId}
+                value={post.secondCategoryName}
                 onChange={(el) => {
                   const selectedIndex = el.target.options.selectedIndex;
                   const secondCategoryId =
                     +el.target.options[selectedIndex].getAttribute('data-key');
-                  dispatch(upadatePost({ ...post, secondCategoryId }));
+                  dispatch(
+                    upadatePost({
+                      ...post,
+                      secondCategoryId,
+                      secondCategoryName: el.target.value,
+                    })
+                  );
                 }}
               >
                 {secondCategoryArray[0]?.secondCategory
@@ -190,7 +200,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
 
           <span> at </span>
           <select
-            value={post.firstCategoryId}
+            value={post.firstCategoryName}
             onChange={(el) => {
               const selectedIndex = el.target.options.selectedIndex;
               const firstCategoryId =
