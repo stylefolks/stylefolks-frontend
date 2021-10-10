@@ -214,13 +214,13 @@ const Upload = () => {
         <div className="buttonWrapper">
           <Button
             canClick={false}
-            actionText={isTemp ? '임시 저장 글 수정 완료' : '게시글 임시저장'}
+            actionText={isTemp ? 'Modifications completed' : 'Temporarily Save'}
             loading={false}
             onClick={isTemp ? handleTempModify : handleTempSave}
           />
           <Button
             canClick={false}
-            actionText="Upload!"
+            actionText="Upload Post"
             loading={false}
             onClick={handleUpload}
           />
