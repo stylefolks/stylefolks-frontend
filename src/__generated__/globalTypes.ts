@@ -67,6 +67,15 @@ export interface LoginInput {
   password: string;
 }
 
+export interface ModifyMyTemptInput {
+  title?: string | null;
+  contents?: string | null;
+  titleImg?: string | null;
+  firstCategoryId?: number | null;
+  secondCategoryId?: number | null;
+  postId: number;
+}
+
 export interface VerifyEmailInput {
   code: string;
 }

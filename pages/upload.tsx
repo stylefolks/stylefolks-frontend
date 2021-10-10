@@ -17,6 +17,10 @@ import {
   createTemp,
   createTempVariables,
 } from '../src/__generated__/createTemp';
+import {
+  modifyTemp,
+  modifyTempVariables,
+} from '../src/__generated__/modifyTemp';
 import { RootState } from '../store/modules';
 import {
   initializeUploadState,
@@ -41,11 +45,20 @@ const CREATE_TEMP_MUTATION = gql`
   }
 `;
 
+const MODIFY_TEMP_MUTATION = gql`
+  mutation modifyTemp($input: ModifyMyTemptInput!) {
+    modifyTemp(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
 const Upload = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useQuery(ME_QUERY);
 
-  const { post, titleImageArr, isTemp } = useSelector(
+  const { post, titleImageArr, isTemp, pickTempId } = useSelector(
     (state: RootState) => state.upload
   );
 
@@ -79,11 +92,32 @@ const Upload = () => {
     }
   };
 
+  const ModifyTempOnCompleted = (data: modifyTemp) => {
+    if (data?.modifyTemp.ok) {
+      dispatch(initializeUploadState()); //다 저장되고나서 초기 state로 돌아가야하는데 ..
+      alert('저장완료!');
+      router.push('/'); //나중에는 작성된 글로 돌아가게 만들어 주자
+    }
+
+    if (data?.modifyTemp.error) {
+      alert(
+        `${data.modifyTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
+      );
+    }
+  };
+
   const [
     createPostMutation,
     { loading: createPostLoading, error: createPostError },
   ] = useMutation<createPost, createPostVariables>(CREATE_POST_MUTATION, {
     onCompleted: createPostonCompleted,
+  });
+
+  const [
+    modifyTempMutation,
+    { loading: ModifyTempLoading, error: modifyTempError },
+  ] = useMutation<modifyTemp, modifyTempVariables>(MODIFY_TEMP_MUTATION, {
+    onCompleted: ModifyTempOnCompleted,
   });
 
   const [
@@ -99,6 +133,23 @@ const Upload = () => {
     createTempMutation({
       variables: {
         input: {
+          title,
+          contents,
+          titleImg,
+          firstCategoryId,
+          secondCategoryId,
+        },
+      },
+    });
+  };
+
+  const handleTempModify = () => {
+    const { title, contents, titleImg, firstCategoryId, secondCategoryId } =
+      post;
+    modifyTempMutation({
+      variables: {
+        input: {
+          postId: pickTempId,
           title,
           contents,
           titleImg,
@@ -163,9 +214,9 @@ const Upload = () => {
       <div className="buttonWrapper">
         <Button
           canClick={false}
-          actionText="Temp Save!"
+          actionText={isTemp ? '임시 저장 글 수정 완료' : '게시글 임시저장'}
           loading={false}
-          onClick={handleTempSave}
+          onClick={isTemp ? handleTempModify : handleTempSave}
         />
         <Button
           canClick={false}
