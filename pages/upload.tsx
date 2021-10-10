@@ -66,7 +66,7 @@ const Upload = () => {
 
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
-      dispatch(initializeUploadState()); //다 저장되고나서 초기 state로 돌아가야하는데 ..
+      dispatch(initializeUploadState());
       alert('저장완료!');
       router.push('/'); //나중에는 작성된 글로 돌아가게 만들어 주자
     }
@@ -80,9 +80,9 @@ const Upload = () => {
 
   const createTemponCompleted = (data: createTemp) => {
     if (data?.createTemp.ok) {
-      dispatch(initializeUploadState()); //다 저장되고나서 초기 state로 돌아가야하는데 ..
+      dispatch(initializeUploadState());
       alert('저장완료!');
-      router.push('/'); //나중에는 작성된 글로 돌아가게 만들어 주자
+      router.push('/');
     }
 
     if (data?.createTemp.error) {
@@ -94,9 +94,9 @@ const Upload = () => {
 
   const ModifyTempOnCompleted = (data: modifyTemp) => {
     if (data?.modifyTemp.ok) {
-      dispatch(initializeUploadState()); //다 저장되고나서 초기 state로 돌아가야하는데 ..
+      dispatch(initializeUploadState());
       alert('저장완료!');
-      router.push('/'); //나중에는 작성된 글로 돌아가게 만들어 주자
+      router.push('/');
     }
 
     if (data?.modifyTemp.error) {
@@ -187,54 +187,63 @@ const Upload = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="wrapper">
-      <CategorySelector role={data?.me.role} />
-      {isTemp ? (
-        <>
-          <span>임시저장 글 불러오기</span>
+    <>
+      <div className="wrapper">
+        <CategorySelector role={data?.me.role} />
+        {isTemp ? (
+          <>
+            {/* <span>임시저장 글 불러오기</span> */}
+            <WysiwygEditor
+              initialValue={post.contents}
+              height={'90vh'}
+              onChange={(contents) =>
+                dispatch(upadatePost({ ...post, contents }))
+              }
+            />
+          </>
+        ) : (
           <WysiwygEditor
-            initialValue={post.contents}
+            initialValue={'yohoho'}
             height={'90vh'}
             onChange={(contents) =>
               dispatch(upadatePost({ ...post, contents }))
             }
           />
-        </>
-      ) : (
-        <WysiwygEditor
-          initialValue={'yohoho'}
-          height={'90vh'}
-          onChange={(contents) => dispatch(upadatePost({ ...post, contents }))}
-        />
-      )}
+        )}
+        <TitleImagePicker />
+        <div className="buttonWrapper">
+          <Button
+            canClick={false}
+            actionText={isTemp ? '임시 저장 글 수정 완료' : '게시글 임시저장'}
+            loading={false}
+            onClick={isTemp ? handleTempModify : handleTempSave}
+          />
+          <Button
+            canClick={false}
+            actionText="Upload!"
+            loading={false}
+            onClick={handleUpload}
+          />
+        </div>
 
-      <TitleImagePicker />
-      <TempPostBox userId={data?.me.id} />
-
-      <div className="buttonWrapper">
-        <Button
-          canClick={false}
-          actionText={isTemp ? '임시 저장 글 수정 완료' : '게시글 임시저장'}
-          loading={false}
-          onClick={isTemp ? handleTempModify : handleTempSave}
-        />
-        <Button
-          canClick={false}
-          actionText="Upload!"
-          loading={false}
-          onClick={handleUpload}
-        />
+        <TempPostBox userId={data?.me.id} />
       </div>
+
       <style jsx>{`
         .buttonWrapper {
           display: flex;
           justify-content: space-between;
         }
 
+        .container {
+          display: flex;
+        }
+
         .wrapper {
           max-width: 860px;
           width: 95%;
           margin: 2vh 0;
+          position: relative;
         }
 
         @media screen and (max-width: 110px) {
@@ -244,9 +253,14 @@ const Upload = () => {
             top: auto !important;
             left: auto !important;
           }
+          .tempBoxWrapper {
+            top: 0px;
+            left: 0px;
+            bottom: -250px;
+          }
         }
       `}</style>
-    </div>
+    </>
   );
 };
 

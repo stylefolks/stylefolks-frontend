@@ -3,12 +3,6 @@ const Footer = () => {
   return (
     <>
       <footer className={FooterStyle.footerContainer}>Footer</footer>
-      <style jsx>{`
-        footer {
-          height: 100px;
-          background-color: gray;
-        }
-      `}</style>
     </>
   );
 };

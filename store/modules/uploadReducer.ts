@@ -42,7 +42,7 @@ const uploadSlice = createSlice({
       state.titleImageArr = [...state.titleImageArr, action.payload];
     },
     setTitleImageArr(state, action: PayloadAction<string[]>) {
-      state.titleImageArr = [...state.titleImageArr, ...action.payload];
+      state.titleImageArr = [...action.payload];
     },
     setIsTemp(state, action: PayloadAction<boolean>) {
       state.isTemp = action.payload;

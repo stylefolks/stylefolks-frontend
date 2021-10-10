@@ -13,6 +13,7 @@ const TitleImagePicker: React.FC = () => {
   return (
     <div className={UploadStyle.imagePickerWrapper}>
       <span>Uploaded Image</span>
+      <h6>클릭하시면 타이틀 이미지로 등록됩니다.</h6>
       <ul>
         {titleImageArr.length ? (
           titleImageArr.map((el, index) => (

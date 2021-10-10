@@ -9,6 +9,7 @@
 
   input {
     font-size: 22px;
+    max-width: 10vw;
     border: 1px solid white;
     &:focus {
       border: 1px solid black;

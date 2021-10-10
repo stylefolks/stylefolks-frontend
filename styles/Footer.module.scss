@@ -1,5 +1,6 @@
 .footerContainer {
-  background-color: $back-color-main;
-  color: $font-color-main;
+  border-top: 2px solid $back-color-main;
+  background-color: white;
+  color: black;
   height: 100px;
 }

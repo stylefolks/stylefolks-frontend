@@ -1,11 +1,10 @@
 import InfoBox from '../components/InfoBox';
 import PostList from '../components/PostList';
-import Submit from '../components/Submit';
 const IndexPage = () => {
   return (
     <>
-      <InfoBox>ℹ️ This page shows how to use SSG with Apollo.</InfoBox>
-      <Submit />
+      <InfoBox>ℹ️ Page Gonnabe beatuiful~~</InfoBox>
+
       <PostList />
     </>
   );
