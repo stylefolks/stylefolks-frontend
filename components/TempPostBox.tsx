@@ -14,6 +14,7 @@ import {
   setTitleImageArr,
   upadatePost,
 } from '../store/modules/uploadReducer';
+import TempStyle from '../styles/TempPost.module.scss';
 import Alert from './Alert';
 
 interface IProps {
@@ -95,6 +96,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
       (el) => el.id === pickTempId
     );
     const { image, firstCategory, secondCategory, ...input } = PickTemp[0];
+    console.log('@@@@', PickTemp);
     dispatch(setIsTemp(true));
     const titleImageArr = image.map((el) => el.link);
     console.log(input.contents);
@@ -106,19 +108,36 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
         firstCategoryName: firstCategory.name,
       })
     );
+    console.log(titleImageArr);
     dispatch(setTitleImageArr(titleImageArr));
+    dispatch(
+      setAlert({
+        portal: { mounted: false },
+        alert: {
+          title: '',
+          content: ``,
+        },
+      })
+    );
   };
 
   return (
-    <div>
-      {userTempData?.getUserTemp.temps.length &&
-        userTempData?.getUserTemp.temps.map((el) => (
-          <span key={el.id} onClick={() => onClick(el)}>
-            <a>{el.title}</a>
-          </span>
-          // <li key={el.title}>{el.title}</li>
-        ))}
-      <Alert onCancel={onCancel} onConfirm={onConfirm} />
+    <div className={TempStyle.tempContainer}>
+      <div className={TempStyle.tempWrapper}>
+        <h3>Temp Save Posting List</h3>
+
+        <ul>
+          {userTempData?.getUserTemp.temps.length &&
+            userTempData?.getUserTemp.temps.map((el) => (
+              <li key={el.id} onClick={() => onClick(el)}>
+                Story Of {el.title}
+              </li>
+
+              // <li key={el.title}>{el.title}</li>
+            ))}
+        </ul>
+        <Alert onCancel={onCancel} onConfirm={onConfirm} />
+      </div>
     </div>
   );
 };

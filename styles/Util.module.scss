@@ -107,3 +107,49 @@
     border: 1px solid #22bad9;
   }
 }
+
+.portalContainer {
+  position: fixed;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+  top: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: all 0.2s ease;
+  z-index: 100;
+}
+
+.alertWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 320px;
+  height: calc(320px * 9 / 16);
+  border: 1px solid black;
+  border-radius: 12px;
+  background-color: white;
+
+  & > div {
+    display: flex;
+    margin-top: 20px;
+
+    button {
+      border: 1px solid $back-color-main;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $back-color-main;
+        color: $font-color-main;
+      }
+
+      &:first-child {
+        margin-right: 8px;
+      }
+    }
+  }
+}

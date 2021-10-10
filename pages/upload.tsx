@@ -17,6 +17,10 @@ import {
   createTemp,
   createTempVariables,
 } from '../src/__generated__/createTemp';
+import {
+  modifyTemp,
+  modifyTempVariables,
+} from '../src/__generated__/modifyTemp';
 import { RootState } from '../store/modules';
 import {
   initializeUploadState,
@@ -41,11 +45,20 @@ const CREATE_TEMP_MUTATION = gql`
   }
 `;
 
+const MODIFY_TEMP_MUTATION = gql`
+  mutation modifyTemp($input: ModifyMyTemptInput!) {
+    modifyTemp(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
 const Upload = () => {
   const dispatch = useDispatch();
   const { data, loading, error } = useQuery(ME_QUERY);
 
-  const { post, titleImageArr, isTemp } = useSelector(
+  const { post, titleImageArr, isTemp, pickTempId } = useSelector(
     (state: RootState) => state.upload
   );
 
@@ -53,7 +66,7 @@ const Upload = () => {
 
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
-      dispatch(initializeUploadState()); //다 저장되고나서 초기 state로 돌아가야하는데 ..
+      dispatch(initializeUploadState());
       alert('저장완료!');
       router.push('/'); //나중에는 작성된 글로 돌아가게 만들어 주자
     }
@@ -67,9 +80,9 @@ const Upload = () => {
 
   const createTemponCompleted = (data: createTemp) => {
     if (data?.createTemp.ok) {
-      dispatch(initializeUploadState()); //다 저장되고나서 초기 state로 돌아가야하는데 ..
+      dispatch(initializeUploadState());
       alert('저장완료!');
-      router.push('/'); //나중에는 작성된 글로 돌아가게 만들어 주자
+      router.push('/');
     }
 
     if (data?.createTemp.error) {
@@ -79,11 +92,32 @@ const Upload = () => {
     }
   };
 
+  const ModifyTempOnCompleted = (data: modifyTemp) => {
+    if (data?.modifyTemp.ok) {
+      dispatch(initializeUploadState());
+      alert('저장완료!');
+      router.push('/');
+    }
+
+    if (data?.modifyTemp.error) {
+      alert(
+        `${data.modifyTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
+      );
+    }
+  };
+
   const [
     createPostMutation,
     { loading: createPostLoading, error: createPostError },
   ] = useMutation<createPost, createPostVariables>(CREATE_POST_MUTATION, {
     onCompleted: createPostonCompleted,
+  });
+
+  const [
+    modifyTempMutation,
+    { loading: ModifyTempLoading, error: modifyTempError },
+  ] = useMutation<modifyTemp, modifyTempVariables>(MODIFY_TEMP_MUTATION, {
+    onCompleted: ModifyTempOnCompleted,
   });
 
   const [
@@ -99,6 +133,23 @@ const Upload = () => {
     createTempMutation({
       variables: {
         input: {
+          title,
+          contents,
+          titleImg,
+          firstCategoryId,
+          secondCategoryId,
+        },
+      },
+    });
+  };
+
+  const handleTempModify = () => {
+    const { title, contents, titleImg, firstCategoryId, secondCategoryId } =
+      post;
+    modifyTempMutation({
+      variables: {
+        input: {
+          postId: pickTempId,
           title,
           contents,
           titleImg,
@@ -136,54 +187,63 @@ const Upload = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="wrapper">
-      <CategorySelector role={data?.me.role} />
-      {isTemp ? (
-        <>
-          <span>임시저장 글 불러오기</span>
+    <>
+      <div className="wrapper">
+        <CategorySelector role={data?.me.role} />
+        {isTemp ? (
+          <>
+            {/* <span>임시저장 글 불러오기</span> */}
+            <WysiwygEditor
+              initialValue={post.contents}
+              height={'90vh'}
+              onChange={(contents) =>
+                dispatch(upadatePost({ ...post, contents }))
+              }
+            />
+          </>
+        ) : (
           <WysiwygEditor
-            initialValue={post.contents}
+            initialValue={'yohoho'}
             height={'90vh'}
             onChange={(contents) =>
               dispatch(upadatePost({ ...post, contents }))
             }
           />
-        </>
-      ) : (
-        <WysiwygEditor
-          initialValue={'yohoho'}
-          height={'90vh'}
-          onChange={(contents) => dispatch(upadatePost({ ...post, contents }))}
-        />
-      )}
+        )}
+        <TitleImagePicker />
+        <div className="buttonWrapper">
+          <Button
+            canClick={false}
+            actionText={isTemp ? 'Modifications completed' : 'Temporarily Save'}
+            loading={false}
+            onClick={isTemp ? handleTempModify : handleTempSave}
+          />
+          <Button
+            canClick={false}
+            actionText="Upload Post"
+            loading={false}
+            onClick={handleUpload}
+          />
+        </div>
 
-      <TitleImagePicker />
-      <TempPostBox userId={data?.me.id} />
-
-      <div className="buttonWrapper">
-        <Button
-          canClick={false}
-          actionText="Temp Save!"
-          loading={false}
-          onClick={handleTempSave}
-        />
-        <Button
-          canClick={false}
-          actionText="Upload!"
-          loading={false}
-          onClick={handleUpload}
-        />
+        <TempPostBox userId={data?.me.id} />
       </div>
+
       <style jsx>{`
         .buttonWrapper {
           display: flex;
           justify-content: space-between;
         }
 
+        .container {
+          display: flex;
+        }
+
         .wrapper {
           max-width: 860px;
           width: 95%;
           margin: 2vh 0;
+          position: relative;
         }
 
         @media screen and (max-width: 110px) {
@@ -193,9 +253,14 @@ const Upload = () => {
             top: auto !important;
             left: auto !important;
           }
+          .tempBoxWrapper {
+            top: 0px;
+            left: 0px;
+            bottom: -250px;
+          }
         }
       `}</style>
-    </div>
+    </>
   );
 };
 

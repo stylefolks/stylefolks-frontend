@@ -1,0 +1,46 @@
+.tempContainer {
+  position: absolute;
+  top: 0px;
+  left: -250px;
+
+  @media screen and (max-width: 600px) {
+    position: static;
+  }
+}
+.tempWrapper {
+  border: 1px solid $back-color-main;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  width: 200px;
+
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+
+  & > ul {
+    list-style: none;
+    width: 100%;
+    padding: 0px;
+    margin-bottom: 0px;
+
+    & > li {
+      border: 1px solid white;
+      width: 100%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      padding: 8px 0px;
+
+      &:hover {
+        border-top: 1px solid $back-color-main;
+        border-bottom: 1px solid $back-color-main;
+        color: $font-color-main;
+      }
+    }
+  }
+}

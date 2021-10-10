@@ -1,6 +1,21 @@
 import { useSelector } from 'react-redux';
 import Portal from '../HOC/Portal';
 import { RootState } from '../store/modules';
+import UtilStyle from '../styles/Util.module.scss';
+
+const Background = () => {
+  <div className="portalContainer">
+    <style jsx>{`
+      .portalContainer {
+        position: absolute;
+        right: 0px;
+        left: 0px;
+        bottom: 0px;
+        top: 0px;
+      }
+    `}</style>
+  </div>;
+};
 
 interface IPropsAlert {
   onConfirm: () => void;
@@ -12,10 +27,16 @@ const Alert: React.FC<IPropsAlert> = ({ onConfirm, onCancel }) => {
 
   return (
     <Portal>
-      <span>{alert.title}</span>
-      <span>{alert.content}</span>
-      <button onClick={onConfirm}>확인</button>
-      <button onClick={onCancel}>취소</button>
+      <div className={UtilStyle.portalContainer}>
+        <div className={UtilStyle.alertWrapper}>
+          <span>{alert.title}</span>
+          <span>{alert.content}</span>
+          <div>
+            <button onClick={onConfirm}>Confirm</button>
+            <button onClick={onCancel}>Cancel</button>
+          </div>
+        </div>
+      </div>
     </Portal>
   );
 };
