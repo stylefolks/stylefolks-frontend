@@ -83,6 +83,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (isTemp) {
+      console.log('초기화일때 일을안한 ㅏ..??');
       dispatch(setIsTemp(false));
       editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
     }

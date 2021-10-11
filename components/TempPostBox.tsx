@@ -12,21 +12,22 @@ import {
 import { RootState } from '../store/modules';
 import { setAlert } from '../store/modules/commonReducer';
 import {
+  initializeUploadState,
   setIsTemp,
   setPickTempId,
   setTitleImageArr,
   upadatePost,
 } from '../store/modules/uploadReducer';
 import TempStyle from '../styles/TempPost.module.scss';
+import UtilStyle from '../styles/Util.module.scss';
 import Alert from './Alert';
-
 interface IProps {
   userId: number;
 }
 
 const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const dispatch = useDispatch();
-  const { pickTempId, titleImageArr, post } = useSelector(
+  const { pickTempId, titleImageArr, post, isTemp } = useSelector(
     (state: RootState) => state.upload
   );
   const { alert } = useSelector((state: RootState) => state.common);
@@ -142,6 +143,13 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     dispatch(setIsTemp(true));
   };
 
+  const handleBackToNewPost = () => {
+    //아래 실행순서가 중요하다 -> 개선필요
+    dispatch(setPickTempId(null));
+    dispatch(initializeUploadState());
+    dispatch(setIsTemp(true));
+  };
+
   useEffect(() => {
     userId &&
       getTempData({
@@ -159,16 +167,26 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
         <ul>
           {userTempData?.getUserTemp.temps.length &&
             userTempData?.getUserTemp.temps.map((el) => (
-              <li key={el.id}>
+              <li
+                key={el.id}
+                className={el.id === pickTempId ? UtilStyle.isActiveColor : ''}
+              >
                 <div>
                   <span onClick={() => handleLogging(el)}>
                     Story Of {el.title}
                   </span>{' '}
-                  <button onClick={() => handleDelete(el)}>x</button>
+                  {el.id !== pickTempId && (
+                    <button onClick={() => handleDelete(el)}>x</button>
+                  )}
                 </div>
               </li>
             ))}
         </ul>
+        {pickTempId && (
+          <button onClick={() => handleBackToNewPost()}>
+            Back To Wirte New Post
+          </button>
+        )}
         <Alert onCancel={onCancel} onConfirm={onConfirm} />
       </div>
     </div>
