@@ -7,6 +7,22 @@
     position: static;
   }
 }
+
+.backButton {
+  display: flex-inline;
+  justify-content: center;
+  width: 99%;
+  font-weight: 700;
+  padding: 8px 4px;
+  border-top: 1px solid $back-color-main;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+
+  &:hover {
+    font-size: 20px;
+  }
+}
+
 .tempWrapper {
   border: 1px solid $back-color-main;
   display: flex;

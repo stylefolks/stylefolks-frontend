@@ -10,7 +10,7 @@ import {
   getUserTemp_getUserTemp_temps,
 } from '../src/__generated__/getUserTemp';
 import { RootState } from '../store/modules';
-import { setAlert } from '../store/modules/commonReducer';
+import { setAlert, umountAlert } from '../store/modules/commonReducer';
 import {
   initializeUploadState,
   setIsTemp,
@@ -27,9 +27,7 @@ interface IProps {
 
 const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const dispatch = useDispatch();
-  const { pickTempId, titleImageArr, post, isTemp } = useSelector(
-    (state: RootState) => state.upload
-  );
+  const { pickTempId } = useSelector((state: RootState) => state.upload);
   const { alert } = useSelector((state: RootState) => state.common);
 
   const [
@@ -50,66 +48,6 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     deleteTemp,
     deleteTempVariables
   >(DELETE_TEMP, { onCompleted: onDeleteCompleted });
-
-  const handleLogging = (el: getUserTemp_getUserTemp_temps) => {
-    dispatch(setPickTempId(el.id));
-    dispatch(
-      setAlert({
-        portal: { modal: true },
-        alert: {
-          title: '임시저장 불러오기',
-          content: `${el.title}를 불러옵니다.`,
-        },
-      })
-    );
-  };
-
-  const onCancel = () => {
-    dispatch(setPickTempId(null));
-    dispatch(setIsTemp(false));
-    dispatch(
-      setAlert({
-        portal: { modal: false },
-        alert: {
-          title: '',
-          content: ``,
-        },
-      })
-    );
-  };
-
-  const onConfirm = () => {
-    dispatch(
-      setAlert({
-        portal: { modal: false },
-        alert: {
-          title: '',
-          content: ``,
-        },
-      })
-    );
-
-    if (alert.title === '임시저장 게시글 삭제하기') {
-      return confirmDelete(pickTempId);
-    }
-
-    if (alert.title === '임시저장 불러오기') {
-      return confirmLogging();
-    }
-  };
-
-  const handleDelete = (el: getUserTemp_getUserTemp_temps) => {
-    dispatch(setPickTempId(el.id));
-    dispatch(
-      setAlert({
-        portal: { modal: true },
-        alert: {
-          title: '임시저장 게시글 삭제하기',
-          content: `${el.title}를 삭제하시겠습니까?`,
-        },
-      })
-    );
-  };
 
   const confirmDelete = (postId: number) => {
     dispatch(setPickTempId(null));
@@ -143,11 +81,65 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     dispatch(setIsTemp(true));
   };
 
-  const handleBackToNewPost = () => {
+  const confirmBackToNewPost = () => {
     //아래 실행순서가 중요하다 -> 개선필요
     dispatch(setPickTempId(null));
     dispatch(initializeUploadState());
     dispatch(setIsTemp(true));
+  };
+
+  const handleBackToNewPost = () => {
+    dispatch(
+      setAlert({
+        title: '새로운 게시글 작성',
+        content: `새로운 게시글을 작성하시겠습니까? \n 저장하지 않으신 글은 반영되지 않습니다.`,
+      })
+    );
+  };
+
+  const handleLogging = (el: getUserTemp_getUserTemp_temps) => {
+    dispatch(setPickTempId(el.id));
+    dispatch(
+      setAlert({
+        title: '임시저장 불러오기',
+        content: `${el.title}를 불러옵니다.`,
+      })
+    );
+  };
+
+  const handleDelete = (el: getUserTemp_getUserTemp_temps) => {
+    dispatch(setPickTempId(el.id));
+    dispatch(
+      setAlert({
+        title: '임시저장 게시글 삭제하기',
+        content: `${el.title}를 삭제하시겠습니까?`,
+      })
+    );
+  };
+
+  const onCancel = () => {
+    dispatch(umountAlert());
+
+    if (alert.title !== '새로운 게시글 작성') {
+      // dispatch(setPickTempId(null));
+      dispatch(setIsTemp(false));
+    }
+  };
+
+  const onConfirm = () => {
+    dispatch(umountAlert());
+
+    if (alert.title === '새로운 게시글 작성') {
+      return confirmBackToNewPost();
+    }
+
+    if (alert.title === '임시저장 게시글 삭제하기') {
+      return confirmDelete(pickTempId);
+    }
+
+    if (alert.title === '임시저장 불러오기') {
+      return confirmLogging();
+    }
   };
 
   useEffect(() => {
@@ -172,7 +164,9 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
                 className={el.id === pickTempId ? UtilStyle.isActiveColor : ''}
               >
                 <div>
-                  <span onClick={() => handleLogging(el)}>
+                  <span
+                    onClick={() => el.id !== pickTempId && handleLogging(el)}
+                  >
                     Story Of {el.title}
                   </span>{' '}
                   {el.id !== pickTempId && (
@@ -183,7 +177,10 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
             ))}
         </ul>
         {pickTempId && (
-          <button onClick={() => handleBackToNewPost()}>
+          <button
+            className={TempStyle.backButton}
+            onClick={() => handleBackToNewPost()}
+          >
             Back To Wirte New Post
           </button>
         )}

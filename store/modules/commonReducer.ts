@@ -27,9 +27,14 @@ const uploadSlice = createSlice({
   name: 'upload',
   initialState,
   reducers: {
-    setAlert(state, action: PayloadAction<IAlertState>) {
-      state.portal.modal = action.payload.portal.modal;
-      state.alert = action.payload.alert;
+    setAlert(state, action: PayloadAction<{ title: string; content: string }>) {
+      state.portal.modal = true;
+      state.alert.title = action.payload.title;
+      state.alert.content = action.payload.content;
+    },
+    umountAlert(state) {
+      state.portal.modal = false;
+      state.alert = { title: '', content: '' };
     },
     setSpinner(state, action: PayloadAction<boolean>) {
       state.portal.spinner = action.payload;
@@ -38,5 +43,5 @@ const uploadSlice = createSlice({
 });
 
 const { actions, reducer } = uploadSlice;
-export const { setAlert, setSpinner } = actions;
+export const { setAlert, setSpinner, umountAlert } = actions;
 export default reducer;
