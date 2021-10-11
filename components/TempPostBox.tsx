@@ -54,7 +54,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     dispatch(setPickTempId(el.id));
     dispatch(
       setAlert({
-        portal: { mounted: true },
+        portal: { modal: true },
         alert: {
           title: '임시저장 불러오기',
           content: `${el.title}를 불러옵니다.`,
@@ -68,7 +68,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     dispatch(setIsTemp(false));
     dispatch(
       setAlert({
-        portal: { mounted: false },
+        portal: { modal: false },
         alert: {
           title: '',
           content: ``,
@@ -80,7 +80,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const onConfirm = () => {
     dispatch(
       setAlert({
-        portal: { mounted: false },
+        portal: { modal: false },
         alert: {
           title: '',
           content: ``,
@@ -101,7 +101,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     dispatch(setPickTempId(el.id));
     dispatch(
       setAlert({
-        portal: { mounted: true },
+        portal: { modal: true },
         alert: {
           title: '임시저장 게시글 삭제하기',
           content: `${el.title}를 삭제하시겠습니까?`,

@@ -5,7 +5,9 @@ import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/modules';
+import { setSpinner } from 'store/modules/commonReducer';
 import { setIsTemp, updateTitleImageArr } from '../store/modules/uploadReducer';
+import Spinner from './Spinner';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
@@ -71,6 +73,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
       //여기서 redux에 이미지 배열에 넣는것으로 하자
       dispatch(updateTitleImageArr(res?.url));
       //그리고 스피너 끝내자
+      dispatch(setSpinner(false));
       return res?.url;
     } catch (error) {
       console.log(error);
@@ -99,6 +102,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         onChange={handleChange}
         hooks={{
           addImageBlobHook: async (blob, callback) => {
+            dispatch(setSpinner(true));
             // 여기서 interceptor 작동시켜서 스피너 돌게 하자
             const upload = await uploadImage(blob);
             callback(upload, 'alt text');
@@ -113,6 +117,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
           // ['code', 'codeblock'],
         ]}
       />
+      <Spinner />
     </div>
   );
 };

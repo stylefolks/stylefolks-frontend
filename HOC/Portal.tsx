@@ -1,20 +1,23 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../store/modules';
 
-const Portal = ({ children }) => {
+interface IPropsPortal {
+  children: React.ReactNode;
+}
+
+const Portal: React.FC<IPropsPortal> = ({ children }) => {
   const { portal } = useSelector((state: RootState) => state.common);
-  const { mounted } = portal;
-  const dispatch = useDispatch();
+  const { modal } = portal;
 
   useEffect(() => {
-    mounted && (document.body.style.overflow = 'hidden');
-    !mounted && (document.body.style.overflow = 'unset');
-  }, [mounted]);
+    modal && (document.body.style.overflow = 'hidden');
+    !modal && (document.body.style.overflow = 'unset');
+  }, [modal]);
 
-  return mounted
-    ? createPortal(children, document.querySelector('#portal'))
+  return modal
+    ? createPortal(children, document.querySelector('#modal'))
     : null;
 };
 
