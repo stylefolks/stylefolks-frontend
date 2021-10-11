@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IAlertState {
   portal: {
-    mounted: boolean;
+    modal?: boolean;
+    spinner?: boolean;
   };
   alert: {
     content: string;
@@ -13,7 +14,8 @@ export interface IAlertState {
 
 const initialState = {
   portal: {
-    mounted: false,
+    modal: false,
+    spinner: false,
   },
   alert: {
     content: '',
@@ -25,13 +27,21 @@ const uploadSlice = createSlice({
   name: 'upload',
   initialState,
   reducers: {
-    setAlert(state, action: PayloadAction<IAlertState>) {
-      state.portal.mounted = action.payload.portal.mounted;
-      state.alert = action.payload.alert;
+    setAlert(state, action: PayloadAction<{ title: string; content: string }>) {
+      state.portal.modal = true;
+      state.alert.title = action.payload.title;
+      state.alert.content = action.payload.content;
+    },
+    umountAlert(state) {
+      state.portal.modal = false;
+      state.alert = { title: '', content: '' };
+    },
+    setSpinner(state, action: PayloadAction<boolean>) {
+      state.portal.spinner = action.payload;
     },
   },
 });
 
 const { actions, reducer } = uploadSlice;
-export const { setAlert } = actions;
+export const { setAlert, setSpinner, umountAlert } = actions;
 export default reducer;

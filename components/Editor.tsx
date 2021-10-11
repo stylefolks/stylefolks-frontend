@@ -2,8 +2,12 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor as EditorType, EditorProps } from '@toast-ui/react-editor';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
-import { useDispatch } from 'react-redux';
-import { updateTitleImageArr } from '../store/modules/uploadReducer';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'store/modules';
+import { setSpinner } from 'store/modules/commonReducer';
+import { setIsTemp, updateTitleImageArr } from '../store/modules/uploadReducer';
+import Spinner from './Spinner';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
@@ -37,6 +41,9 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     useCommandShortcut,
   } = props;
   const dispatch = useDispatch();
+  const { post, isTemp, pickTempId } = useSelector(
+    (state: RootState) => state.upload
+  );
   const editorRef = React.useRef<EditorType>();
   const handleChange = React.useCallback(() => {
     if (!editorRef.current) {
@@ -66,6 +73,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
       //여기서 redux에 이미지 배열에 넣는것으로 하자
       dispatch(updateTitleImageArr(res?.url));
       //그리고 스피너 끝내자
+      dispatch(setSpinner(false));
       return res?.url;
     } catch (error) {
       console.log(error);
@@ -73,11 +81,20 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     }
   };
 
+  useEffect(() => {
+    if (isTemp) {
+      console.log('초기화일때 일을안한 ㅏ..??');
+      dispatch(setIsTemp(false));
+      editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
+    }
+  }, [isTemp, post.contents]);
+
   return (
     <div>
       <EditorWithForwardedRef
         {...props}
-        initialValue={initialValue || ''}
+        initialValue={initialValue}
+        placeholder="Write your own story!"
         previewStyle={previewStyle || 'vertical'}
         height={height || '90vh'}
         initialEditType={initialEditType || 'wysiwyg'}
@@ -86,6 +103,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         onChange={handleChange}
         hooks={{
           addImageBlobHook: async (blob, callback) => {
+            dispatch(setSpinner(true));
             // 여기서 interceptor 작동시켜서 스피너 돌게 하자
             const upload = await uploadImage(blob);
             callback(upload, 'alt text');
@@ -100,6 +118,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
           // ['code', 'codeblock'],
         ]}
       />
+      <Spinner />
     </div>
   );
 };

@@ -97,7 +97,10 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   const { data: user } = useMe();
   const { post } = useSelector((state: RootState) => state.upload);
 
-  const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY);
+  const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY, {
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'network-only',
+  });
 
   const firstCategoryArray = data?.getCategory.categories.filter((el) =>
     FIRST_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(
@@ -114,6 +117,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
         upadatePost({
           ...post,
           firstCategoryName: firstCategoryArray[0].name,
+          secondCategoryName: firstCategoryArray[0]?.secondCategory[0]?.name,
           firstCategoryId: firstCategoryArray[0]?.id,
           secondCategoryId: firstCategoryArray[0]?.secondCategory[0]?.id,
         })
@@ -126,6 +130,9 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
       dispatch(
         upadatePost({
           ...post,
+          secondCategoryName: secondCategoryArray[0]?.secondCategory.filter(
+            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
+          )[0]?.name,
           secondCategoryId: secondCategoryArray[0]?.secondCategory.filter(
             (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
           )[0]?.id,
@@ -164,11 +171,18 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
             <>
               <span> in </span>
               <select
+                value={post.secondCategoryName}
                 onChange={(el) => {
                   const selectedIndex = el.target.options.selectedIndex;
                   const secondCategoryId =
                     +el.target.options[selectedIndex].getAttribute('data-key');
-                  dispatch(upadatePost({ ...post, secondCategoryId }));
+                  dispatch(
+                    upadatePost({
+                      ...post,
+                      secondCategoryId,
+                      secondCategoryName: el.target.value,
+                    })
+                  );
                 }}
               >
                 {secondCategoryArray[0]?.secondCategory
@@ -176,11 +190,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                     SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
                   )
                   .map((el) => (
-                    <option
-                      key={el.id}
-                      data-key={el.id}
-                      selected={el.id === post.secondCategoryId}
-                    >
+                    <option key={el.id} data-key={el.id}>
                       {el.name}
                     </option>
                   ))}
@@ -190,6 +200,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
 
           <span> at </span>
           <select
+            value={post.firstCategoryName}
             onChange={(el) => {
               const selectedIndex = el.target.options.selectedIndex;
               const firstCategoryId =
@@ -204,11 +215,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
             }}
           >
             {firstCategoryArray.map((el) => (
-              <option
-                key={el.id}
-                data-key={el.id}
-                selected={el.id === post.firstCategoryId}
-              >
+              <option key={el.id} data-key={el.id}>
                 {el?.name}
               </option>
             ))}

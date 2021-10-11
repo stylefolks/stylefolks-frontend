@@ -4,9 +4,10 @@ export interface IPostState {
   title: string;
   contents: string;
   titleImg: string;
-  firstCategoryName: string;
-  firstCategoryId: number | null;
-  secondCategoryId: number | null;
+  firstCategoryName?: string;
+  secondCategoryName?: string;
+  firstCategoryId?: number | null;
+  secondCategoryId?: number | null;
   // secondCategory: SecondCategoryName;
 }
 
@@ -23,6 +24,7 @@ export const uploadInitialState: IUploadState = {
     contents: '',
     titleImg: '',
     firstCategoryName: '',
+    secondCategoryName: '',
     firstCategoryId: null,
     secondCategoryId: null,
   },
