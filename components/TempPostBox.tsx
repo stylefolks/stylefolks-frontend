@@ -178,9 +178,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
                   >
                     Story Of {el.title}
                   </span>{' '}
-                  {el.id !== pickTempId && (
-                    <button onClick={() => handleDelete(el)}>x</button>
-                  )}
+                  <button onClick={() => handleDelete(el)}>x</button>
                 </div>
               </li>
             ))}
