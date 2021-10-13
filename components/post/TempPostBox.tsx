@@ -1,6 +1,8 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
+import Alert from 'components/common/Alert';
 import { DELETE_TEMP } from 'graphql/mutations';
 import { GET_USER_TEMP } from 'graphql/queries';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTemp, deleteTempVariables } from 'src/__generated__/deleteTemp';
@@ -8,9 +10,11 @@ import {
   getUserTemp,
   getUserTempVariables,
   getUserTemp_getUserTemp_temps,
-} from '../src/__generated__/getUserTemp';
-import { RootState } from '../store/modules';
-import { setAlert, umountAlert } from '../store/modules/commonReducer';
+} from 'src/__generated__/getUserTemp';
+import { RootState } from 'store/modules';
+import { setAlert, umountAlert } from 'store/modules/commonReducer';
+import TempStyle from 'styles/TempPost.module.scss';
+import UtilStyle from 'styles/Util.module.scss';
 import {
   initializeUploadState,
   setIsTemp,
@@ -18,16 +22,14 @@ import {
   setPrevTempId,
   setTitleImageArr,
   upadatePost,
-} from '../store/modules/uploadReducer';
-import TempStyle from '../styles/TempPost.module.scss';
-import UtilStyle from '../styles/Util.module.scss';
-import Alert from './Alert';
+} from '../../store/modules/uploadReducer';
 interface IProps {
   userId: number;
 }
 
 const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { pickTempId, prevTempId } = useSelector(
     (state: RootState) => state.upload
   );
@@ -64,7 +66,6 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const confirmLogging = () => {
-    console.log('불러올때 pickTempId', pickTempId);
     dispatch(setPrevTempId(pickTempId));
     const PickTemp = userTempData.getUserTemp.temps.filter(
       (el) => el.id === pickTempId
@@ -126,12 +127,22 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
   const onCancel = () => {
     dispatch(umountAlert());
-    console.log('취소하는 경우 ..', pickTempId, prevTempId);
     dispatch(setPickTempId(prevTempId));
+
+    if (alert.title === '임시 게시물' || alert.title === '새로운 게시물') {
+      router.push('/');
+      return;
+    }
+
+    if (alert.title === '임시저장 불러오기') {
+      dispatch(umountAlert());
+      return;
+    }
 
     if (alert.title !== '새로운 게시글 작성') {
       // dispatch(setPickTempId(null));
       dispatch(setIsTemp(false));
+      return;
     }
   };
 
@@ -148,6 +159,11 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
     if (alert.title === '임시저장 불러오기') {
       return confirmLogging();
+    }
+
+    if (alert.title === '임시 게시물' || alert.title === '새로운 게시물') {
+      router.push('/');
+      return;
     }
   };
 

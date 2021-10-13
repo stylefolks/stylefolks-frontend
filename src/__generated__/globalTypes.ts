@@ -76,6 +76,15 @@ export interface ModifyMyTemptInput {
   postId: number;
 }
 
+export interface UploadTempInput {
+  title: string;
+  contents: string;
+  titleImg?: string | null;
+  firstCategoryId: number;
+  secondCategoryId?: number | null;
+  tempId: number;
+}
+
 export interface VerifyEmailInput {
   code: string;
 }

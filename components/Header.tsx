@@ -7,7 +7,7 @@ import { meQuery } from '../src/__generated__/meQuery';
 import GNBStyle from '../styles/GNB.module.scss';
 import ProfileStyle from '../styles/Profile.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
-import BurgerButton from './BurgerButton';
+import BurgerButton from './common/BurgerButton';
 import Nav from './Nav';
 import Profile from './Profile';
 

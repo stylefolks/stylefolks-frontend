@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import EditorViewer from '../../components/EditorViewer';
+import EditorViewer from '../../components/post/EditorViewer';
 import {
   getEachPost,
   getEachPostVariables,

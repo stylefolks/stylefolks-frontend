@@ -6,8 +6,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/modules';
 import { setSpinner } from 'store/modules/commonReducer';
-import { setIsTemp, updateTitleImageArr } from '../store/modules/uploadReducer';
-import Spinner from './Spinner';
+import {
+  setIsTemp,
+  updateTitleImageArr,
+} from '../../store/modules/uploadReducer';
+import Spinner from '../Spinner';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;

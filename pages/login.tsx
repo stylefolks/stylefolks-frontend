@@ -1,8 +1,8 @@
 import { gql, useMutation } from '@apollo/client';
+import { Button } from 'components/common/Button';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { Button } from '../components/Button';
 import { FormError } from '../components/FormError';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import { isLoggedInVar } from '../lib/apolloClient';

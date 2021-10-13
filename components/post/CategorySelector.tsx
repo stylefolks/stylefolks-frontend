@@ -1,16 +1,16 @@
 import { gql, useQuery } from '@apollo/client';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMe } from '../hooks/useMe';
-import { getCategory } from '../src/__generated__/getCategory';
+import { useMe } from '../../hooks/useMe';
+import { getCategory } from '../../src/__generated__/getCategory';
 import {
   FirstCategoryName,
   SecondCategoryName,
   UserRole,
-} from '../src/__generated__/globalTypes';
-import { RootState } from '../store/modules';
-import { upadatePost } from '../store/modules/uploadReducer';
-import CategoryStyle from '../styles/Category.module.scss';
+} from '../../src/__generated__/globalTypes';
+import { RootState } from '../../store/modules';
+import { upadatePost } from '../../store/modules/uploadReducer';
+import CategoryStyle from '../../styles/Category.module.scss';
 
 const GET_CATEGORY = gql`
   query getCategory {
