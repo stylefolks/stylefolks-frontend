@@ -15,6 +15,7 @@ import {
   initializeUploadState,
   setIsTemp,
   setPickTempId,
+  setPrevTempId,
   setTitleImageArr,
   upadatePost,
 } from '../store/modules/uploadReducer';
@@ -27,7 +28,9 @@ interface IProps {
 
 const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const dispatch = useDispatch();
-  const { pickTempId } = useSelector((state: RootState) => state.upload);
+  const { pickTempId, prevTempId } = useSelector(
+    (state: RootState) => state.upload
+  );
   const { alert } = useSelector((state: RootState) => state.common);
 
   const [
@@ -52,6 +55,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const confirmDelete = (postId: number) => {
     dispatch(setPickTempId(null));
 
+    prevTempId ? dispatch(setPrevTempId(null)) : '';
     deleteTempMutation({
       variables: {
         postId,
@@ -60,6 +64,8 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const confirmLogging = () => {
+    console.log('불러올때 pickTempId', pickTempId);
+    dispatch(setPrevTempId(pickTempId));
     const PickTemp = userTempData.getUserTemp.temps.filter(
       (el) => el.id === pickTempId
     );
@@ -99,6 +105,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
   const handleLogging = (el: getUserTemp_getUserTemp_temps) => {
     dispatch(setPickTempId(el.id));
+
     dispatch(
       setAlert({
         title: '임시저장 불러오기',
@@ -119,6 +126,8 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
   const onCancel = () => {
     dispatch(umountAlert());
+    console.log('취소하는 경우 ..', pickTempId, prevTempId);
+    dispatch(setPickTempId(prevTempId));
 
     if (alert.title !== '새로운 게시글 작성') {
       // dispatch(setPickTempId(null));
