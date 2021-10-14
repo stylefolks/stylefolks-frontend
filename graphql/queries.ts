@@ -1,4 +1,32 @@
 import { gql } from '@apollo/client';
+
+export const GET_EACH_POST_QUERY = gql`
+  query getEachPost($postId: Int!) {
+    getEachPost(postId: $postId) {
+      ok
+      error
+      post {
+        title
+        titleImg
+        contents
+        firstCategory {
+          name
+          id
+        }
+        secondCategory {
+          name
+          id
+        }
+        user {
+          nickname
+          id
+          profileImg
+        }
+      }
+    }
+  }
+`;
+
 export const ME_QUERY = gql`
   query meQuery {
     me {

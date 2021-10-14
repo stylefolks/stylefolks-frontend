@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/modules';
 import { setSpinner } from 'store/modules/commonReducer';
 import {
+  setIsModify,
   setIsTemp,
   updateTitleImageArr,
 } from '../../store/modules/uploadReducer';
@@ -44,7 +45,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     useCommandShortcut,
   } = props;
   const dispatch = useDispatch();
-  const { post, isTemp, pickTempId } = useSelector(
+  const { post, isTemp, pickTempId, isModify } = useSelector(
     (state: RootState) => state.upload
   );
   const editorRef = React.useRef<EditorType>();
@@ -86,11 +87,17 @@ const WysiwygEditor: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (isTemp) {
-      console.log('초기화일때 일을안한 ㅏ..??');
       dispatch(setIsTemp(false));
       editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
     }
-  }, [isTemp, post.contents]);
+  }, [isTemp]);
+
+  useEffect(() => {
+    if (isTemp) {
+      dispatch(setIsModify(false));
+      editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
+    }
+  }, [isModify]);
 
   return (
     <div>

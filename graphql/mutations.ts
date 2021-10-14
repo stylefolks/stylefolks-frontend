@@ -35,3 +35,39 @@ export const DELETE_COMMENT = gql`
     }
   }
 `;
+
+export const CREATE_POST_MUTATION = gql`
+  mutation createPost($input: CreatePostInput!) {
+    createPost(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
+export const CREATE_TEMP_MUTATION = gql`
+  mutation createTemp($input: CreateTempInput!) {
+    createTemp(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
+export const MODIFY_TEMP_MUTATION = gql`
+  mutation modifyTemp($input: ModifyMyTemptInput!) {
+    modifyTemp(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
+export const UPLOAD_TEMP_MUTATION = gql`
+  mutation uploadTemp($input: UploadTempInput!) {
+    uploadTemp(input: $input) {
+      ok
+      error
+    }
+  }
+`;

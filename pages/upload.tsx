@@ -1,6 +1,12 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Button } from 'components/common/Button';
+import {
+  CREATE_POST_MUTATION,
+  CREATE_TEMP_MUTATION,
+  MODIFY_TEMP_MUTATION,
+  UPLOAD_TEMP_MUTATION,
+} from 'graphql/mutations';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
@@ -27,42 +33,6 @@ import {
   initializeUploadState,
   upadatePost,
 } from '../store/modules/uploadReducer';
-
-const CREATE_POST_MUTATION = gql`
-  mutation createPost($input: CreatePostInput!) {
-    createPost(input: $input) {
-      ok
-      error
-    }
-  }
-`;
-
-const CREATE_TEMP_MUTATION = gql`
-  mutation createTemp($input: CreateTempInput!) {
-    createTemp(input: $input) {
-      ok
-      error
-    }
-  }
-`;
-
-const MODIFY_TEMP_MUTATION = gql`
-  mutation modifyTemp($input: ModifyMyTemptInput!) {
-    modifyTemp(input: $input) {
-      ok
-      error
-    }
-  }
-`;
-
-const UPLOAD_TEMP_MUTATION = gql`
-  mutation uploadTemp($input: UploadTempInput!) {
-    uploadTemp(input: $input) {
-      ok
-      error
-    }
-  }
-`;
 
 const Upload = () => {
   const dispatch = useDispatch();

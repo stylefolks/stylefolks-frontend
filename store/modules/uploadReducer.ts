@@ -15,6 +15,7 @@ interface IUploadState {
   post: IPostState;
   titleImageArr: string[];
   isTemp: boolean;
+  isModify: boolean;
   pickTempId?: number | null;
   prevTempId?: number | null;
 }
@@ -31,6 +32,7 @@ export const uploadInitialState: IUploadState = {
   },
   titleImageArr: [],
   isTemp: false,
+  isModify: false,
   pickTempId: null,
   prevTempId: null,
 };
@@ -50,6 +52,9 @@ const uploadSlice = createSlice({
     },
     setIsTemp(state, action: PayloadAction<boolean>) {
       state.isTemp = action.payload;
+    },
+    setIsModify(state, action: PayloadAction<boolean>) {
+      state.isModify = action.payload;
     },
     setPickTempId(state, action: PayloadAction<number>) {
       state.pickTempId = action.payload;
@@ -74,6 +79,7 @@ export const {
   updateTitleImageArr,
   initializeUploadState,
   setIsTemp,
+  setIsModify,
   setPickTempId,
   setTitleImageArr,
   setPrevTempId,
