@@ -1,3 +1,4 @@
+import UseWindowDimension from 'hooks/useWindowDimension';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { authTokenVar, isLoggedInVar } from '../lib/apolloClient';
@@ -21,6 +22,7 @@ interface IModalState {
 const Profile: React.FC<IProps> = ({ profileImg, id, nickname }) => {
   const router = useRouter();
   const ref = React.createRef<HTMLDivElement>();
+  const { width, height } = UseWindowDimension();
   const [modalState, setModalState] = useState<IModalState>({
     isVisible: false,
     top: 0,
@@ -48,10 +50,7 @@ const Profile: React.FC<IProps> = ({ profileImg, id, nickname }) => {
               ref.current.getBoundingClientRect().right -
               ref.current.getBoundingClientRect().left -
               ref.current.getBoundingClientRect().width,
-            direction:
-              (window.innerWidth * 4) / 100 >= 40
-                ? (window.innerWidth * 4) / 100 / 2
-                : 40 / 2,
+            direction: (width * 4) / 100 >= 40 ? (width * 4) / 100 / 2 : 40 / 2,
           });
         }}
       >

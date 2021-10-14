@@ -1,4 +1,5 @@
 import { useLazyQuery, useReactiveVar } from '@apollo/client';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -11,7 +12,10 @@ import ProfileStyle from '../styles/Profile.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
 import BurgerButton from './common/BurgerButton';
 import Nav from './Nav';
-import Profile from './Profile';
+
+const DynamicProfile = dynamic(() => import('./Profile'), {
+  ssr: false,
+});
 
 //https://stackoverflow.com/questions/66499705/how-would-i-update-the-authorization-header-from-a-cookie-on-a-graphql-apollo-mu
 export const Header = () => {
@@ -58,17 +62,17 @@ export const Header = () => {
 
   return (
     <>
-      <header className={GNBStyle.headerContainer}>
+      <div className={GNBStyle.headerContainer}>
         <BurgerButton onClick={onClick} />
-        <div
+        <header
           onClick={() => router.push('/')}
           className={`${UtilStyle.flexColumnCenter} ${UtilStyle.clickable}`}
         >
           <h1>The Folks</h1>
           <h4>The Advanced Fashion Community</h4>
-        </div>
+        </header>
         {isLoggedIn ? (
-          <Profile
+          <DynamicProfile
             profileImg={data?.me.profileImg}
             id={data?.me.id}
             nickname={data?.me.nickname}
@@ -81,7 +85,7 @@ export const Header = () => {
             Login
           </button>
         )}
-      </header>
+      </div>
       <Nav onClick={onClick} isVisible={isVisible} />
     </>
   );

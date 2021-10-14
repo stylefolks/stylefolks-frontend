@@ -1,15 +1,17 @@
+import dynamic from 'next/dynamic';
 import UtilStyle from '../styles/Util.module.scss';
 import Footer from './Footer';
-import Header from './Header';
 
 interface ILayout {
   children: React.ReactNode;
 }
 
+const DynamicHeader = dynamic(() => import('./Header'), { ssr: false });
+
 const Layout: React.FC<ILayout> = ({ children }) => {
   return (
     <>
-      <Header />
+      <DynamicHeader />
       <section className={`${UtilStyle.flexColumnCenter} .section-main`}>
         {children}
       </section>
