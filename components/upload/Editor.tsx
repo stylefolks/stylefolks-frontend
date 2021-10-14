@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/modules';
 import { setSpinner } from 'store/modules/commonReducer';
 import {
-  setIsModify,
   setIsTemp,
   updateTitleImageArr,
 } from '../../store/modules/uploadReducer';
@@ -92,18 +91,19 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     }
   }, [isTemp]);
 
-  useEffect(() => {
-    if (isTemp) {
-      dispatch(setIsModify(false));
-      editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
-    }
-  }, [isModify]);
+  // useEffect(() => {
+  //   if (isModify) {
+  //     console.log('@@@@@@@@@@@@ modify!!!!!');
+  //     editorRef.current?.getInstance().setMarkdown(post.contents); // 수정인 경우 넘어와서 값 잡아주기
+  //     dispatch(setIsModify(false));
+  //   }
+  // }, [isModify, post.contents]);
 
   return (
     <div>
       <EditorWithForwardedRef
         {...props}
-        initialValue={initialValue}
+        initialValue={post.contents}
         placeholder="Write your own story!"
         previewStyle={previewStyle || 'vertical'}
         height={height || '90vh'}

@@ -83,6 +83,15 @@ export interface ModifyCommentInput {
   commentId: number;
 }
 
+export interface ModifyMyPostInput {
+  title?: string | null;
+  contents?: string | null;
+  titleImg?: string | null;
+  firstCategoryId?: number | null;
+  secondCategoryId?: number | null;
+  postId: number;
+}
+
 export interface ModifyMyTemptInput {
   title?: string | null;
   contents?: string | null;

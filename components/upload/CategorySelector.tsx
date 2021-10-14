@@ -95,7 +95,7 @@ interface IProps {
 const CategorySelector: React.FC<IProps> = ({ role }) => {
   const dispatch = useDispatch();
   const { data: user } = useMe();
-  const { post } = useSelector((state: RootState) => state.upload);
+  const { post, isModify } = useSelector((state: RootState) => state.upload);
 
   const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY, {
     fetchPolicy: 'network-only',
@@ -112,7 +112,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   );
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !isModify) {
       dispatch(
         upadatePost({
           ...post,
@@ -126,7 +126,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   }, [loading]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !isModify) {
       dispatch(
         upadatePost({
           ...post,
@@ -139,7 +139,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
         })
       );
     }
-  }, [post.firstCategoryId]);
+  }, [post.firstCategoryId, isModify]);
 
   if (loading) {
     return <div>Loading ...</div>;

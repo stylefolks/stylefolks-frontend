@@ -4,11 +4,14 @@ import { Button } from 'components/common/Button';
 import {
   CREATE_POST_MUTATION,
   CREATE_TEMP_MUTATION,
+  MODIFY_POST,
   MODIFY_TEMP_MUTATION,
   UPLOAD_TEMP_MUTATION,
 } from 'graphql/mutations';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import { setAlert } from 'store/modules/commonReducer';
 import CategorySelector from '../components/upload/CategorySelector';
@@ -36,8 +39,11 @@ import {
 
 const Upload = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { data, loading, error } = useQuery(ME_QUERY);
-  const { post, pickTempId } = useSelector((state: RootState) => state.upload);
+  const { post, pickTempId, isModify, modifyPostId } = useSelector(
+    (state: RootState) => state.upload
+  );
   const { title, contents, titleImg, firstCategoryId, secondCategoryId } = post;
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
@@ -105,6 +111,18 @@ const Upload = () => {
       );
     }
   };
+  const modifyPostOnCompleted = (data: modifyPost) => {
+    if (data.modifyPost.ok) {
+      router.push(`/post/${modifyPostId}`);
+    }
+  };
+
+  const [
+    modifyPostMutation,
+    { loading: modifyPostLoading, error: modifyPostError },
+  ] = useMutation<modifyPost, modifyPostVariables>(MODIFY_POST, {
+    onCompleted: modifyPostOnCompleted,
+  });
 
   const [
     createPostMutation,
@@ -192,6 +210,21 @@ const Upload = () => {
     });
   };
 
+  const handleModifyDone = () => {
+    modifyPostMutation({
+      variables: {
+        input: {
+          title,
+          contents,
+          titleImg,
+          firstCategoryId,
+          secondCategoryId,
+          postId: modifyPostId,
+        },
+      },
+    });
+  };
+
   useEffect(() => {
     return () => {
       dispatch(initializeUploadState());
@@ -216,25 +249,37 @@ const Upload = () => {
 
         <TitleImagePicker />
         <div className="buttonWrapper">
-          <Button
-            canClick={false}
-            actionText={
-              pickTempId ? 'Modifications completed' : 'Temporarily Save'
-            }
-            loading={false}
-            onClick={pickTempId ? handleTempModify : handleTempSave}
-          />
-          <Button
-            canClick={false}
-            actionText={
-              pickTempId ? 'Upload temp post to new post' : 'Upload new post'
-            }
-            loading={false}
-            onClick={pickTempId ? handleTempUpload : handleUpload}
-          />
+          {modifyPostId ? (
+            <Button
+              canClick={!modifyPostError && !modifyPostLoading}
+              loading={modifyPostLoading}
+              actionText="게시글 수정 완료"
+              onClick={handleModifyDone}
+            />
+          ) : (
+            <>
+              <Button
+                canClick={false}
+                actionText={
+                  pickTempId ? 'Modifications completed' : 'Temporarily Save'
+                }
+                loading={false}
+                onClick={pickTempId ? handleTempModify : handleTempSave}
+              />
+              <Button
+                canClick={false}
+                actionText={
+                  pickTempId
+                    ? 'Upload temp post to new post'
+                    : 'Upload new post'
+                }
+                loading={false}
+                onClick={pickTempId ? handleTempUpload : handleUpload}
+              />
+            </>
+          )}
         </div>
-
-        <TempPostBox userId={data?.me.id} />
+        {modifyPostId ? '' : <TempPostBox userId={data?.me.id} />}
       </div>
 
       <style jsx>{`

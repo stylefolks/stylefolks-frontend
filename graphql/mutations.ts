@@ -1,5 +1,14 @@
 import { gql } from '@apollo/client';
 
+export const MODIFY_POST = gql`
+  mutation modifyPost($input: ModifyMyPostInput!) {
+    modifyPost(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
 export const DELETE_TEMP = gql`
   mutation deleteTemp($postId: Int!) {
     deleteTemp(postId: $postId) {

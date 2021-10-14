@@ -22,6 +22,10 @@ export const GET_EACH_POST_QUERY = gql`
           id
           profileImg
         }
+        image {
+          link
+          id
+        }
       }
     }
   }
