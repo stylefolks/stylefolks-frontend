@@ -28,12 +28,6 @@ const EditorViewerWithProps: React.FC<IEditorViewerProps> = (props) => {
   const { content } = props;
   const viewerRef = React.useRef<ViewerType>();
 
-  // new Viewer({
-  //   el: document.getElementById('viewer'),
-  //   content,
-  // });
-  console.log('content in viewer', content);
-
   return (
     <>
       <EditorViewerWithForwardedRef

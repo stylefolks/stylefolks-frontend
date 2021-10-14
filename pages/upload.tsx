@@ -4,6 +4,7 @@ import { Button } from 'components/common/Button';
 import {
   CREATE_POST_MUTATION,
   CREATE_TEMP_MUTATION,
+  DELETE_POST,
   MODIFY_POST,
   MODIFY_TEMP_MUTATION,
   UPLOAD_TEMP_MUTATION,
@@ -11,6 +12,10 @@ import {
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteMyPost,
+  deleteMyPostVariables,
+} from 'src/__generated__/deleteMyPost';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import { setAlert } from 'store/modules/commonReducer';

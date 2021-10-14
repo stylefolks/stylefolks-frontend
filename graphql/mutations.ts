@@ -9,6 +9,15 @@ export const MODIFY_POST = gql`
   }
 `;
 
+export const DELETE_POST = gql`
+  mutation deleteMyPost($postId: Int!) {
+    deleteMyPost(postId: $postId) {
+      ok
+      error
+    }
+  }
+`;
+
 export const DELETE_TEMP = gql`
   mutation deleteTemp($postId: Int!) {
     deleteTemp(postId: $postId) {

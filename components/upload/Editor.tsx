@@ -91,14 +91,6 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     }
   }, [isTemp]);
 
-  // useEffect(() => {
-  //   if (isModify) {
-  //     console.log('@@@@@@@@@@@@ modify!!!!!');
-  //     editorRef.current?.getInstance().setMarkdown(post.contents); // 수정인 경우 넘어와서 값 잡아주기
-  //     dispatch(setIsModify(false));
-  //   }
-  // }, [isModify, post.contents]);
-
   return (
     <div>
       <EditorWithForwardedRef

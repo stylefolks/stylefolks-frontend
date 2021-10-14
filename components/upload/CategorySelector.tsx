@@ -139,7 +139,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
         })
       );
     }
-  }, [post.firstCategoryId, isModify]);
+  }, [post.firstCategoryId]);
 
   if (loading) {
     return <div>Loading ...</div>;

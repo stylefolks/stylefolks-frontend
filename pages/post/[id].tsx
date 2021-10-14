@@ -1,10 +1,15 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { Button } from 'components/common/Button';
 import CommentBox from 'components/common/CommentBox';
+import { DELETE_POST } from 'graphql/mutations';
 import { GET_EACH_POST_QUERY } from 'graphql/queries';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteMyPost,
+  deleteMyPostVariables,
+} from 'src/__generated__/deleteMyPost';
 import { RootState } from 'store/modules';
 import {
   setIsModify,
@@ -35,17 +40,18 @@ export const Post = () => {
   );
 
   const onEdit = () => {
-    console.log('..???', data?.getEachPost?.post?.secondCategory.id);
+    const { firstCategory, secondCategory, title, contents, titleImg } =
+      data?.getEachPost.post;
 
     dispatch(
       upadatePost({
-        title: data?.getEachPost?.post?.title,
-        contents: data?.getEachPost?.post?.contents,
-        titleImg: data?.getEachPost?.post?.titleImg,
-        firstCategoryId: data?.getEachPost?.post?.firstCategory.id,
-        firstCategoryName: data?.getEachPost?.post?.firstCategory.name,
-        secondCategoryId: data?.getEachPost?.post?.secondCategory.id,
-        secondCategoryName: data?.getEachPost?.post?.secondCategory.name,
+        title,
+        contents,
+        titleImg,
+        firstCategoryId: firstCategory.id,
+        firstCategoryName: firstCategory.name,
+        secondCategoryId: secondCategory.id,
+        secondCategoryName: secondCategory.name,
       })
     );
     dispatch(
@@ -54,6 +60,32 @@ export const Post = () => {
     router.push('/upload');
     dispatch(setIsModify(true));
     dispatch(setModifyPostId(postId));
+  };
+
+  const deleteMyPostOnCompleted = (data: deleteMyPost) => {
+    if (data.deleteMyPost.ok) {
+      router.push('/');
+      return;
+    }
+    if (data.deleteMyPost.error) {
+      console.log(data?.deleteMyPost.error);
+      alert(data.deleteMyPost.error);
+    }
+  };
+
+  const [
+    deletePostMutation,
+    { loading: deleteMyPostLoading, error: deleteMyPostError },
+  ] = useMutation<deleteMyPost, deleteMyPostVariables>(DELETE_POST, {
+    onCompleted: deleteMyPostOnCompleted,
+  });
+
+  const onDelete = () => {
+    deletePostMutation({
+      variables: {
+        postId,
+      },
+    });
   };
 
   if (loading) return <div>Loading...</div>;
@@ -80,10 +112,10 @@ export const Post = () => {
                 canClick={true}
               />
               <Button
-                onClick={() => console.log('삭제')}
+                onClick={onDelete}
                 actionText="삭제"
-                loading={false}
-                canClick={true}
+                loading={deleteMyPostLoading}
+                canClick={!deleteMyPostLoading && !deleteMyPostError}
               />
             </>
           )}
