@@ -71,4 +71,23 @@ export const GET_USER_TEMP = gql`
     }
   }
 `;
+
+export const GET_EACH_POST_COMMENTS = gql`
+  query getEachPostComments($postsId: Int!) {
+    getEachPostComments(postsId: $postsId) {
+      comments {
+        comment
+        id
+        user {
+          id
+          nickname
+          profileImg
+        }
+      }
+      ok
+      error
+    }
+  }
+`;
+
 export default {};

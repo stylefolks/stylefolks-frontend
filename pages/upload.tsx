@@ -5,10 +5,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import { setAlert } from 'store/modules/commonReducer';
-import CategorySelector from '../components/post/CategorySelector';
-import WysiwygEditor from '../components/post/Editor';
-import TempPostBox from '../components/post/TempPostBox';
-import TitleImagePicker from '../components/post/TitleImagePicker';
+import CategorySelector from '../components/upload/CategorySelector';
+import WysiwygEditor from '../components/upload/Editor';
+import TempPostBox from '../components/upload/TempPostBox';
+import TitleImagePicker from '../components/upload/TitleImagePicker';
 import { ME_QUERY } from '../graphql/queries';
 import {
   createPost,

@@ -1,6 +1,8 @@
 import { useLazyQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { upadateUser } from 'store/modules/userReducer';
 import { ME_QUERY } from '../graphql/queries';
 import { isLoggedInVar } from '../lib/apolloClient';
 import { meQuery } from '../src/__generated__/meQuery';
@@ -15,6 +17,13 @@ import Profile from './Profile';
 export const Header = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const onCompleted = (data: meQuery) => {
+    const { verified, link, __typename, id, ...input } = data?.me;
+
+    dispatch(upadateUser({ id: id + '', ...input }));
+  };
+
   const [getMeInfo, { data, error, loading }] = useLazyQuery<meQuery>(
     ME_QUERY,
     {
@@ -28,6 +37,7 @@ export const Header = () => {
       },
       nextFetchPolicy: 'network-only',
       fetchPolicy: 'network-only',
+      onCompleted,
     }
   );
   const isLoggedIn = useReactiveVar(isLoggedInVar);

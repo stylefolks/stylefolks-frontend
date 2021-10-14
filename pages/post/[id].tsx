@@ -1,7 +1,8 @@
 import { useQuery } from '@apollo/client';
+import CommentBox from 'components/common/CommentBox';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
-import EditorViewer from '../../components/post/EditorViewer';
+import EditorViewer from '../../components/upload/EditorViewer';
 import {
   getEachPost,
   getEachPostVariables,
@@ -28,6 +29,7 @@ const GET_EACH_POST_QUERY = gql`
         user {
           nickname
           id
+          profileImg
         }
       }
     }
@@ -37,26 +39,15 @@ const GET_EACH_POST_QUERY = gql`
 export const Post = () => {
   const router = useRouter();
   const postId = +router?.query.id;
-
-  // useEffect(() => {
-  //   if (!postId) {
-  //     router.push('/');
-  //   }
-  // }, []);
-
   const { data, error, loading } = useQuery<getEachPost, getEachPostVariables>(
     GET_EACH_POST_QUERY,
     {
+      nextFetchPolicy: 'network-only',
       variables: { postId },
     }
   );
 
   if (loading) return <div>Loading...</div>;
-  // if (!loading) {
-  //   if (!data?.getEachPost.post || !data?.getEachPost.post.contents || error) {
-  //     return <div>Ther is No Story AnyMore..</div>;
-  //   }
-  // }
 
   return (
     <>
@@ -73,17 +64,10 @@ export const Post = () => {
         <div className="divider" />
         <EditorViewer content={data?.getEachPost.post.contents} />
         <div className="divider" />
-        <section>
-          댓글 들어가야함
-          <ul>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-          </ul>
-        </section>
+        <CommentBox
+          comments={data?.getEachPost.post.comments}
+          postId={postId}
+        />
         <style jsx>{`
           .divider {
             border-bottom: 1px solid #efeff0;

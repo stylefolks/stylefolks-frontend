@@ -25,6 +25,7 @@ export interface getEachPost_getEachPost_post_user {
   __typename: "User";
   nickname: string;
   id: number;
+  profileImg: string | null;
 }
 
 export interface getEachPost_getEachPost_post {
