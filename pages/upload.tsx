@@ -1,13 +1,28 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import { Button } from 'components/common/Button';
+import {
+  CREATE_POST_MUTATION,
+  CREATE_TEMP_MUTATION,
+  DELETE_POST,
+  MODIFY_POST,
+  MODIFY_TEMP_MUTATION,
+  UPLOAD_TEMP_MUTATION,
+} from 'graphql/mutations';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '../components/Button';
-import CategorySelector from '../components/CategorySelector';
-import WysiwygEditor from '../components/Editor';
-import TempPostBox from '../components/TempPostBox';
-import TitleImagePicker from '../components/TitleImagePicker';
+import {
+  deleteMyPost,
+  deleteMyPostVariables,
+} from 'src/__generated__/deleteMyPost';
+import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
+import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
+import { setAlert } from 'store/modules/commonReducer';
+import CategorySelector from '../components/upload/CategorySelector';
+import WysiwygEditor from '../components/upload/Editor';
+import TempPostBox from '../components/upload/TempPostBox';
+import TitleImagePicker from '../components/upload/TitleImagePicker';
 import { ME_QUERY } from '../graphql/queries';
 import {
   createPost,
@@ -27,48 +42,22 @@ import {
   upadatePost,
 } from '../store/modules/uploadReducer';
 
-const CREATE_POST_MUTATION = gql`
-  mutation createPost($input: CreatePostInput!) {
-    createPost(input: $input) {
-      ok
-      error
-    }
-  }
-`;
-
-const CREATE_TEMP_MUTATION = gql`
-  mutation createTemp($input: CreateTempInput!) {
-    createTemp(input: $input) {
-      ok
-      error
-    }
-  }
-`;
-
-const MODIFY_TEMP_MUTATION = gql`
-  mutation modifyTemp($input: ModifyMyTemptInput!) {
-    modifyTemp(input: $input) {
-      ok
-      error
-    }
-  }
-`;
-
 const Upload = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { data, loading, error } = useQuery(ME_QUERY);
-
-  const { post, titleImageArr, isTemp, pickTempId } = useSelector(
+  const { post, pickTempId, isModify, modifyPostId } = useSelector(
     (state: RootState) => state.upload
   );
-
-  const router = useRouter();
-
+  const { title, contents, titleImg, firstCategoryId, secondCategoryId } = post;
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
-      dispatch(initializeUploadState());
-      alert('저장완료!');
-      router.push('/'); //나중에는 작성된 글로 돌아가게 만들어 주자
+      dispatch(
+        setAlert({
+          title: '새로운 게시물',
+          content: '새로운 게시물 업로드를 완료하였습니다. ^_^',
+        })
+      );
     }
 
     if (data?.createPost.error) {
@@ -80,9 +69,12 @@ const Upload = () => {
 
   const createTemponCompleted = (data: createTemp) => {
     if (data?.createTemp.ok) {
-      dispatch(initializeUploadState());
-      alert('저장완료!');
-      router.push('/');
+      dispatch(
+        setAlert({
+          title: '임시 게시물',
+          content: '새로운 임시저장 게시물 저장을 완료하였습니다. :)',
+        })
+      );
     }
 
     if (data?.createTemp.error) {
@@ -94,9 +86,12 @@ const Upload = () => {
 
   const ModifyTempOnCompleted = (data: modifyTemp) => {
     if (data?.modifyTemp.ok) {
-      dispatch(initializeUploadState());
-      alert('저장완료!');
-      router.push('/');
+      dispatch(
+        setAlert({
+          title: '임시 게시물',
+          content: '임시저장 게시물 저장이 완료되었습니다. :)',
+        })
+      );
     }
 
     if (data?.modifyTemp.error) {
@@ -105,6 +100,34 @@ const Upload = () => {
       );
     }
   };
+
+  const uploadMutationOnCompleted = (data: uploadTemp) => {
+    if (data?.uploadTemp.ok) {
+      dispatch(
+        setAlert({
+          title: '임시 게시물',
+          content: '임시저장 게시물의 업로드가 완료되었습니다. :)',
+        })
+      );
+    }
+    if (data?.uploadTemp.error) {
+      alert(
+        `${data.uploadTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
+      );
+    }
+  };
+  const modifyPostOnCompleted = (data: modifyPost) => {
+    if (data.modifyPost.ok) {
+      router.push(`/post/${modifyPostId}`);
+    }
+  };
+
+  const [
+    modifyPostMutation,
+    { loading: modifyPostLoading, error: modifyPostError },
+  ] = useMutation<modifyPost, modifyPostVariables>(MODIFY_POST, {
+    onCompleted: modifyPostOnCompleted,
+  });
 
   const [
     createPostMutation,
@@ -127,9 +150,14 @@ const Upload = () => {
     onCompleted: createTemponCompleted,
   });
 
+  const [
+    uploadTempMutation,
+    { loading: uploadTempLoading, error: uploadTempError },
+  ] = useMutation<uploadTemp, uploadTempVariables>(UPLOAD_TEMP_MUTATION, {
+    onCompleted: uploadMutationOnCompleted,
+  });
+
   const handleTempSave = () => {
-    const { title, contents, titleImg, firstCategoryId, secondCategoryId } =
-      post;
     createTempMutation({
       variables: {
         input: {
@@ -144,10 +172,6 @@ const Upload = () => {
   };
 
   const handleTempModify = () => {
-    const { title, contents, titleImg, firstCategoryId, secondCategoryId } =
-      post;
-
-    console.log('수정할때 id값은 이거임', firstCategoryId, secondCategoryId);
     modifyTempMutation({
       variables: {
         input: {
@@ -163,8 +187,6 @@ const Upload = () => {
   };
 
   const handleUpload = () => {
-    const { title, contents, titleImg, firstCategoryId, secondCategoryId } =
-      post;
     createPostMutation({
       variables: {
         input: {
@@ -173,6 +195,36 @@ const Upload = () => {
           titleImg,
           firstCategoryId,
           secondCategoryId,
+        },
+      },
+    });
+  };
+
+  const handleTempUpload = () => {
+    uploadTempMutation({
+      variables: {
+        input: {
+          title,
+          contents,
+          titleImg,
+          firstCategoryId,
+          secondCategoryId,
+          tempId: pickTempId,
+        },
+      },
+    });
+  };
+
+  const handleModifyDone = () => {
+    modifyPostMutation({
+      variables: {
+        input: {
+          title,
+          contents,
+          titleImg,
+          firstCategoryId,
+          secondCategoryId,
+          postId: modifyPostId,
         },
       },
     });
@@ -202,23 +254,37 @@ const Upload = () => {
 
         <TitleImagePicker />
         <div className="buttonWrapper">
-          <Button
-            canClick={false}
-            actionText={
-              pickTempId ? 'Modifications completed' : 'Temporarily Save'
-            }
-            loading={false}
-            onClick={pickTempId ? handleTempModify : handleTempSave}
-          />
-          <Button
-            canClick={false}
-            actionText="Upload Post"
-            loading={false}
-            onClick={handleUpload}
-          />
+          {modifyPostId ? (
+            <Button
+              canClick={!modifyPostError && !modifyPostLoading}
+              loading={modifyPostLoading}
+              actionText="게시글 수정 완료"
+              onClick={handleModifyDone}
+            />
+          ) : (
+            <>
+              <Button
+                canClick={false}
+                actionText={
+                  pickTempId ? 'Modifications completed' : 'Temporarily Save'
+                }
+                loading={false}
+                onClick={pickTempId ? handleTempModify : handleTempSave}
+              />
+              <Button
+                canClick={false}
+                actionText={
+                  pickTempId
+                    ? 'Upload temp post to new post'
+                    : 'Upload new post'
+                }
+                loading={false}
+                onClick={pickTempId ? handleTempUpload : handleUpload}
+              />
+            </>
+          )}
         </div>
-
-        <TempPostBox userId={data?.me.id} />
+        {modifyPostId ? '' : <TempPostBox userId={data?.me.id} />}
       </div>
 
       <style jsx>{`

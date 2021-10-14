@@ -1,100 +1,129 @@
-import { useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
+import { useMutation, useQuery } from '@apollo/client';
+import { Button } from 'components/common/Button';
+import CommentBox from 'components/common/CommentBox';
+import { DELETE_POST } from 'graphql/mutations';
+import { GET_EACH_POST_QUERY } from 'graphql/queries';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
-import EditorViewer from '../../components/EditorViewer';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteMyPost,
+  deleteMyPostVariables,
+} from 'src/__generated__/deleteMyPost';
+import { RootState } from 'store/modules';
+import {
+  setIsModify,
+  setModifyPostId,
+  setTitleImageArr,
+  upadatePost,
+} from 'store/modules/uploadReducer';
+import PostStyle from 'styles/Post.module.scss';
+import EditorViewer from '../../components/upload/EditorViewer';
 import {
   getEachPost,
   getEachPostVariables,
 } from '../../src/__generated__/getEachPost';
 import CategoryStyle from '../../styles/Category.module.scss';
 
-const GET_EACH_POST_QUERY = gql`
-  query getEachPost($postId: Int!) {
-    getEachPost(postId: $postId) {
-      ok
-      error
-      post {
-        title
-        titleImg
-        contents
-        firstCategory {
-          name
-          id
-        }
-        secondCategory {
-          name
-          id
-        }
-        user {
-          nickname
-          id
-        }
-      }
-    }
-  }
-`;
-
 export const Post = () => {
   const router = useRouter();
   const postId = +router?.query.id;
-
-  // useEffect(() => {
-  //   if (!postId) {
-  //     router.push('/');
-  //   }
-  // }, []);
-
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.user);
   const { data, error, loading } = useQuery<getEachPost, getEachPostVariables>(
     GET_EACH_POST_QUERY,
     {
+      nextFetchPolicy: 'network-only',
+      fetchPolicy: 'network-only',
       variables: { postId },
     }
   );
 
+  const onEdit = () => {
+    const { firstCategory, secondCategory, title, contents, titleImg } =
+      data?.getEachPost.post;
+
+    dispatch(
+      upadatePost({
+        title,
+        contents,
+        titleImg,
+        firstCategoryId: firstCategory.id,
+        firstCategoryName: firstCategory.name,
+        secondCategoryId: secondCategory.id,
+        secondCategoryName: secondCategory.name,
+      })
+    );
+    dispatch(
+      setTitleImageArr(data.getEachPost.post.image.map((el) => el.link))
+    );
+    router.push('/upload');
+    dispatch(setIsModify(true));
+    dispatch(setModifyPostId(postId));
+  };
+
+  const deleteMyPostOnCompleted = (data: deleteMyPost) => {
+    if (data.deleteMyPost.ok) {
+      router.push('/');
+      return;
+    }
+    if (data.deleteMyPost.error) {
+      console.log(data?.deleteMyPost.error);
+      alert(data.deleteMyPost.error);
+    }
+  };
+
+  const [
+    deletePostMutation,
+    { loading: deleteMyPostLoading, error: deleteMyPostError },
+  ] = useMutation<deleteMyPost, deleteMyPostVariables>(DELETE_POST, {
+    onCompleted: deleteMyPostOnCompleted,
+  });
+
+  const onDelete = () => {
+    deletePostMutation({
+      variables: {
+        postId,
+      },
+    });
+  };
+
   if (loading) return <div>Loading...</div>;
-  // if (!loading) {
-  //   if (!data?.getEachPost.post || !data?.getEachPost.post.contents || error) {
-  //     return <div>Ther is No Story AnyMore..</div>;
-  //   }
-  // }
 
   return (
     <>
-      <div className="wrapper">
-        <div className="divider" />
+      <div className={PostStyle.wrapper}>
+        <div className={PostStyle.divider} />
         <section className={CategoryStyle.categoryContainer}>
           <div>
             <span>Written Story named as {data?.getEachPost.post.title} </span>
             <span> in {data?.getEachPost.post.secondCategory.name}</span>
             <span> at {data?.getEachPost.post.firstCategory.name}</span>
-            <span> By {data?.getEachPost.post.user.nickname}</span>
+            <Link href={`/user/${data?.getEachPost.post.user.nickname}`}>
+              <a> By {data?.getEachPost.post.user.nickname} </a>
+            </Link>
           </div>
+          {+user.id === +data.getEachPost.post.user.id && (
+            <>
+              <Button
+                onClick={onEdit}
+                actionText="수정"
+                loading={false}
+                canClick={true}
+              />
+              <Button
+                onClick={onDelete}
+                actionText="삭제"
+                loading={deleteMyPostLoading}
+                canClick={!deleteMyPostLoading && !deleteMyPostError}
+              />
+            </>
+          )}
         </section>
-        <div className="divider" />
+        <div className={PostStyle.divider} />
         <EditorViewer content={data?.getEachPost.post.contents} />
-        <div className="divider" />
-        <section>
-          댓글 들어가야함
-          <ul>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-            <li>댓글 1</li>
-          </ul>
-        </section>
-        <style jsx>{`
-          .divider {
-            border-bottom: 1px solid #efeff0;
-            width: 100%;
-            margin: 4vh 0;
-          }
-
-          .wrapper {
-            margin: 8vh 0;
-          }
-        `}</style>
+        <div className={PostStyle.divider} />
+        <CommentBox postId={postId} />
       </div>
     </>
   );

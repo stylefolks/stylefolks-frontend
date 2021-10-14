@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/modules';
-import { upadatePost } from '../store/modules/uploadReducer';
-import UploadStyle from '../styles/Upload.module.scss';
+import { RootState } from 'store/modules';
+import { upadatePost } from 'store/modules/uploadReducer';
+import UploadStyle from 'styles/Upload.module.scss';
 
 const TitleImagePicker: React.FC = () => {
   const dispatch = useDispatch();

@@ -1,6 +1,8 @@
 import { useLazyQuery, useMutation } from '@apollo/client';
+import Alert from 'components/common/Alert';
 import { DELETE_TEMP } from 'graphql/mutations';
 import { GET_USER_TEMP } from 'graphql/queries';
+import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTemp, deleteTempVariables } from 'src/__generated__/deleteTemp';
@@ -8,26 +10,29 @@ import {
   getUserTemp,
   getUserTempVariables,
   getUserTemp_getUserTemp_temps,
-} from '../src/__generated__/getUserTemp';
-import { RootState } from '../store/modules';
-import { setAlert, umountAlert } from '../store/modules/commonReducer';
+} from 'src/__generated__/getUserTemp';
+import { RootState } from 'store/modules';
+import { setAlert, umountAlert } from 'store/modules/commonReducer';
+import TempStyle from 'styles/TempPost.module.scss';
+import UtilStyle from 'styles/Util.module.scss';
 import {
   initializeUploadState,
   setIsTemp,
   setPickTempId,
+  setPrevTempId,
   setTitleImageArr,
   upadatePost,
-} from '../store/modules/uploadReducer';
-import TempStyle from '../styles/TempPost.module.scss';
-import UtilStyle from '../styles/Util.module.scss';
-import Alert from './Alert';
+} from '../../store/modules/uploadReducer';
 interface IProps {
   userId: number;
 }
 
 const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const dispatch = useDispatch();
-  const { pickTempId } = useSelector((state: RootState) => state.upload);
+  const router = useRouter();
+  const { pickTempId, prevTempId } = useSelector(
+    (state: RootState) => state.upload
+  );
   const { alert } = useSelector((state: RootState) => state.common);
 
   const [
@@ -52,6 +57,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const confirmDelete = (postId: number) => {
     dispatch(setPickTempId(null));
 
+    prevTempId ? dispatch(setPrevTempId(null)) : '';
     deleteTempMutation({
       variables: {
         postId,
@@ -60,6 +66,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const confirmLogging = () => {
+    dispatch(setPrevTempId(pickTempId));
     const PickTemp = userTempData.getUserTemp.temps.filter(
       (el) => el.id === pickTempId
     );
@@ -99,6 +106,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
   const handleLogging = (el: getUserTemp_getUserTemp_temps) => {
     dispatch(setPickTempId(el.id));
+
     dispatch(
       setAlert({
         title: '임시저장 불러오기',
@@ -119,10 +127,22 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
   const onCancel = () => {
     dispatch(umountAlert());
+    dispatch(setPickTempId(prevTempId));
+
+    if (alert.title === '임시 게시물' || alert.title === '새로운 게시물') {
+      router.push('/');
+      return;
+    }
+
+    if (alert.title === '임시저장 불러오기') {
+      dispatch(umountAlert());
+      return;
+    }
 
     if (alert.title !== '새로운 게시글 작성') {
       // dispatch(setPickTempId(null));
       dispatch(setIsTemp(false));
+      return;
     }
   };
 
@@ -140,6 +160,11 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     if (alert.title === '임시저장 불러오기') {
       return confirmLogging();
     }
+
+    if (alert.title === '임시 게시물' || alert.title === '새로운 게시물') {
+      router.push('/');
+      return;
+    }
   };
 
   useEffect(() => {
@@ -154,7 +179,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   return userTempData?.getUserTemp.temps.length ? (
     <div className={TempStyle.tempContainer}>
       <div className={TempStyle.tempWrapper}>
-        <h3>Temp Save Posting List</h3>
+        <h3>Save Posting List</h3>
 
         <ul>
           {userTempData?.getUserTemp.temps.length &&
@@ -169,9 +194,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
                   >
                     Story Of {el.title}
                   </span>{' '}
-                  {el.id !== pickTempId && (
-                    <button onClick={() => handleDelete(el)}>x</button>
-                  )}
+                  <button onClick={() => handleDelete(el)}>x</button>
                 </div>
               </li>
             ))}

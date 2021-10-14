@@ -1,10 +1,10 @@
-import Image from 'next/image';
+import UseWindowDimension from 'hooks/useWindowDimension';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { authTokenVar, isLoggedInVar } from '../lib/apolloClient';
-import vacantImage from '../public/solidwhite.png';
 import ProfileStyle from '../styles/Profile.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
+import ProfileRoundImage from './ProfileRoundImage';
 
 interface IProps {
   profileImg?: string;
@@ -22,6 +22,7 @@ interface IModalState {
 const Profile: React.FC<IProps> = ({ profileImg, id, nickname }) => {
   const router = useRouter();
   const ref = React.createRef<HTMLDivElement>();
+  const { width, height } = UseWindowDimension();
   const [modalState, setModalState] = useState<IModalState>({
     isVisible: false,
     top: 0,
@@ -49,28 +50,11 @@ const Profile: React.FC<IProps> = ({ profileImg, id, nickname }) => {
               ref.current.getBoundingClientRect().right -
               ref.current.getBoundingClientRect().left -
               ref.current.getBoundingClientRect().width,
-            direction:
-              (window.innerWidth * 4) / 100 >= 40
-                ? (window.innerWidth * 4) / 100 / 2
-                : 40 / 2,
+            direction: (width * 4) / 100 >= 40 ? (width * 4) / 100 / 2 : 40 / 2,
           });
         }}
       >
-        <Image
-          className={ProfileStyle.profileImage}
-          src={profileImg ? profileImg : vacantImage}
-          width={
-            (window.innerWidth * 4) / 100 >= 40
-              ? (window.innerWidth * 4) / 100
-              : '40px'
-          }
-          height={
-            (window.innerWidth * 4) / 100 >= 40
-              ? (window.innerWidth * 4) / 100
-              : '40px'
-          }
-          alt="profileImage"
-        />
+        <ProfileRoundImage imgSrc={profileImg} />
         <div
           className={
             modalState.isVisible
@@ -85,7 +69,7 @@ const Profile: React.FC<IProps> = ({ profileImg, id, nickname }) => {
             <span onClick={() => router.push(`/user/${nickname}`)}>
               Profile
             </span>
-            <span onClick={() => router.push(`/upload`)}>Post</span>
+            <span onClick={() => router.push(`/upload`)}>Upload</span>
             <span onClick={doLogout}>Log Out</span>
           </div>
         </div>

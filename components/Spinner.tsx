@@ -1,7 +1,7 @@
 import SpinnerPortal from 'HOC/SpinnerPortal';
 import React from 'react';
-import BackDrop from './BackDrop';
 import UtilStyle from '../styles/Util.module.scss';
+import BackDrop from './common/BackDrop';
 
 const Spinner = () => {
   return (

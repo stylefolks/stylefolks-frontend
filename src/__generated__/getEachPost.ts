@@ -25,6 +25,13 @@ export interface getEachPost_getEachPost_post_user {
   __typename: "User";
   nickname: string;
   id: number;
+  profileImg: string | null;
+}
+
+export interface getEachPost_getEachPost_post_image {
+  __typename: "Images";
+  link: string;
+  id: number;
 }
 
 export interface getEachPost_getEachPost_post {
@@ -35,6 +42,7 @@ export interface getEachPost_getEachPost_post {
   firstCategory: getEachPost_getEachPost_post_firstCategory | null;
   secondCategory: getEachPost_getEachPost_post_secondCategory | null;
   user: getEachPost_getEachPost_post_user;
+  image: getEachPost_getEachPost_post_image[];
 }
 
 export interface getEachPost_getEachPost {

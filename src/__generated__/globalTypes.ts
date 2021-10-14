@@ -41,6 +41,11 @@ export interface CreateAccountInput {
   role: UserRole;
 }
 
+export interface CreateCommentInput {
+  postId: number;
+  comment: string;
+}
+
 export interface CreatePostInput {
   title: string;
   contents: string;
@@ -57,6 +62,11 @@ export interface CreateTempInput {
   secondCategoryId?: number | null;
 }
 
+export interface DeleteCommentInput {
+  postId: number;
+  commentId: number;
+}
+
 export interface GetPostForMainCategoryPageInput {
   firstCategoryName: FirstCategoryName;
   postCount?: number | null;
@@ -67,6 +77,21 @@ export interface LoginInput {
   password: string;
 }
 
+export interface ModifyCommentInput {
+  postId: number;
+  comment: string;
+  commentId: number;
+}
+
+export interface ModifyMyPostInput {
+  title?: string | null;
+  contents?: string | null;
+  titleImg?: string | null;
+  firstCategoryId?: number | null;
+  secondCategoryId?: number | null;
+  postId: number;
+}
+
 export interface ModifyMyTemptInput {
   title?: string | null;
   contents?: string | null;
@@ -74,6 +99,15 @@ export interface ModifyMyTemptInput {
   firstCategoryId?: number | null;
   secondCategoryId?: number | null;
   postId: number;
+}
+
+export interface UploadTempInput {
+  title: string;
+  contents: string;
+  titleImg?: string | null;
+  firstCategoryId: number;
+  secondCategoryId?: number | null;
+  tempId: number;
 }
 
 export interface VerifyEmailInput {

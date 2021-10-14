@@ -1,4 +1,36 @@
 import { gql } from '@apollo/client';
+
+export const GET_EACH_POST_QUERY = gql`
+  query getEachPost($postId: Int!) {
+    getEachPost(postId: $postId) {
+      ok
+      error
+      post {
+        title
+        titleImg
+        contents
+        firstCategory {
+          name
+          id
+        }
+        secondCategory {
+          name
+          id
+        }
+        user {
+          nickname
+          id
+          profileImg
+        }
+        image {
+          link
+          id
+        }
+      }
+    }
+  }
+`;
+
 export const ME_QUERY = gql`
   query meQuery {
     me {
@@ -71,4 +103,23 @@ export const GET_USER_TEMP = gql`
     }
   }
 `;
+
+export const GET_EACH_POST_COMMENTS = gql`
+  query getEachPostComments($postsId: Int!) {
+    getEachPostComments(postsId: $postsId) {
+      comments {
+        comment
+        id
+        user {
+          id
+          nickname
+          profileImg
+        }
+      }
+      ok
+      error
+    }
+  }
+`;
+
 export default {};

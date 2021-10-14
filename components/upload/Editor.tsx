@@ -6,8 +6,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store/modules';
 import { setSpinner } from 'store/modules/commonReducer';
-import { setIsTemp, updateTitleImageArr } from '../store/modules/uploadReducer';
-import Spinner from './Spinner';
+import {
+  setIsTemp,
+  updateTitleImageArr,
+} from '../../store/modules/uploadReducer';
+import Spinner from '../Spinner';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
@@ -41,7 +44,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     useCommandShortcut,
   } = props;
   const dispatch = useDispatch();
-  const { post, isTemp, pickTempId } = useSelector(
+  const { post, isTemp, pickTempId, isModify } = useSelector(
     (state: RootState) => state.upload
   );
   const editorRef = React.useRef<EditorType>();
@@ -83,17 +86,16 @@ const WysiwygEditor: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (isTemp) {
-      console.log('초기화일때 일을안한 ㅏ..??');
       dispatch(setIsTemp(false));
       editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
     }
-  }, [isTemp, post.contents]);
+  }, [isTemp]);
 
   return (
     <div>
       <EditorWithForwardedRef
         {...props}
-        initialValue={initialValue}
+        initialValue={post.contents}
         placeholder="Write your own story!"
         previewStyle={previewStyle || 'vertical'}
         height={height || '90vh'}
