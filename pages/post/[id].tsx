@@ -64,10 +64,7 @@ export const Post = () => {
         <div className="divider" />
         <EditorViewer content={data?.getEachPost.post.contents} />
         <div className="divider" />
-        <CommentBox
-          comments={data?.getEachPost.post.comments}
-          postId={postId}
-        />
+        <CommentBox postId={postId} />
         <style jsx>{`
           .divider {
             border-bottom: 1px solid #efeff0;

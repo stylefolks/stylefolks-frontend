@@ -10,7 +10,6 @@ import {
   createComment,
   createCommentVariables,
 } from 'src/__generated__/createComment';
-import { getEachPost_getEachPost_post_comments } from 'src/__generated__/getEachPost';
 import {
   getEachPostComments,
   getEachPostCommentsVariables,
@@ -20,12 +19,10 @@ import CommentBoxStyle from 'styles/CommentBox.module.scss';
 import { Button } from './Button';
 
 interface ICommentBoxProps {
-  comments: getEachPost_getEachPost_post_comments[];
-
   postId: number;
 }
 
-const CommentBox: React.FC<ICommentBoxProps> = ({ comments, postId }) => {
+const CommentBox: React.FC<ICommentBoxProps> = ({ postId }) => {
   const { user } = useSelector((state: RootState) => state.user);
   const [comment, setComment] = useState<string>('');
   const router = useRouter();

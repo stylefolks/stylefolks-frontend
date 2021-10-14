@@ -8,7 +8,7 @@ import {
   deleteComment,
   deleteCommentVariables,
 } from 'src/__generated__/deleteComment';
-import { getEachPost_getEachPost_post_comments_user } from 'src/__generated__/getEachPost';
+import { getEachPostComments_getEachPostComments_comments_user } from 'src/__generated__/getEachPostComments';
 import {
   modifyComment,
   modifyCommentVariables,
@@ -19,7 +19,7 @@ import { Button } from './Button';
 
 interface IPropsComment {
   comment: string;
-  commentUser: getEachPost_getEachPost_post_comments_user;
+  commentUser: getEachPostComments_getEachPostComments_comments_user;
   postId: number;
   commentId: number;
 }
