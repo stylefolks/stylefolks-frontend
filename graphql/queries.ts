@@ -122,4 +122,18 @@ export const GET_EACH_POST_COMMENTS = gql`
   }
 `;
 
+export const GET_USER_CREW = gql`
+  query getUserCrew($nickname: String!) {
+    getUserCrew(nickname: $nickname) {
+      ok
+      error
+      crews {
+        name
+        id
+        profileImg
+      }
+    }
+  }
+`;
+
 export default {};

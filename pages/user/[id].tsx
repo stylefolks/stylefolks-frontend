@@ -1,8 +1,14 @@
+import { useLazyQuery } from '@apollo/client';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { FIND_BY_NICKNAME } from '../../graphql/queries';
+import {
+  getUserCrew,
+  getUserCrewVariables,
+} from 'src/__generated__/getUserCrew';
+import UserStyle from 'styles/User.module.scss';
+import { FIND_BY_NICKNAME, GET_USER_CREW } from '../../graphql/queries';
 import { useMe } from '../../hooks/useMe';
 import { addApolloState, initializeApollo } from '../../lib/apolloClient';
 import vacantImage from '../../public/solidwhite.png';
@@ -22,6 +28,14 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     const router = useRouter();
     const { data: loginUserData, loading, error } = useMe();
     const [isUser, setIsUser] = useState<boolean>(false);
+    const [
+      getUserCrew,
+      {
+        data: getUserCrewData,
+        loading: getUserCrewLoading,
+        error: getUserCrewError,
+      },
+    ] = useLazyQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW);
 
     useEffect(() => {
       if ((!loading && error) || !data) {
@@ -32,22 +46,44 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     useEffect(() => {
       if (loginUserData?.me.nickname === paramsId) {
         setIsUser(true);
+        console.log(data?.nickname);
+        getUserCrew({
+          variables: {
+            nickname: data?.nickname,
+          },
+        });
       }
     }, [loginUserData]);
 
-    return (
-      <>
-        <Image
-          src={data?.profileImg ? data?.profileImg : vacantImage}
-          alt="profile-image"
-          width="40px"
-          height="40px"
-        />
-        {isUser ? <span>You are user</span> : <span>NO USER</span>}
+    const onClick = () => {
+      console.log('upload image');
+    };
+    if (getUserCrewLoading) return <div>Loading..</div>;
 
-        <div>Hello User Email: {data?.email}</div>
-        <div>Hello User NickName: {data?.nickname}</div>
-      </>
+    console.log(getUserCrewError, getUserCrewData);
+    return (
+      <div className={UserStyle.userContainer}>
+        <div className={UserStyle.userInfoWrapper}>
+          <div className={UserStyle.userImageWrapper}>
+            <Image
+              className={UserStyle.profileImage}
+              src={data?.profileImg ? data?.profileImg : vacantImage}
+              alt="profile-image"
+              width="80px"
+              height="80px"
+            />
+          </div>
+          <span> {data?.nickname}</span>
+          {/* {isUser ? <span>You are user</span> : <span>NO USER</span>} */}
+        </div>
+        <div>
+          {getUserCrewData &&
+            getUserCrewData?.getUserCrew?.crews?.map((el) => (
+              <li key={el.id}>{el.name}</li>
+            ))}
+          <span>Hello User NickName: {data?.nickname}</span>
+        </div>
+      </div>
     );
   };
 

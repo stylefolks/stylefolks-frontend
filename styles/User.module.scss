@@ -1,0 +1,26 @@
+.userContainer {
+  border: 1px solid black;
+}
+
+.userInfoWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.userImageWrapper {
+  border: 1px solid black;
+
+  & > img {
+    border-radius: 100%;
+  }
+
+  &:hover {
+    border: 1px solid $back-color-main;
+  }
+}
+
+.profileImage {
+  border-radius: 100%;
+}
