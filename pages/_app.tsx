@@ -1,8 +1,13 @@
 import { ApolloProvider } from '@apollo/client';
+import dynamic from 'next/dynamic';
 import Layout from '../components/Layout';
 import Wrapper from '../components/Wrapper';
 import { useApollo } from '../lib/apolloClient';
 import { wrapper } from '../store';
+
+const DynamicAlert = dynamic(() => import('../components/common/Alert'), {
+  ssr: false,
+});
 
 const App = ({ Component, pageProps }) => {
   const apolloClient = useApollo(pageProps);
@@ -13,6 +18,7 @@ const App = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </Layout>
       </Wrapper>
+      {/* <DynamicAlert /> */}
     </ApolloProvider>
   );
 };

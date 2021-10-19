@@ -67,6 +67,13 @@ export interface DeleteCommentInput {
   commentId: number;
 }
 
+export interface EditProfileInput {
+  password?: string | null;
+  nickname?: string | null;
+  profileImg?: string | null;
+  link?: string | null;
+}
+
 export interface GetPostForMainCategoryPageInput {
   firstCategoryName: FirstCategoryName;
   postCount?: number | null;

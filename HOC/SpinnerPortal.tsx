@@ -8,8 +8,7 @@ interface IPropsPortal {
 }
 
 const SpinnerPortal: React.FC<IPropsPortal> = ({ children }) => {
-  const { portal } = useSelector((state: RootState) => state.common);
-  const { spinner } = portal;
+  const { spinner } = useSelector((state: RootState) => state.common);
 
   useEffect(() => {
     spinner && (document.body.style.overflow = 'hidden');

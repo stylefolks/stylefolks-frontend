@@ -1,14 +1,16 @@
 import { useLazyQuery } from '@apollo/client';
+import UploadModal from 'components/user/UploadModal';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { editProfile } from 'src/__generated__/editProfile';
 import {
   getUserCrew,
   getUserCrewVariables,
 } from 'src/__generated__/getUserCrew';
-import { RootState } from 'store/modules';
+import { setModal } from 'store/modules/commonReducer';
 import UserStyle from 'styles/User.module.scss';
 import { FIND_BY_NICKNAME, GET_USER_CREW } from '../../graphql/queries';
 import { useMe } from '../../hooks/useMe';
@@ -34,16 +36,20 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     data: findByNickName_findByNickName_user;
     paramsId: string;
   }) => {
+    const onImageChangeCompleted = (data: editProfile) => {
+      if (data.editProfile.ok) {
+        alert('이미지 변경 완료');
+      }
+
+      if (data.editProfile.error) {
+        alert('에러발생');
+      }
+    };
+
     const router = useRouter();
     const { data: loginUserData, loading, error } = useMe();
     const [isUser, setIsUser] = useState<boolean>(false);
-    const [isActive, setIsActive] = useState<boolean>(false);
-    const [imgUrl, setImageUrl] = useState<string>('');
-    const { isPhotoUploadActive } = useSelector(
-      (state: RootState) => state.user
-    );
     const dispatch = useDispatch();
-    // const {isPhotoUploadActive}= user;
 
     const [
       getUserCrew,
@@ -72,38 +78,8 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
       }
     }, [loginUserData]);
 
-    const onUpload = () => {
-      console.log('upload image');
-    };
-    const onDelete = () => {
-      console.log('delete image');
-    };
-    const onMouseDown = (setting: boolean) => {
-      setIsActive(setting);
-    };
-
-    const uploadImage = async (formBody) => {
-      console.log('Form BODY', formBody);
-
-      const { url } = await (
-        await fetch('http://localhost:4000/images/user', {
-          method: 'POST',
-          body: formBody,
-        })
-      ).json();
-      setImageUrl(url);
-      console.log(url);
-    };
-
-    const onImageChange = (e) => {
-      console.log('...???', e);
-      if (e.target.files && e.target.files[0]) {
-        let img = e.target.files[0];
-        const formBody = new FormData();
-        formBody.append('file', img);
-        uploadImage(formBody);
-        console.log('@@@@@ IMAGE CHANGE', URL.createObjectURL(img));
-      }
+    const onClick = () => {
+      dispatch(setModal(true));
     };
 
     if (getUserCrewLoading) return <div>Loading..</div>;
@@ -113,33 +89,19 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
       <>
         <div className={UserStyle.userContainer}>
           <div className={UserStyle.userInfoWrapper}>
-            <div
-              className={UserStyle.userImageWrapper}
-              onMouseEnter={() => onMouseDown(true)}
-              onMouseLeave={() => onMouseDown(false)}
-            >
+            <div className={UserStyle.userImageWrapper} onClick={onClick}>
               <Image
-                src={imgUrl ? imgUrl : vacantImage}
-                // src={data?.profileImg ? data?.profileImg : vacantImage}
+                src={
+                  loginUserData?.me?.profileImg
+                    ? loginUserData?.me?.profileImg
+                    : vacantImage
+                }
                 alt="profile-image"
                 width="120px"
                 height="120px"
               />
-              {true && (
-                <>
-                  <input
-                    type="file"
-                    // accept="image/*"
-                    name="profileImage"
-                    onChange={onImageChange}
-                    // {...register('file', { required: true })}
-                  />
-                  <button onClick={onDelete}>delete</button>
-                </>
-              )}
             </div>
             <span> {data?.nickname}</span>
-            {/* {isUser ? <span>You are user</span> : <span>NO USER</span>} */}
           </div>
           <div>
             {getUserCrewData &&
@@ -149,6 +111,7 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
             <span>Hello User NickName: {data?.nickname}</span>
           </div>
         </div>
+        <UploadModal />
       </>
     );
   };

@@ -14,21 +14,21 @@
   display: flex;
   width: 120px;
   height: 120px;
-  border: 1px solid red;
+  border: 1px solid $back-color-main;
   border-radius: 100%;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
 
-  & > img {
-    border-radius: 100%;
-    border: 1px solid red;
-
-    &:hover {
-      border: 1px solid $back-color-main;
-    }
+  &:hover {
+    border: 1px solid black;
   }
 
   & > input {
+    background: transparent;
+    background-color: transparent;
+    opacity: 0;
     position: absolute;
-    border: 1px solid black;
+    border: 1px solid white;
     right: 0px;
     bottom: 0px;
     height: $userpage-profile-size;
@@ -37,12 +37,12 @@
     border-top-right-radius: $userpage-profile-size * 2;
     width: $userpage-profile-size/2;
     box-sizing: border-box;
-    background-color: red;
+    background-color: black;
   }
 
   & > button {
     position: absolute;
-    border: 1px solid black;
+    border: 1px solid white;
     height: $userpage-profile-size;
     width: $userpage-profile-size/2;
     box-sizing: border-box;

@@ -89,3 +89,12 @@ export const UPLOAD_TEMP_MUTATION = gql`
     }
   }
 `;
+
+export const EDIT_PROFILE = gql`
+  mutation editProfile($input: EditProfileInput!) {
+    editProfile(input: $input) {
+      ok
+      error
+    }
+  }
+`;

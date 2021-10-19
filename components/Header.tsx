@@ -28,7 +28,7 @@ export const Header = () => {
     dispatch(upadateUser({ id: id + '', ...input }));
   };
 
-  const [getMeInfo, { data, error, loading }] = useLazyQuery<meQuery>(
+  const [getMeInfo, { refetch, data, error, loading }] = useLazyQuery<meQuery>(
     ME_QUERY,
     {
       context: {
