@@ -10,7 +10,12 @@ export interface IUserState {
   // secondCategory: SecondCategoryName;
 }
 
-const initialState = {
+export interface IUserReducerState {
+  user: IUserState;
+  isPhotoUploadActive: boolean;
+}
+
+const initialState: IUserReducerState = {
   user: {
     email: '',
     id: null,
@@ -18,18 +23,22 @@ const initialState = {
     profileImg: '',
     nickname: '',
   },
+  isPhotoUploadActive: false,
 };
 
-const uploadSlice = createSlice({
-  name: 'upload',
+const userSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {
     upadateUser(state, action: PayloadAction<IUserState>) {
       state.user = action.payload;
     },
+    setIsPhotoUploadActive(state, { payload }: PayloadAction<boolean>) {
+      state.isPhotoUploadActive = payload;
+    },
   },
 });
 
-const { actions, reducer } = uploadSlice;
-export const { upadateUser } = actions;
+const { actions, reducer } = userSlice;
+export const { upadateUser, setIsPhotoUploadActive } = actions;
 export default reducer;

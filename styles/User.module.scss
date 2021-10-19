@@ -10,17 +10,44 @@
 }
 
 .userImageWrapper {
-  border: 1px solid black;
+  position: relative;
+  display: flex;
+  width: 120px;
+  height: 120px;
+  border: 1px solid red;
+  border-radius: 100%;
 
   & > img {
     border-radius: 100%;
+    border: 1px solid red;
+
+    &:hover {
+      border: 1px solid $back-color-main;
+    }
   }
 
-  &:hover {
-    border: 1px solid $back-color-main;
+  & > input {
+    position: absolute;
+    border: 1px solid black;
+    right: 0px;
+    bottom: 0px;
+    height: $userpage-profile-size;
+    width: $userpage-profile-size/2;
+    border-bottom-right-radius: $userpage-profile-size * 2;
+    border-top-right-radius: $userpage-profile-size * 2;
+    width: $userpage-profile-size/2;
+    box-sizing: border-box;
+    background-color: red;
   }
-}
 
-.profileImage {
-  border-radius: 100%;
+  & > button {
+    position: absolute;
+    border: 1px solid black;
+    height: $userpage-profile-size;
+    width: $userpage-profile-size/2;
+    box-sizing: border-box;
+    border-bottom-left-radius: $userpage-profile-size * 2;
+    border-top-left-radius: $userpage-profile-size * 2;
+    left: 0px;
+  }
 }
