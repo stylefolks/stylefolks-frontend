@@ -23,7 +23,7 @@ export const Header = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const dispatch = useDispatch();
   const onCompleted = (data: meQuery) => {
-    const { verified, link, __typename, id, ...input } = data?.me;
+    const { verified, __typename, id, ...input } = data?.me;
 
     dispatch(upadateUser({ id: id + '', ...input }));
   };

@@ -1,21 +1,18 @@
 import { useLazyQuery } from '@apollo/client';
 import UploadModal from 'components/user/UploadModal';
+import UserProfile from 'components/user/UserProfile';
+import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { editProfile } from 'src/__generated__/editProfile';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getUserCrew,
   getUserCrewVariables,
 } from 'src/__generated__/getUserCrew';
+import { RootState } from 'store/modules';
 import { setModal } from 'store/modules/commonReducer';
 import UserStyle from 'styles/User.module.scss';
 import { FIND_BY_NICKNAME, GET_USER_CREW } from '../../graphql/queries';
-import { useMe } from '../../hooks/useMe';
-import { addApolloState, initializeApollo } from '../../lib/apolloClient';
-import vacantImage from '../../public/solidwhite.png';
 import {
   findByNickName_findByNickName,
   findByNickName_findByNickName_user,
@@ -36,19 +33,7 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     data: findByNickName_findByNickName_user;
     paramsId: string;
   }) => {
-    const onImageChangeCompleted = (data: editProfile) => {
-      if (data.editProfile.ok) {
-        alert('이미지 변경 완료');
-      }
-
-      if (data.editProfile.error) {
-        alert('에러발생');
-      }
-    };
-
-    const router = useRouter();
-    const { data: loginUserData, loading, error } = useMe();
-    const [isUser, setIsUser] = useState<boolean>(false);
+    const { user } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
 
     const [
@@ -58,25 +43,18 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         loading: getUserCrewLoading,
         error: getUserCrewError,
       },
-    ] = useLazyQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW);
+    ] = useLazyQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW, {
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'network-only',
+    });
 
     useEffect(() => {
-      if ((!loading && error) || !data) {
-        router.push('/');
-      }
-    }, []);
-
-    useEffect(() => {
-      if (loginUserData?.me.nickname === paramsId) {
-        setIsUser(true);
-
-        getUserCrew({
-          variables: {
-            nickname: data?.nickname,
-          },
-        });
-      }
-    }, [loginUserData]);
+      getUserCrew({
+        variables: {
+          nickname: user.nickname,
+        },
+      });
+    }, [user]);
 
     const onClick = () => {
       dispatch(setModal(true));
@@ -84,31 +62,15 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
 
     if (getUserCrewLoading) return <div>Loading..</div>;
 
-    console.log(getUserCrewError, getUserCrewData);
     return (
       <>
         <div className={UserStyle.userContainer}>
-          <div className={UserStyle.userInfoWrapper}>
-            <div className={UserStyle.userImageWrapper} onClick={onClick}>
-              <Image
-                src={
-                  loginUserData?.me?.profileImg
-                    ? loginUserData?.me?.profileImg
-                    : vacantImage
-                }
-                alt="profile-image"
-                width="120px"
-                height="120px"
-              />
-            </div>
-            <span> {data?.nickname}</span>
-          </div>
+          <UserProfile userNick={paramsId} />
           <div>
             {getUserCrewData &&
               getUserCrewData?.getUserCrew?.crews?.map((el) => (
                 <li key={el.id}>{el.name}</li>
               ))}
-            <span>Hello User NickName: {data?.nickname}</span>
           </div>
         </div>
         <UploadModal />

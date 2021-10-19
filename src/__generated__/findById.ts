@@ -15,7 +15,7 @@ export interface findById_findById_user {
   nickname: string;
   email: string;
   role: UserRole;
-  profileImg: string | null;
+  profileImg: string;
 }
 
 export interface findById_findById {

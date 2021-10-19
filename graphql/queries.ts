@@ -70,6 +70,7 @@ export const FIND_BY_NICKNAME = gql`
         id
         nickname
         email
+        link
         role
         profileImg
       }

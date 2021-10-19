@@ -7,6 +7,7 @@ export interface IUserState {
   role: UserRole;
   profileImg: string;
   nickname: string;
+  link: string;
   // secondCategory: SecondCategoryName;
 }
 
@@ -22,6 +23,7 @@ const initialState: IUserReducerState = {
     role: UserRole.User,
     profileImg: '',
     nickname: '',
+    link: '',
   },
   isPhotoUploadActive: false,
 };

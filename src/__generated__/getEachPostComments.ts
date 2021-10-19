@@ -11,7 +11,7 @@ export interface getEachPostComments_getEachPostComments_comments_user {
   __typename: "User";
   id: number;
   nickname: string;
-  profileImg: string | null;
+  profileImg: string;
 }
 
 export interface getEachPostComments_getEachPostComments_comments {

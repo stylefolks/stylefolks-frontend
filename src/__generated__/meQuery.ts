@@ -16,7 +16,7 @@ export interface meQuery_me {
   email: string;
   role: UserRole;
   verified: boolean;
-  profileImg: string | null;
+  profileImg: string;
   link: string | null;
 }
 
