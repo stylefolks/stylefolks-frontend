@@ -1,21 +1,18 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Button } from 'components/common/Button';
 import {
   CREATE_POST_MUTATION,
   CREATE_TEMP_MUTATION,
-  DELETE_POST,
   MODIFY_POST,
   MODIFY_TEMP_MUTATION,
   UPLOAD_TEMP_MUTATION,
 } from 'graphql/mutations';
+import { useMe } from 'hooks/useMe';
+import { userInfoVar } from 'lib/apolloClient';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteMyPost,
-  deleteMyPostVariables,
-} from 'src/__generated__/deleteMyPost';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import { setAlert } from 'store/modules/commonReducer';
@@ -23,7 +20,6 @@ import CategorySelector from '../components/upload/CategorySelector';
 import WysiwygEditor from '../components/upload/Editor';
 import TempPostBox from '../components/upload/TempPostBox';
 import TitleImagePicker from '../components/upload/TitleImagePicker';
-import { ME_QUERY } from '../graphql/queries';
 import {
   createPost,
   createPostVariables,
@@ -45,11 +41,12 @@ import {
 const Upload = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { data, loading, error } = useQuery(ME_QUERY);
+  const { data, loading, error } = useMe();
   const { post, pickTempId, isModify, modifyPostId } = useSelector(
     (state: RootState) => state.upload
   );
   const { title, contents, titleImg, firstCategoryId, secondCategoryId } = post;
+  const user = userInfoVar();
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
       dispatch(
@@ -284,7 +281,7 @@ const Upload = () => {
             </>
           )}
         </div>
-        {modifyPostId ? '' : <TempPostBox userId={data?.me.id} />}
+        {modifyPostId ? '' : <TempPostBox userId={user.id} />}
       </div>
 
       <style jsx>{`

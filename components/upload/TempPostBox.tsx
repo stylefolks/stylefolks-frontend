@@ -1,9 +1,10 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import Alert from 'components/common/Alert';
 import { DELETE_TEMP } from 'graphql/mutations';
 import { GET_USER_TEMP } from 'graphql/queries';
+import { userInfoVar } from 'lib/apolloClient';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTemp, deleteTempVariables } from 'src/__generated__/deleteTemp';
 import {
@@ -12,7 +13,7 @@ import {
   getUserTemp_getUserTemp_temps,
 } from 'src/__generated__/getUserTemp';
 import { RootState } from 'store/modules';
-import { setAlert, umountAlert } from 'store/modules/commonReducer';
+import { setAlert, unmountAlert } from 'store/modules/commonReducer';
 import TempStyle from 'styles/TempPost.module.scss';
 import UtilStyle from 'styles/Util.module.scss';
 import {
@@ -35,10 +36,14 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   );
   const { alert } = useSelector((state: RootState) => state.common);
 
-  const [
-    getTempData,
-    { data: userTempData, loading: postLoading, error: poseError },
-  ] = useLazyQuery<getUserTemp, getUserTempVariables>(GET_USER_TEMP, {
+  const {
+    data: userTempData,
+    loading: postLoading,
+    error: poseError,
+  } = useQuery<getUserTemp, getUserTempVariables>(GET_USER_TEMP, {
+    variables: {
+      userId: userInfoVar().id,
+    },
     nextFetchPolicy: 'network-only',
     fetchPolicy: 'network-only',
   });
@@ -126,7 +131,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const onCancel = () => {
-    dispatch(umountAlert());
+    dispatch(unmountAlert());
     dispatch(setPickTempId(prevTempId));
 
     if (alert.title === '임시 게시물' || alert.title === '새로운 게시물') {
@@ -135,7 +140,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     }
 
     if (alert.title === '임시저장 불러오기') {
-      dispatch(umountAlert());
+      dispatch(unmountAlert());
       return;
     }
 
@@ -147,7 +152,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const onConfirm = () => {
-    dispatch(umountAlert());
+    dispatch(unmountAlert());
 
     if (alert.title === '새로운 게시글 작성') {
       return confirmBackToNewPost();
@@ -166,15 +171,6 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
       return;
     }
   };
-
-  useEffect(() => {
-    userId &&
-      getTempData({
-        variables: {
-          userId,
-        },
-      });
-  }, [userId]);
 
   return userTempData?.getUserTemp.temps.length ? (
     <div className={TempStyle.tempContainer}>

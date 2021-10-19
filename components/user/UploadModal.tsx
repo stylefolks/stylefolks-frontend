@@ -4,13 +4,13 @@ import BackDrop from 'components/common/BackDrop';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import Modal from 'HOC/Modal';
 import { useMe } from 'hooks/useMe';
+import { userInfoVar } from 'lib/apolloClient';
 import React, { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
-import { RootState } from 'store/modules';
 import {
   setAlert,
   setModal,
@@ -21,7 +21,7 @@ import UploadModalStyle from 'styles/UploadModal.module.scss';
 
 const UploadModal = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.user);
+  const user = userInfoVar();
   const ref = useRef<HTMLInputElement>(null);
   const { refetch, data: meData } = useMe();
 

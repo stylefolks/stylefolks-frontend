@@ -1,12 +1,12 @@
 import { gql, useQuery } from '@apollo/client';
+import { userInfoVar } from 'lib/apolloClient';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useMe } from '../../hooks/useMe';
 import { getCategory } from '../../src/__generated__/getCategory';
 import {
   FirstCategoryName,
   SecondCategoryName,
-  UserRole,
+  UserRole
 } from '../../src/__generated__/globalTypes';
 import { RootState } from '../../store/modules';
 import { upadatePost } from '../../store/modules/uploadReducer';
@@ -94,7 +94,7 @@ interface IProps {
 
 const CategorySelector: React.FC<IProps> = ({ role }) => {
   const dispatch = useDispatch();
-  const { data: user } = useMe();
+  const user = userInfoVar();
   const { post, isModify } = useSelector((state: RootState) => state.upload);
 
   const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY, {
@@ -103,7 +103,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   });
 
   const firstCategoryArray = data?.getCategory.categories.filter((el) =>
-    FIRST_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(
+    FIRST_CATEGORY_MAP_BY_ROLE[user?.role]?.includes(
       el.name as FirstCategoryName
     )
   );
@@ -131,10 +131,10 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
         upadatePost({
           ...post,
           secondCategoryName: secondCategoryArray[0]?.secondCategory.filter(
-            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
+            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.role].includes(el.name)
           )[0]?.name,
           secondCategoryId: secondCategoryArray[0]?.secondCategory.filter(
-            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
+            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.role].includes(el.name)
           )[0]?.id,
         })
       );
@@ -187,7 +187,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
               >
                 {secondCategoryArray[0]?.secondCategory
                   .filter((el) =>
-                    SECOND_CATEGORY_MAP_BY_ROLE[user?.me.role].includes(el.name)
+                    SECOND_CATEGORY_MAP_BY_ROLE[user?.role].includes(el.name)
                   )
                   .map((el) => (
                     <option key={el.id} data-key={el.id}>

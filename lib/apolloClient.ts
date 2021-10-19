@@ -3,6 +3,7 @@ import {
   createHttpLink,
   InMemoryCache,
   makeVar,
+  ReactiveVar,
 } from '@apollo/client';
 import { concatPagination } from '@apollo/client/utilities';
 import merge from 'deepmerge';
@@ -12,13 +13,22 @@ import { UserRole } from './../src/__generated__/globalTypes';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
+interface IUserInforVar {
+  email: string;
+  id: number | null;
+  role: UserRole;
+  profileImg: string;
+  nickname: string;
+  link: string;
+}
+
 const token =
   typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
 
 export const isLoggedInVar = makeVar(Boolean(token));
 export const authTokenVar = makeVar(token);
 
-export const userInfoVar = makeVar({
+export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
   email: '',
   id: null,
   role: UserRole.User,
@@ -61,7 +71,7 @@ function createApolloClient() {
       typePolicies: {
         Query: {
           fields: {
-            profileImg: {
+            userInfor: {
               read() {
                 return userInfoVar();
               },

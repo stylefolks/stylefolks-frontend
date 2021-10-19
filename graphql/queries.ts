@@ -41,6 +41,7 @@ export const ME_QUERY = gql`
       verified
       profileImg
       link
+      userInfor @client
     }
   }
 `;

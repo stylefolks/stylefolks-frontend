@@ -1,18 +1,17 @@
 import { useMutation } from '@apollo/client';
 import { Button } from 'components/common/Button';
 import { EDIT_PROFILE } from 'graphql/mutations';
+import { useMe } from 'hooks/useMe';
+import { userInfoVar } from 'lib/apolloClient';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import vacantImage from 'public/solidwhite.png';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
-import { RootState } from 'store/modules';
 import { setModal } from 'store/modules/commonReducer';
-import { upadateUser } from 'store/modules/userReducer';
 import UserStyle from 'styles/User.module.scss';
 
 interface IUserProfileProps {
@@ -22,13 +21,22 @@ interface IUserProfileProps {
 const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { user } = useSelector((state: RootState) => state.user);
+  const { data: userData, loading: userLoaidng } = useMe();
+
+  const user = userInfoVar();
+  const profileImg = user?.profileImg;
   const [isChange, setIsChange] = useState<boolean>(false);
   const [localVal, setLocalVal] = useState({ nick: '', link: '' });
   const [isUser, setIsUser] = useState<boolean>(false);
 
   const onCompleted = (data: editProfile) => {
     if (data.editProfile.ok) {
+      userInfoVar({
+        ...userInfoVar(),
+        link: localVal.link,
+        nickname: localVal.nick,
+      });
+      setIsChange(false);
       router.push(`/user/${localVal.nick}`);
     }
   };
@@ -56,9 +64,9 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
   };
 
   const onSave = () => {
-    dispatch(
-      upadateUser({ ...user, link: localVal.link, nickname: localVal.nick })
-    );
+    // dispatch(
+    //   upadateUser({ ...user, link: localVal.link, nickname: localVal.nick })
+    // );
     editProfileMutation({
       variables: {
         input: {
@@ -80,12 +88,14 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
         className={UserStyle.userImageWrapper}
         onClick={isUser ? onClick : () => null}
       >
-        <Image
-          src={user?.profileImg ? user?.profileImg : vacantImage}
-          alt="profile-image"
-          width="120px"
-          height="120px"
-        />
+        {!userLoaidng && (
+          <Image
+            src={profileImg}
+            alt="profile-image"
+            width="120px"
+            height="120px"
+          />
+        )}
       </div>
       <div className={UserStyle.userInfoBioWrapper}>
         {isChange && isUser ? (
