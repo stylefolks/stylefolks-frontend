@@ -1,26 +1,76 @@
 .userContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 1px solid black;
+  max-width: 860px;
+  width: 95%;
 }
 
 .userInfoWrapper {
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: space-evenly;
   width: 100%;
+
+  & > button {
+    width: 94px;
+    height: 30px;
+  }
+}
+
+.userInfoBioWrapper {
+  display: flex;
+  flex-direction: column;
+
+  & > a {
+    color: $font-color-main;
+
+    &:hover {
+      color: $back-color-main;
+    }
+  }
 }
 
 .userImageWrapper {
-  border: 1px solid black;
-
-  & > img {
-    border-radius: 100%;
-  }
+  position: relative;
+  display: flex;
+  width: 120px;
+  height: 120px;
+  border: 1px solid $back-color-main;
+  border-radius: 100%;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
 
   &:hover {
-    border: 1px solid $back-color-main;
+    border: 1px solid black;
   }
-}
 
-.profileImage {
-  border-radius: 100%;
+  & > input {
+    background: transparent;
+    background-color: transparent;
+    opacity: 0;
+    position: absolute;
+    border: 1px solid white;
+    right: 0px;
+    bottom: 0px;
+    height: $userpage-profile-size;
+    width: $userpage-profile-size/2;
+    border-bottom-right-radius: $userpage-profile-size * 2;
+    border-top-right-radius: $userpage-profile-size * 2;
+    width: $userpage-profile-size/2;
+    box-sizing: border-box;
+    background-color: black;
+  }
+
+  & > button {
+    position: absolute;
+    border: 1px solid white;
+    height: $userpage-profile-size;
+    width: $userpage-profile-size/2;
+    box-sizing: border-box;
+    border-bottom-left-radius: $userpage-profile-size * 2;
+    border-top-left-radius: $userpage-profile-size * 2;
+    left: 0px;
+  }
 }

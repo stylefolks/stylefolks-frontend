@@ -18,5 +18,8 @@ export const useLazyMe = () => {
 };
 
 export const useMe = () => {
-  return useQuery<meQuery>(ME_QUERY);
+  return useQuery<meQuery>(ME_QUERY, {
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'network-only',
+  });
 };

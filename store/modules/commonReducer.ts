@@ -6,6 +6,7 @@ export interface IAlertState {
     spinner?: boolean;
   };
   alert: {
+    isVisible: boolean;
     content: string;
     title: string;
   };
@@ -13,11 +14,10 @@ export interface IAlertState {
 }
 
 const initialState = {
-  portal: {
-    modal: false,
-    spinner: false,
-  },
+  modal: false,
+  spinner: false,
   alert: {
+    isVisible: false,
     content: '',
     title: '',
   },
@@ -28,20 +28,22 @@ const uploadSlice = createSlice({
   initialState,
   reducers: {
     setAlert(state, action: PayloadAction<{ title: string; content: string }>) {
-      state.portal.modal = true;
+      state.alert.isVisible = true;
       state.alert.title = action.payload.title;
       state.alert.content = action.payload.content;
     },
-    umountAlert(state) {
-      state.portal.modal = false;
-      state.alert = { title: '', content: '' };
+    unmountAlert(state) {
+      state.alert = { title: '', content: '', isVisible: false };
     },
     setSpinner(state, action: PayloadAction<boolean>) {
-      state.portal.spinner = action.payload;
+      state.spinner = action.payload;
+    },
+    setModal(state, action: PayloadAction<boolean>) {
+      state.modal = action.payload;
     },
   },
 });
 
 const { actions, reducer } = uploadSlice;
-export const { setAlert, setSpinner, umountAlert } = actions;
+export const { setAlert, setSpinner, unmountAlert, setModal } = actions;
 export default reducer;

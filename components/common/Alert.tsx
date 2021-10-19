@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import Portal from '../../HOC/Portal';
+import Portal from '../../HOC/Alert';
 import { RootState } from '../../store/modules';
 import UtilStyle from '../../styles/Util.module.scss';
 import BackDrop from './BackDrop';

@@ -1,21 +1,35 @@
 import { useLazyQuery } from '@apollo/client';
+import UploadModal from 'components/user/UploadModal';
+import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getUserCrew,
   getUserCrewVariables,
 } from 'src/__generated__/getUserCrew';
+import { RootState } from 'store/modules';
 import UserStyle from 'styles/User.module.scss';
 import { FIND_BY_NICKNAME, GET_USER_CREW } from '../../graphql/queries';
-import { useMe } from '../../hooks/useMe';
-import { addApolloState, initializeApollo } from '../../lib/apolloClient';
-import vacantImage from '../../public/solidwhite.png';
 import {
   findByNickName_findByNickName,
   findByNickName_findByNickName_user,
 } from '../../src/__generated__/findByNickName';
+
+interface IFormProps {
+  name: string;
+  address: string;
+  categoryName: string;
+  file: FileList;
+}
+
+const DynamicUserProfile = dynamic(
+  () => import('components/user/UserProfile'),
+  {
+    ssr: false,
+  }
+);
 
 const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
   ({
@@ -25,9 +39,9 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     data: findByNickName_findByNickName_user;
     paramsId: string;
   }) => {
-    const router = useRouter();
-    const { data: loginUserData, loading, error } = useMe();
-    const [isUser, setIsUser] = useState<boolean>(false);
+    const { user } = useSelector((state: RootState) => state.user);
+    const dispatch = useDispatch();
+
     const [
       getUserCrew,
       {
@@ -35,55 +49,35 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         loading: getUserCrewLoading,
         error: getUserCrewError,
       },
-    ] = useLazyQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW);
+    ] = useLazyQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW, {
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'network-only',
+    });
 
     useEffect(() => {
-      if ((!loading && error) || !data) {
-        router.push('/');
-      }
-    }, []);
+      getUserCrew({
+        variables: {
+          nickname: user.nickname,
+        },
+      });
+    }, [user]);
 
-    useEffect(() => {
-      if (loginUserData?.me.nickname === paramsId) {
-        setIsUser(true);
-        console.log(data?.nickname);
-        getUserCrew({
-          variables: {
-            nickname: data?.nickname,
-          },
-        });
-      }
-    }, [loginUserData]);
-
-    const onClick = () => {
-      console.log('upload image');
-    };
     if (getUserCrewLoading) return <div>Loading..</div>;
 
-    console.log(getUserCrewError, getUserCrewData);
     return (
-      <div className={UserStyle.userContainer}>
-        <div className={UserStyle.userInfoWrapper}>
-          <div className={UserStyle.userImageWrapper}>
-            <Image
-              className={UserStyle.profileImage}
-              src={data?.profileImg ? data?.profileImg : vacantImage}
-              alt="profile-image"
-              width="80px"
-              height="80px"
-            />
+      <>
+        <div className={UserStyle.userContainer}>
+          <DynamicUserProfile userNick={paramsId} />
+
+          <div>
+            {getUserCrewData &&
+              getUserCrewData?.getUserCrew?.crews?.map((el) => (
+                <li key={el.id}>{el.name}</li>
+              ))}
           </div>
-          <span> {data?.nickname}</span>
-          {/* {isUser ? <span>You are user</span> : <span>NO USER</span>} */}
         </div>
-        <div>
-          {getUserCrewData &&
-            getUserCrewData?.getUserCrew?.crews?.map((el) => (
-              <li key={el.id}>{el.name}</li>
-            ))}
-          <span>Hello User NickName: {data?.nickname}</span>
-        </div>
-      </div>
+        <UploadModal />
+      </>
     );
   };
 

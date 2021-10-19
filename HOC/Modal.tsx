@@ -3,13 +3,12 @@ import { createPortal } from 'react-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/modules';
 
-interface IPropsPortal {
+interface IPropsModal {
   children: React.ReactNode;
 }
 
-const Portal: React.FC<IPropsPortal> = ({ children }) => {
-  const { portal } = useSelector((state: RootState) => state.common);
-  const { modal } = portal;
+const Modal: React.FC<IPropsModal> = ({ children }) => {
+  const { modal } = useSelector((state: RootState) => state.common);
 
   useEffect(() => {
     modal && (document.body.style.overflow = 'hidden');
@@ -17,8 +16,8 @@ const Portal: React.FC<IPropsPortal> = ({ children }) => {
   }, [modal]);
 
   return modal
-    ? createPortal(children, document.querySelector('#modal'))
+    ? createPortal(children, document.querySelector('#alert'))
     : null;
 };
 
-export default Portal;
+export default Modal;

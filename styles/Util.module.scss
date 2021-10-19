@@ -1,6 +1,6 @@
-//https://codepen.io/carpenumidium/pen/ZOjawV
-$lines: 16; // no of <li> elements, has to be an even number. Still learning how sass works, I'm getting a warning when an odd number is used.
+$lines: 16;
 $delayandduration: 4;
+
 .flexCenter {
   display: flex;
   justify-content: center;
