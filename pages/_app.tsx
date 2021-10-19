@@ -5,7 +5,7 @@ import Wrapper from '../components/Wrapper';
 import { useApollo } from '../lib/apolloClient';
 import { wrapper } from '../store';
 
-const DynamicAlert = dynamic(() => import('../components/common/Alert'), {
+const DynamicSpinner = dynamic(() => import('components/common/Spinner'), {
   ssr: false,
 });
 
@@ -18,7 +18,7 @@ const App = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </Layout>
       </Wrapper>
-      {/* <DynamicAlert /> */}
+      <DynamicSpinner />
     </ApolloProvider>
   );
 };

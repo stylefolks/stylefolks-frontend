@@ -10,8 +10,8 @@ import {
   setIsTemp,
   updateTitleImageArr,
 } from '../../store/modules/uploadReducer';
-import Spinner from '../Spinner';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
+
 interface EditorPropsWithHandlers extends EditorProps {
   onChange?(value: string): void;
 }
@@ -120,7 +120,6 @@ const WysiwygEditor: React.FC<Props> = (props) => {
           // ['code', 'codeblock'],
         ]}
       />
-      <Spinner />
     </div>
   );
 };

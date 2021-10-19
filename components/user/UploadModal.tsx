@@ -16,6 +16,7 @@ import {
   setSpinner,
   unmountAlert,
 } from 'store/modules/commonReducer';
+import UploadModalStyle from 'styles/UploadModal.module.scss';
 
 const UploadModal = () => {
   const dispatch = useDispatch();
@@ -94,8 +95,8 @@ const UploadModal = () => {
     <>
       <Modal>
         <BackDrop>
-          <section>
-            <div>Hello</div>
+          <section className={UploadModalStyle.uploadModalContainer}>
+            <h2>Change Your Profile Image</h2>
             <button name="upload" onClick={() => ref.current.click()}>
               Upload Photo
             </button>
@@ -111,14 +112,6 @@ const UploadModal = () => {
             />
           </section>
         </BackDrop>
-        <style jsx>{`
-          input {
-            width: 0px;
-            height: 0px;
-            border: 1px solid black;
-            background-color: white;
-          }
-        `}</style>
       </Modal>
       <Alert onConfirm={onConfirmAlert} />
     </>
