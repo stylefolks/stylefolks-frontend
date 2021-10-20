@@ -31,6 +31,13 @@ const DynamicUserProfile = dynamic(
   }
 );
 
+const DynamicUserContents = dynamic(
+  () => import('components/user/UserContents'),
+  {
+    ssr: false,
+  }
+);
+
 const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
   ({
     data,
@@ -69,16 +76,7 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         <div className={UserStyle.userContainer}>
           <DynamicUserProfile userNick={paramsId} />
         </div>
-        <div className={UserStyle.userContentsContainer}>
-          <div className={UserStyle.userButtonWrapper}>
-            <button>OOTD</button>
-            <button>COLUMN</button>
-            <button>REVIEW</button>
-            <button>ALL</button>
-          </div>
-          <div>여기에 이미지 만들어내야 겠네</div>
-        </div>
-
+        <DynamicUserContents />
         <UploadModal />
       </div>
     );

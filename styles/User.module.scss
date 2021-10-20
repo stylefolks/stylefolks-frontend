@@ -100,10 +100,28 @@
 }
 
 .userButtonWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
   & > button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     width: 8vw;
     height: 8vw;
+    border: 1px solid $back-color-main;
+    border-radius: 20px;
+    margin-bottom: 2vh;
+    transition: all 0.3s ease-in-out;
 
-    border: 1px solid red;
+    &:hover {
+      border: 1px solid $font-color-main;
+      color: $font-color-main;
+    }
   }
+}
+
+.userContentsWrapper {
 }

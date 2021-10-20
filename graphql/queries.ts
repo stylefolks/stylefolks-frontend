@@ -41,7 +41,6 @@ export const ME_QUERY = gql`
       verified
       profileImg
       link
-      userInfor @client
     }
   }
 `;
@@ -134,6 +133,32 @@ export const GET_USER_CREW = gql`
         id
         profileImg
       }
+    }
+  }
+`;
+
+export const GET_POST_BY_CATEGORY = gql`
+  query getPostByCategory($input: GetPostByCategoryInput!) {
+    getPostByCategory(input: $input) {
+      ok
+      error
+      totalPages
+      totalResults
+      post {
+        id
+        createdAt
+        updatedAt
+        title
+        titleImg
+        user {
+          email
+          nickname
+          role
+          profileImg
+        }
+      }
+      firstCategoryName
+      secondCategoryName
     }
   }
 `;
