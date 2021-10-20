@@ -1,6 +1,7 @@
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { Button } from 'components/common/Button';
 import { EDIT_PROFILE } from 'graphql/mutations';
+import { GET_USER_CREW } from 'graphql/queries';
 import { useMe } from 'hooks/useMe';
 import { userInfoVar } from 'lib/apolloClient';
 import Image from 'next/image';
@@ -11,6 +12,10 @@ import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
+import {
+  getUserCrew,
+  getUserCrewVariables,
+} from 'src/__generated__/getUserCrew';
 import { setModal } from 'store/modules/commonReducer';
 import UserStyle from 'styles/User.module.scss';
 
@@ -40,6 +45,26 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
       router.push(`/user/${localVal.nick}`);
     }
   };
+
+  const [
+    getUserCrew,
+    {
+      data: getUserCrewData,
+      loading: getUserCrewLoading,
+      error: getUserCrewError,
+    },
+  ] = useLazyQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW, {
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'network-only',
+  });
+
+  useEffect(() => {
+    getUserCrew({
+      variables: {
+        nickname: user.nickname,
+      },
+    });
+  }, [user]);
 
   const [editProfileMutation, { data, loading, error }] = useMutation<
     editProfile,
@@ -83,55 +108,66 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
   }, []);
 
   return (
-    <div className={UserStyle.userInfoWrapper}>
-      <div
-        className={UserStyle.userImageWrapper}
-        onClick={isUser ? onClick : () => null}
-      >
-        {!userLoaidng && (
-          <Image
-            src={profileImg}
-            alt="profile-image"
-            width="120px"
-            height="120px"
-          />
-        )}
-      </div>
-      <div className={UserStyle.userInfoBioWrapper}>
-        {isChange && isUser ? (
-          <div>
-            <input
-              value={localVal.nick}
-              onChange={(e) =>
-                setLocalVal({ ...localVal, nick: e.target.value })
-              }
+    <div className={UserStyle.userInfoContainer}>
+      <div className={UserStyle.userInfoWrapper}>
+        <div
+          className={UserStyle.userImageWrapper}
+          onClick={isUser ? onClick : () => null}
+        >
+          {!userLoaidng && (
+            <Image
+              src={profileImg}
+              alt="profile-image"
+              width="120px"
+              height="120px"
             />
-          </div>
-        ) : (
-          <h3> {user?.nickname}</h3>
-        )}
-        {isChange && isUser ? (
-          <div>
-            <input
-              value={localVal.link}
-              onChange={(e) =>
-                setLocalVal({ ...localVal, link: e.target.value })
-              }
-            />
-          </div>
-        ) : (
-          <a href={user?.link} target="_blank" rel="noreferrer">
-            Personal Link of {user?.link}
-          </a>
-        )}
-        {isChange ? (
-          <>
-            <button onClick={onSave}>Save</button>
-            <button onClick={() => setIsChange(false)}>x</button>
-          </>
-        ) : (
-          ''
-        )}
+          )}
+        </div>
+        <div className={UserStyle.userInfoBioWrapper}>
+          {isChange && isUser ? (
+            <div>
+              <input
+                value={localVal.nick}
+                onChange={(e) =>
+                  setLocalVal({ ...localVal, nick: e.target.value })
+                }
+              />
+            </div>
+          ) : (
+            <h3> {user?.nickname}</h3>
+          )}
+          {isChange && isUser ? (
+            <div>
+              <input
+                value={localVal.link}
+                onChange={(e) =>
+                  setLocalVal({ ...localVal, link: e.target.value })
+                }
+              />
+            </div>
+          ) : (
+            <a href={user?.link} target="_blank" rel="noreferrer">
+              Personal Link of {user?.link}
+            </a>
+          )}
+          {isChange ? (
+            <>
+              <button onClick={onSave}>Save</button>
+              <button onClick={() => setIsChange(false)}>x</button>
+            </>
+          ) : (
+            ''
+          )}
+        </div>
+        <div>
+          {getUserCrewData &&
+            getUserCrewData?.getUserCrew?.crews?.map((el) => (
+              <li key={el.id}>
+                <div>{el.profileImg}</div>
+                {el.name}
+              </li>
+            ))}
+        </div>
       </div>
       {isUser && (
         <Button

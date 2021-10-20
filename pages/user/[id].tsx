@@ -65,19 +65,22 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     if (getUserCrewLoading) return <div>Loading..</div>;
 
     return (
-      <>
+      <div className={UserStyle.container}>
         <div className={UserStyle.userContainer}>
           <DynamicUserProfile userNick={paramsId} />
-
-          <div>
-            {getUserCrewData &&
-              getUserCrewData?.getUserCrew?.crews?.map((el) => (
-                <li key={el.id}>{el.name}</li>
-              ))}
-          </div>
         </div>
+        <div className={UserStyle.userContentsContainer}>
+          <div className={UserStyle.userButtonWrapper}>
+            <button>OOTD</button>
+            <button>COLUMN</button>
+            <button>REVIEW</button>
+            <button>ALL</button>
+          </div>
+          <div>여기에 이미지 만들어내야 겠네</div>
+        </div>
+
         <UploadModal />
-      </>
+      </div>
     );
   };
 
