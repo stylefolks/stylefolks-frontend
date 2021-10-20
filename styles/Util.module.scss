@@ -223,7 +223,7 @@ $delayandduration: 4;
     font-weight: bold;
     color: $back-color-main;
 
-    animation: spiral-staircase #{$lines/$delayandduration}s linear infinite;
+    animation: spiral-staircase 4s linear infinite;
 
     &:hover {
       color: $font-color-main;
@@ -232,11 +232,11 @@ $delayandduration: 4;
 
   @for $i from 1 through $lines {
     li:nth-child(#{$i}) {
-      animation-delay: #{$i/$delayandduration}s;
+      animation-delay: 4s;
     }
   }
 
-  @for $r from 1 through $lines/2 {
+  @for $r from 1 through 8 {
     li:nth-child(#{$r}) {
       right: #{$r}rem;
     }

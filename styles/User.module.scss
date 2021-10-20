@@ -1,21 +1,40 @@
+.container {
+  width: 100%;
+  max-width: 1024px;
+  width: 100%;
+  margin-top: 44px;
+}
 .userContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid black;
-  max-width: 860px;
-  width: 95%;
+  border: 1px solid $back-color-main;
+  border-radius: 20px;
+  padding: 20px;
+
+  & > div {
+    display: flex;
+  }
 }
 
-.userInfoWrapper {
+.userInfoContainer {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
 
   & > button {
     width: 94px;
     height: 30px;
+  }
+}
+
+.userInfoWrapper {
+  display: flex;
+  align-items: center;
+
+  & > div:nth-child(2) {
+    margin-left: 50px;
   }
 }
 
@@ -73,4 +92,36 @@
     border-top-left-radius: $userpage-profile-size * 2;
     left: 0px;
   }
+}
+
+.userContentsContainer {
+  margin-top: 116px;
+  display: flex;
+}
+
+.userButtonWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  & > button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 8vw;
+    height: 8vw;
+    border: 1px solid $back-color-main;
+    border-radius: 20px;
+    margin-bottom: 2vh;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      border: 1px solid $font-color-main;
+      color: $font-color-main;
+    }
+  }
+}
+
+.userContentsWrapper {
 }

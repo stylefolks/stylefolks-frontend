@@ -71,7 +71,7 @@ function createApolloClient() {
       typePolicies: {
         Query: {
           fields: {
-            userInfor: {
+            nickname: {
               read() {
                 return userInfoVar();
               },

@@ -74,6 +74,16 @@ export interface EditProfileInput {
   link?: string | null;
 }
 
+export interface GetPostByCategoryInput {
+  page?: number | null;
+  firstCategoryName: FirstCategoryName;
+  secondCategoryName?: SecondCategoryName | null;
+  userRole?: UserRole | null;
+  brandId?: number | null;
+  crewId?: number | null;
+  userId?: number | null;
+}
+
 export interface GetPostForMainCategoryPageInput {
   firstCategoryName: FirstCategoryName;
   postCount?: number | null;

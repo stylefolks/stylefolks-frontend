@@ -100,6 +100,7 @@ const UploadModal = () => {
 
     if (res.status === 200) {
       //여기서 gql도 날려줘야할듯.
+      //백에서 막자
 
       editProfileMutation({
         variables: {

@@ -31,6 +31,13 @@ const DynamicUserProfile = dynamic(
   }
 );
 
+const DynamicUserContents = dynamic(
+  () => import('components/user/UserContents'),
+  {
+    ssr: false,
+  }
+);
+
 const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
   ({
     data,
@@ -65,19 +72,13 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     if (getUserCrewLoading) return <div>Loading..</div>;
 
     return (
-      <>
+      <div className={UserStyle.container}>
         <div className={UserStyle.userContainer}>
           <DynamicUserProfile userNick={paramsId} />
-
-          <div>
-            {getUserCrewData &&
-              getUserCrewData?.getUserCrew?.crews?.map((el) => (
-                <li key={el.id}>{el.name}</li>
-              ))}
-          </div>
         </div>
+        <DynamicUserContents />
         <UploadModal />
-      </>
+      </div>
     );
   };
 
