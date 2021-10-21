@@ -37,6 +37,7 @@ export default function App({ children }) {
           display: flex;
           padding: 5px 7px;
           transition: background-color 0.3s;
+          cursor: pointer;
         }
         // button:active {
         //   // background-color: #1b9db7;

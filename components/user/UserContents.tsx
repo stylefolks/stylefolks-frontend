@@ -10,6 +10,7 @@ import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import UseWindowDimension from 'hooks/useWindowDimension';
 import { userInfoVar } from 'lib/apolloClient';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import {
   getPostByCategory,
@@ -90,6 +91,11 @@ const UserContents = () => {
       <div className={UserStyle.userButtonWrapper}>
         {BUTTON_MAP.map((el, index) => (
           <button
+            className={
+              el.secondCategoryName === pickCategory.secondCategoryName
+                ? UserStyle.isActive
+                : ''
+            }
             onClick={() => onClick(el)}
             key={index}
             name={
@@ -107,17 +113,25 @@ const UserContents = () => {
           </button>
         ))}
       </div>
-      <div>
+      <div className={UserStyle.userContentsWrapper}>
         {loading ? (
           <div>Loading...</div>
         ) : (
           <ul className={UserStyle.userContentsList}>
-            {data?.getPostByCategory.post.map((el) => (
-              <li key={el.id}>
-                <DynamicImage src={el.titleImg} layout={'fill'} />
-                <span>{el.title}</span>
-              </li>
-            ))}
+            {data.getPostByCategory.totalResults === 0 ? (
+              <div className={UserStyle.noStory}>No Story Yet 😭</div>
+            ) : (
+              data?.getPostByCategory.post.map((el) => (
+                <li key={el.id}>
+                  <Link href={`/post/${el.id}`}>
+                    <a>
+                      <DynamicImage src={el.titleImg} layout={'fill'} />
+                      <span>{el.title}</span>
+                    </a>
+                  </Link>
+                </li>
+              ))
+            )}
           </ul>
         )}
       </div>
