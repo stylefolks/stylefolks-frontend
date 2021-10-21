@@ -118,7 +118,7 @@ const UserContents = () => {
           <div>Loading...</div>
         ) : (
           <ul className={UserStyle.userContentsList}>
-            {data.getPostByCategory.totalResults === 0 ? (
+            {data?.getPostByCategory.totalResults === 0 ? (
               <div className={UserStyle.noStory}>No Story Yet 😭</div>
             ) : (
               data?.getPostByCategory.post.map((el) => (

@@ -51,6 +51,11 @@ export default function App({ children }) {
         // button:hover {
         //   background-color: #22bad9;
         // }
+        ul {
+          padding: 0px;
+          margin: 0px;
+          list-style: none;
+        }
         h1 {
           margin: 0;
           padding: 0;
