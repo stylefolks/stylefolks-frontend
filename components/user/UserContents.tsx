@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import { userInfoVar } from 'lib/apolloClient';
+import dynamic from 'next/dynamic';
 import {
   getPostByCategory,
   getPostByCategoryVariables,
@@ -10,6 +11,8 @@ import {
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
 import UserStyle from 'styles/User.module.scss';
+
+const DynamicImage = dynamic(() => import('next/image'), { ssr: false });
 
 const UserContents = () => {
   const user = userInfoVar();
@@ -26,8 +29,6 @@ const UserContents = () => {
     },
   });
 
-  console.log('SHOW ME DATA', data, error);
-
   return (
     <div className={UserStyle.userContentsContainer}>
       <div className={UserStyle.userButtonWrapper}>
@@ -37,15 +38,18 @@ const UserContents = () => {
         <button>ALL</button>
       </div>
       <div>
-        <ul>
-          {loading ? (
-            <div>Loading..</div>
-          ) : (
-            data?.getPostByCategory?.post.map((el) => (
-              <li key={el.id}>{el.title}</li>
-            ))
-          )}
-        </ul>
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          <ul className={UserStyle.userContentsList}>
+            {data?.getPostByCategory.post.map((el) => (
+              <li key={el.id}>
+                <DynamicImage src={el.titleImg} layout={'fill'} />
+                <span>{el.title}</span>
+              </li>
+            ))}{' '}
+          </ul>
+        )}
       </div>
     </div>
   );

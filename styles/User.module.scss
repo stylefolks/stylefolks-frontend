@@ -97,6 +97,7 @@
 .userContentsContainer {
   margin-top: 116px;
   display: flex;
+  justify-content: space-between;
 }
 
 .userButtonWrapper {
@@ -104,24 +105,82 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  // border: 1px solid black;
 
   & > button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    width: 8vw;
-    height: 8vw;
+    width: 60px;
+    height: calc(100% / 4 - 0px);
     border: 1px solid $back-color-main;
-    border-radius: 20px;
-    margin-bottom: 2vh;
+
+    // margin-bottom: 2vh;
     transition: all 0.3s ease-in-out;
 
     &:hover {
       border: 1px solid $font-color-main;
       color: $font-color-main;
     }
+    @media screen and (max-width: 735px) {
+      width: 27px;
+      display: static;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+  }
+
+  @media screen and (max-width: 735px) {
+    margin-bottom: 3px;
+  }
+
+  @media screen and (min-width: 736px) {
+    margin-bottom: 28px;
   }
 }
 
 .userContentsWrapper {
+}
+
+.userContentsList {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin: 0px;
+  padding: 0px;
+
+  & > li {
+    position: relative;
+    border: 1px solid black;
+
+    &:nth-child(3n) {
+      margin-right: 0px;
+    }
+
+    image {
+      width: 100%;
+      height: 100%;
+    }
+
+    & > span {
+      top: 0px;
+      left: 0px;
+      position: absolute;
+    }
+
+    @media screen and (max-width: 735px) {
+      margin-right: 3px;
+      margin-bottom: 3px;
+      width: 124px;
+      height: 124px;
+    }
+
+    @media screen and (min-width: 736px) {
+      margin-right: 28px;
+      margin-bottom: 28px;
+      width: 293px;
+      height: 293px;
+    }
+  }
 }
