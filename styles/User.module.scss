@@ -109,17 +109,25 @@
 
   & > button {
     display: inline-flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 60px;
     height: calc(100% / 4 - 0px);
-    border: 1px solid $back-color-main;
-
-    // margin-bottom: 2vh;
+    border-right: 1px solid $back-color-main;
+    color: black;
     transition: all 0.3s ease-in-out;
 
+    & > span {
+      margin-top: 24px;
+
+      @media screen and (max-width: 735px) {
+        display: none;
+      }
+    }
+
     &:hover {
-      border: 1px solid $font-color-main;
+      border-right: 1px solid $font-color-main;
       color: $font-color-main;
     }
     @media screen and (max-width: 735px) {
