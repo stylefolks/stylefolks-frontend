@@ -1,13 +1,9 @@
 import { useQuery } from '@apollo/client';
-import {
-  faBookOpen,
-  faCheck,
-  faPenFancy,
-  faTshirt,
-  IconDefinition,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { BUTTON_MAP } from 'constants/constants';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
+import { IButtonMap } from 'model/dto';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -21,44 +17,15 @@ import {
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
 import UserStyle from 'styles/User.module.scss';
-interface IButtonMap {
-  icon: IconDefinition;
-  firstCategoryName: FirstCategoryName;
-  secondCategoryName: SecondCategoryName | '';
-}
 
 interface IPropsUserContents {
   pageUserData: findByNickName_findByNickName_user;
 }
 
-// const DynamicImage = dynamic(() => import('next/image'), { ssr: false });
-const BUTTON_MAP: IButtonMap[] = [
-  {
-    icon: faTshirt,
-    firstCategoryName: FirstCategoryName.TALK,
-    secondCategoryName: SecondCategoryName.OOTD,
-  },
-  {
-    icon: faPenFancy,
-    firstCategoryName: FirstCategoryName.COLUMN,
-    secondCategoryName: '',
-  },
-  {
-    icon: faBookOpen,
-    firstCategoryName: FirstCategoryName.FOLKS,
-    secondCategoryName: SecondCategoryName.REVIEW,
-  },
-  {
-    icon: faTshirt,
-    firstCategoryName: FirstCategoryName.TALK,
-    secondCategoryName: SecondCategoryName.FREE,
-  },
-];
-
 const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
   const [pickCategory, setPickCategory] = useState<{
     firstCategoryName: FirstCategoryName;
-    secondCategoryName: SecondCategoryName | '';
+    secondCategoryName: SecondCategoryName;
   }>({
     firstCategoryName: FirstCategoryName.TALK,
     secondCategoryName: SecondCategoryName.OOTD,
@@ -72,10 +39,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
       input: {
         nickname: pageUserData.nickname,
         firstCategoryName: pickCategory.firstCategoryName,
-        secondCategoryName:
-          pickCategory.secondCategoryName === ''
-            ? null
-            : pickCategory.secondCategoryName,
+        secondCategoryName: pickCategory.secondCategoryName,
       },
     },
   });
@@ -100,14 +64,14 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
             onClick={() => onClick(el)}
             key={index}
             name={
-              el.secondCategoryName === ''
+              el.secondCategoryName === null
                 ? el.firstCategoryName
                 : el.secondCategoryName
             }
           >
             <FontAwesomeIcon icon={el.icon} />
             <span>
-              {el.secondCategoryName === ''
+              {el.secondCategoryName === null
                 ? el.firstCategoryName
                 : el.secondCategoryName}
             </span>
@@ -116,7 +80,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
       </div>
       <div className={UserStyle.userContentsWrapper}>
         {loading ? (
-          <div>Loading...</div>
+          <div style={{ minHeight: '1024px' }}>Loading...</div>
         ) : (
           <ul className={UserStyle.userContentsList}>
             {!data?.getPostByCategory.post.length ? (
@@ -130,6 +94,8 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
                         src={el?.titleImg}
                         layout={'fill'}
                         alt="contents"
+                        placeholder="blur"
+                        blurDataURL={el?.titleImg}
                       />
                       <div className={UserStyle.hiddenContentsTitle}>
                         {el.title}
