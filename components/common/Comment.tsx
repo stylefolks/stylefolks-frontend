@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import ProfileRoundImage from 'components/ProfileRoundImage';
+import LoggedInUserProfileImage from 'components/LoggedInUserProfileImage';
 import { DELETE_COMMENT, MODIFY_COMMENT } from 'graphql/mutations';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -96,7 +96,7 @@ const Comment: React.FC<IPropsComment> = ({
   return (
     <li className={CommentBoxStyle.comment}>
       <div className={CommentBoxStyle.profileWrapper}>
-        <ProfileRoundImage imgSrc={commentUser.profileImg} />
+        <LoggedInUserProfileImage />
         <span>{commentUser.nickname}</span>
       </div>
       {!edit ? (

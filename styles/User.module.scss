@@ -207,7 +207,7 @@
     }
 
     & > a {
-      div {
+      .hiddenContentsTitle {
         top: 0px;
         left: 0px;
         position: absolute;
@@ -217,13 +217,13 @@
 
     &:hover {
       & > a {
-        div {
+        .hiddenContentsTitle {
+          visibility: visible;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
           color: $back-color-main;
-          visibility: visible;
           background-color: $blur-color;
 
           @media screen and (max-width: 735px) {

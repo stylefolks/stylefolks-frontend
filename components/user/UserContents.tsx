@@ -126,8 +126,12 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
                 <li key={el.id}>
                   <Link href={`/post/${el.id}`}>
                     <a>
-                      <Image src={el.titleImg} layout={'fill'} alt="contents" />
-                      <div>
+                      <Image
+                        src={el?.titleImg}
+                        layout={'fill'}
+                        alt="contents"
+                      />
+                      <div className={UserStyle.hiddenContentsTitle}>
                         {el.title}
                         <span>
                           <FontAwesomeIcon icon={faCheck} /> {el.viewCount}
