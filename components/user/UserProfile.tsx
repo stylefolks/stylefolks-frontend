@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation, useReactiveVar } from '@apollo/client';
 import { Button } from 'components/common/Button';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
@@ -27,7 +27,7 @@ interface IUserProfileProps {
 const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const user = userInfoVar();
+  const user = useReactiveVar(userInfoVar);
 
   const [isChange, setIsChange] = useState<boolean>(false);
   const [localVal, setLocalVal] = useState({ nick: '', link: '' });
@@ -88,9 +88,6 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   };
 
   const onSave = () => {
-    // dispatch(
-    //   upadateUser({ ...user, link: localVal.link, nickname: localVal.nick })
-    // );
     editProfileMutation({
       variables: {
         input: {
@@ -119,6 +116,9 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
               alt="profile-image"
               width="120px"
               height="120px"
+              unoptimized={true}
+              placeholder="blur"
+              blurDataURL={pageUserData.profileImg}
             />
           </div>
           <div className={UserStyle.userInfoBioWrapper}>
@@ -187,6 +187,8 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
                           height="48px"
                           src={el.profileImg}
                           alt="crewImage"
+                          placeholder="blur"
+                          blurDataURL={el.profileImg}
                         />
                       </div>
                       <span>{el.name}</span>

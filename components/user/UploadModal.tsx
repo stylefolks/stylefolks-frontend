@@ -5,6 +5,7 @@ import { EDIT_PROFILE } from 'graphql/mutations';
 import Modal from 'HOC/Modal';
 import { useMe } from 'hooks/useMe';
 import { userInfoVar } from 'lib/apolloClient';
+import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -21,6 +22,7 @@ import UploadModalStyle from 'styles/UploadModal.module.scss';
 
 const UploadModal = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const user = userInfoVar();
   const ref = useRef<HTMLInputElement>(null);
   const { refetch, data: meData } = useMe();
@@ -114,6 +116,7 @@ const UploadModal = () => {
   };
 
   const onConfirmAlert = () => {
+    router.reload();
     refetch(); //여기도 나중에 캐시만 업데이트 하는 방식으로 변경하자
     dispatch(unmountAlert());
     dispatch(setModal(false));
