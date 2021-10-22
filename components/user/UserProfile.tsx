@@ -2,7 +2,6 @@ import { useLazyQuery, useMutation } from '@apollo/client';
 import { Button } from 'components/common/Button';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
-import { useMe } from 'hooks/useMe';
 import { userInfoVar } from 'lib/apolloClient';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,6 +12,7 @@ import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
+import { findByNickName_findByNickName_user } from 'src/__generated__/findByNickName';
 import {
   getUserCrew,
   getUserCrewVariables,
@@ -21,16 +21,14 @@ import { setModal } from 'store/modules/commonReducer';
 import UserStyle from 'styles/User.module.scss';
 
 interface IUserProfileProps {
-  userNick: string;
+  pageUserData: findByNickName_findByNickName_user;
 }
 
-const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
+const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { data: userData, loading: userLoaidng } = useMe();
-
   const user = userInfoVar();
-  const profileImg = user?.profileImg;
+
   const [isChange, setIsChange] = useState<boolean>(false);
   const [localVal, setLocalVal] = useState({ nick: '', link: '' });
   const [isUser, setIsUser] = useState<boolean>(false);
@@ -62,7 +60,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
   useEffect(() => {
     getUserCrew({
       variables: {
-        nickname: user.nickname,
+        nickname: pageUserData.nickname,
       },
     });
   }, [user]);
@@ -105,7 +103,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
   };
 
   useEffect(() => {
-    if (user.nickname === userNick) setIsUser(true);
+    if (user.nickname === pageUserData.nickname) setIsUser(true);
   }, []);
 
   return (
@@ -116,19 +114,17 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
             className={UserStyle.userImageWrapper}
             onClick={isUser ? onClick : () => null}
           >
-            {!userLoaidng && (
-              <Image
-                src={profileImg}
-                alt="profile-image"
-                width="120px"
-                height="120px"
-              />
-            )}
+            <Image
+              src={pageUserData?.profileImg}
+              alt="profile-image"
+              width="120px"
+              height="120px"
+            />
           </div>
           <div className={UserStyle.userInfoBioWrapper}>
             {isChange && isUser ? (
               <>
-                <h4>{user?.role}</h4>
+                <h4>{pageUserData?.role}</h4>
                 <div>
                   <input
                     value={localVal.nick}
@@ -140,8 +136,8 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
               </>
             ) : (
               <>
-                <h4>{user?.role}</h4>
-                <h2> {user?.nickname}</h2>
+                <h4>{pageUserData?.role}</h4>
+                <h2> {pageUserData?.nickname}</h2>
               </>
             )}
             {isChange && isUser ? (
@@ -154,8 +150,8 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
                 />
               </div>
             ) : (
-              <a href={user?.link} target="_blank" rel="noreferrer">
-                Personal Link of {user?.link}
+              <a href={pageUserData?.link} target="_blank" rel="noreferrer">
+                Personal Link of {pageUserData?.link}
               </a>
             )}
             {isChange ? (
@@ -178,26 +174,27 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
         )}
       </div>
       <div className={UserStyle.userJoinCrewContainer}>
-        {getUserCrewData?.getUserCrew.crews.length && <h4>Join Crew</h4>}
+        {getUserCrewData?.getUserCrew.crews.length ? <h4>Joined Crew</h4> : ''}
         <ul>
-          {getUserCrewData?.getUserCrew.crews.length &&
-            getUserCrewData?.getUserCrew?.crews?.map((el) => (
-              <li key={el.id}>
-                <Link href={`crew/${el.id}`}>
-                  <a>
-                    <div className={UserStyle.userJoinCrewImage}>
-                      <Image
-                        width="48px"
-                        height="48px"
-                        src={el.profileImg}
-                        alt="crewImage"
-                      />
-                    </div>
-                    <span>{el.name}</span>
-                  </a>
-                </Link>
-              </li>
-            ))}
+          {getUserCrewData?.getUserCrew.crews.length
+            ? getUserCrewData?.getUserCrew?.crews?.map((el) => (
+                <li key={el.id}>
+                  <Link href={`crew/${el.id}`}>
+                    <a>
+                      <div className={UserStyle.userJoinCrewImage}>
+                        <Image
+                          width="48px"
+                          height="48px"
+                          src={el.profileImg}
+                          alt="crewImage"
+                        />
+                      </div>
+                      <span>{el.name}</span>
+                    </a>
+                  </Link>
+                </li>
+              ))
+            : ''}
         </ul>
       </div>
     </>

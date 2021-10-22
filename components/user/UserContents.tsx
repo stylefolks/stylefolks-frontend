@@ -1,17 +1,17 @@
 import { useQuery } from '@apollo/client';
 import {
   faBookOpen,
+  faCheck,
   faPenFancy,
   faTshirt,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
-import UseWindowDimension from 'hooks/useWindowDimension';
-import { userInfoVar } from 'lib/apolloClient';
-import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { findByNickName_findByNickName_user } from 'src/__generated__/findByNickName';
 import {
   getPostByCategory,
   getPostByCategoryVariables,
@@ -21,14 +21,17 @@ import {
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
 import UserStyle from 'styles/User.module.scss';
-
 interface IButtonMap {
   icon: IconDefinition;
   firstCategoryName: FirstCategoryName;
   secondCategoryName: SecondCategoryName | '';
 }
 
-const DynamicImage = dynamic(() => import('next/image'), { ssr: false });
+interface IPropsUserContents {
+  pageUserData: findByNickName_findByNickName_user;
+}
+
+// const DynamicImage = dynamic(() => import('next/image'), { ssr: false });
 const BUTTON_MAP: IButtonMap[] = [
   {
     icon: faTshirt,
@@ -52,8 +55,7 @@ const BUTTON_MAP: IButtonMap[] = [
   },
 ];
 
-const UserContents = () => {
-  const user = userInfoVar();
+const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
   const [pickCategory, setPickCategory] = useState<{
     firstCategoryName: FirstCategoryName;
     secondCategoryName: SecondCategoryName | '';
@@ -61,15 +63,14 @@ const UserContents = () => {
     firstCategoryName: FirstCategoryName.TALK,
     secondCategoryName: SecondCategoryName.OOTD,
   });
-  const { width, height } = UseWindowDimension();
-  const widhtCondition = width > 735;
+
   const { data, loading, error } = useQuery<
     getPostByCategory,
     getPostByCategoryVariables
   >(GET_POST_BY_CATEGORY, {
     variables: {
       input: {
-        userId: user.id,
+        nickname: pageUserData.nickname,
         firstCategoryName: pickCategory.firstCategoryName,
         secondCategoryName:
           pickCategory.secondCategoryName === ''
@@ -85,7 +86,7 @@ const UserContents = () => {
       secondCategoryName: el.secondCategoryName,
     });
   };
-
+  console.log('Master Data', data?.getPostByCategory);
   return (
     <div className={UserStyle.userContentsContainer}>
       <div className={UserStyle.userButtonWrapper}>
@@ -118,15 +119,20 @@ const UserContents = () => {
           <div>Loading...</div>
         ) : (
           <ul className={UserStyle.userContentsList}>
-            {data?.getPostByCategory.totalResults === 0 ? (
+            {!data?.getPostByCategory.post.length ? (
               <div className={UserStyle.noStory}>No Story Yet 😭</div>
             ) : (
               data?.getPostByCategory.post.map((el) => (
                 <li key={el.id}>
                   <Link href={`/post/${el.id}`}>
                     <a>
-                      <DynamicImage src={el.titleImg} layout={'fill'} />
-                      <span>{el.title}</span>
+                      <Image src={el.titleImg} layout={'fill'} alt="contents" />
+                      <div>
+                        {el.title}
+                        <span>
+                          <FontAwesomeIcon icon={faCheck} /> {el.viewCount}
+                        </span>
+                      </div>
                     </a>
                   </Link>
                 </li>

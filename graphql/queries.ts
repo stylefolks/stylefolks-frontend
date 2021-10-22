@@ -9,6 +9,7 @@ export const GET_EACH_POST_QUERY = gql`
         title
         titleImg
         contents
+        viewCount
         firstCategory {
           name
           id
@@ -150,6 +151,7 @@ export const GET_POST_BY_CATEGORY = gql`
         updatedAt
         title
         titleImg
+        viewCount
         user {
           email
           nickname

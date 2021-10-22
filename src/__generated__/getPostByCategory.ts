@@ -24,6 +24,7 @@ export interface getPostByCategory_getPostByCategory_post {
   updatedAt: any;
   title: string;
   titleImg: string | null;
+  viewCount: number;
   user: getPostByCategory_getPostByCategory_post_user;
 }
 
@@ -34,8 +35,8 @@ export interface getPostByCategory_getPostByCategory {
   totalPages: number | null;
   totalResults: number | null;
   post: getPostByCategory_getPostByCategory_post[] | null;
-  firstCategoryName: FirstCategoryName;
-  secondCategoryName: SecondCategoryName;
+  firstCategoryName: FirstCategoryName | null;
+  secondCategoryName: SecondCategoryName | null;
 }
 
 export interface getPostByCategory {
