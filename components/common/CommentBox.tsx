@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import Comment from 'components/common/Comment';
-import LoggedInUserProfileImage from 'components/LoggedInUserProfileImage';
+import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
 import { CREATE_COMMENT } from 'graphql/mutations';
 import { GET_EACH_POST_COMMENTS } from 'graphql/queries';
 import { useRouter } from 'next/router';

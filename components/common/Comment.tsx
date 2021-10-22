@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import LoggedInUserProfileImage from 'components/LoggedInUserProfileImage';
+import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
 import { DELETE_COMMENT, MODIFY_COMMENT } from 'graphql/mutations';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';

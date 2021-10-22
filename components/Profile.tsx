@@ -1,10 +1,11 @@
+import { useReactiveVar } from '@apollo/client';
 import UseWindowDimension from 'hooks/useWindowDimension';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { authTokenVar, isLoggedInVar, userInfoVar } from '../lib/apolloClient';
 import ProfileStyle from '../styles/Profile.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
-import LoggedInUserProfileImage from './LoggedInUserProfileImage';
+import LoggedInUserProfileImage from './user/LoggedInUserProfileImage';
 
 interface IModalState {
   isVisible: boolean;
@@ -15,7 +16,7 @@ interface IModalState {
 
 const Profile: React.FC = () => {
   const router = useRouter();
-  const user = userInfoVar();
+  const user = useReactiveVar(userInfoVar);
   const ref = React.createRef<HTMLDivElement>();
   const { width, height } = UseWindowDimension();
   const [modalState, setModalState] = useState<IModalState>({
