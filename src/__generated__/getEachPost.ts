@@ -39,6 +39,7 @@ export interface getEachPost_getEachPost_post {
   title: string;
   titleImg: string | null;
   contents: string;
+  viewCount: number;
   firstCategory: getEachPost_getEachPost_post_firstCategory | null;
   secondCategory: getEachPost_getEachPost_post_secondCategory | null;
   user: getEachPost_getEachPost_post_user;

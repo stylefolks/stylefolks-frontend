@@ -1,24 +1,26 @@
 import UseWindowDimension from 'hooks/useWindowDimension';
+import { userInfoVar } from 'lib/apolloClient';
 import Image from 'next/image';
 import vacantImage from 'public/solidwhite.png';
 import ProfileStyle from 'styles/Profile.module.scss';
 
-interface IProfileRoundImage {
-  imgSrc?: string;
-}
-
-const ProfileRoundImage: React.FC<IProfileRoundImage> = ({ imgSrc }) => {
+const LoggedInUserProfileImage: React.FC = () => {
+  const user = userInfoVar();
   const { width, height } = UseWindowDimension();
 
   return (
     <Image
       className={ProfileStyle.profileImage}
-      src={imgSrc ? imgSrc : vacantImage}
+      src={user.profileImg ? user.profileImg : vacantImage}
+      placeholder="blur"
+      blurDataURL={user.profileImg}
       width={(width * 4) / 100 >= 40 ? (width * 4) / 100 : '40px'}
       height={(width * 4) / 100 >= 40 ? (width * 4) / 100 : '40px'}
+      onAbort={(e) => console.log('@@@@', e)}
+      unoptimized={true}
       alt="profileImage"
     />
   );
 };
 
-export default ProfileRoundImage;
+export default LoggedInUserProfileImage;

@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import Comment from 'components/common/Comment';
-import ProfileRoundImage from 'components/ProfileRoundImage';
+import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
 import { CREATE_COMMENT } from 'graphql/mutations';
 import { GET_EACH_POST_COMMENTS } from 'graphql/queries';
 import { useRouter } from 'next/router';
@@ -73,7 +73,7 @@ const CommentBox: React.FC<ICommentBoxProps> = ({ postId }) => {
   return (
     <section className={CommentBoxStyle.commentBoxContainer}>
       <div>
-        <ProfileRoundImage imgSrc={user?.profileImg} />
+        <LoggedInUserProfileImage />
         <input value={comment} onChange={onChange} />
         <Button
           actionText={'등록'}

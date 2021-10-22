@@ -1,10 +1,10 @@
-import { useLazyQuery, useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation, useReactiveVar } from '@apollo/client';
 import { Button } from 'components/common/Button';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
-import { useMe } from 'hooks/useMe';
 import { userInfoVar } from 'lib/apolloClient';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
+import { findByNickName_findByNickName_user } from 'src/__generated__/findByNickName';
 import {
   getUserCrew,
   getUserCrewVariables,
@@ -20,16 +21,14 @@ import { setModal } from 'store/modules/commonReducer';
 import UserStyle from 'styles/User.module.scss';
 
 interface IUserProfileProps {
-  userNick: string;
+  pageUserData: findByNickName_findByNickName_user;
 }
 
-const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
+const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { data: userData, loading: userLoaidng } = useMe();
+  const user = useReactiveVar(userInfoVar);
 
-  const user = userInfoVar();
-  const profileImg = user?.profileImg;
   const [isChange, setIsChange] = useState<boolean>(false);
   const [localVal, setLocalVal] = useState({ nick: '', link: '' });
   const [isUser, setIsUser] = useState<boolean>(false);
@@ -61,7 +60,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
   useEffect(() => {
     getUserCrew({
       variables: {
-        nickname: user.nickname,
+        nickname: pageUserData.nickname,
       },
     });
   }, [user]);
@@ -89,9 +88,6 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
   };
 
   const onSave = () => {
-    // dispatch(
-    //   upadateUser({ ...user, link: localVal.link, nickname: localVal.nick })
-    // );
     editProfileMutation({
       variables: {
         input: {
@@ -104,80 +100,106 @@ const UserProfile: React.FC<IUserProfileProps> = ({ userNick }) => {
   };
 
   useEffect(() => {
-    if (user.nickname === userNick) setIsUser(true);
+    if (user.nickname === pageUserData.nickname) setIsUser(true);
   }, []);
 
   return (
-    <div className={UserStyle.userInfoContainer}>
-      <div className={UserStyle.userInfoWrapper}>
-        <div
-          className={UserStyle.userImageWrapper}
-          onClick={isUser ? onClick : () => null}
-        >
-          {!userLoaidng && (
+    <>
+      <div className={UserStyle.userInfoContainer}>
+        <div className={UserStyle.userInfoWrapper}>
+          <div
+            className={UserStyle.userImageWrapper}
+            onClick={isUser ? onClick : () => null}
+          >
             <Image
-              src={profileImg}
+              src={pageUserData?.profileImg}
               alt="profile-image"
               width="120px"
               height="120px"
+              unoptimized={true}
+              placeholder="blur"
+              blurDataURL={pageUserData.profileImg}
             />
-          )}
+          </div>
+          <div className={UserStyle.userInfoBioWrapper}>
+            {isChange && isUser ? (
+              <>
+                <h4>{pageUserData?.role}</h4>
+                <div>
+                  <input
+                    value={localVal.nick}
+                    onChange={(e) =>
+                      setLocalVal({ ...localVal, nick: e.target.value })
+                    }
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <h4>{pageUserData?.role}</h4>
+                <h2> {pageUserData?.nickname}</h2>
+              </>
+            )}
+            {isChange && isUser ? (
+              <div>
+                <input
+                  value={localVal.link}
+                  onChange={(e) =>
+                    setLocalVal({ ...localVal, link: e.target.value })
+                  }
+                />
+              </div>
+            ) : (
+              <a href={pageUserData?.link} target="_blank" rel="noreferrer">
+                Personal Link of {pageUserData?.link}
+              </a>
+            )}
+            {isChange ? (
+              <>
+                <button onClick={onSave}>Save</button>
+                <button onClick={() => setIsChange(false)}>x</button>
+              </>
+            ) : (
+              ''
+            )}
+          </div>
         </div>
-        <div className={UserStyle.userInfoBioWrapper}>
-          {isChange && isUser ? (
-            <div>
-              <input
-                value={localVal.nick}
-                onChange={(e) =>
-                  setLocalVal({ ...localVal, nick: e.target.value })
-                }
-              />
-            </div>
-          ) : (
-            <h3> {user?.nickname}</h3>
-          )}
-          {isChange && isUser ? (
-            <div>
-              <input
-                value={localVal.link}
-                onChange={(e) =>
-                  setLocalVal({ ...localVal, link: e.target.value })
-                }
-              />
-            </div>
-          ) : (
-            <a href={user?.link} target="_blank" rel="noreferrer">
-              Personal Link of {user?.link}
-            </a>
-          )}
-          {isChange ? (
-            <>
-              <button onClick={onSave}>Save</button>
-              <button onClick={() => setIsChange(false)}>x</button>
-            </>
-          ) : (
-            ''
-          )}
-        </div>
-        <div>
-          {getUserCrewData &&
-            getUserCrewData?.getUserCrew?.crews?.map((el) => (
-              <li key={el.id}>
-                <div>{el.profileImg}</div>
-                {el.name}
-              </li>
-            ))}
-        </div>
+        {isUser && (
+          <Button
+            actionText="Edit Profile"
+            onClick={onEdit}
+            loading={false}
+            canClick={true}
+          />
+        )}
       </div>
-      {isUser && (
-        <Button
-          actionText="Edit Profile"
-          onClick={onEdit}
-          loading={false}
-          canClick={true}
-        />
-      )}
-    </div>
+      <div className={UserStyle.userJoinCrewContainer}>
+        {getUserCrewData?.getUserCrew.crews.length ? <h4>Joined Crew</h4> : ''}
+        <ul>
+          {getUserCrewData?.getUserCrew.crews.length
+            ? getUserCrewData?.getUserCrew?.crews?.map((el) => (
+                <li key={el.id}>
+                  <Link href={`crew/${el.id}`}>
+                    <a>
+                      <div className={UserStyle.userJoinCrewImage}>
+                        <Image
+                          width="48px"
+                          height="48px"
+                          src={el.profileImg}
+                          alt="crewImage"
+                          placeholder="blur"
+                          blurDataURL={el.profileImg}
+                        />
+                      </div>
+                      <span>{el.name}</span>
+                    </a>
+                  </Link>
+                </li>
+              ))
+            : ''}
+        </ul>
+      </div>
+    </>
   );
 };
 

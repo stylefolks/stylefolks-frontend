@@ -103,22 +103,25 @@ export const Post = () => {
               <a> By {data?.getEachPost.post.user.nickname} </a>
             </Link>
           </div>
-          {+user.id === +data.getEachPost.post.user.id && (
-            <>
-              <Button
-                onClick={onEdit}
-                actionText="수정"
-                loading={false}
-                canClick={true}
-              />
-              <Button
-                onClick={onDelete}
-                actionText="삭제"
-                loading={deleteMyPostLoading}
-                canClick={!deleteMyPostLoading && !deleteMyPostError}
-              />
-            </>
-          )}
+          <div>
+            {+user.id === +data.getEachPost.post.user.id && (
+              <>
+                <Button
+                  onClick={onEdit}
+                  actionText="수정"
+                  loading={false}
+                  canClick={true}
+                />
+                <Button
+                  onClick={onDelete}
+                  actionText="삭제"
+                  loading={deleteMyPostLoading}
+                  canClick={!deleteMyPostLoading && !deleteMyPostError}
+                />
+              </>
+            )}
+            <span>조회수: {data.getEachPost.post.viewCount}</span>
+          </div>
         </section>
         <div className={PostStyle.divider} />
         <EditorViewer content={data?.getEachPost.post.contents} />

@@ -1,16 +1,11 @@
+import { useReactiveVar } from '@apollo/client';
 import UseWindowDimension from 'hooks/useWindowDimension';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { authTokenVar, isLoggedInVar } from '../lib/apolloClient';
+import { authTokenVar, isLoggedInVar, userInfoVar } from '../lib/apolloClient';
 import ProfileStyle from '../styles/Profile.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
-import ProfileRoundImage from './ProfileRoundImage';
-
-interface IProps {
-  profileImg?: string;
-  id?: number;
-  nickname?: string;
-}
+import LoggedInUserProfileImage from './user/LoggedInUserProfileImage';
 
 interface IModalState {
   isVisible: boolean;
@@ -19,8 +14,9 @@ interface IModalState {
   direction: number;
 }
 
-const Profile: React.FC<IProps> = ({ profileImg, id, nickname }) => {
+const Profile: React.FC = () => {
   const router = useRouter();
+  const user = useReactiveVar(userInfoVar);
   const ref = React.createRef<HTMLDivElement>();
   const { width, height } = UseWindowDimension();
   const [modalState, setModalState] = useState<IModalState>({
@@ -54,7 +50,7 @@ const Profile: React.FC<IProps> = ({ profileImg, id, nickname }) => {
           });
         }}
       >
-        <ProfileRoundImage imgSrc={profileImg} />
+        <LoggedInUserProfileImage />
         <div
           className={
             modalState.isVisible
@@ -66,7 +62,7 @@ const Profile: React.FC<IProps> = ({ profileImg, id, nickname }) => {
           <div
             className={`${ProfileStyle.popupProfileText} ${UtilStyle.flexColumnCenter}`}
           >
-            <span onClick={() => router.push(`/user/${nickname}`)}>
+            <span onClick={() => router.push(`/user/${user.nickname}`)}>
               Profile
             </span>
             <span onClick={() => router.push(`/upload`)}>Upload</span>

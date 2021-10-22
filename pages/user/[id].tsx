@@ -1,28 +1,23 @@
-import { useLazyQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import UploadModal from 'components/user/UploadModal';
-import { addApolloState, initializeApollo } from 'lib/apolloClient';
+import {
+  addApolloState,
+  initializeApollo,
+  userInfoVar,
+} from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import dynamic from 'next/dynamic';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import {
   getUserCrew,
   getUserCrewVariables,
 } from 'src/__generated__/getUserCrew';
-import { RootState } from 'store/modules';
 import UserStyle from 'styles/User.module.scss';
 import { FIND_BY_NICKNAME, GET_USER_CREW } from '../../graphql/queries';
 import {
   findByNickName_findByNickName,
   findByNickName_findByNickName_user,
 } from '../../src/__generated__/findByNickName';
-
-interface IFormProps {
-  name: string;
-  address: string;
-  categoryName: string;
-  file: FileList;
-}
 
 const DynamicUserProfile = dynamic(
   () => import('components/user/UserProfile'),
@@ -40,43 +35,34 @@ const DynamicUserContents = dynamic(
 
 const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
   ({
-    data,
-    paramsId,
+    pageUserData,
+    userNick,
   }: {
-    data: findByNickName_findByNickName_user;
-    paramsId: string;
+    pageUserData: findByNickName_findByNickName_user;
+    userNick: string;
   }) => {
-    const { user } = useSelector((state: RootState) => state.user);
-    const dispatch = useDispatch();
+    const user = userInfoVar();
 
-    const [
-      getUserCrew,
-      {
-        data: getUserCrewData,
-        loading: getUserCrewLoading,
-        error: getUserCrewError,
+    const {
+      data: getUserCrewData,
+      loading: getUserCrewLoading,
+      error: getUserCrewError,
+    } = useQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW, {
+      variables: {
+        nickname: userNick,
       },
-    ] = useLazyQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW, {
       fetchPolicy: 'network-only',
       nextFetchPolicy: 'network-only',
     });
-
-    useEffect(() => {
-      getUserCrew({
-        variables: {
-          nickname: user.nickname,
-        },
-      });
-    }, [user]);
 
     if (getUserCrewLoading) return <div>Loading..</div>;
 
     return (
       <div className={UserStyle.container}>
         <div className={UserStyle.userContainer}>
-          <DynamicUserProfile userNick={paramsId} />
+          <DynamicUserProfile pageUserData={pageUserData} />
         </div>
-        <DynamicUserContents />
+        <DynamicUserContents pageUserData={pageUserData} />
         <UploadModal />
       </div>
     );
@@ -103,7 +89,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   }
 
   return addApolloState(apolloClient, {
-    props: { data: data.data.findByNickName.user, paramsId: params?.id },
+    props: {
+      pageUserData: data.data.findByNickName.user,
+      userNick: params?.id,
+    },
   });
 };
 

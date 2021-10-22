@@ -3,12 +3,16 @@
   max-width: 1024px;
   width: 100%;
   margin-top: 44px;
+
+  @media screen and (max-width: $media-standard) {
+    margin-top: 0px;
+  }
 }
 .userContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid $back-color-main;
+  // border-bottom: 1px solid $back-color-main;
   border-radius: 20px;
   padding: 20px;
 
@@ -27,14 +31,24 @@
     width: 94px;
     height: 30px;
   }
+
+  @media screen and (max-width: $media-standard) {
+    padding-bottom: 20px;
+    border-bottom: 1px solid $back-color-main;
+  }
 }
 
 .userInfoWrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 
   & > div:nth-child(2) {
     margin-left: 50px;
+
+    @media screen and (max-width: $media-standard) {
+      justify-content: center;
+      margin-left: 12px;
+    }
   }
 }
 
@@ -47,6 +61,21 @@
 
     &:hover {
       color: $back-color-main;
+    }
+  }
+
+  @media screen and (max-width: $media-standard) {
+    width: $userpage-profile-size / 1.4;
+    height: $userpage-profile-size / 1.4;
+    h4,
+    h2 {
+      margin: 0px;
+    }
+    a {
+      width: 114px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
   }
 }
@@ -66,15 +95,15 @@
   }
 
   & > input {
-    background: transparent;
-    background-color: transparent;
-    opacity: 0;
     position: absolute;
-    border: 1px solid white;
     right: 0px;
     bottom: 0px;
     height: $userpage-profile-size;
     width: $userpage-profile-size/2;
+    background: transparent;
+    background-color: transparent;
+    opacity: 0;
+    border: 1px solid white;
     border-bottom-right-radius: $userpage-profile-size * 2;
     border-top-right-radius: $userpage-profile-size * 2;
     width: $userpage-profile-size/2;
@@ -92,11 +121,17 @@
     border-top-left-radius: $userpage-profile-size * 2;
     left: 0px;
   }
+
+  @media screen and (max-width: $media-standard) {
+    width: $userpage-profile-size / 1.4;
+    height: $userpage-profile-size / 1.4;
+  }
 }
 
 .userContentsContainer {
-  margin-top: 116px;
+  margin-top: 24px;
   display: flex;
+  justify-content: space-between;
 }
 
 .userButtonWrapper {
@@ -104,24 +139,235 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  // border: 1px solid black;
 
   & > button {
     display: inline-flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 8vw;
-    height: 8vw;
-    border: 1px solid $back-color-main;
-    border-radius: 20px;
-    margin-bottom: 2vh;
+    width: 60px;
+    height: calc(100% / 3 - 0px);
+    border-right: 1px solid $back-color-main;
+    color: black;
     transition: all 0.3s ease-in-out;
 
+    & > span {
+      margin-top: 24px;
+
+      @media screen and (max-width: 735px) {
+        display: none;
+      }
+    }
+
     &:hover {
-      border: 1px solid $font-color-main;
+      border-right: 1px solid $font-color-main;
       color: $font-color-main;
     }
+    @media screen and (max-width: 735px) {
+      width: 27px;
+      display: static;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+  }
+
+  @media screen and (max-width: 735px) {
+    margin-bottom: 3px;
+  }
+
+  @media screen and (min-width: 736px) {
+    margin-bottom: 28px;
   }
 }
 
 .userContentsWrapper {
+  width: fit-content;
+}
+
+.userContentsList {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 0px;
+  padding: 0px;
+
+  & > li {
+    position: relative;
+    border: 1px solid black;
+
+    &:nth-child(3n) {
+      margin-right: 0px;
+    }
+
+    image {
+      width: 100%;
+      height: 100%;
+    }
+
+    & > a {
+      .hiddenContentsTitle {
+        top: 0px;
+        left: 0px;
+        position: absolute;
+        visibility: hidden;
+      }
+    }
+
+    &:hover {
+      & > a {
+        .hiddenContentsTitle {
+          visibility: visible;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          color: $back-color-main;
+          background-color: $blur-color;
+
+          @media screen and (max-width: 735px) {
+            width: 124px;
+            height: 124px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          @media screen and (min-width: 736px) {
+            width: 293px;
+            height: 293px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+
+            font-size: 20px;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 735px) {
+      margin-right: 3px;
+      margin-bottom: 3px;
+      width: 124px;
+      height: 124px;
+    }
+
+    @media screen and (min-width: 736px) {
+      margin-right: 28px;
+      margin-bottom: 28px;
+      width: 293px;
+      height: 293px;
+    }
+  }
+
+  @media screen and (max-width: 735px) {
+    min-width: calc(124px * 3 + 3px * 2);
+    min-height: calc(124px * 3 + 3px * 3);
+  }
+
+  @media screen and (min-width: 736px) {
+    min-width: calc(293px * 3 + 28px * 2);
+    max-width: calc(293px * 3 + 28px * 2 + 6px);
+    min-height: calc(293px * 3 + 28px * 3);
+  }
+}
+
+.isActive {
+  border-right: 1px solid $font-color-main !important;
+  color: $font-color-main !important;
+}
+
+.noStory {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (max-width: 735px) {
+    min-width: calc(124px * 3 + 3px * 2);
+    min-height: calc(124px * 3 + 3px * 3);
+    font-size: 32px;
+  }
+
+  @media screen and (min-width: 736px) {
+    min-width: calc(293px * 3 + 28px * 2);
+    max-width: calc(293px * 3 + 28px * 2 + 6px);
+    min-height: calc(293px * 3 + 28px * 3);
+    font-size: 52px;
+  }
+}
+
+.userJoinCrewContainer {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 24px;
+  align-items: stretch;
+  flex-direction: column;
+
+  & > ul {
+    display: flex;
+
+    & > li {
+      margin-right: -20px;
+      position: relative;
+      border: 1px solid transparent;
+      border-radius: 100%;
+      transition: all 0.3s ease-in-out;
+      & > a {
+        & > span {
+          position: absolute;
+          top: 0px;
+          visibility: hidden;
+        }
+      }
+
+      &:hover {
+        margin-right: 5px;
+        border: 1px solid $font-color-main;
+        & > a {
+          & > span {
+            width: 120px;
+            visibility: visible;
+            top: 50px;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 735px) {
+      & > li {
+        margin-right: 12px;
+
+        & > a {
+          & > span {
+            position: absolute;
+            visibility: visible;
+            width: 60px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            top: 50px;
+          }
+        }
+
+        &:hover {
+          margin-right: 0px;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 735px) {
+    margin-top: 8px;
+  }
+}
+
+.userJoinCrewImage {
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+  overflow: hidden;
 }

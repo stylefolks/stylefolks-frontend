@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { upadateUser } from 'store/modules/userReducer';
 import { ME_QUERY } from '../graphql/queries';
 import { isLoggedInVar, userInfoVar } from '../lib/apolloClient';
 import { meQuery } from '../src/__generated__/meQuery';
@@ -25,7 +24,7 @@ export const Header = () => {
   const onCompleted = (data: meQuery) => {
     const { verified, __typename, id, ...input } = data?.me;
     userInfoVar({ id, ...input });
-    dispatch(upadateUser({ id: id + '', ...input }));
+    // dispatch(upadateUser({ id: id + '', ...input }));
   };
 
   const [getMeInfo, { refetch, data, error, loading }] = useLazyQuery<meQuery>(
@@ -72,11 +71,7 @@ export const Header = () => {
           <h4>The Advanced Fashion Community</h4>
         </header>
         {isLoggedIn ? (
-          <DynamicProfile
-            profileImg={data?.me.profileImg}
-            id={data?.me.id}
-            nickname={data?.me.nickname}
-          />
+          <DynamicProfile />
         ) : (
           <button
             onClick={() => router.push('/login')}

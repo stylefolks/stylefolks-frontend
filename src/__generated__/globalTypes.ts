@@ -81,7 +81,7 @@ export interface GetPostByCategoryInput {
   userRole?: UserRole | null;
   brandId?: number | null;
   crewId?: number | null;
-  userId?: number | null;
+  nickname?: string | null;
 }
 
 export interface GetPostForMainCategoryPageInput {
