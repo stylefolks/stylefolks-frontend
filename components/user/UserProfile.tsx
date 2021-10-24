@@ -2,7 +2,7 @@ import { useLazyQuery, useMutation, useReactiveVar } from '@apollo/client';
 import { Button } from 'components/common/Button';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
-import { userInfoVar } from 'lib/apolloClient';
+import { isUserTotalPost, userInfoVar } from 'lib/apolloClient';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -91,7 +91,6 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
     editProfileMutation({
       variables: {
         input: {
-          // ...user,
           link: localVal.link,
           nickname: localVal.nick,
         },
@@ -165,12 +164,22 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
           </div>
         </div>
         {isUser && (
-          <Button
-            actionText="Edit Profile"
-            onClick={onEdit}
-            loading={false}
-            canClick={true}
-          />
+          <div className={UserStyle.userProfileButtonContainer}>
+            <Button
+              actionText="Edit Profile"
+              onClick={onEdit}
+              loading={false}
+              canClick={true}
+            />
+            <Button
+              actionText={
+                isUserTotalPost() ? 'Back to my Profile' : 'See My Total Post'
+              }
+              onClick={() => isUserTotalPost(!isUserTotalPost())}
+              loading={false}
+              canClick={true}
+            />
+          </div>
         )}
       </div>
       <div className={UserStyle.userJoinCrewContainer}>

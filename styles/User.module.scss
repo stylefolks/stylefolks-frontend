@@ -371,3 +371,43 @@
   border-radius: 100%;
   overflow: hidden;
 }
+
+.userProfileButtonContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100%;
+
+  & > button {
+    margin: 0px;
+
+    &:first-child {
+      margin-bottom: 16px;
+    }
+  }
+}
+
+//userAllContents
+
+.userAllContentsContainer {
+  width: 100%;
+}
+
+.userAllEachContents {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 15px 0px;
+
+  & > div {
+    display: flex;
+
+    &:first-child {
+      // flex-direction: column;
+    }
+  }
+}

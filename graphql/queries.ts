@@ -165,4 +165,21 @@ export const GET_POST_BY_CATEGORY = gql`
   }
 `;
 
+export const GET_USER_ALL_POST = gql`
+  query getUserPost($userId: Int!) {
+    getUserPost(userId: $userId) {
+      ok
+      error
+      posts {
+        id
+        createdAt
+        updatedAt
+        title
+        titleImg
+        viewCount
+      }
+    }
+  }
+`;
+
 export default {};

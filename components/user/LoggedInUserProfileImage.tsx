@@ -16,7 +16,6 @@ const LoggedInUserProfileImage: React.FC = () => {
       blurDataURL={user.profileImg}
       width={(width * 4) / 100 >= 40 ? (width * 4) / 100 : '40px'}
       height={(width * 4) / 100 >= 40 ? (width * 4) / 100 : '40px'}
-      onAbort={(e) => console.log('@@@@', e)}
       unoptimized={true}
       alt="profileImage"
     />

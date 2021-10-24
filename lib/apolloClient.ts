@@ -27,6 +27,7 @@ const token =
 
 export const isLoggedInVar = makeVar(Boolean(token));
 export const authTokenVar = makeVar(token);
+export const isUserTotalPost = makeVar(false);
 
 export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
   email: '',
@@ -84,6 +85,11 @@ function createApolloClient() {
             isLoggedIn: {
               read() {
                 return isLoggedInVar();
+              },
+            },
+            isUserTotalPost: {
+              read() {
+                return isUserTotalPost();
               },
             },
             allPosts: concatPagination(),
