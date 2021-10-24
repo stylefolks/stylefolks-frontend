@@ -3,14 +3,14 @@ import { Button } from 'components/common/Button';
 import CommentBox from 'components/common/CommentBox';
 import { DELETE_POST } from 'graphql/mutations';
 import { GET_EACH_POST_QUERY } from 'graphql/queries';
+import { userInfoVar } from 'lib/apolloClient';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   deleteMyPost,
   deleteMyPostVariables,
 } from 'src/__generated__/deleteMyPost';
-import { RootState } from 'store/modules';
 import {
   setIsModify,
   setModifyPostId,
@@ -29,7 +29,8 @@ export const Post = () => {
   const router = useRouter();
   const postId = +router?.query.id;
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.user);
+  const user = userInfoVar();
+
   const { data, error, loading } = useQuery<getEachPost, getEachPostVariables>(
     GET_EACH_POST_QUERY,
     {
