@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Button } from 'components/common/Button';
 import CommentBox from 'components/common/CommentBox';
 import { DELETE_POST } from 'graphql/mutations';
@@ -29,7 +29,7 @@ export const Post = () => {
   const router = useRouter();
   const postId = +router?.query.id;
   const dispatch = useDispatch();
-  const user = userInfoVar();
+  const user = useReactiveVar(userInfoVar);
 
   const { data, error, loading } = useQuery<getEachPost, getEachPostVariables>(
     GET_EACH_POST_QUERY,
@@ -104,9 +104,9 @@ export const Post = () => {
               <a> By {data?.getEachPost.post.user.nickname} </a>
             </Link>
           </div>
-          <div>
-            {+user.id === +data.getEachPost.post.user.id && (
-              <>
+          <div className={CategoryStyle.categoryButtonWrapper}>
+            {user.id === data.getEachPost.post.user.id && (
+              <div>
                 <Button
                   onClick={onEdit}
                   actionText="수정"
@@ -119,7 +119,7 @@ export const Post = () => {
                   loading={deleteMyPostLoading}
                   canClick={!deleteMyPostLoading && !deleteMyPostError}
                 />
-              </>
+              </div>
             )}
             <span>조회수: {data.getEachPost.post.viewCount}</span>
           </div>

@@ -402,12 +402,34 @@
   border: 1px solid black;
   border-radius: 10px;
   margin: 15px 0px;
+  position: relative;
 
   & > div {
     display: flex;
+    align-items: center;
+  }
+}
+
+.userAllEachContentsTitle {
+  display: flex;
+  flex-direction: column;
+  margin-left: 24px;
+  font-size: 16px;
+
+  & > a {
+    margin-top: 4px;
+    color: $font-color-main;
+    text-decoration: none;
+  }
+}
+
+.userAllEachContentsButtons {
+  & > button {
+    width: 48px;
+    font-size: 12px;
 
     &:first-child {
-      // flex-direction: column;
+      margin-right: 8px;
     }
   }
 }

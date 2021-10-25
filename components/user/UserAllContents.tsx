@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Button } from 'components/common/Button';
+import { format } from 'date-fns';
 import { DELETE_POST } from 'graphql/mutations';
 import { GET_USER_ALL_POST } from 'graphql/queries';
 import Image from 'next/image';
@@ -55,33 +56,37 @@ const UserAllContents: React.FC<IPropsUserAllContents> = ({ pageUserData }) => {
 
   return (
     <section>
+      <h2>Story Count:{data?.getUserPost?.posts?.length}</h2>
       <ul>
         {data?.getUserPost?.posts.map((el) => (
           <li key={el.id} className={UserStyle.userAllEachContents}>
             <div>
-              <div>
+              <div onClick={() => router.push(`/post/${el.id}`)}>
                 <Image
                   src={el?.titleImg ? el.titleImg : whiteImage}
                   alt="titleimage"
-                  width="40px"
-                  height="40px"
-                  layout="responsive"
+                  width="60px"
+                  height="60px"
+                  // layout="responsive"
                   unoptimized={true}
-                  placeholder="blur"
-                  blurDataURL={el?.titleImg}
+                  // placeholder="blur"
+                  // blurDataURL={el?.titleImg}
                 />
               </div>
-              <div>
-                {/* <span>{el.createdAt}</span> */}
+              <div className={UserStyle.userAllEachContentsTitle}>
+                <span>
+                  DATE : {format(new Date(el.createdAt), 'yyyy-MM-dd')}
+                </span>
                 <Link href={`/post/${el.id}`}>
-                  <a>{el.title}</a>
+                  <a>TITLE : {el.title}</a>
                 </Link>
+                <span>VIEWER : {el.viewCount}</span>
               </div>
             </div>
-            <div>
+            <div className={UserStyle.userAllEachContentsButtons}>
               <Button
                 actionText="수정"
-                onClick={() => console.log('..')}
+                onClick={() => router.push(`/post/${el.id}`)}
                 canClick={true}
                 loading={false}
               />
