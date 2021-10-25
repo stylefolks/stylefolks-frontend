@@ -117,7 +117,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
               height="120px"
               unoptimized={true}
               placeholder="blur"
-              blurDataURL={pageUserData.profileImg}
+              blurDataURL={pageUserData?.profileImg}
             />
           </div>
           <div className={UserStyle.userInfoBioWrapper}>

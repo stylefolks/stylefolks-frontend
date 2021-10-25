@@ -433,3 +433,69 @@
     }
   }
 }
+
+.userContentsPlainList {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 0px;
+  padding: 0px;
+
+  & > li {
+    width: calc(293px * 3);
+    border: 1px solid $back-color-main;
+    border-radius: 20px;
+    margin-bottom: 12px;
+
+    & > a {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      & > div {
+        &:first-child {
+          width: calc(293px * 3);
+
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+
+          & > div {
+            margin: 0.83em 0px;
+
+            & > span:nth-child(2) {
+              margin-left: 12px;
+            }
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 735px) {
+      min-width: calc(124px * 3 + 3px * 2);
+      // min-height: calc(124px * 3 + 3px * 3);
+    }
+
+    @media screen and (min-width: 736px) {
+      min-width: calc(293px * 3 + 28px * 2);
+      max-width: calc(293px * 3 + 28px * 2 + 6px);
+      // min-height: calc(293px * 3 + 28px * 3);
+    }
+
+    &:hover {
+      border: 1px solid $font-color-main;
+    }
+  }
+}
+
+.userContentsPlainEachContentBlinder {
+  height: 150px;
+  overflow: hidden;
+  // border: 1px solid $back-color-main;
+  // background-color: $blur-color;
+  filter: blur(0.7px);
+  padding: 12px 20px;
+  width: calc(293px * 3);
+}
