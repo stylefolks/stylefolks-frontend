@@ -24,9 +24,13 @@
   }
 
   button {
+    &:first-child {
+      margin-right: 8px;
+    }
+
     width: 10vw;
     margin: 0px;
-    font-size: 1.6vw;
+    font-size: 16px;
   }
 
   @media screen and (max-width: 600px) {
@@ -40,6 +44,22 @@
 
     button {
       display: none;
+    }
+  }
+}
+
+.categoryButtonWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  margin-left: 36px;
+
+  & > div {
+    & > button {
+      margin-bottom: 24px;
+      width: 5vw;
+      height: 24px;
     }
   }
 }

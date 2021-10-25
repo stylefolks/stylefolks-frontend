@@ -4,7 +4,15 @@ import Image from 'next/image';
 import vacantImage from 'public/solidwhite.png';
 import ProfileStyle from 'styles/Profile.module.scss';
 
-const LoggedInUserProfileImage: React.FC = () => {
+interface IPropsLoggedInUserProfileImage {
+  staticWidth?: string;
+  staticHeight?: string;
+}
+
+const LoggedInUserProfileImage: React.FC<IPropsLoggedInUserProfileImage> = ({
+  staticHeight,
+  staticWidth,
+}) => {
   const user = userInfoVar();
   const { width, height } = UseWindowDimension();
 
@@ -14,8 +22,20 @@ const LoggedInUserProfileImage: React.FC = () => {
       src={user.profileImg ? user.profileImg : vacantImage}
       placeholder="blur"
       blurDataURL={user.profileImg}
-      width={(width * 4) / 100 >= 40 ? (width * 4) / 100 : '40px'}
-      height={(width * 4) / 100 >= 40 ? (width * 4) / 100 : '40px'}
+      width={
+        staticWidth
+          ? staticWidth
+          : (width * 4) / 100 >= 40
+          ? (width * 4) / 100
+          : '40px'
+      }
+      height={
+        staticHeight
+          ? staticHeight
+          : (width * 4) / 100 >= 40
+          ? (width * 4) / 100
+          : '40px'
+      }
       unoptimized={true}
       alt="profileImage"
     />

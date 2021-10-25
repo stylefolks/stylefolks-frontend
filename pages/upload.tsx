@@ -8,7 +8,6 @@ import {
   MODIFY_TEMP_MUTATION,
   UPLOAD_TEMP_MUTATION,
 } from 'graphql/mutations';
-import { useMe } from 'hooks/useMe';
 import { userInfoVar } from 'lib/apolloClient';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
@@ -40,13 +39,13 @@ import {
 
 const Upload = () => {
   const dispatch = useDispatch();
+  const user = userInfoVar();
   const router = useRouter();
-  const { data, loading, error } = useMe();
   const { post, pickTempId, isModify, modifyPostId } = useSelector(
     (state: RootState) => state.upload
   );
   const { title, contents, titleImg, firstCategoryId, secondCategoryId } = post;
-  const user = userInfoVar();
+
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
       dispatch(
@@ -213,6 +212,7 @@ const Upload = () => {
   };
 
   const handleModifyDone = () => {
+    console.log('이거 작동함 ??');
     modifyPostMutation({
       variables: {
         input: {
@@ -235,12 +235,11 @@ const Upload = () => {
 
   if (createPostLoading || createTempLoading)
     return <div>업로드중입니다 잠시만 기다려주세요... :)</div>;
-  if (loading) return <div>Loading...</div>;
 
   return (
     <>
       <div className="wrapper">
-        <CategorySelector role={data?.me.role} />
+        <CategorySelector role={user?.role} />
 
         <WysiwygEditor
           autofocus={false}

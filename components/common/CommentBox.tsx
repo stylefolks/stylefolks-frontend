@@ -73,7 +73,7 @@ const CommentBox: React.FC<ICommentBoxProps> = ({ postId }) => {
   return (
     <section className={CommentBoxStyle.commentBoxContainer}>
       <div>
-        <LoggedInUserProfileImage />
+        <LoggedInUserProfileImage staticWidth={'40px'} staticHeight={'40px'} />
         <input value={comment} onChange={onChange} />
         <Button
           actionText={'등록'}
