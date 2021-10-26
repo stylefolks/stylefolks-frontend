@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import Link from 'next/link';
 import { getPostByCategory } from 'src/__generated__/getPostByCategory';
 import UserStyle from 'styles/User.module.scss';
+import { makePreContents } from 'utils/Utils';
 import EditorViewer from '../../components/upload/EditorViewer';
 
 interface IUserContentsPlainTypeProps {
@@ -13,6 +14,12 @@ const UserContentsPlainType: React.FC<IUserContentsPlainTypeProps> = ({
 }) => {
   if (!data?.getPostByCategory.post.length)
     return <div className={UserStyle.noStory}>No Story Yet 😭</div>;
+
+  const handlePreview = async (contents: string): string => {
+    const process = await remark().use(strip).process(contents);
+    const result = process.value;
+    console.log('...?', result);
+  };
 
   return (
     <>
@@ -30,6 +37,7 @@ const UserContentsPlainType: React.FC<IUserContentsPlainTypeProps> = ({
                 </div>
               </div>
               <div>
+                <span>{makePreContents(el.contents)}</span>
                 <div className={UserStyle.userContentsPlainEachContentBlinder}>
                   <EditorViewer content={el.contents} />
                 </div>
