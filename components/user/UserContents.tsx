@@ -1,12 +1,9 @@
 import { useQuery } from '@apollo/client';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BUTTON_MAP } from 'constants/constants';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import { IButtonMap } from 'model/dto';
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { findByNickName_findByNickName_user } from 'src/__generated__/findByNickName';
 import {
   getPostByCategory,
@@ -17,7 +14,8 @@ import {
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
 import UserStyle from 'styles/User.module.scss';
-
+import UserContentsBlockType from './UserContentsBlockType';
+import UserContentsPlainType from './UserContentsPlainType';
 interface IPropsUserContents {
   pageUserData: findByNickName_findByNickName_user;
 }
@@ -30,6 +28,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
     firstCategoryName: FirstCategoryName.TALK,
     secondCategoryName: SecondCategoryName.OOTD,
   });
+  const [isPlain, setIsPlain] = useState<boolean>(false);
 
   const { data, loading, error } = useQuery<
     getPostByCategory,
@@ -50,7 +49,15 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
       secondCategoryName: el.secondCategoryName,
     });
   };
-  console.log('Master Data', data?.getPostByCategory);
+
+  useEffect(() => {
+    if (pickCategory.secondCategoryName !== SecondCategoryName.OOTD) {
+      setIsPlain(true);
+    } else {
+      setIsPlain(false);
+    }
+  }, [pickCategory]);
+
   return (
     <div className={UserStyle.userContentsContainer}>
       <div className={UserStyle.userButtonWrapper}>
@@ -82,31 +89,17 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
         {loading ? (
           <div style={{ minHeight: '1024px' }}>Loading...</div>
         ) : (
-          <ul className={UserStyle.userContentsList}>
-            {!data?.getPostByCategory.post.length ? (
-              <div className={UserStyle.noStory}>No Story Yet 😭</div>
+          <ul
+            className={
+              isPlain
+                ? UserStyle.userContentsPlainList
+                : UserStyle.userContentsList
+            }
+          >
+            {isPlain ? (
+              <UserContentsPlainType data={data} />
             ) : (
-              data?.getPostByCategory.post.map((el) => (
-                <li key={el.id}>
-                  <Link href={`/post/${el.id}`}>
-                    <a>
-                      <Image
-                        src={el?.titleImg}
-                        layout={'fill'}
-                        alt="contents"
-                        placeholder="blur"
-                        blurDataURL={el?.titleImg}
-                      />
-                      <div className={UserStyle.hiddenContentsTitle}>
-                        {el.title}
-                        <span>
-                          <FontAwesomeIcon icon={faCheck} /> {el.viewCount}
-                        </span>
-                      </div>
-                    </a>
-                  </Link>
-                </li>
-              ))
+              <UserContentsBlockType data={data} />
             )}
           </ul>
         )}

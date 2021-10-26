@@ -152,6 +152,7 @@ export const GET_POST_BY_CATEGORY = gql`
         title
         titleImg
         viewCount
+        contents
         user {
           email
           nickname

@@ -25,6 +25,7 @@ export interface getPostByCategory_getPostByCategory_post {
   title: string;
   titleImg: string | null;
   viewCount: number;
+  contents: string;
   user: getPostByCategory_getPostByCategory_post_user;
 }
 

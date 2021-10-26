@@ -113,7 +113,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
           },
         }}
         toolbarItems={[
-          ['image', 'table', 'link'],
+          ['image', 'link'],
           ['heading', 'bold', 'italic', 'strike'],
           ['hr', 'quote'],
           // ['ul', 'ol', 'task', 'indent', 'outdent'],
