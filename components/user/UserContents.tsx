@@ -1,4 +1,5 @@
 import { useQuery } from '@apollo/client';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BUTTON_MAP } from 'constants/constants';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
@@ -14,8 +15,11 @@ import {
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
 import UserStyle from 'styles/User.module.scss';
+import UserPageStyle from 'styles/user/UserPage.module.scss';
+import AllContentsWithCategory from './AllContentsWithCategory';
 import UserContentsBlockType from './UserContentsBlockType';
 import UserContentsPlainType from './UserContentsPlainType';
+
 interface IPropsUserContents {
   pageUserData: findByNickName_findByNickName_user;
 }
@@ -28,6 +32,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
     firstCategoryName: FirstCategoryName.TALK,
     secondCategoryName: SecondCategoryName.OOTD,
   });
+  const [isAll, setIsAll] = useState<boolean>(false);
   const [isPlain, setIsPlain] = useState<boolean>(false);
 
   const { data, loading, error } = useQuery<
@@ -50,6 +55,10 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
     });
   };
 
+  const handleSeeAllWithCategory = () => {
+    setIsAll((prev) => !prev);
+  };
+
   useEffect(() => {
     if (pickCategory.secondCategoryName !== SecondCategoryName.OOTD) {
       setIsPlain(true);
@@ -59,51 +68,79 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
   }, [pickCategory]);
 
   return (
-    <div className={UserStyle.userContentsContainer}>
-      <div className={UserStyle.userButtonWrapper}>
-        {BUTTON_MAP.map((el, index) => (
-          <button
-            className={
-              el.secondCategoryName === pickCategory.secondCategoryName
-                ? UserStyle.isActive
-                : ''
-            }
-            onClick={() => onClick(el)}
-            key={index}
-            name={
-              el.secondCategoryName === null
-                ? el.firstCategoryName
-                : el.secondCategoryName
-            }
-          >
-            <FontAwesomeIcon icon={el.icon} />
-            <span>
-              {el.secondCategoryName === null
-                ? el.firstCategoryName
-                : el.secondCategoryName}
-            </span>
-          </button>
-        ))}
-      </div>
-      <div className={UserStyle.userContentsWrapper}>
-        {loading ? (
-          <div style={{ minHeight: '1024px' }}>Loading...</div>
-        ) : (
-          <ul
-            className={
-              isPlain
-                ? UserStyle.userContentsPlainList
-                : UserStyle.userContentsList
-            }
-          >
-            {isPlain ? (
-              <UserContentsPlainType data={data} />
-            ) : (
-              <UserContentsBlockType data={data} />
-            )}
-          </ul>
+    <div className={UserStyle.contentsSection}>
+      <div className={UserStyle.categoryAllPostButton}>
+        {isAll && (
+          <div onClick={handleSeeAllWithCategory}>
+            <FontAwesomeIcon icon={faArrowLeft} />
+            Back To Categorization
+          </div>
+        )}
+
+        {!isAll && (
+          <div onClick={handleSeeAllWithCategory}>
+            Total of{' '}
+            {pickCategory.secondCategoryName
+              ? pickCategory.secondCategoryName
+              : pickCategory.firstCategoryName}
+            <FontAwesomeIcon icon={faArrowRight} />
+          </div>
         )}
       </div>
+      {isAll ? (
+        <div>
+          <AllContentsWithCategory />
+          Show All Categoryof{pickCategory.firstCategoryName}
+          {pickCategory.secondCategoryName}
+        </div>
+      ) : (
+        <div className={UserPageStyle.userContentsContainer}>
+          <div className={UserStyle.userButtonWrapper}>
+            {BUTTON_MAP.map((el, index) => (
+              <button
+                className={
+                  el.secondCategoryName === pickCategory.secondCategoryName
+                    ? UserStyle.isActive
+                    : ''
+                }
+                onClick={() => onClick(el)}
+                key={index}
+                name={
+                  el.secondCategoryName === null
+                    ? el.firstCategoryName
+                    : el.secondCategoryName
+                }
+              >
+                <FontAwesomeIcon icon={el.icon} />
+                <span>
+                  {el.secondCategoryName === null
+                    ? el.firstCategoryName
+                    : el.secondCategoryName}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className={UserStyle.userContentsWrapper}>
+            {loading ? (
+              <div style={{ minHeight: '1024px' }}>Loading...</div>
+            ) : (
+              <ul
+                className={
+                  isPlain
+                    ? UserStyle.userContentsPlainList
+                    : UserPageStyle.userContentsBlockList
+                }
+              >
+                {isPlain ? (
+                  <UserContentsPlainType data={data} />
+                ) : (
+                  <UserContentsBlockType data={data} />
+                )}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
