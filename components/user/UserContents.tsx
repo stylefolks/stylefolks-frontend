@@ -28,7 +28,8 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
     firstCategoryName: FirstCategoryName.TALK,
     secondCategoryName: SecondCategoryName.OOTD,
   });
-  const [isAll, setIsAll] = useState<boolean>(false);
+
+  const [inputTake, setInputTake] = useState<number | null>(null);
   const [page, setPage] = useState<number>(1);
   const [isPlain, setIsPlain] = useState<boolean>(false);
 
@@ -42,6 +43,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
         firstCategoryName: pickCategory.firstCategoryName,
         secondCategoryName: pickCategory.secondCategoryName,
         page,
+        inputTake,
       },
     },
   });
@@ -62,8 +64,10 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
   useEffect(() => {
     if (pickCategory.secondCategoryName !== SecondCategoryName.OOTD) {
       setIsPlain(true);
+      setInputTake(3);
     } else {
       setIsPlain(false);
+      setInputTake(null);
     }
   }, [pickCategory]);
 
