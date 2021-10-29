@@ -1,0 +1,13 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+
+  & > li {
+    margin: 12px;
+    font-size: 20px;
+
+    &:hover {
+      color: $font-color-main;
+    }
+  }
+}

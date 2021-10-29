@@ -80,3 +80,13 @@
   position: absolute;
   visibility: hidden;
 }
+
+.seeMoreButton {
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+
+  & > svg {
+    height: 32px;
+  }
+}
