@@ -212,7 +212,6 @@ const Upload = () => {
   };
 
   const handleModifyDone = () => {
-    console.log('이거 작동함 ??');
     modifyPostMutation({
       variables: {
         input: {

@@ -3,6 +3,7 @@ import UseWindowDimension from 'hooks/useWindowDimension';
 import Link from 'next/link';
 import { getPostByCategory } from 'src/__generated__/getPostByCategory';
 import UserStyle from 'styles/User.module.scss';
+import UserContentsPlaintTypeStyle from 'styles/user/component/UserContentsPlainType.module.scss';
 import { makePreContents } from 'utils/Utils';
 import EditorViewer from '../../components/upload/EditorViewer';
 
@@ -35,9 +36,7 @@ const UserContentsPlainType: React.FC<IUserContentsPlainTypeProps> = ({
               </div>
               <div>
                 {width >= 1024 ? (
-                  <div
-                    className={UserStyle.userContentsPlainEachContentBlinder}
-                  >
+                  <div className={UserContentsPlaintTypeStyle.contentBlinder}>
                     <EditorViewer content={el.contents} />
                   </div>
                 ) : (

@@ -1,0 +1,9 @@
+.contentBlinder {
+  height: 150px;
+  overflow: hidden;
+  // border: 1px solid $back-color-main;
+  // background-color: $blur-color;
+  filter: blur(0.7px);
+  padding: 12px 20px;
+  width: calc(293px * 3);
+}

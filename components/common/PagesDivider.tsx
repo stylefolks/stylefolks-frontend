@@ -1,6 +1,5 @@
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
 import PageDividerStyle from 'styles/common/PageDivider.module.scss';
 
 interface IProps {
@@ -16,10 +15,6 @@ const PagesDivider: React.FC<IProps> = ({
   clickPage,
   onClick,
 }) => {
-  console.log(totalPages, totalResults);
-  const [divide, setDivide] = useState<number>(0);
-  const [end, setEnd] = useState<number>(3);
-
   return (
     <div className={PageDividerStyle.wrapper}>
       {clickPage > 1 && (

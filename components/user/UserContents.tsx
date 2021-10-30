@@ -48,8 +48,6 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
     },
   });
 
-  console.log(data);
-
   const onClick = (el: IButtonMap) => {
     setPickCategory({
       firstCategoryName: el.firstCategoryName,
@@ -70,8 +68,6 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
       setInputTake(null);
     }
   }, [pickCategory]);
-
-  console.log(data?.getPostByCategory.totalResults);
 
   return (
     <div className={UserStyle.contentsSection}>
@@ -110,7 +106,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
               <ul
                 className={
                   isPlain
-                    ? UserStyle.userContentsPlainList
+                    ? UserPageStyle.userContentsPlainList
                     : UserPageStyle.userContentsBlockList
                 }
               >
