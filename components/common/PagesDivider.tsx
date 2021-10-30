@@ -17,21 +17,25 @@ const PagesDivider: React.FC<IProps> = ({
 }) => {
   return (
     <div className={PageDividerStyle.wrapper}>
-      {clickPage > 1 && (
+      {clickPage > 1 ? (
         <FontAwesomeIcon
           icon={faArrowLeft}
           onClick={() => onClick(clickPage - 1)}
         />
+      ) : (
+        <div></div>
       )}
       <span>
         Page {clickPage} of {totalPages}
       </span>
 
-      {totalPages !== clickPage && (
+      {totalPages !== clickPage ? (
         <FontAwesomeIcon
           icon={faArrowRight}
           onClick={() => onClick(clickPage + 1)}
         />
+      ) : (
+        <div></div>
       )}
     </div>
   );

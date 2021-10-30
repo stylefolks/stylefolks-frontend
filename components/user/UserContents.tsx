@@ -69,6 +69,12 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
     }
   }, [pickCategory]);
 
+  useEffect(() => {
+    if (pageUserData && window.scrollY) {
+      window.scroll(0, 0); // reset the scroll position to the top left of the document.
+    }
+  }, [page]);
+
   return (
     <div className={UserStyle.contentsSection}>
       <div className={UserStyle.categoryAllPostButton}></div>
