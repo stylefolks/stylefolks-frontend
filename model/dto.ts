@@ -10,4 +10,9 @@ export interface IButtonMap {
   secondCategoryName: SecondCategoryName;
 }
 
+export interface IPickCategory {
+  firstCategoryName: FirstCategoryName;
+  secondCategoryName: SecondCategoryName;
+}
+
 export default {};

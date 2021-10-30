@@ -76,6 +76,7 @@ export interface EditProfileInput {
 
 export interface GetPostByCategoryInput {
   page?: number | null;
+  inputTake?: number | null;
   firstCategoryName: FirstCategoryName;
   secondCategoryName?: SecondCategoryName | null;
   userRole?: UserRole | null;

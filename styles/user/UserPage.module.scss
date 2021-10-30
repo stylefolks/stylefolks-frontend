@@ -80,3 +80,73 @@
   position: absolute;
   visibility: hidden;
 }
+
+.seeMoreButton {
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+
+  & > svg {
+    height: 32px;
+  }
+}
+
+.userContentsPlainList {
+  min-height: calc(293px * 3);
+
+  & > li {
+    width: calc(293px * 3);
+    border: 1px solid $back-color-main;
+    border-radius: 20px;
+    margin-bottom: 12px;
+
+    & > a {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      & > div {
+        &:first-child {
+          width: 100%;
+
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+
+          & > div {
+            margin: 0.83em 0px;
+
+            & > span:nth-child(2) {
+              margin-left: 12px;
+            }
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 735px) {
+      min-width: calc(124px * 3 + 3px * 2);
+      max-width: calc(124px * 3 + 3px * 2 + 6px);
+    }
+
+    @media screen and (min-width: 736px) {
+      min-width: calc(293px * 3 + 28px * 2);
+      max-width: calc(293px * 3 + 28px * 2 + 6px);
+    }
+
+    &:hover {
+      border: 1px solid $font-color-main;
+    }
+  }
+
+  @media screen and (max-width: 735px) {
+    min-width: calc(3 * 124px);
+    min-height: calc(3 * 124px);
+  }
+
+  @media screen and (min-width: 736px) {
+    min-width: calc(3 * 316px);
+    min-height: calc(3 * 316px);
+  }
+}

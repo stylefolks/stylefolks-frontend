@@ -4,7 +4,6 @@ import {
   addApolloState,
   initializeApollo,
   isUserTotalPost,
-  userInfoVar,
 } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import dynamic from 'next/dynamic';
@@ -46,7 +45,6 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     pageUserData: findByNickName_findByNickName_user;
     userNick: string;
   }) => {
-    const user = userInfoVar();
     const isUserTotal = useReactiveVar(isUserTotalPost);
 
     const {

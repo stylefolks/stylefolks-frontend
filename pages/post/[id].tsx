@@ -69,7 +69,6 @@ export const Post = () => {
       return;
     }
     if (data.deleteMyPost.error) {
-      console.log(data?.deleteMyPost.error);
       alert(data.deleteMyPost.error);
     }
   };
