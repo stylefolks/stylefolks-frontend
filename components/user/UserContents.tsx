@@ -15,6 +15,7 @@ import {
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
 import UserStyle from 'styles/User.module.scss';
+import UserContentsPlainTypeStyle from 'styles/user/component/UserContentsPlainType.module.scss';
 import UserPageStyle from 'styles/user/UserPage.module.scss';
 import UserContentsBlockType from './UserContentsBlockType';
 import UserContentsPlainType from './UserContentsPlainType';
@@ -112,7 +113,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
               <ul
                 className={
                   isPlain
-                    ? UserPageStyle.userContentsPlainList
+                    ? UserContentsPlainTypeStyle.userContentsPlainList
                     : UserPageStyle.userContentsBlockList
                 }
               >

@@ -25,7 +25,7 @@ const UserContentsPlainType: React.FC<IUserContentsPlainTypeProps> = ({
         <li key={el.id}>
           <Link href={`/post/${el.id}`}>
             <a>
-              <div>
+              <div className={UserContentsPlaintTypeStyle.titleWrapper}>
                 <h2>TITLE : {el.title}</h2>
                 <div>
                   <span>VIEWER : {el.viewCount}</span>
@@ -40,7 +40,9 @@ const UserContentsPlainType: React.FC<IUserContentsPlainTypeProps> = ({
                     <EditorViewer content={el.contents} />
                   </div>
                 ) : (
-                  <span>{makePreContents(el.contents)}</span>
+                  <span className={UserContentsPlaintTypeStyle.plainContent}>
+                    {makePreContents(el.contents)}
+                  </span>
                 )}
               </div>
             </a>
