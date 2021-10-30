@@ -1,4 +1,4 @@
-import ButtonStyle from '../../styles/Buttons.module.scss';
+import ButtonStyle from 'styles/common/Buttons.module.scss';
 
 interface IBurgerButtonProps {
   onClick: () => null;

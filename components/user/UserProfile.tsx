@@ -124,12 +124,18 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
             {isChange && isUser ? (
               <>
                 <h4>{pageUserData?.role}</h4>
-                <div>
+                <div className={UserStyle.userInfoModifyButtonWrapper}>
                   <input
                     value={localVal.nick}
                     onChange={(e) =>
                       setLocalVal({ ...localVal, nick: e.target.value })
                     }
+                  />
+                  <Button
+                    onClick={onSave}
+                    actionText="Save"
+                    loading={false}
+                    canClick={true}
                   />
                 </div>
               </>
@@ -140,26 +146,24 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
               </>
             )}
             {isChange && isUser ? (
-              <div>
+              <div className={UserStyle.userInfoModifyButtonWrapper}>
                 <input
                   value={localVal.link}
                   onChange={(e) =>
                     setLocalVal({ ...localVal, link: e.target.value })
                   }
                 />
+                <Button
+                  onClick={() => setIsChange(false)}
+                  actionText="Quit"
+                  loading={false}
+                  canClick={true}
+                />
               </div>
             ) : (
               <a href={pageUserData?.link} target="_blank" rel="noreferrer">
-                Personal Link of {pageUserData?.link}
+                Link Of {pageUserData?.nickname}
               </a>
-            )}
-            {isChange ? (
-              <>
-                <button onClick={onSave}>Save</button>
-                <button onClick={() => setIsChange(false)}>x</button>
-              </>
-            ) : (
-              ''
             )}
           </div>
         </div>
