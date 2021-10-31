@@ -1,12 +1,12 @@
 import { gql, useQuery } from '@apollo/client';
-import { userInfoVar } from 'lib/apolloClient';
+import { userInfoVar } from 'cache/common/common.cache';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategory } from '../../src/__generated__/getCategory';
 import {
   FirstCategoryName,
   SecondCategoryName,
-  UserRole
+  UserRole,
 } from '../../src/__generated__/globalTypes';
 import { RootState } from '../../store/modules';
 import { upadatePost } from '../../store/modules/uploadReducer';

@@ -1,11 +1,12 @@
-import {
-  ApolloClient,
-  createHttpLink,
-  InMemoryCache,
-  makeVar,
-  ReactiveVar,
-} from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { concatPagination } from '@apollo/client/utilities';
+import { authTokenVar } from 'cache/common/common.cache';
+import { isLoggedIn, nickname, token } from 'cache/common/common.field';
+import {
+  isUserTotalPost,
+  isVisibleEditProfileModal,
+  isVisibleProfileImageModal,
+} from 'cache/user/user.field';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
@@ -22,21 +23,20 @@ interface IUserInforVar {
   link: string;
 }
 
-const token =
-  typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
+// const token =
+//   typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
 
-export const isLoggedInVar = makeVar(Boolean(token));
-export const authTokenVar = makeVar(token);
-export const isUserTotalPost = makeVar(false);
-
-export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
-  email: '',
-  id: null,
-  role: UserRole.User,
-  profileImg: '',
-  nickname: '',
-  link: '',
-});
+// export const isLoggedInVar = makeVar(Boolean(token));
+// export const authTokenVar = makeVar(token);
+// export const isUserTotalPostVar = makeVar(false);
+// export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
+//   email: '',
+//   id: null,
+//   role: UserRole.User,
+//   profileImg: '',
+//   nickname: '',
+//   link: '',
+// });
 
 let apolloClient;
 
@@ -72,27 +72,13 @@ function createApolloClient() {
       typePolicies: {
         Query: {
           fields: {
-            nickname: {
-              read() {
-                return userInfoVar();
-              },
-            },
-            token: {
-              read() {
-                return authTokenVar();
-              },
-            },
-            isLoggedIn: {
-              read() {
-                return isLoggedInVar();
-              },
-            },
-            isUserTotalPost: {
-              read() {
-                return isUserTotalPost();
-              },
-            },
+            nickname,
+            token,
+            isLoggedIn,
+            isUserTotalPost,
             allPosts: concatPagination(),
+            isVisibleProfileImageModal,
+            isVisibleEditProfileModal,
           },
         },
       },

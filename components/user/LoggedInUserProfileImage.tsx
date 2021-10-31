@@ -1,5 +1,5 @@
+import { userInfoVar } from 'cache/common/common.cache';
 import UseWindowDimension from 'hooks/useWindowDimension';
-import { userInfoVar } from 'lib/apolloClient';
 import Image from 'next/image';
 import vacantImage from 'public/solidwhite.png';
 import ProfileStyle from 'styles/Profile.module.scss';

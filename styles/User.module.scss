@@ -70,6 +70,10 @@
     h4,
     h2 {
       margin: 0px;
+      width: 114px;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
     a {
       width: 114px;
@@ -303,7 +307,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   height: 100%;
 
   & > button {

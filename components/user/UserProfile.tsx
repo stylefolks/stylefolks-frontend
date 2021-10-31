@@ -1,8 +1,18 @@
 import { useLazyQuery, useMutation, useReactiveVar } from '@apollo/client';
-import { Button } from 'components/common/Button';
+import {
+  faArrowCircleLeft,
+  faClone,
+  faUserCog,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { userInfoVar } from 'cache/common/common.cache';
+import {
+  isUserTotalPostVar,
+  isVisibleEditProfileModalVar,
+  isVisibleProfileImageModalVar,
+} from 'cache/user/user.cache';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
-import { isUserTotalPost, userInfoVar } from 'lib/apolloClient';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -17,7 +27,6 @@ import {
   getUserCrew,
   getUserCrewVariables,
 } from 'src/__generated__/getUserCrew';
-import { setModal } from 'store/modules/commonReducer';
 import UserStyle from 'styles/User.module.scss';
 
 interface IUserProfileProps {
@@ -80,11 +89,13 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   }, [isChange]);
 
   const onClick = () => {
-    dispatch(setModal(true));
+    isVisibleProfileImageModalVar(true);
   };
 
   const onEdit = () => {
     setIsChange(true);
+    //여기는 유저 정보 전체 수정 가능한 모달 열리는 곳 으로 만들기
+    isVisibleEditProfileModalVar(true);
   };
 
   const onSave = () => {
@@ -93,6 +104,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
         input: {
           link: localVal.link,
           nickname: localVal.nick,
+          profileImg: user.profileImg,
         },
       },
     });
@@ -121,68 +133,45 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
             />
           </div>
           <div className={UserStyle.userInfoBioWrapper}>
-            {isChange && isUser ? (
-              <>
-                <h4>{pageUserData?.role}</h4>
-                <div className={UserStyle.userInfoModifyButtonWrapper}>
-                  <input
-                    value={localVal.nick}
-                    onChange={(e) =>
-                      setLocalVal({ ...localVal, nick: e.target.value })
-                    }
-                  />
-                  <Button
-                    onClick={onSave}
-                    actionText="Save"
-                    loading={false}
-                    canClick={true}
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <h4>{pageUserData?.role}</h4>
-                <h2> {pageUserData?.nickname}</h2>
-              </>
-            )}
-            {isChange && isUser ? (
-              <div className={UserStyle.userInfoModifyButtonWrapper}>
-                <input
-                  value={localVal.link}
-                  onChange={(e) =>
-                    setLocalVal({ ...localVal, link: e.target.value })
-                  }
-                />
-                <Button
-                  onClick={() => setIsChange(false)}
-                  actionText="Quit"
-                  loading={false}
-                  canClick={true}
-                />
-              </div>
-            ) : (
-              <a href={pageUserData?.link} target="_blank" rel="noreferrer">
-                Link Of {pageUserData?.nickname}
-              </a>
-            )}
+            <h4>{pageUserData?.role}</h4>
+            <h2> {pageUserData?.nickname}</h2>
+            <a href={pageUserData?.link} target="_blank" rel="noreferrer">
+              Link Of {pageUserData?.nickname}
+            </a>
           </div>
         </div>
         {isUser && (
           <div className={UserStyle.userProfileButtonContainer}>
-            <Button
-              actionText="Edit Profile"
-              onClick={onEdit}
-              loading={false}
-              canClick={true}
-            />
-            <Button
+            <button>
+              <FontAwesomeIcon icon={faUserCog} size="2x" onClick={onEdit} />
+            </button>
+            {isUserTotalPostVar() ? (
+              <button>
+                <FontAwesomeIcon
+                  icon={faArrowCircleLeft}
+                  size="2x"
+                  onClick={() => isUserTotalPostVar(!isUserTotalPostVar())}
+                />
+              </button>
+            ) : (
+              <button>
+                <FontAwesomeIcon
+                  icon={faClone}
+                  size="2x"
+                  onClick={() => isUserTotalPostVar(!isUserTotalPostVar())}
+                />
+              </button>
+            )}
+            {/* <Button
               actionText={
-                isUserTotalPost() ? 'Back to my Profile' : 'See My Total Post'
+                isUserTotalPostVar()
+                  ? 'Back to my Profile'
+                  : 'See My Total Post'
               }
-              onClick={() => isUserTotalPost(!isUserTotalPost())}
+              onClick={() => isUserTotalPostVar(!isUserTotalPostVar())}
               loading={false}
               canClick={true}
-            />
+            /> */}
           </div>
         )}
       </div>
