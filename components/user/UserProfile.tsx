@@ -1,8 +1,9 @@
 import { useLazyQuery, useMutation, useReactiveVar } from '@apollo/client';
+import { userInfoVar } from 'cache/common/common.cache';
+import { isUserTotalPostVar } from 'cache/user/user.cache';
 import { Button } from 'components/common/Button';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
-import { isUserTotalPost, userInfoVar } from 'lib/apolloClient';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -85,6 +86,8 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
 
   const onEdit = () => {
     setIsChange(true);
+
+    dispatch(setModal(true));
   };
 
   const onSave = () => {
@@ -177,9 +180,11 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
             />
             <Button
               actionText={
-                isUserTotalPost() ? 'Back to my Profile' : 'See My Total Post'
+                isUserTotalPostVar()
+                  ? 'Back to my Profile'
+                  : 'See My Total Post'
               }
-              onClick={() => isUserTotalPost(!isUserTotalPost())}
+              onClick={() => isUserTotalPostVar(!isUserTotalPostVar())}
               loading={false}
               canClick={true}
             />

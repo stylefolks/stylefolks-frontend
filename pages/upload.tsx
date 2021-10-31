@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import { userInfoVar } from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
 import {
   CREATE_POST_MUTATION,
@@ -8,7 +9,6 @@ import {
   MODIFY_TEMP_MUTATION,
   UPLOAD_TEMP_MUTATION,
 } from 'graphql/mutations';
-import { userInfoVar } from 'lib/apolloClient';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

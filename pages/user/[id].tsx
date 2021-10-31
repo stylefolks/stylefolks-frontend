@@ -1,10 +1,8 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
+import { isUserTotalPostVar } from 'cache/user/user.cache';
+import EditProfileModal from 'components/user/EditProfileModal';
 import UploadModal from 'components/user/UploadModal';
-import {
-  addApolloState,
-  initializeApollo,
-  isUserTotalPost,
-} from 'lib/apolloClient';
+import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import dynamic from 'next/dynamic';
 import React from 'react';
@@ -45,7 +43,7 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     pageUserData: findByNickName_findByNickName_user;
     userNick: string;
   }) => {
-    const isUserTotal = useReactiveVar(isUserTotalPost);
+    const isUserTotal = useReactiveVar(isUserTotalPostVar);
 
     const {
       data: getUserCrewData,
@@ -71,7 +69,7 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         ) : (
           <DynamicUserContents pageUserData={pageUserData} />
         )}
-
+        <EditProfileModal />
         <UploadModal />
       </div>
     );

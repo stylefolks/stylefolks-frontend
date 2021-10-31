@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { userInfoVar } from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
 import CommentBox from 'components/common/CommentBox';
 import { DELETE_POST } from 'graphql/mutations';
 import { GET_EACH_POST_QUERY } from 'graphql/queries';
-import { userInfoVar } from 'lib/apolloClient';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';

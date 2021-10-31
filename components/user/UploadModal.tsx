@@ -1,12 +1,12 @@
 import { useMutation } from '@apollo/client';
+import { userInfoVar } from 'cache/common/common.cache';
 import Alert from 'components/common/Alert';
 import BackDrop from 'components/common/BackDrop';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import Modal from 'HOC/Modal';
 import { useMe } from 'hooks/useMe';
-import { userInfoVar } from 'lib/apolloClient';
 import { useRouter } from 'next/router';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   editProfile,
@@ -14,7 +14,6 @@ import {
 } from 'src/__generated__/editProfile';
 import {
   setAlert,
-  setModal,
   setSpinner,
   unmountAlert,
 } from 'store/modules/commonReducer';
@@ -26,6 +25,7 @@ const UploadModal = () => {
   const user = userInfoVar();
   const ref = useRef<HTMLInputElement>(null);
   const { refetch, data: meData } = useMe();
+  const [modal, setModal] = useState<boolean>(false);
 
   const onImageChangeCompleted = (data: editProfile) => {
     if (data.editProfile.ok) {
@@ -50,12 +50,12 @@ const UploadModal = () => {
   });
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(setModal(false));
+    setModal(false);
   };
 
   const uploadImage = async (formBody: FormData) => {
     try {
-      dispatch(setModal(true));
+      setModal(true);
 
       const { url } = await (
         await fetch('http://localhost:4000/images/user', {
@@ -119,12 +119,12 @@ const UploadModal = () => {
     router.reload();
     refetch(); //여기도 나중에 캐시만 업데이트 하는 방식으로 변경하자
     dispatch(unmountAlert());
-    dispatch(setModal(false));
+    setModal(false);
   };
 
   return (
     <>
-      <Modal>
+      <Modal visible={modal}>
         <BackDrop>
           <section className={UploadModalStyle.uploadModalContainer}>
             <h2>Change Your Profile Image</h2>

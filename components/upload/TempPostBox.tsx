@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { userInfoVar } from 'cache/common/common.cache';
 import Alert from 'components/common/Alert';
 import { DELETE_TEMP } from 'graphql/mutations';
 import { GET_USER_TEMP } from 'graphql/queries';
-import { userInfoVar } from 'lib/apolloClient';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,6 +24,7 @@ import {
   setTitleImageArr,
   upadatePost,
 } from '../../store/modules/uploadReducer';
+
 interface IProps {
   userId: number;
 }
