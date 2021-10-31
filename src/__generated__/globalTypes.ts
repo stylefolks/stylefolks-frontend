@@ -69,6 +69,7 @@ export interface DeleteCommentInput {
 
 export interface EditProfileInput {
   nickname?: string | null;
+  profileImg?: string | null;
   link?: string | null;
 }
 

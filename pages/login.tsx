@@ -1,14 +1,15 @@
 import { gql, useMutation } from '@apollo/client';
+import { isLoggedInVar } from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { FormError } from '../components/FormError';
 import GoogleLoginButton from '../components/GoogleLoginButton';
-import { isLoggedInVar } from '../lib/apolloClient';
 import { login, loginVariables } from '../src/__generated__/login';
 import LoginStyle from '../styles/Login.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
+
 interface ILoginForm {
   email: string;
   password: string;

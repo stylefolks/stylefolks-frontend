@@ -2,7 +2,11 @@ import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { concatPagination } from '@apollo/client/utilities';
 import { authTokenVar } from 'cache/common/common.cache';
 import { isLoggedIn, nickname, token } from 'cache/common/common.field';
-import { isUserTotalPost } from 'cache/user/user.field';
+import {
+  isUserTotalPost,
+  isVisibleEditProfileModal,
+  isVisibleProfileImageModal,
+} from 'cache/user/user.field';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
@@ -73,6 +77,8 @@ function createApolloClient() {
             isLoggedIn,
             isUserTotalPost,
             allPosts: concatPagination(),
+            isVisibleProfileImageModal,
+            isVisibleEditProfileModal,
           },
         },
       },
