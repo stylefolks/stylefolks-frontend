@@ -68,6 +68,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
       setIsPlain(false);
       setInputTake(null);
     }
+    setPage(1);
   }, [pickCategory]);
 
   useEffect(() => {
