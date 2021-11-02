@@ -1,5 +1,6 @@
 import { concatPagination } from '@apollo/client/utilities';
 import {
+  alertVar,
   authTokenVar,
   isLoggedInVar,
   userInfoVar,
@@ -20,6 +21,12 @@ export const token = {
 export const isLoggedIn = {
   read() {
     return isLoggedInVar();
+  },
+};
+
+export const alert = {
+  read() {
+    return alertVar();
   },
 };
 

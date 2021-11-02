@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import { userInfoVar } from 'cache/common/common.cache';
+import { alertVar, userInfoVar } from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
 import {
   CREATE_POST_MUTATION,
@@ -14,7 +14,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
-import { setAlert } from 'store/modules/commonReducer';
 import CategorySelector from '../components/upload/CategorySelector';
 import WysiwygEditor from '../components/upload/Editor';
 import TempPostBox from '../components/upload/TempPostBox';
@@ -39,6 +38,7 @@ import {
 
 const Upload = () => {
   const dispatch = useDispatch();
+
   const user = userInfoVar();
   const router = useRouter();
   const { post, pickTempId, isModify, modifyPostId } = useSelector(
@@ -48,33 +48,31 @@ const Upload = () => {
 
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
-      dispatch(
-        setAlert({
-          title: '새로운 게시물',
-          content: '새로운 게시물 업로드를 완료하였습니다. ^_^',
-        })
-      );
+      alertVar({
+        title: '새로운 게시물',
+        content: '새로운 게시물 업로드를 완료하였습니다. ^_^',
+        visible: true,
+      });
     }
 
     if (data?.createPost.error) {
-      alert(
-        `${data.createPost.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
+      console.log(
+        `${data.createPost.error}. \n문제가 지속되면 관리자에게 문의해주세요!`
       );
     }
   };
 
   const createTemponCompleted = (data: createTemp) => {
     if (data?.createTemp.ok) {
-      dispatch(
-        setAlert({
-          title: '임시 게시물',
-          content: '새로운 임시저장 게시물 저장을 완료하였습니다. :)',
-        })
-      );
+      alertVar({
+        title: '임시 게시물',
+        content: '새로운 임시저장 게시물 저장을 완료하였습니다. :)',
+        visible: true,
+      });
     }
 
     if (data?.createTemp.error) {
-      alert(
+      console.log(
         `${data.createTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
       );
     }
@@ -82,16 +80,15 @@ const Upload = () => {
 
   const ModifyTempOnCompleted = (data: modifyTemp) => {
     if (data?.modifyTemp.ok) {
-      dispatch(
-        setAlert({
-          title: '임시 게시물',
-          content: '임시저장 게시물 저장이 완료되었습니다. :)',
-        })
-      );
+      alertVar({
+        title: '임시 게시물',
+        content: '임시저장 게시물 저장이 완료되었습니다. :)',
+        visible: true,
+      });
     }
 
     if (data?.modifyTemp.error) {
-      alert(
+      console.log(
         `${data.modifyTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
       );
     }
@@ -99,15 +96,14 @@ const Upload = () => {
 
   const uploadMutationOnCompleted = (data: uploadTemp) => {
     if (data?.uploadTemp.ok) {
-      dispatch(
-        setAlert({
-          title: '임시 게시물',
-          content: '임시저장 게시물의 업로드가 완료되었습니다. :)',
-        })
-      );
+      alertVar({
+        title: '임시 게시물',
+        content: '임시저장 게시물의 업로드가 완료되었습니다. :)',
+        visible: true,
+      });
     }
     if (data?.uploadTemp.error) {
-      alert(
+      console.log(
         `${data.uploadTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
       );
     }

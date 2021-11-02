@@ -98,3 +98,12 @@ export const EDIT_PROFILE = gql`
     }
   }
 `;
+
+export const CHANGE_PASSWORD = gql`
+  mutation changePassword($input: ChangePasswordInput!) {
+    changePassword(input: $input) {
+      ok
+      error
+    }
+  }
+`;

@@ -34,6 +34,11 @@ export enum UserRole {
   User = "User",
 }
 
+export interface ChangePasswordInput {
+  password: string;
+  changePassword: string;
+}
+
 export interface CreateAccountInput {
   email: string;
   password: string;

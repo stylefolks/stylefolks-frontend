@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from '@apollo/client';
-import { userInfoVar } from 'cache/common/common.cache';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { alertVar, userInfoVar } from 'cache/common/common.cache';
 import Alert from 'components/common/Alert';
 import { DELETE_TEMP } from 'graphql/mutations';
 import { GET_USER_TEMP } from 'graphql/queries';
@@ -13,7 +13,6 @@ import {
   getUserTemp_getUserTemp_temps,
 } from 'src/__generated__/getUserTemp';
 import { RootState } from 'store/modules';
-import { setAlert, unmountAlert } from 'store/modules/commonReducer';
 import TempStyle from 'styles/TempPost.module.scss';
 import UtilStyle from 'styles/Util.module.scss';
 import {
@@ -35,7 +34,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const { pickTempId, prevTempId } = useSelector(
     (state: RootState) => state.upload
   );
-  const { alert } = useSelector((state: RootState) => state.common);
+  const alert = useReactiveVar(alertVar);
 
   const {
     data: userTempData,
@@ -102,37 +101,35 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const handleBackToNewPost = () => {
-    dispatch(
-      setAlert({
-        title: '새로운 게시글 작성',
-        content: `새로운 게시글을 작성하시겠습니까? \n 저장하지 않으신 글은 반영되지 않습니다.`,
-      })
-    );
+    alertVar({
+      title: '새로운 게시글 작성',
+      content: `새로운 게시글을 작성하시겠습니까? \n 저장하지 않으신 글은 반영되지 않습니다.`,
+      visible: true,
+    });
   };
 
   const handleLogging = (el: getUserTemp_getUserTemp_temps) => {
     dispatch(setPickTempId(el.id));
 
-    dispatch(
-      setAlert({
-        title: '임시저장 불러오기',
-        content: `${el.title}를 불러옵니다.`,
-      })
-    );
+    alertVar({
+      title: '임시저장 불러오기',
+      content: `${el.title}를 불러옵니다.`,
+      visible: true,
+    });
   };
 
   const handleDelete = (el: getUserTemp_getUserTemp_temps) => {
     dispatch(setPickTempId(el.id));
-    dispatch(
-      setAlert({
-        title: '임시저장 게시글 삭제하기',
-        content: `${el.title}를 삭제하시겠습니까?`,
-      })
-    );
+
+    alertVar({
+      title: '임시저장 게시글 삭제하기',
+      content: `${el.title}를 삭제하시겠습니까?`,
+      visible: true,
+    });
   };
 
   const onCancel = () => {
-    dispatch(unmountAlert());
+    alertVar({ title: '', content: '', visible: false });
     dispatch(setPickTempId(prevTempId));
 
     if (alert.title === '임시 게시물' || alert.title === '새로운 게시물') {
@@ -141,7 +138,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     }
 
     if (alert.title === '임시저장 불러오기') {
-      dispatch(unmountAlert());
+      alertVar({ title: '', content: '', visible: false });
       return;
     }
 
@@ -153,7 +150,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const onConfirm = () => {
-    dispatch(unmountAlert());
+    alertVar({ title: '', content: '', visible: false });
 
     if (alert.title === '새로운 게시글 작성') {
       return confirmBackToNewPost();
