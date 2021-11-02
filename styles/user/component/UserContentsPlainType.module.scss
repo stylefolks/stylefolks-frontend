@@ -33,7 +33,7 @@
     }
 
     @media screen and (max-width: 735px) {
-      min-width: calc(124px * 3 + 3px * 2);
+      // min-width: calc(124px * 3 + 3px * 2);
       max-width: calc(124px * 3 + 3px * 2 + 6px);
 
       h2 {
@@ -53,8 +53,12 @@
   }
 
   @media screen and (max-width: 735px) {
-    min-width: calc(3 * 124px - 20px);
+    // min-width: calc(3 * 124px - 20px);
     min-height: calc(3 * 124px);
+
+    & > li {
+      width: 90vw;
+    }
   }
 
   @media screen and (min-width: 736px) {

@@ -13,7 +13,7 @@ const Modal: React.FC<IPropsModal> = ({ children, visible }) => {
   }, [visible]);
 
   return visible
-    ? createPortal(children, document.querySelector('#alert'))
+    ? createPortal(children, document.querySelector('#modal'))
     : null;
 };
 

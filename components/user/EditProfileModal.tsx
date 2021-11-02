@@ -110,6 +110,19 @@ const EditProfileModal = () => {
     });
   };
 
+  const onQuit = () => {
+    setLocalPw({ pw: '', changePw: '', checkPw: '' });
+    setIsChangePw(false);
+    isVisibleEditProfileModalVar(false);
+  };
+
+  useEffect(
+    () => () => {
+      onQuit();
+    },
+    []
+  );
+
   return (
     <Modal visible={visible}>
       <BackDrop>
@@ -216,7 +229,7 @@ const EditProfileModal = () => {
                 />
                 <Button
                   actionText="QUIT"
-                  onClick={() => isVisibleEditProfileModalVar(false)}
+                  onClick={onQuit}
                   loading={false}
                   canClick
                 />

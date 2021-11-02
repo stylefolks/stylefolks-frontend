@@ -4,7 +4,7 @@
   justify-content: space-between;
 
   @media screen and (max-width: 735px) {
-    min-width: calc(124px * 3 + 3px * 2);
+    // min-width: calc(124px * 3 + 3px * 2);
     min-height: calc(124px * 3 + 3px * 3);
   }
 
@@ -20,8 +20,8 @@
   grid-template-columns: repeat(3, 27vw);
 
   @media screen and (max-width: 735px) {
-    grid-template-rows: repeat(3, 124px);
-    grid-template-columns: repeat(3, 124px);
+    grid-template-rows: repeat(3, 110px);
+    grid-template-columns: repeat(3, 110px);
   }
 
   @media screen and (min-width: 736px) {
