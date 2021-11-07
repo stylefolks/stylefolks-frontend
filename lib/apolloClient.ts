@@ -1,7 +1,7 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { concatPagination } from '@apollo/client/utilities';
 import { authTokenVar } from 'cache/common/common.cache';
-import { isLoggedIn, nickname, token } from 'cache/common/common.field';
+import { alert, isLoggedIn, nickname, token } from 'cache/common/common.field';
 import {
   isUserTotalPost,
   isVisibleEditProfileModal,
@@ -79,6 +79,7 @@ function createApolloClient() {
             allPosts: concatPagination(),
             isVisibleProfileImageModal,
             isVisibleEditProfileModal,
+            alert,
           },
         },
       },

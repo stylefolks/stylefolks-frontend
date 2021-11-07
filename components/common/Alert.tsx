@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useReactiveVar } from '@apollo/client';
+import { alertVar } from 'cache/common/common.cache';
 import Portal from '../../HOC/Alert';
-import { RootState } from '../../store/modules';
 import UtilStyle from '../../styles/Util.module.scss';
 import BackDrop from './BackDrop';
 
@@ -10,7 +10,7 @@ interface IPropsAlert {
 }
 
 const Alert: React.FC<IPropsAlert> = ({ onConfirm, onCancel }) => {
-  const { alert } = useSelector((state: RootState) => state.common);
+  const alert = useReactiveVar(alertVar);
 
   return (
     <Portal>

@@ -1,21 +1,22 @@
+import { useReactiveVar } from '@apollo/client';
+import { alertVar } from 'cache/common/common.cache';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/modules';
 
 interface IPropsPortal {
   children: React.ReactNode;
 }
 
 const Portal: React.FC<IPropsPortal> = ({ children }) => {
-  const { alert } = useSelector((state: RootState) => state.common);
-  const { isVisible } = alert;
-  useEffect(() => {
-    isVisible && (document.body.style.overflow = 'hidden');
-    !isVisible && (document.body.style.overflow = 'unset');
-  }, [isVisible]);
+  const alert = useReactiveVar(alertVar);
+  const { visible } = alert;
 
-  return isVisible
+  useEffect(() => {
+    visible && (document.body.style.overflow = 'hidden');
+    !visible && (document.body.style.overflow = 'unset');
+  }, [visible]);
+
+  return visible
     ? createPortal(children, document.querySelector('#alert'))
     : null;
 };

@@ -1,11 +1,9 @@
 import InfoBox from '../components/InfoBox';
-import PostList from '../components/PostList';
+
 const IndexPage = () => {
   return (
     <>
       <InfoBox>ℹ️ Page Gonnabe beatuiful~~</InfoBox>
-
-      <PostList />
     </>
   );
 };

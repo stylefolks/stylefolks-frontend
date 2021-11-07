@@ -16,6 +16,7 @@ import { GET_USER_CREW } from 'graphql/queries';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import vacantImage from 'public/solidwhite.png';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
@@ -123,13 +124,21 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
             onClick={isUser ? onClick : () => null}
           >
             <Image
-              src={pageUserData?.profileImg}
+              src={
+                pageUserData?.profileImg
+                  ? pageUserData?.profileImg
+                  : vacantImage.src
+              }
               alt="profile-image"
               width="120px"
               height="120px"
               unoptimized={true}
               placeholder="blur"
-              blurDataURL={pageUserData?.profileImg}
+              blurDataURL={
+                pageUserData?.profileImg
+                  ? pageUserData?.profileImg
+                  : vacantImage.src
+              }
             />
           </div>
           <div className={UserStyle.userInfoBioWrapper}>
@@ -162,16 +171,6 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
                 />
               </button>
             )}
-            {/* <Button
-              actionText={
-                isUserTotalPostVar()
-                  ? 'Back to my Profile'
-                  : 'See My Total Post'
-              }
-              onClick={() => isUserTotalPostVar(!isUserTotalPostVar())}
-              loading={false}
-              canClick={true}
-            /> */}
           </div>
         )}
       </div>
@@ -181,7 +180,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
           {getUserCrewData?.getUserCrew.crews.length
             ? getUserCrewData?.getUserCrew?.crews?.map((el) => (
                 <li key={el.id}>
-                  <Link href={`crew/${el.id}`}>
+                  <Link href={`/crew/${el.name}`}>
                     <a>
                       <div className={UserStyle.userJoinCrewImage}>
                         <Image

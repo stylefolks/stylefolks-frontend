@@ -1,0 +1,40 @@
+.container {
+  position: relative;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+}
+
+.infoContainer {
+  margin: 20px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & > .imgWrapper {
+    border-radius: 100%;
+    overflow: hidden;
+    border: 1px solid black;
+  }
+
+  & > h2 {
+    color: black;
+    &:hover {
+      color: $font-color-main;
+    }
+  }
+}
+
+.btnWrapper {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+
+  & > button {
+    margin: 10px 0px;
+  }
+}

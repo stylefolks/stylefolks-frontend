@@ -1,45 +1,37 @@
 import { useMutation, useReactiveVar } from '@apollo/client';
-import { userInfoVar } from 'cache/common/common.cache';
+import { alertVar, userInfoVar } from 'cache/common/common.cache';
 import { isVisibleProfileImageModalVar } from 'cache/user/user.cache';
-import Alert from 'components/common/Alert';
 import BackDrop from 'components/common/BackDrop';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import Modal from 'HOC/Modal';
-import { useMe } from 'hooks/useMe';
-import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
-import {
-  setAlert,
-  setSpinner,
-  unmountAlert,
-} from 'store/modules/commonReducer';
+import { setSpinner } from 'store/modules/commonReducer';
 import UploadModalStyle from 'styles/UploadModal.module.scss';
 
 const EditProfileImageModal = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const user = userInfoVar();
   const ref = useRef<HTMLInputElement>(null);
-  const { refetch, data: meData } = useMe();
   const modal = useReactiveVar(isVisibleProfileImageModalVar);
 
   const onImageChangeCompleted = (data: editProfile) => {
     if (data.editProfile.ok) {
       dispatch(setSpinner(false));
-      dispatch(
-        setAlert({
-          title: '프로필 이미지 수정',
-          content: '프로필 이미지 수정이 완료되었습니다.',
-        })
-      );
+
+      alertVar({
+        title: '프로필 이미지 수정',
+        content: '프로필 이미지 수정이 완료되었습니다.',
+        visible: true,
+      });
     }
 
     if (data.editProfile.error) {
+      console.log(data.editProfile.error);
       alert('에러발생');
     }
   };
@@ -69,13 +61,19 @@ const EditProfileImageModal = () => {
         editProfileMutation({
           variables: {
             input: {
+              nickname: user.nickname,
+              link: user.link,
               profileImg: url,
             },
           },
         });
       }
     } catch {
-      dispatch(setAlert({ title: '에러발생', content: '이미지 업로드 에러' }));
+      alertVar({
+        title: '에러발생',
+        content: '이미지 업로드 에러',
+        visible: true,
+      });
     }
   };
 
@@ -108,6 +106,8 @@ const EditProfileImageModal = () => {
       editProfileMutation({
         variables: {
           input: {
+            nickname: user.nickname,
+            link: user.link,
             profileImg:
               'https://thefolksofstyle.s3.amazonaws.com/ef66e19d-e8d8-486d-8b5b-b4ef0101e1d9no-image.png',
           },
@@ -116,12 +116,13 @@ const EditProfileImageModal = () => {
     }
   };
 
-  const onConfirmAlert = () => {
-    router.reload();
-    refetch(); //여기도 나중에 캐시만 업데이트 하는 방식으로 변경하자
-    dispatch(unmountAlert());
-    isVisibleProfileImageModalVar(false);
-  };
+  // const onConfirmAlert = () => {
+
+  //   router.reload();
+  //   refetch(); //여기도 나중에 캐시만 업데이트 하는 방식으로 변경하자
+  //   alertVar({ title: '', content: '', visible: false });
+  //   isVisibleProfileImageModalVar(false);
+  // };
 
   return (
     <>
@@ -145,7 +146,7 @@ const EditProfileImageModal = () => {
           </section>
         </BackDrop>
       </Modal>
-      <Alert onConfirm={onConfirmAlert} />
+      {/* <Alert onConfirm={onConfirmAlert} /> */}
     </>
   );
 };

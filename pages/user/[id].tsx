@@ -1,10 +1,16 @@
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { isUserTotalPostVar } from 'cache/user/user.cache';
+import { alertVar } from 'cache/common/common.cache';
+import {
+  isUserTotalPostVar,
+  isVisibleEditProfileModalVar,
+  isVisibleProfileImageModalVar,
+} from 'cache/user/user.cache';
 import EditProfileImageModal from 'components/user/EditProfileImageModal';
-import EditProfileModal from 'components/user/EditProfileModal';
+import { useMe } from 'hooks/useMe';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import React from 'react';
 import {
   getUserCrew,
@@ -16,6 +22,15 @@ import {
   findByNickName_findByNickName,
   findByNickName_findByNickName_user,
 } from '../../src/__generated__/findByNickName';
+
+const DynamicAlert = dynamic(() => import('components/common/Alert'), {
+  ssr: false,
+});
+
+const DynamicEditProfile = dynamic(
+  () => import('components/user/EditProfileModal'),
+  { ssr: false }
+);
 
 const DynamicUserProfile = dynamic(
   () => import('components/user/UserProfile'),
@@ -43,8 +58,10 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     pageUserData: findByNickName_findByNickName_user;
     userNick: string;
   }) => {
+    const { refetch } = useMe();
     const isUserTotal = useReactiveVar(isUserTotalPostVar);
-
+    const alert = alertVar();
+    const router = useRouter();
     const {
       data: getUserCrewData,
       loading: getUserCrewLoading,
@@ -56,6 +73,19 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
       fetchPolicy: 'network-only',
       nextFetchPolicy: 'network-only',
     });
+
+    const onConfirmAlert = () => {
+      alertVar({ title: '', content: '', visible: false });
+      if (alert.title === '프로필 이미지 수정') {
+        router.reload();
+        isVisibleProfileImageModalVar(false);
+        refetch(); //여기도 나중에 캐시만 업데이트 하는 방식으로 변경하자
+      }
+
+      if (alert.title === '비밀번호 변경') {
+        isVisibleEditProfileModalVar(false);
+      }
+    };
 
     if (getUserCrewLoading) return <div>Loading..</div>;
 
@@ -69,8 +99,9 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         ) : (
           <DynamicUserContents pageUserData={pageUserData} />
         )}
-        <EditProfileModal />
+        <DynamicEditProfile />
         <EditProfileImageModal />
+        <DynamicAlert onConfirm={onConfirmAlert} />
       </div>
     );
   };

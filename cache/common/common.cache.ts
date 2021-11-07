@@ -10,6 +10,12 @@ interface IUserInforVar {
   link: string;
 }
 
+interface IAlert {
+  title: string;
+  content: string;
+  visible: boolean;
+}
+
 const token =
   typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
 export const isLoggedInVar = makeVar(Boolean(token));
@@ -21,4 +27,10 @@ export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
   profileImg: '',
   nickname: '',
   link: '',
+});
+
+export const alertVar: ReactiveVar<IAlert> = makeVar({
+  title: '',
+  content: '',
+  visible: false,
 });

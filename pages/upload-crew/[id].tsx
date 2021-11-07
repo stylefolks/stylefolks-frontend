@@ -2,6 +2,10 @@ import { useMutation } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { alertVar, userInfoVar } from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
+import CategorySelector from 'components/upload/CategorySelector';
+import WysiwygEditor from 'components/upload/Editor';
+import TempPostBox from 'components/upload/TempPostBox';
+import TitleImagePicker from 'components/upload/TitleImagePicker';
 import {
   CREATE_POST_MUTATION,
   CREATE_TEMP_MUTATION,
@@ -12,36 +16,22 @@ import {
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createPost, createPostVariables } from 'src/__generated__/createPost';
+import { createTemp, createTempVariables } from 'src/__generated__/createTemp';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
+import { modifyTemp, modifyTempVariables } from 'src/__generated__/modifyTemp';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
-import CategorySelector from '../components/upload/CategorySelector';
-import WysiwygEditor from '../components/upload/Editor';
-import TempPostBox from '../components/upload/TempPostBox';
-import TitleImagePicker from '../components/upload/TitleImagePicker';
-import {
-  createPost,
-  createPostVariables,
-} from '../src/__generated__/createPost';
-import {
-  createTemp,
-  createTempVariables,
-} from '../src/__generated__/createTemp';
-import {
-  modifyTemp,
-  modifyTempVariables,
-} from '../src/__generated__/modifyTemp';
-import { RootState } from '../store/modules';
+import { RootState } from 'store/modules';
 import {
   initializeUploadState,
   upadatePost,
-} from '../store/modules/uploadReducer';
+} from 'store/modules/uploadReducer';
 
 const Upload = () => {
   const dispatch = useDispatch();
-
   const user = userInfoVar();
   const router = useRouter();
-  const { post, pickTempId, isModify, modifyPostId } = useSelector(
+  const { post, pickTempId, modifyPostId } = useSelector(
     (state: RootState) => state.upload
   );
   const { title, contents, titleImg, firstCategoryId, secondCategoryId } = post;
@@ -227,6 +217,8 @@ const Upload = () => {
       dispatch(initializeUploadState());
     };
   }, []);
+
+  console.log(router.query.id);
 
   if (createPostLoading || createTempLoading)
     return <div>업로드중입니다 잠시만 기다려주세요... :)</div>;

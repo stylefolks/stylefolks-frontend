@@ -98,3 +98,21 @@ export const EDIT_PROFILE = gql`
     }
   }
 `;
+
+export const CHANGE_PASSWORD = gql`
+  mutation changePassword($input: ChangePasswordInput!) {
+    changePassword(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
+export const CREATE_CREW_POST = gql`
+  mutation createCrewPost($input: CreateCrewPostInput!) {
+    createCrewPost(input: $input) {
+      ok
+      error
+    }
+  }
+`;

@@ -18,7 +18,9 @@ const Layout: React.FC<ILayout> = ({ children }) => {
       <Footer />
       <style jsx>{`
         .section-main {
+          margin: 0 auto;
           height: 100%;
+          width: 100%;
           min-height: calc(100vh - 200px - 25px);
           //min-height: calc(100vh + 20px);
           padding: 0;

@@ -14,7 +14,7 @@ export interface getPostByCategory_getPostByCategory_post_user {
   email: string;
   nickname: string;
   role: UserRole;
-  profileImg: string;
+  profileImg: string | null;
 }
 
 export interface getPostByCategory_getPostByCategory_post {

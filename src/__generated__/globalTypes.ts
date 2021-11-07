@@ -34,6 +34,11 @@ export enum UserRole {
   User = "User",
 }
 
+export interface ChangePasswordInput {
+  password: string;
+  changePassword: string;
+}
+
 export interface CreateAccountInput {
   email: string;
   password: string;
@@ -44,6 +49,15 @@ export interface CreateAccountInput {
 export interface CreateCommentInput {
   postId: number;
   comment: string;
+}
+
+export interface CreateCrewPostInput {
+  title: string;
+  contents: string;
+  titleImg?: string | null;
+  crewName: string;
+  firstCategoryId: number;
+  secondCategoryId?: number | null;
 }
 
 export interface CreatePostInput {
@@ -73,6 +87,10 @@ export interface EditProfileInput {
   link?: string | null;
 }
 
+export interface GetCrewByNameInput {
+  name: string;
+}
+
 export interface GetPostByCategoryInput {
   page?: number | null;
   inputTake?: number | null;
@@ -82,11 +100,6 @@ export interface GetPostByCategoryInput {
   brandId?: number | null;
   crewId?: number | null;
   nickname?: string | null;
-}
-
-export interface GetPostForMainCategoryPageInput {
-  firstCategoryName: FirstCategoryName;
-  postCount?: number | null;
 }
 
 export interface LoginInput {
