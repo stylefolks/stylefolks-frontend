@@ -1,8 +1,7 @@
-import { ReactChild } from 'react';
 import UtilStyle from '../../styles/Util.module.scss';
 
 interface IBackDropProps {
-  children: ReactChild | HTMLElement;
+  children: React.ReactNode;
 }
 
 const BackDrop: React.FC<IBackDropProps> = ({ children }) => {

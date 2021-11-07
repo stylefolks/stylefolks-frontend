@@ -4,7 +4,7 @@
   justify-content: space-between;
 
   @media screen and (max-width: 735px) {
-    // min-width: calc(124px * 3 + 3px * 2);
+    min-width: calc(124px * 3 + 3px * 2);
     min-height: calc(124px * 3 + 3px * 3);
   }
 

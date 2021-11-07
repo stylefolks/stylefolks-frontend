@@ -64,6 +64,7 @@ const SECOND_CATEGORY_MAP_BY_ROLE = {
     SecondCategoryName.FREE,
     SecondCategoryName.OOTD,
     SecondCategoryName.REVIEW,
+    SecondCategoryName.NOTICE,
     SecondCategoryName.CHALLENGE,
   ],
   [UserRole.Brand]: [
@@ -86,7 +87,7 @@ const SECOND_CATEGORY_MAP_BY_ROLE = {
 
 const NO_SECOND_CATEGORY_LIST = [
   // FirstCategoryName.COLUMN,
-  FirstCategoryName.CREW,
+  // FirstCategoryName.CREW,
 ];
 interface IProps {
   role?: UserRole;
@@ -220,6 +221,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
               </option>
             ))}
           </select>
+          {/* {user.role === UserRole.Manager && } */}
         </div>
       </section>
     </>

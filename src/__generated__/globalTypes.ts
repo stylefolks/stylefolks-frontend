@@ -51,6 +51,15 @@ export interface CreateCommentInput {
   comment: string;
 }
 
+export interface CreateCrewPostInput {
+  title: string;
+  contents: string;
+  titleImg?: string | null;
+  crewName: string;
+  firstCategoryId: number;
+  secondCategoryId?: number | null;
+}
+
 export interface CreatePostInput {
   title: string;
   contents: string;
@@ -78,6 +87,10 @@ export interface EditProfileInput {
   link?: string | null;
 }
 
+export interface GetCrewByNameInput {
+  name: string;
+}
+
 export interface GetPostByCategoryInput {
   page?: number | null;
   inputTake?: number | null;
@@ -87,11 +100,6 @@ export interface GetPostByCategoryInput {
   brandId?: number | null;
   crewId?: number | null;
   nickname?: string | null;
-}
-
-export interface GetPostForMainCategoryPageInput {
-  firstCategoryName: FirstCategoryName;
-  postCount?: number | null;
 }
 
 export interface LoginInput {
