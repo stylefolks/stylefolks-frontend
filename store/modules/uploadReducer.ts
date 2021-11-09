@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  FirstCategoryName,
+  SecondCategoryName,
+} from './../../src/__generated__/globalTypes';
 
 export interface IPostState {
   title: string;
   contents: string;
   titleImg: string;
-  firstCategoryName?: string;
-  secondCategoryName?: string;
-  firstCategoryId?: number | null;
-  secondCategoryId?: number | null;
-  // secondCategory: SecondCategoryName;
+  firstCategoryName?: FirstCategoryName;
+  secondCategoryName?: SecondCategoryName;
 }
 
 interface IUploadState {
@@ -26,10 +27,8 @@ export const uploadInitialState: IUploadState = {
     title: '',
     contents: '',
     titleImg: '',
-    firstCategoryName: '',
-    secondCategoryName: '',
-    firstCategoryId: null,
-    secondCategoryId: null,
+    firstCategoryName: FirstCategoryName.TALK,
+    secondCategoryName: SecondCategoryName.FREE,
   },
   titleImageArr: [],
   isTemp: false,
@@ -43,9 +42,6 @@ const uploadSlice = createSlice({
   name: 'upload',
   initialState: uploadInitialState,
   reducers: {
-    upadatePost(state, action: PayloadAction<IUploadState['post']>) {
-      state.post = action.payload;
-    },
     updateTitleImageArr(state, action: PayloadAction<string>) {
       state.titleImageArr = [...state.titleImageArr, action.payload];
     },
@@ -82,7 +78,6 @@ const uploadSlice = createSlice({
 
 const { actions, reducer } = uploadSlice;
 export const {
-  upadatePost,
   updateTitleImageArr,
   initializeUploadState,
   setIsTemp,

@@ -1,6 +1,10 @@
-import { useMutation } from '@apollo/client';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import { alertVar, userInfoVar } from 'cache/common/common.cache';
+import {
+  alertVar,
+  userInfoVar,
+  writtenPostVar,
+} from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
 import {
   CREATE_POST_MUTATION,
@@ -31,20 +35,19 @@ import {
   modifyTempVariables,
 } from '../src/__generated__/modifyTemp';
 import { RootState } from '../store/modules';
-import {
-  initializeUploadState,
-  upadatePost,
-} from '../store/modules/uploadReducer';
+import { initializeUploadState } from '../store/modules/uploadReducer';
 
 const Upload = () => {
   const dispatch = useDispatch();
 
   const user = userInfoVar();
   const router = useRouter();
-  const { post, pickTempId, isModify, modifyPostId } = useSelector(
+  const post = useReactiveVar(writtenPostVar);
+  const { pickTempId, isModify, modifyPostId } = useSelector(
     (state: RootState) => state.upload
-  );
-  const { title, contents, titleImg, firstCategoryId, secondCategoryId } = post;
+  ); //원래 여기 post
+  const { title, contents, titleImg, firstCategoryName, secondCategoryName } =
+    post;
 
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
@@ -156,8 +159,8 @@ const Upload = () => {
           title,
           contents,
           titleImg,
-          firstCategoryId,
-          secondCategoryId,
+          firstCategoryName,
+          secondCategoryName,
         },
       },
     });
@@ -171,8 +174,8 @@ const Upload = () => {
           title,
           contents,
           titleImg,
-          firstCategoryId,
-          secondCategoryId,
+          firstCategoryName,
+          secondCategoryName,
         },
       },
     });
@@ -185,8 +188,8 @@ const Upload = () => {
           title,
           contents,
           titleImg,
-          firstCategoryId,
-          secondCategoryId,
+          firstCategoryName,
+          secondCategoryName,
         },
       },
     });
@@ -199,8 +202,8 @@ const Upload = () => {
           title,
           contents,
           titleImg,
-          firstCategoryId,
-          secondCategoryId,
+          firstCategoryName,
+          secondCategoryName,
           tempId: pickTempId,
         },
       },
@@ -214,8 +217,8 @@ const Upload = () => {
           title,
           contents,
           titleImg,
-          firstCategoryId,
-          secondCategoryId,
+          firstCategoryName,
+          secondCategoryName,
           postId: modifyPostId,
         },
       },
@@ -240,7 +243,7 @@ const Upload = () => {
           autofocus={false}
           initialValue={''}
           height={'90vh'}
-          onChange={(contents) => dispatch(upadatePost({ ...post, contents }))}
+          onChange={(contents) => writtenPostVar({ ...post, contents })}
         />
 
         <TitleImagePicker />

@@ -3,7 +3,9 @@ import {
   alertVar,
   authTokenVar,
   isLoggedInVar,
+  pickFirstCategoryVar,
   userInfoVar,
+  writtenPostVar,
 } from 'cache/common/common.cache';
 
 export const nickname = {
@@ -27,6 +29,18 @@ export const isLoggedIn = {
 export const alert = {
   read() {
     return alertVar();
+  },
+};
+
+export const pickFirstCategory = {
+  read() {
+    return pickFirstCategoryVar();
+  },
+};
+
+export const writtenPost = {
+  read() {
+    return writtenPostVar();
   },
 };
 

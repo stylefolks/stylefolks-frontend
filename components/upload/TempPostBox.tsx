@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { alertVar, userInfoVar } from 'cache/common/common.cache';
+import {
+  alertVar,
+  initialWrittePostVar,
+  userInfoVar,
+  writtenPostVar,
+} from 'cache/common/common.cache';
 import Alert from 'components/common/Alert';
 import { DELETE_TEMP } from 'graphql/mutations';
 import { GET_USER_TEMP } from 'graphql/queries';
@@ -12,16 +17,15 @@ import {
   getUserTempVariables,
   getUserTemp_getUserTemp_temps,
 } from 'src/__generated__/getUserTemp';
+import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import { RootState } from 'store/modules';
 import TempStyle from 'styles/TempPost.module.scss';
 import UtilStyle from 'styles/Util.module.scss';
 import {
-  initializeUploadState,
   setIsTemp,
   setPickTempId,
   setPrevTempId,
   setTitleImageArr,
-  upadatePost,
 } from '../../store/modules/uploadReducer';
 
 interface IProps {
@@ -79,15 +83,11 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
     const titleImageArr = image.map((el) => el.link);
 
-    dispatch(
-      upadatePost({
-        ...input,
-        firstCategoryId: firstCategory.id,
-        secondCategoryId: secondCategory?.id,
-        secondCategoryName: secondCategory?.name,
-        firstCategoryName: firstCategory.name,
-      })
-    );
+    writtenPostVar({
+      ...input,
+      firstCategoryName: firstCategory.name as FirstCategoryName,
+      secondCategoryName: secondCategory.name,
+    });
 
     dispatch(setTitleImageArr(titleImageArr));
     dispatch(setIsTemp(true));
@@ -96,7 +96,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const confirmBackToNewPost = () => {
     //아래 실행순서가 중요하다 -> 개선필요
     dispatch(setPickTempId(null));
-    dispatch(initializeUploadState());
+    writtenPostVar({ ...initialWrittePostVar });
     dispatch(setIsTemp(true));
   };
 

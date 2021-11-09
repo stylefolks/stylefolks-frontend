@@ -108,11 +108,11 @@ export const CHANGE_PASSWORD = gql`
   }
 `;
 
-export const CREATE_CREW_POST = gql`
-  mutation createCrewPost($input: CreateCrewPostInput!) {
-    createCrewPost(input: $input) {
-      ok
-      error
-    }
-  }
-`;
+// export const CREATE_CREW_POST = gql`
+//   mutation createCrewPost($input: CreateCrewPostInput!) {
+//     createCrewPost(input: $input) {
+//       ok
+//       error
+//     }
+//   }
+// `;

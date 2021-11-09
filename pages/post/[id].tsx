@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { userInfoVar } from 'cache/common/common.cache';
+import { userInfoVar, writtenPostVar } from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
 import CommentBox from 'components/common/CommentBox';
 import { DELETE_POST } from 'graphql/mutations';
@@ -11,11 +11,11 @@ import {
   deleteMyPost,
   deleteMyPostVariables,
 } from 'src/__generated__/deleteMyPost';
+import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import {
   setIsModify,
   setModifyPostId,
   setTitleImageArr,
-  upadatePost,
 } from 'store/modules/uploadReducer';
 import PostStyle from 'styles/Post.module.scss';
 import EditorViewer from '../../components/upload/EditorViewer';
@@ -44,17 +44,14 @@ export const Post = () => {
     const { firstCategory, secondCategory, title, contents, titleImg } =
       data?.getEachPost.post;
 
-    dispatch(
-      upadatePost({
-        title,
-        contents,
-        titleImg,
-        firstCategoryId: firstCategory.id,
-        firstCategoryName: firstCategory.name,
-        secondCategoryId: secondCategory.id,
-        secondCategoryName: secondCategory.name,
-      })
-    );
+    writtenPostVar({
+      title,
+      contents,
+      titleImg,
+      firstCategoryName: firstCategory.name as FirstCategoryName,
+      secondCategoryName: secondCategory.name,
+    });
+
     dispatch(
       setTitleImageArr(data.getEachPost.post.image.map((el) => el.link))
     );

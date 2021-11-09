@@ -51,29 +51,20 @@ export interface CreateCommentInput {
   comment: string;
 }
 
-export interface CreateCrewPostInput {
-  title: string;
-  contents: string;
-  titleImg?: string | null;
-  crewName: string;
-  firstCategoryId: number;
-  secondCategoryId?: number | null;
-}
-
 export interface CreatePostInput {
   title: string;
   contents: string;
   titleImg?: string | null;
-  firstCategoryId: number;
-  secondCategoryId?: number | null;
+  firstCategoryName: FirstCategoryName;
+  secondCategoryName?: SecondCategoryName | null;
 }
 
 export interface CreateTempInput {
   title: string;
   contents: string;
   titleImg?: string | null;
-  firstCategoryId: number;
-  secondCategoryId?: number | null;
+  firstCategoryName: FirstCategoryName;
+  secondCategoryName?: SecondCategoryName | null;
 }
 
 export interface DeleteCommentInput {
@@ -85,6 +76,10 @@ export interface EditProfileInput {
   nickname?: string | null;
   profileImg?: string | null;
   link?: string | null;
+}
+
+export interface GetCategoryByFirstCategoryNameInput {
+  firstCategoryName: FirstCategoryName;
 }
 
 export interface GetCrewByNameInput {
@@ -117,8 +112,8 @@ export interface ModifyMyPostInput {
   title?: string | null;
   contents?: string | null;
   titleImg?: string | null;
-  firstCategoryId?: number | null;
-  secondCategoryId?: number | null;
+  firstCategoryName?: FirstCategoryName | null;
+  secondCategoryName?: SecondCategoryName | null;
   postId: number;
 }
 
@@ -126,8 +121,8 @@ export interface ModifyMyTemptInput {
   title?: string | null;
   contents?: string | null;
   titleImg?: string | null;
-  firstCategoryId?: number | null;
-  secondCategoryId?: number | null;
+  firstCategoryName?: FirstCategoryName | null;
+  secondCategoryName?: SecondCategoryName | null;
   postId: number;
 }
 
@@ -135,8 +130,8 @@ export interface UploadTempInput {
   title: string;
   contents: string;
   titleImg?: string | null;
-  firstCategoryId: number;
-  secondCategoryId?: number | null;
+  firstCategoryName: FirstCategoryName;
+  secondCategoryName?: SecondCategoryName | null;
   tempId: number;
 }
 

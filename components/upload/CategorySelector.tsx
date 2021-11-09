@@ -1,7 +1,15 @@
-import { gql, useQuery } from '@apollo/client';
-import { userInfoVar } from 'cache/common/common.cache';
+import { gql, useLazyQuery, useQuery, useReactiveVar } from '@apollo/client';
+import {
+  pickFirstCategoryVar,
+  userInfoVar,
+  writtenPostVar,
+} from 'cache/common/common.cache';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  getCategoryByFirstCategory,
+  getCategoryByFirstCategoryVariables,
+} from 'src/__generated__/getCategoryByFirstCategory';
 import { getCategory } from '../../src/__generated__/getCategory';
 import {
   FirstCategoryName,
@@ -9,7 +17,6 @@ import {
   UserRole,
 } from '../../src/__generated__/globalTypes';
 import { RootState } from '../../store/modules';
-import { upadatePost } from '../../store/modules/uploadReducer';
 import CategoryStyle from '../../styles/Category.module.scss';
 
 const GET_CATEGORY = gql`
@@ -23,6 +30,23 @@ const GET_CATEGORY = gql`
         secondCategory {
           name
           id
+        }
+      }
+    }
+  }
+`;
+
+const GET_CATEGORY_BY_FIRST_CATEGORY = gql`
+  query getCategoryByFirstCategory(
+    $input: GetCategoryByFirstCategoryNameInput!
+  ) {
+    getCategoryByFirstCategory(input: $input) {
+      ok
+      error
+      category {
+        name
+        secondCategory {
+          name
         }
       }
     }
@@ -85,10 +109,6 @@ const SECOND_CATEGORY_MAP_BY_ROLE = {
   ],
 };
 
-const NO_SECOND_CATEGORY_LIST = [
-  // FirstCategoryName.COLUMN,
-  // FirstCategoryName.CREW,
-];
 interface IProps {
   role?: UserRole;
 }
@@ -96,9 +116,18 @@ interface IProps {
 const CategorySelector: React.FC<IProps> = ({ role }) => {
   const dispatch = useDispatch();
   const user = userInfoVar();
-  const { post, isModify } = useSelector((state: RootState) => state.upload);
-
+  const post = useReactiveVar(writtenPostVar);
+  const pickFirstCategory = useReactiveVar(pickFirstCategoryVar);
+  const { isModify } = useSelector((state: RootState) => state.upload);
   const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY, {
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'network-only',
+  });
+
+  const [getCategory, { data: differData }] = useLazyQuery<
+    getCategoryByFirstCategory,
+    getCategoryByFirstCategoryVariables
+  >(GET_CATEGORY_BY_FIRST_CATEGORY, {
     fetchPolicy: 'network-only',
     nextFetchPolicy: 'network-only',
   });
@@ -109,38 +138,40 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
     )
   );
   const secondCategoryArray = data?.getCategory.categories.filter(
-    (el) => el.id === post.firstCategoryId
+    (el) => el.name === post.firstCategoryName
   );
 
   useEffect(() => {
     if (!loading && !isModify) {
-      dispatch(
-        upadatePost({
-          ...post,
-          firstCategoryName: firstCategoryArray[0].name,
-          secondCategoryName: firstCategoryArray[0]?.secondCategory[0]?.name,
-          firstCategoryId: firstCategoryArray[0]?.id,
-          secondCategoryId: firstCategoryArray[0]?.secondCategory[0]?.id,
-        })
-      );
+      writtenPostVar({
+        ...post,
+        firstCategoryName: pickFirstCategoryVar(),
+        secondCategoryName: firstCategoryArray[0]?.secondCategory[0]
+          ?.name as SecondCategoryName,
+      });
     }
   }, [loading]);
 
   useEffect(() => {
     if (!loading && !isModify) {
-      dispatch(
-        upadatePost({
-          ...post,
-          secondCategoryName: secondCategoryArray[0]?.secondCategory.filter(
-            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.role].includes(el.name)
-          )[0]?.name,
-          secondCategoryId: secondCategoryArray[0]?.secondCategory.filter(
-            (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.role].includes(el.name)
-          )[0]?.id,
-        })
-      );
+      writtenPostVar({
+        ...post,
+        secondCategoryName: secondCategoryArray[0]?.secondCategory.filter(
+          (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.role].includes(el.name)
+        )[0]?.name,
+      });
     }
-  }, [post.firstCategoryId]);
+  }, [pickFirstCategory]);
+
+  useEffect(() => {
+    getCategory({
+      variables: {
+        input: {
+          firstCategoryName: pickFirstCategory,
+        },
+      },
+    });
+  }, []);
 
   if (loading) {
     return <div>Loading ...</div>;
@@ -160,68 +191,32 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
             type="text"
             placeholder="Title"
             value={post.title}
-            onChange={(e) =>
-              dispatch(upadatePost({ ...post, title: e.target.value }))
-            }
+            onChange={(e) => writtenPostVar({ ...post, title: e.target.value })}
           />
-          {NO_SECOND_CATEGORY_LIST.includes(
-            post.firstCategoryName as FirstCategoryName
-          ) ? (
-            <span></span>
-          ) : (
+          {
             <>
               <span> in </span>
               <select
                 value={post.secondCategoryName}
                 onChange={(el) => {
                   const selectedIndex = el.target.options.selectedIndex;
-                  const secondCategoryId =
-                    +el.target.options[selectedIndex].getAttribute('data-key');
-                  dispatch(
-                    upadatePost({
-                      ...post,
-                      secondCategoryId,
-                      secondCategoryName: el.target.value,
-                    })
-                  );
+                  writtenPostVar({
+                    ...post,
+                    secondCategoryName: el.target.value as SecondCategoryName,
+                  });
                 }}
               >
-                {secondCategoryArray[0]?.secondCategory
-                  .filter((el) =>
-                    SECOND_CATEGORY_MAP_BY_ROLE[user?.role].includes(el.name)
+                {differData?.getCategoryByFirstCategory?.category.secondCategory.map(
+                  (el) => (
+                    <option key={el.name}>{el.name}</option>
                   )
-                  .map((el) => (
-                    <option key={el.id} data-key={el.id}>
-                      {el.name}
-                    </option>
-                  ))}
+                )}
               </select>
             </>
-          )}
+          }
 
           <span> at </span>
-          <select
-            value={post.firstCategoryName}
-            onChange={(el) => {
-              const selectedIndex = el.target.options.selectedIndex;
-              const firstCategoryId =
-                +el.target.options[selectedIndex].getAttribute('data-key');
-              dispatch(
-                upadatePost({
-                  ...post,
-                  firstCategoryId,
-                  firstCategoryName: el.target.value,
-                })
-              );
-            }}
-          >
-            {firstCategoryArray.map((el) => (
-              <option key={el.id} data-key={el.id}>
-                {el?.name}
-              </option>
-            ))}
-          </select>
-          {/* {user.role === UserRole.Manager && } */}
+          <span>{pickFirstCategory}</span>
         </div>
       </section>
     </>
