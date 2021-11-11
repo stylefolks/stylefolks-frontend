@@ -4,6 +4,7 @@ import {
   authTokenVar,
   isLoggedInVar,
   userInfoVar,
+  writtenPostVar,
 } from 'cache/common/common.cache';
 
 export const nickname = {
@@ -27,6 +28,12 @@ export const isLoggedIn = {
 export const alert = {
   read() {
     return alertVar();
+  },
+};
+
+export const writtenPost = {
+  read() {
+    return writtenPostVar();
   },
 };
 

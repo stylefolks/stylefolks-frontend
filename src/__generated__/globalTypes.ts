@@ -15,15 +15,16 @@ export enum FirstCategoryName {
 }
 
 export enum SecondCategoryName {
-  ARTICLE = "ARTICLE",
-  BRAND = "BRAND",
+  BRAND_ARTICLE = "BRAND_ARTICLE",
+  BRAND_COLUMN = "BRAND_COLUMN",
+  BRAND_NOTICE = "BRAND_NOTICE",
+  BRAND_REVIEW = "BRAND_REVIEW",
   CHALLENGE = "CHALLENGE",
+  CREW_NOTICE = "CREW_NOTICE",
   FREE = "FREE",
-  NOTICE = "NOTICE",
   OOTD = "OOTD",
-  PUBLISHER = "PUBLISHER",
-  REVIEW = "REVIEW",
-  USER = "USER",
+  PUBLISHER_COLUMN = "PUBLISHER_COLUMN",
+  USER_COLUMN = "USER_COLUMN",
 }
 
 export enum UserRole {
@@ -51,29 +52,24 @@ export interface CreateCommentInput {
   comment: string;
 }
 
-export interface CreateCrewPostInput {
-  title: string;
-  contents: string;
-  titleImg?: string | null;
-  crewName: string;
-  firstCategoryId: number;
-  secondCategoryId?: number | null;
-}
-
 export interface CreatePostInput {
   title: string;
   contents: string;
   titleImg?: string | null;
-  firstCategoryId: number;
-  secondCategoryId?: number | null;
+  firstCategoryName: FirstCategoryName;
+  secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
 }
 
 export interface CreateTempInput {
   title: string;
   contents: string;
   titleImg?: string | null;
-  firstCategoryId: number;
-  secondCategoryId?: number | null;
+  firstCategoryName: FirstCategoryName;
+  secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
 }
 
 export interface DeleteCommentInput {
@@ -117,8 +113,10 @@ export interface ModifyMyPostInput {
   title?: string | null;
   contents?: string | null;
   titleImg?: string | null;
-  firstCategoryId?: number | null;
-  secondCategoryId?: number | null;
+  firstCategoryName?: FirstCategoryName | null;
+  secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
   postId: number;
 }
 
@@ -126,8 +124,10 @@ export interface ModifyMyTemptInput {
   title?: string | null;
   contents?: string | null;
   titleImg?: string | null;
-  firstCategoryId?: number | null;
-  secondCategoryId?: number | null;
+  firstCategoryName?: FirstCategoryName | null;
+  secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
   postId: number;
 }
 
@@ -135,8 +135,10 @@ export interface UploadTempInput {
   title: string;
   contents: string;
   titleImg?: string | null;
-  firstCategoryId: number;
-  secondCategoryId?: number | null;
+  firstCategoryName: FirstCategoryName;
+  secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
   tempId: number;
 }
 

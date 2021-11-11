@@ -71,11 +71,11 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
     setPage(1);
   }, [pickCategory]);
 
-  useEffect(() => {
-    if (pageUserData && window.scrollY) {
-      window.scroll(0, 0); // reset the scroll position to the top left of the document.
-    }
-  }, [page]);
+  // useEffect(() => {
+  //   if (pageUserData && window.scrollY) {
+  //     window.scroll(0, 0); // reset the scroll position to the top left of the document.
+  //   }
+  // }, [page]);
 
   return (
     <div className={UserStyle.contentsSection}>

@@ -1,5 +1,7 @@
+import { useReactiveVar } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor as EditorType, EditorProps } from '@toast-ui/react-editor';
+import { writtenPostVar } from 'cache/common/common.cache';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useEffect } from 'react';
@@ -44,7 +46,8 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     useCommandShortcut,
   } = props;
   const dispatch = useDispatch();
-  const { post, isTemp, pickTempId, isModify } = useSelector(
+  const post = useReactiveVar(writtenPostVar);
+  const { isTemp, pickTempId, isModify } = useSelector(
     (state: RootState) => state.upload
   );
   const editorRef = React.useRef<EditorType>();

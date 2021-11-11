@@ -69,7 +69,13 @@ const Profile: React.FC = () => {
             <span onClick={() => router.push(`/user/${user.nickname}`)}>
               Profile
             </span>
-            <span onClick={() => router.push(`/upload`)}>Upload</span>
+            <span
+              onClick={() => {
+                router.push(`/upload`);
+              }}
+            >
+              Upload
+            </span>
             <span onClick={doLogout}>Log Out</span>
           </div>
         </div>

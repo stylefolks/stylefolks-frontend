@@ -1,14 +1,13 @@
+import { useReactiveVar } from '@apollo/client';
+import { writtenPostVar } from 'cache/common/common.cache';
 import Image from 'next/image';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store/modules';
-import { upadatePost } from 'store/modules/uploadReducer';
 import UploadStyle from 'styles/Upload.module.scss';
 
 const TitleImagePicker: React.FC = () => {
-  const dispatch = useDispatch();
-  const { post, titleImageArr } = useSelector(
-    (state: RootState) => state.upload
-  );
+  const post = useReactiveVar(writtenPostVar);
+  const { titleImageArr } = useSelector((state: RootState) => state.upload);
 
   return (
     <div className={UploadStyle.imagePickerWrapper}>
@@ -19,7 +18,7 @@ const TitleImagePicker: React.FC = () => {
           titleImageArr.map((el, index) => (
             <li key={index} className={el === post.titleImg ? 'check' : ''}>
               <Image
-                onClick={() => dispatch(upadatePost({ ...post, titleImg: el }))}
+                onClick={() => writtenPostVar({ ...post, titleImg: el })}
                 src={el}
                 alt={post.title + el.substring(0, 2)}
                 width="40px"

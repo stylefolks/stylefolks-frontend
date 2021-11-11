@@ -5,7 +5,6 @@ import { CREATE_COMMENT } from 'graphql/mutations';
 import { GET_EACH_POST_COMMENTS } from 'graphql/queries';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import {
   createComment,
   createCommentVariables,
@@ -14,7 +13,6 @@ import {
   getEachPostComments,
   getEachPostCommentsVariables,
 } from 'src/__generated__/getEachPostComments';
-import { RootState } from 'store/modules';
 import CommentBoxStyle from 'styles/CommentBox.module.scss';
 import { Button } from './Button';
 
@@ -23,7 +21,6 @@ interface ICommentBoxProps {
 }
 
 const CommentBox: React.FC<ICommentBoxProps> = ({ postId }) => {
-  const { user } = useSelector((state: RootState) => state.user);
   const [comment, setComment] = useState<string>('');
   const router = useRouter();
   const onCompleted = (data: createComment) => {

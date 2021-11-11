@@ -23,7 +23,7 @@ export const BUTTON_MAP: IButtonMap[] = [
   {
     icon: faBookOpen,
     firstCategoryName: FirstCategoryName.FOLKS,
-    secondCategoryName: SecondCategoryName.REVIEW,
+    secondCategoryName: SecondCategoryName.BRAND_REVIEW,
   },
   // {
   //   icon: faTshirt,
