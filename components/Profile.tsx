@@ -2,13 +2,11 @@ import { useReactiveVar } from '@apollo/client';
 import {
   authTokenVar,
   isLoggedInVar,
-  pickFirstCategoryVar,
   userInfoVar,
 } from 'cache/common/common.cache';
 import UseWindowDimension from 'hooks/useWindowDimension';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import ProfileStyle from '../styles/Profile.module.scss';
 import UtilStyle from '../styles/Util.module.scss';
 import LoggedInUserProfileImage from './user/LoggedInUserProfileImage';
@@ -73,7 +71,6 @@ const Profile: React.FC = () => {
             </span>
             <span
               onClick={() => {
-                pickFirstCategoryVar(FirstCategoryName.TALK);
                 router.push(`/upload`);
               }}
             >

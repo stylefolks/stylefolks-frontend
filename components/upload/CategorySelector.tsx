@@ -1,16 +1,8 @@
-import { gql, useLazyQuery, useQuery, useReactiveVar } from '@apollo/client';
-import {
-  pickFirstCategoryVar,
-  userInfoVar,
-  writtenPostVar,
-} from 'cache/common/common.cache';
+import { gql, useQuery } from '@apollo/client';
+import { writtenPostVar } from 'cache/common/common.cache';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  getCategoryByFirstCategory,
-  getCategoryByFirstCategoryVariables,
-} from 'src/__generated__/getCategoryByFirstCategory';
-import { getCategory } from '../../src/__generated__/getCategory';
+import { useSelector } from 'react-redux';
+import { getCategoryByUserRole } from 'src/__generated__/getCategoryByUserRole';
 import {
   FirstCategoryName,
   SecondCategoryName,
@@ -19,159 +11,69 @@ import {
 import { RootState } from '../../store/modules';
 import CategoryStyle from '../../styles/Category.module.scss';
 
-const GET_CATEGORY = gql`
-  query getCategory {
-    getCategory {
+const GET_CATEGORY_BY_USER_ROLE = gql`
+  query getCategoryByUserRole {
+    getCategoryByUserRole {
       ok
       error
-      categories {
+      firstCategory {
+        name
         id
-        name
         secondCategory {
-          name
           id
-        }
-      }
-    }
-  }
-`;
-
-const GET_CATEGORY_BY_FIRST_CATEGORY = gql`
-  query getCategoryByFirstCategory(
-    $input: GetCategoryByFirstCategoryNameInput!
-  ) {
-    getCategoryByFirstCategory(input: $input) {
-      ok
-      error
-      category {
-        name
-        secondCategory {
           name
         }
       }
+      brands {
+        name
+        id
+      }
+      crews {
+        name
+        id
+      }
     }
   }
 `;
-
-const FIRST_CATEGORY_MAP_BY_ROLE = {
-  [UserRole.User]: [FirstCategoryName.TALK, FirstCategoryName.FOLKS],
-  [UserRole.Publisher]: [FirstCategoryName.TALK, FirstCategoryName.COLUMN],
-  [UserRole.Manager]: [
-    FirstCategoryName.TALK,
-    FirstCategoryName.COLUMN,
-    FirstCategoryName.CREW,
-  ],
-  [UserRole.Brand]: [FirstCategoryName.FOLKS],
-  [UserRole.Master]: [
-    FirstCategoryName.TALK,
-    FirstCategoryName.COLUMN,
-    FirstCategoryName.CREW,
-    FirstCategoryName.FOLKS,
-  ],
-};
-
-const SECOND_CATEGORY_MAP_BY_ROLE = {
-  [UserRole.User]: [
-    SecondCategoryName.FREE,
-    SecondCategoryName.OOTD,
-    SecondCategoryName.REVIEW,
-    SecondCategoryName.CHALLENGE,
-  ],
-  [UserRole.Publisher]: [
-    SecondCategoryName.FREE,
-    SecondCategoryName.OOTD,
-    SecondCategoryName.REVIEW,
-    SecondCategoryName.CHALLENGE,
-    SecondCategoryName.PUBLISHER,
-  ],
-  [UserRole.Manager]: [
-    SecondCategoryName.FREE,
-    SecondCategoryName.OOTD,
-    SecondCategoryName.REVIEW,
-    SecondCategoryName.NOTICE,
-    SecondCategoryName.CHALLENGE,
-  ],
-  [UserRole.Brand]: [
-    SecondCategoryName.ARTICLE,
-    SecondCategoryName.NOTICE,
-    SecondCategoryName.BRAND,
-  ],
-  [UserRole.Master]: [
-    SecondCategoryName.FREE,
-    SecondCategoryName.OOTD,
-    SecondCategoryName.REVIEW,
-    SecondCategoryName.CHALLENGE,
-    SecondCategoryName.USER,
-    SecondCategoryName.PUBLISHER,
-    SecondCategoryName.ARTICLE,
-    SecondCategoryName.NOTICE,
-    SecondCategoryName.BRAND,
-  ],
-};
 
 interface IProps {
   role?: UserRole;
 }
 
 const CategorySelector: React.FC<IProps> = ({ role }) => {
-  const dispatch = useDispatch();
-  const user = userInfoVar();
-  const post = useReactiveVar(writtenPostVar);
-  const pickFirstCategory = useReactiveVar(pickFirstCategoryVar);
+  // const user = useReactiveVar(userInfoVar);
+  const post = writtenPostVar();
   const { isModify } = useSelector((state: RootState) => state.upload);
-  const { data, loading, error } = useQuery<getCategory>(GET_CATEGORY, {
-    fetchPolicy: 'network-only',
-    nextFetchPolicy: 'network-only',
-  });
-
-  const [getCategory, { data: differData }] = useLazyQuery<
-    getCategoryByFirstCategory,
-    getCategoryByFirstCategoryVariables
-  >(GET_CATEGORY_BY_FIRST_CATEGORY, {
-    fetchPolicy: 'network-only',
-    nextFetchPolicy: 'network-only',
-  });
-
-  const firstCategoryArray = data?.getCategory.categories.filter((el) =>
-    FIRST_CATEGORY_MAP_BY_ROLE[user?.role]?.includes(
-      el.name as FirstCategoryName
-    )
+  const { data, loading, error } = useQuery<getCategoryByUserRole>(
+    GET_CATEGORY_BY_USER_ROLE
+    // {
+    //   fetchPolicy: 'network-only',
+    //   nextFetchPolicy: 'network-only',
+    // }
   );
-  const secondCategoryArray = data?.getCategory.categories.filter(
+  const secondCategoryArr = data?.getCategoryByUserRole.firstCategory.filter(
     (el) => el.name === post.firstCategoryName
-  );
+  )[0].secondCategory;
+
+  console.log('categoryData Loaded', data);
+  console.log('post data Loaded', post);
 
   useEffect(() => {
     if (!loading && !isModify) {
       writtenPostVar({
         ...post,
-        firstCategoryName: pickFirstCategoryVar(),
-        secondCategoryName: firstCategoryArray[0]?.secondCategory[0]
-          ?.name as SecondCategoryName,
+        firstCategoryName: FirstCategoryName.TALK,
+        secondCategoryName: SecondCategoryName.FREE,
       });
     }
   }, [loading]);
 
   useEffect(() => {
-    if (!loading && !isModify) {
-      writtenPostVar({
-        ...post,
-        secondCategoryName: secondCategoryArray[0]?.secondCategory.filter(
-          (el) => SECOND_CATEGORY_MAP_BY_ROLE[user?.role].includes(el.name)
-        )[0]?.name,
-      });
-    }
-  }, [pickFirstCategory]);
-
-  useEffect(() => {
-    getCategory({
-      variables: {
-        input: {
-          firstCategoryName: pickFirstCategory,
-        },
-      },
+    writtenPostVar({
+      ...post,
+      secondCategoryName: secondCategoryArr && secondCategoryArr[0].name,
     });
-  }, []);
+  }, [post.firstCategoryName]);
 
   if (loading) {
     return <div>Loading ...</div>;
@@ -185,14 +87,18 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
     <>
       <section className={CategoryStyle.categoryContainer}>
         <div>
-          <span>Write Your Own Story named as </span>
-          <input
-            autoFocus={true}
-            type="text"
-            placeholder="Title"
-            value={post.title}
-            onChange={(e) => writtenPostVar({ ...post, title: e.target.value })}
-          />
+          <div>
+            <span>Write Your Own Story named as </span>
+            <input
+              autoFocus={true}
+              type="text"
+              placeholder="Title"
+              value={post.title}
+              onChange={(e) =>
+                writtenPostVar({ ...post, title: e.target.value })
+              }
+            />
+          </div>
           {
             <>
               <span> in </span>
@@ -206,17 +112,47 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                   });
                 }}
               >
-                {differData?.getCategoryByFirstCategory?.category.secondCategory.map(
-                  (el) => (
-                    <option key={el.name}>{el.name}</option>
-                  )
-                )}
+                {secondCategoryArr.map((el) => (
+                  <option key={el.name}>{el.name}</option>
+                ))}
               </select>
             </>
           }
-
           <span> at </span>
-          <span>{pickFirstCategory}</span>
+          <select
+            value={post.firstCategoryName}
+            onChange={(el) => {
+              writtenPostVar({
+                ...post,
+                firstCategoryName: el.target.value as FirstCategoryName,
+              });
+            }}
+          >
+            {data?.getCategoryByUserRole.firstCategory.map((el) => (
+              <option key={el.name}>{el.name}</option>
+            ))}
+          </select>
+          {post.firstCategoryName === FirstCategoryName.FOLKS && (
+            <>
+              <span> Of </span>
+              <select>
+                {data.getCategoryByUserRole.brands.map((el) => (
+                  <option key={el.name}>{el.name}</option>
+                ))}
+              </select>
+            </>
+          )}
+
+          {post.firstCategoryName === FirstCategoryName.CREW && (
+            <>
+              <span> Of </span>
+              <select>
+                {data.getCategoryByUserRole.crews.map((el) => (
+                  <option key={el.name}>{el.name}</option>
+                ))}
+              </select>
+            </>
+          )}
         </div>
       </section>
     </>

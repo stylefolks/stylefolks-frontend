@@ -39,6 +39,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     (state: RootState) => state.upload
   );
   const alert = useReactiveVar(alertVar);
+  const user = useReactiveVar(userInfoVar);
 
   const {
     data: userTempData,
@@ -46,7 +47,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     error: poseError,
   } = useQuery<getUserTemp, getUserTempVariables>(GET_USER_TEMP, {
     variables: {
-      userId: userInfoVar().id,
+      userId: user.id,
     },
     nextFetchPolicy: 'network-only',
     fetchPolicy: 'network-only',

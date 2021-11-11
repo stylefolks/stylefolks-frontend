@@ -25,12 +25,28 @@ interface IPostVar {
   secondCategoryName?: SecondCategoryName;
 }
 
+interface IPostStatus {
+  isTemp: boolean;
+  isModify: boolean;
+  pickTempId: null | number;
+  prevTempId: null | number;
+  modifyPostId: null | number;
+}
+
 export const initialWrittePostVar: IPostVar = {
   title: '',
   contents: '',
   titleImg: '',
   firstCategoryName: FirstCategoryName.TALK,
   secondCategoryName: SecondCategoryName.FREE,
+};
+
+export const initialPostStatusVar: IPostStatus = {
+  isTemp: false,
+  isModify: false,
+  pickTempId: null,
+  prevTempId: null,
+  modifyPostId: null,
 };
 
 const token =
@@ -40,7 +56,6 @@ export const writtenPostVar = makeVar<IPostVar>({
   ...initialWrittePostVar,
 });
 
-export const pickFirstCategoryVar = makeVar(FirstCategoryName.TALK);
 export const authTokenVar = makeVar(token);
 export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
   email: '',
@@ -49,6 +64,10 @@ export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
   profileImg: '',
   nickname: '',
   link: '',
+});
+
+export const postStatusVar: ReactiveVar<IPostStatus> = makeVar<IPostStatus>({
+  ...initialPostStatusVar,
 });
 
 export const alertVar: ReactiveVar<IAlert> = makeVar({

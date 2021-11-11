@@ -1,8 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
-import {
-  pickFirstCategoryVar,
-  writtenPostVar,
-} from 'cache/common/common.cache';
+import { writtenPostVar } from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
 import CrewProfile from 'components/crew/CrewProfile';
 import { useRouter } from 'next/router';
@@ -57,7 +54,6 @@ const Crew = () => {
   });
 
   const goWirteCrewPost = () => {
-    pickFirstCategoryVar(FirstCategoryName.CREW);
     writtenPostVar({
       ...post,
       firstCategoryName: FirstCategoryName.CREW,
@@ -84,7 +80,7 @@ const Crew = () => {
       </div>
       <div>
         <div>
-          <h2>{SecondCategoryName.NOTICE} </h2>
+          <h2>{SecondCategoryName.CREW_NOTICE} </h2>
           <Button
             actionText="글쓰기"
             onClick={() => goWirteCrewPost()}

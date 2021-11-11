@@ -15,15 +15,16 @@ export enum FirstCategoryName {
 }
 
 export enum SecondCategoryName {
-  ARTICLE = "ARTICLE",
-  BRAND = "BRAND",
+  BRAND_ARTICLE = "BRAND_ARTICLE",
+  BRAND_COLUMN = "BRAND_COLUMN",
+  BRAND_NOTICE = "BRAND_NOTICE",
+  BRAND_REVIEW = "BRAND_REVIEW",
   CHALLENGE = "CHALLENGE",
+  CREW_NOTICE = "CREW_NOTICE",
   FREE = "FREE",
-  NOTICE = "NOTICE",
   OOTD = "OOTD",
-  PUBLISHER = "PUBLISHER",
-  REVIEW = "REVIEW",
-  USER = "USER",
+  PUBLISHER_COLUMN = "PUBLISHER_COLUMN",
+  USER_COLUMN = "USER_COLUMN",
 }
 
 export enum UserRole {
@@ -57,6 +58,8 @@ export interface CreatePostInput {
   titleImg?: string | null;
   firstCategoryName: FirstCategoryName;
   secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
 }
 
 export interface CreateTempInput {
@@ -65,6 +68,8 @@ export interface CreateTempInput {
   titleImg?: string | null;
   firstCategoryName: FirstCategoryName;
   secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
 }
 
 export interface DeleteCommentInput {
@@ -76,10 +81,6 @@ export interface EditProfileInput {
   nickname?: string | null;
   profileImg?: string | null;
   link?: string | null;
-}
-
-export interface GetCategoryByFirstCategoryNameInput {
-  firstCategoryName: FirstCategoryName;
 }
 
 export interface GetCrewByNameInput {
@@ -114,6 +115,8 @@ export interface ModifyMyPostInput {
   titleImg?: string | null;
   firstCategoryName?: FirstCategoryName | null;
   secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
   postId: number;
 }
 
@@ -123,6 +126,8 @@ export interface ModifyMyTemptInput {
   titleImg?: string | null;
   firstCategoryName?: FirstCategoryName | null;
   secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
   postId: number;
 }
 
@@ -132,6 +137,8 @@ export interface UploadTempInput {
   titleImg?: string | null;
   firstCategoryName: FirstCategoryName;
   secondCategoryName?: SecondCategoryName | null;
+  crewId?: number | null;
+  brandId?: number | null;
   tempId: number;
 }
 
