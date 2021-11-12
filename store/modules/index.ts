@@ -1,11 +1,9 @@
 import { AnyAction, combineReducers } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import commonReducer from './commonReducer';
-import uploadReducer from './uploadReducer';
 import userReducer from './userReducer';
 
 const rootReducer = combineReducers({
-  upload: uploadReducer,
   user: userReducer,
   common: commonReducer,
 });

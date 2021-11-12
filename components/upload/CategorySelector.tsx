@@ -1,14 +1,12 @@
-import { gql, useQuery } from '@apollo/client';
-import { writtenPostVar } from 'cache/common/common.cache';
+import { gql, useQuery, useReactiveVar } from '@apollo/client';
+import { postStatusVar, writtenPostVar } from 'cache/common/common.cache';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { getCategoryByUserRole } from 'src/__generated__/getCategoryByUserRole';
 import {
   FirstCategoryName,
   SecondCategoryName,
   UserRole,
 } from '../../src/__generated__/globalTypes';
-import { RootState } from '../../store/modules';
 import CategoryStyle from '../../styles/Category.module.scss';
 
 const GET_CATEGORY_BY_USER_ROLE = gql`
@@ -43,7 +41,8 @@ interface IProps {
 const CategorySelector: React.FC<IProps> = ({ role }) => {
   // const user = useReactiveVar(userInfoVar);
   const post = writtenPostVar();
-  const { isModify } = useSelector((state: RootState) => state.upload);
+  const { isModify } = useReactiveVar(postStatusVar);
+
   const { data, loading, error } = useQuery<getCategoryByUserRole>(
     GET_CATEGORY_BY_USER_ROLE
     // {

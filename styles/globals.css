@@ -14,3 +14,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.folks-titleImg {
+  border: 3px solid red;
+}

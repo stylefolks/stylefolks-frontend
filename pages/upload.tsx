@@ -225,11 +225,29 @@ const Upload = () => {
     });
   };
 
+  const handleTitleImage = () => {
+    const container = document.querySelectorAll('.toastui-editor-ww-container');
+
+    container &&
+      container[0]?.childNodes.forEach((node) => {
+        node.addEventListener('click', (e: MouseEvent) => {
+          const el = e.target as HTMLElement;
+          const src = el.getAttribute('src');
+
+          if (el.tagName === 'IMG' && src) {
+            //Wrapper.tsx에 클래스 스타일 정의되어 있음.
+            document.querySelectorAll('.folks-titleImg').forEach((inDoc) => {
+              inDoc.classList.remove('folks-titleImg');
+            });
+
+            el.classList.add('folks-titleImg');
+          }
+        });
+      });
+  };
+
   useEffect(() => {
-    // const container = document.querySelectorAll('.toastui-editor-ww-container');
-    // console.log('@@', container);
-    // container &&
-    //   container[0]?.childNodes.forEach((el) => console.log(el.nodeType));
+    handleTitleImage();
 
     return () => {
       postStatusVar({ ...initialPostStatusVar });
@@ -250,20 +268,13 @@ const Upload = () => {
           initialValue={''}
           height={'90vh'}
           onChange={(contents) => {
-            console.log(
-              'contents : ',
-              contents,
-              'post : ',
-              post,
-              'titleImageArr:',
-              postStatusVar()
-            );
-
             writtenPostVar({ ...post, contents });
+            handleTitleImage();
           }}
         />
 
         <TitleImagePicker />
+
         <div className="buttonWrapper">
           {modifyPostId ? (
             <Button

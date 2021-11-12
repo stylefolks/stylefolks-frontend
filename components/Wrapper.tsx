@@ -61,6 +61,10 @@ export default function App({ children }) {
           padding: 0;
         }
 
+        .folks-titleImg {
+          border: 3px solid #22bad9;
+        }
+
         @media screen and (max-width: 600px) {
           .toastui-editor-popup {
             position: absolute;
