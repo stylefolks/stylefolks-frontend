@@ -2,6 +2,9 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import {
   alertVar,
+  initialPostStatusVar,
+  initialWrittePostVar,
+  postStatusVar,
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
@@ -15,7 +18,6 @@ import {
 } from 'graphql/mutations';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import CategorySelector from '../components/upload/CategorySelector';
@@ -34,23 +36,19 @@ import {
   modifyTemp,
   modifyTempVariables,
 } from '../src/__generated__/modifyTemp';
-import { RootState } from '../store/modules';
-import { initializeUploadState } from '../store/modules/uploadReducer';
 
 const Upload = () => {
-  const dispatch = useDispatch();
-
   const user = userInfoVar();
   const router = useRouter();
   const post = useReactiveVar(writtenPostVar);
-  const { pickTempId, isModify, modifyPostId } = useSelector(
-    (state: RootState) => state.upload
-  ); //원래 여기 post
+  const { pickTempId, isModify, modifyPostId } = useReactiveVar(postStatusVar);
   const { title, contents, titleImg, firstCategoryName, secondCategoryName } =
     post;
 
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
+      writtenPostVar({ ...initialWrittePostVar });
+      postStatusVar({ ...initialPostStatusVar });
       alertVar({
         title: '새로운 게시물',
         content: '새로운 게시물 업로드를 완료하였습니다. ^_^',
@@ -67,6 +65,8 @@ const Upload = () => {
 
   const createTemponCompleted = (data: createTemp) => {
     if (data?.createTemp.ok) {
+      writtenPostVar({ ...initialWrittePostVar });
+      postStatusVar({ ...initialPostStatusVar, isTemp: true }); //에디터 내부에서 리셋을 위해 isTemp true설정
       alertVar({
         title: '임시 게시물',
         content: '새로운 임시저장 게시물 저장을 완료하였습니다. :)',
@@ -227,7 +227,9 @@ const Upload = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(initializeUploadState());
+      console.log('work??..');
+      postStatusVar({ ...initialPostStatusVar });
+      writtenPostVar({ ...initialWrittePostVar });
     };
   }, []);
 

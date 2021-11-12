@@ -55,9 +55,6 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
     (el) => el.name === post.firstCategoryName
   )[0].secondCategory;
 
-  console.log('categoryData Loaded', data);
-  console.log('post data Loaded', post);
-
   useEffect(() => {
     if (!loading && !isModify) {
       writtenPostVar({

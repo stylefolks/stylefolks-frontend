@@ -1,22 +1,20 @@
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { userInfoVar, writtenPostVar } from 'cache/common/common.cache';
+import {
+  postStatusVar,
+  userInfoVar,
+  writtenPostVar,
+} from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
 import CommentBox from 'components/common/CommentBox';
 import { DELETE_POST } from 'graphql/mutations';
 import { GET_EACH_POST_QUERY } from 'graphql/queries';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
 import {
   deleteMyPost,
   deleteMyPostVariables,
 } from 'src/__generated__/deleteMyPost';
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
-import {
-  setIsModify,
-  setModifyPostId,
-  setTitleImageArr,
-} from 'store/modules/uploadReducer';
 import PostStyle from 'styles/Post.module.scss';
 import EditorViewer from '../../components/upload/EditorViewer';
 import {
@@ -28,7 +26,6 @@ import CategoryStyle from '../../styles/Category.module.scss';
 export const Post = () => {
   const router = useRouter();
   const postId = +router?.query.id;
-  const dispatch = useDispatch();
   const user = useReactiveVar(userInfoVar);
 
   const { data, error, loading } = useQuery<getEachPost, getEachPostVariables>(
@@ -52,12 +49,18 @@ export const Post = () => {
       secondCategoryName: secondCategory.name,
     });
 
-    dispatch(
-      setTitleImageArr(data.getEachPost.post.image.map((el) => el.link))
-    );
+    postStatusVar({
+      ...postStatusVar(),
+      titleImageArr: data.getEachPost.post.image.map((el) => el.link),
+      isModify: true,
+      modifyPostId: postId,
+    });
+    // dispatch(
+    //   setTitleImageArr(data.getEachPost.post.image.map((el) => el.link))
+    // );
     router.push('/upload');
-    dispatch(setIsModify(true));
-    dispatch(setModifyPostId(postId));
+    // dispatch(setIsModify(true));
+    // dispatch(setModifyPostId(postId));
   };
 
   const deleteMyPostOnCompleted = (data: deleteMyPost) => {

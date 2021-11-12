@@ -6,6 +6,7 @@ import {
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
+import { postStatusVar } from './common.cache';
 
 export const nickname = {
   read() {
@@ -34,6 +35,12 @@ export const alert = {
 export const writtenPost = {
   read() {
     return writtenPostVar();
+  },
+};
+
+export const postStatus = {
+  read() {
+    return postStatusVar();
   },
 };
 

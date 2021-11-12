@@ -45,24 +45,6 @@ const uploadSlice = createSlice({
     updateTitleImageArr(state, action: PayloadAction<string>) {
       state.titleImageArr = [...state.titleImageArr, action.payload];
     },
-    setTitleImageArr(state, action: PayloadAction<string[]>) {
-      state.titleImageArr = [...action.payload];
-    },
-    setIsTemp(state, action: PayloadAction<boolean>) {
-      state.isTemp = action.payload;
-    },
-    setIsModify(state, action: PayloadAction<boolean>) {
-      state.isModify = action.payload;
-    },
-    setModifyPostId(state, action: PayloadAction<number>) {
-      state.modifyPostId = action.payload;
-    },
-    setPickTempId(state, action: PayloadAction<number>) {
-      state.pickTempId = action.payload;
-    },
-    setPrevTempId(state, action: PayloadAction<number>) {
-      state.prevTempId = action.payload;
-    },
 
     initializeUploadState(state) {
       state.post = uploadInitialState.post;
@@ -77,14 +59,5 @@ const uploadSlice = createSlice({
 });
 
 const { actions, reducer } = uploadSlice;
-export const {
-  updateTitleImageArr,
-  initializeUploadState,
-  setIsTemp,
-  setIsModify,
-  setPickTempId,
-  setTitleImageArr,
-  setPrevTempId,
-  setModifyPostId,
-} = actions;
+export const { updateTitleImageArr, initializeUploadState } = actions;
 export default reducer;

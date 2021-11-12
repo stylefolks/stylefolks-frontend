@@ -1,17 +1,12 @@
 import { useReactiveVar } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor as EditorType, EditorProps } from '@toast-ui/react-editor';
-import { writtenPostVar } from 'cache/common/common.cache';
+import { postStatusVar, writtenPostVar } from 'cache/common/common.cache';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store/modules';
+import { useDispatch } from 'react-redux';
 import { setSpinner } from 'store/modules/commonReducer';
-import {
-  setIsTemp,
-  updateTitleImageArr,
-} from '../../store/modules/uploadReducer';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
 
 interface EditorPropsWithHandlers extends EditorProps {
@@ -47,9 +42,11 @@ const WysiwygEditor: React.FC<Props> = (props) => {
   } = props;
   const dispatch = useDispatch();
   const post = useReactiveVar(writtenPostVar);
-  const { isTemp, pickTempId, isModify } = useSelector(
-    (state: RootState) => state.upload
-  );
+  const postStatus = useReactiveVar(postStatusVar);
+  const { isTemp } = postStatus;
+  // const { isTemp, pickTempId, isModify } = useSelector(
+  //   (state: RootState) => state.upload
+  // );
   const editorRef = React.useRef<EditorType>();
   const handleChange = React.useCallback(() => {
     if (!editorRef.current) {
@@ -76,8 +73,14 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         })
       ).json();
 
-      //여기서 redux에 이미지 배열에 넣는것으로 하자
-      dispatch(updateTitleImageArr(res?.url));
+      console.log('@@@', res.url);
+
+      //여기서 이미지 배열에 넣는것으로 하자
+      postStatusVar({
+        ...postStatusVar(),
+        titleImageArr: [...postStatusVar().titleImageArr, res?.url],
+      });
+
       //그리고 스피너 끝내자
       dispatch(setSpinner(false));
       return res?.url;
@@ -88,8 +91,10 @@ const WysiwygEditor: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
+    console.log('isTemp calling withouts true');
     if (isTemp) {
-      dispatch(setIsTemp(false));
+      console.log('isTemp calling with true');
+      postStatusVar({ ...postStatus, isTemp: false });
       editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
     }
   }, [isTemp]);

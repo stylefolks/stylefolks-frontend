@@ -31,6 +31,7 @@ interface IPostStatus {
   pickTempId: null | number;
   prevTempId: null | number;
   modifyPostId: null | number;
+  titleImageArr: [] | string[];
 }
 
 export const initialWrittePostVar: IPostVar = {
@@ -47,15 +48,12 @@ export const initialPostStatusVar: IPostStatus = {
   pickTempId: null,
   prevTempId: null,
   modifyPostId: null,
+  titleImageArr: [],
 };
 
 const token =
   typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
 export const isLoggedInVar = makeVar(Boolean(token));
-export const writtenPostVar = makeVar<IPostVar>({
-  ...initialWrittePostVar,
-});
-
 export const authTokenVar = makeVar(token);
 export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
   email: '',
@@ -64,6 +62,10 @@ export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
   profileImg: '',
   nickname: '',
   link: '',
+});
+
+export const writtenPostVar = makeVar<IPostVar>({
+  ...initialWrittePostVar,
 });
 
 export const postStatusVar: ReactiveVar<IPostStatus> = makeVar<IPostStatus>({

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import {
   alertVar,
   initialWrittePostVar,
+  postStatusVar,
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
@@ -10,7 +11,6 @@ import { DELETE_TEMP } from 'graphql/mutations';
 import { GET_USER_TEMP } from 'graphql/queries';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { deleteTemp, deleteTempVariables } from 'src/__generated__/deleteTemp';
 import {
   getUserTemp,
@@ -18,26 +18,17 @@ import {
   getUserTemp_getUserTemp_temps,
 } from 'src/__generated__/getUserTemp';
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
-import { RootState } from 'store/modules';
 import TempStyle from 'styles/TempPost.module.scss';
 import UtilStyle from 'styles/Util.module.scss';
-import {
-  setIsTemp,
-  setPickTempId,
-  setPrevTempId,
-  setTitleImageArr,
-} from '../../store/modules/uploadReducer';
 
 interface IProps {
   userId: number;
 }
 
 const TempPostBox: React.FC<IProps> = ({ userId }) => {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const { pickTempId, prevTempId } = useSelector(
-    (state: RootState) => state.upload
-  );
+  const postStatus = useReactiveVar(postStatusVar);
+  const { pickTempId, prevTempId } = postStatus;
   const alert = useReactiveVar(alertVar);
   const user = useReactiveVar(userInfoVar);
 
@@ -65,9 +56,8 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   >(DELETE_TEMP, { onCompleted: onDeleteCompleted });
 
   const confirmDelete = (postId: number) => {
-    dispatch(setPickTempId(null));
-
-    prevTempId ? dispatch(setPrevTempId(null)) : '';
+    postStatusVar({ ...postStatus, pickTempId: null });
+    prevTempId ? postStatusVar({ ...postStatus, prevTempId: null }) : '';
     deleteTempMutation({
       variables: {
         postId,
@@ -76,7 +66,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const confirmLogging = () => {
-    dispatch(setPrevTempId(pickTempId));
+    postStatusVar({ ...postStatus, prevTempId: postStatus.pickTempId });
     const PickTemp = userTempData.getUserTemp.temps.filter(
       (el) => el.id === pickTempId
     );
@@ -90,15 +80,17 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
       secondCategoryName: secondCategory.name,
     });
 
-    dispatch(setTitleImageArr(titleImageArr));
-    dispatch(setIsTemp(true));
+    postStatusVar({ ...postStatus, titleImageArr, isTemp: true });
   };
 
   const confirmBackToNewPost = () => {
-    //아래 실행순서가 중요하다 -> 개선필요
-    dispatch(setPickTempId(null));
     writtenPostVar({ ...initialWrittePostVar });
-    dispatch(setIsTemp(true));
+    postStatusVar({
+      ...postStatus,
+      pickTempId: null,
+      isTemp: true,
+      titleImageArr: [],
+    });
   };
 
   const handleBackToNewPost = () => {
@@ -110,7 +102,9 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const handleLogging = (el: getUserTemp_getUserTemp_temps) => {
-    dispatch(setPickTempId(el.id));
+    postStatusVar({ ...postStatus, pickTempId: el.id });
+
+    // dispatch(setPickTempId(el.id));
 
     alertVar({
       title: '임시저장 불러오기',
@@ -120,7 +114,9 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const handleDelete = (el: getUserTemp_getUserTemp_temps) => {
-    dispatch(setPickTempId(el.id));
+    postStatusVar({ ...postStatus, pickTempId: el.id });
+
+    // dispatch(setPickTempId(el.id));
 
     alertVar({
       title: '임시저장 게시글 삭제하기',
@@ -131,7 +127,9 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
   const onCancel = () => {
     alertVar({ title: '', content: '', visible: false });
-    dispatch(setPickTempId(prevTempId));
+    postStatusVar({ ...postStatus, pickTempId: prevTempId });
+
+    // dispatch(setPickTempId(prevTempId));
 
     if (alert.title === '임시 게시물' || alert.title === '새로운 게시물') {
       router.push('/');
@@ -145,7 +143,8 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
     if (alert.title !== '새로운 게시글 작성') {
       // dispatch(setPickTempId(null));
-      dispatch(setIsTemp(false));
+      postStatusVar({ ...postStatus, isTemp: false });
+      // dispatch(setIsTemp(false));
       return;
     }
   };
