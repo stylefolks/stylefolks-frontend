@@ -73,13 +73,16 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         })
       ).json();
 
-      postStatusVar({
-        ...postStatusVar(),
-        titleImageArr: [...postStatusVar().titleImageArr, res?.url],
-      });
+      // postStatusVar({
+      //   ...postStatusVar(),
+      //   titleImageArr: [...postStatusVar().titleImageArr, res?.url],
+      // });
 
-      //그리고 스피너 끝내자
-      dispatch(setSpinner(false));
+      if (res?.url) {
+        //그리고 스피너 끝내자
+        dispatch(setSpinner(false));
+      }
+
       return res?.url;
     } catch (error) {
       console.log(error);

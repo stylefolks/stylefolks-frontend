@@ -3,11 +3,9 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
-
 
 export enum FirstCategoryName {
   COLUMN = "COLUMN",
@@ -151,4 +149,3 @@ export interface VerifyEmailInput {
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
-
