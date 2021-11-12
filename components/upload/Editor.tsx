@@ -81,6 +81,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         titleImageArr: [...postStatusVar().titleImageArr, res?.url],
       });
 
+      console.log(postStatusVar());
       //그리고 스피너 끝내자
       dispatch(setSpinner(false));
       return res?.url;
@@ -91,9 +92,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    console.log('isTemp calling withouts true');
     if (isTemp) {
-      console.log('isTemp calling with true');
       postStatusVar({ ...postStatus, isTemp: false });
       editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
     }

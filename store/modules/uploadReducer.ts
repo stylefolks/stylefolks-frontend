@@ -42,22 +42,12 @@ const uploadSlice = createSlice({
   name: 'upload',
   initialState: uploadInitialState,
   reducers: {
-    updateTitleImageArr(state, action: PayloadAction<string>) {
+    test(state, action: PayloadAction<string>) {
       state.titleImageArr = [...state.titleImageArr, action.payload];
-    },
-
-    initializeUploadState(state) {
-      state.post = uploadInitialState.post;
-      state.titleImageArr = uploadInitialState.titleImageArr;
-      state.isTemp = false;
-      state.isModify = false;
-      state.modifyPostId = null;
-      state.pickTempId = null;
-      state.prevTempId = null;
     },
   },
 });
 
 const { actions, reducer } = uploadSlice;
-export const { updateTitleImageArr, initializeUploadState } = actions;
+export const { test } = actions;
 export default reducer;

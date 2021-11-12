@@ -53,7 +53,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   );
   const secondCategoryArr = data?.getCategoryByUserRole.firstCategory.filter(
     (el) => el.name === post.firstCategoryName
-  )[0].secondCategory;
+  )[0]?.secondCategory;
 
   useEffect(() => {
     if (!loading && !isModify) {
@@ -109,7 +109,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                   });
                 }}
               >
-                {secondCategoryArr.map((el) => (
+                {secondCategoryArr?.map((el) => (
                   <option key={el.name}>{el.name}</option>
                 ))}
               </select>

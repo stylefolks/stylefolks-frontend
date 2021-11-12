@@ -226,8 +226,12 @@ const Upload = () => {
   };
 
   useEffect(() => {
+    // const container = document.querySelectorAll('.toastui-editor-ww-container');
+    // console.log('@@', container);
+    // container &&
+    //   container[0]?.childNodes.forEach((el) => console.log(el.nodeType));
+
     return () => {
-      console.log('work??..');
       postStatusVar({ ...initialPostStatusVar });
       writtenPostVar({ ...initialWrittePostVar });
     };
@@ -245,7 +249,18 @@ const Upload = () => {
           autofocus={false}
           initialValue={''}
           height={'90vh'}
-          onChange={(contents) => writtenPostVar({ ...post, contents })}
+          onChange={(contents) => {
+            console.log(
+              'contents : ',
+              contents,
+              'post : ',
+              post,
+              'titleImageArr:',
+              postStatusVar()
+            );
+
+            writtenPostVar({ ...post, contents });
+          }}
         />
 
         <TitleImagePicker />

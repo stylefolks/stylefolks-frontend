@@ -13,7 +13,7 @@ interface IUserContentsBlockTypeProps {
 const UserContentsBlockType: React.FC<IUserContentsBlockTypeProps> = ({
   data,
 }) => {
-  if (!data?.getPostByCategory.post.length)
+  if (!data?.getPostByCategory?.post?.length)
     return <div className={UserStyle.noStory}>No Story Yet 😭</div>;
 
   return (

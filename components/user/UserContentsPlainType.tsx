@@ -16,12 +16,12 @@ const UserContentsPlainType: React.FC<IUserContentsPlainTypeProps> = ({
 }) => {
   const { width, height } = UseWindowDimension();
 
-  if (!data?.getPostByCategory.post.length)
+  if (!data?.getPostByCategory?.post?.length)
     return <div className={UserStyle.noStory}>No Story Yet 😭</div>;
 
   return (
     <>
-      {data?.getPostByCategory.post.map((el) => (
+      {data?.getPostByCategory?.post?.map((el) => (
         <li key={el.id}>
           <Link href={`/post/${el.id}`}>
             <a>
