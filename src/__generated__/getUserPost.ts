@@ -3,11 +3,9 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 // ====================================================
 // GraphQL query operation: getUserPost
 // ====================================================
-
 
 export interface getUserPost_getUserPost_posts {
   __typename: "Posts";

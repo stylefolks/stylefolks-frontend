@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { UserRole } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: findByNickName
 // ====================================================
-
 
 export interface findByNickName_findByNickName_user {
   __typename: "User";

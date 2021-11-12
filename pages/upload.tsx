@@ -17,7 +17,7 @@ import {
   UPLOAD_TEMP_MUTATION,
 } from 'graphql/mutations';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import CategorySelector from '../components/upload/CategorySelector';
@@ -224,51 +224,45 @@ const Upload = () => {
     });
   };
 
-  const handleTitleImage = () => {
+  const clickTitleImageCallbackFn = (e: MouseEvent) => {
+    const el = e.target as HTMLElement;
+    const src = el.getAttribute('src');
+
+    if (el.tagName === 'IMG' && src && e.type === 'click') {
+      //Wrapper.tsx에 클래스 스타일 정의되어 있음.
+      document.querySelectorAll('.folks-titleImg').forEach((inDoc) => {
+        inDoc.classList.remove('folks-titleImg');
+      });
+
+      el.classList.add('folks-titleImg');
+      writtenPostVar({ ...post, titleImg: src });
+    }
+  };
+
+  const handleTitleImage = useCallback(() => {
     const container = document.querySelectorAll('.toastui-editor-ww-container');
+    const imgTag = container[0] && container[0].getElementsByTagName('img')[0];
+    const childNodesSet = container && container[0]?.childNodes;
 
     if (
       !writtenPostVar().titleImg ||
       !document.querySelectorAll('.folks-titleImg').length
     ) {
-      const container = document.querySelectorAll(
-        '.toastui-editor-ww-container'
-      );
-
-      container[0] &&
-        container[0]
-          .getElementsByTagName('img')[0]
-          .classList.add('folks-titleImg');
-
-      container[0] &&
-        container[0].querySelectorAll('img')[0].classList.add('folks-titleImg');
+      imgTag?.classList.add('folks-titleImg');
 
       writtenPostVar({
         ...writtenPostVar(),
-        titleImg:
-          container[0] &&
-          container[0].getElementsByTagName('img')[0].getAttribute('src'),
+        titleImg: imgTag?.getAttribute('src'),
       });
-    } else {
-      container &&
-        container[0]?.childNodes.forEach((node) => {
-          node.addEventListener('click', (e: MouseEvent) => {
-            const el = e.target as HTMLElement;
-            const src = el.getAttribute('src');
-
-            if (el.tagName === 'IMG' && src) {
-              //Wrapper.tsx에 클래스 스타일 정의되어 있음.
-              document.querySelectorAll('.folks-titleImg').forEach((inDoc) => {
-                inDoc.classList.remove('folks-titleImg');
-              });
-
-              el.classList.add('folks-titleImg');
-              writtenPostVar({ ...post, titleImg: src });
-            }
-          });
-        });
+      return;
     }
-  };
+
+    childNodesSet.forEach((node) => {
+      node.addEventListener('click', (e: MouseEvent) => {
+        clickTitleImageCallbackFn(e);
+      });
+    });
+  }, [post]);
 
   useEffect(() => {
     handleTitleImage();
