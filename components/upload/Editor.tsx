@@ -73,9 +73,6 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         })
       ).json();
 
-      console.log('@@@', res.url);
-
-      //여기서 이미지 배열에 넣는것으로 하자
       postStatusVar({
         ...postStatusVar(),
         titleImageArr: [...postStatusVar().titleImageArr, res?.url],
@@ -91,9 +88,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    console.log('isTemp calling withouts true');
     if (isTemp) {
-      console.log('isTemp calling with true');
       postStatusVar({ ...postStatus, isTemp: false });
       editorRef?.current?.getInstance().setMarkdown(post.contents); //여기서 초기값을 잡아주는걸로 ..
     }

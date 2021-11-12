@@ -3,11 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+
 import { GetCrewByNameInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCrewByName
 // ====================================================
+
 
 export interface getCrewByName_getCrewByName_crew {
   __typename: "Crew";

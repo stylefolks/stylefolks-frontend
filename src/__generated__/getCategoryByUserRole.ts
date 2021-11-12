@@ -3,11 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+
 import { SecondCategoryName } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCategoryByUserRole
 // ====================================================
+
 
 export interface getCategoryByUserRole_getCategoryByUserRole_firstCategory_secondCategory {
   __typename: "SecondCategory";
