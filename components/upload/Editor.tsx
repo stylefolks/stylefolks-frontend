@@ -73,15 +73,11 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         })
       ).json();
 
-      console.log('@@@', res.url);
-
-      //여기서 이미지 배열에 넣는것으로 하자
       postStatusVar({
         ...postStatusVar(),
         titleImageArr: [...postStatusVar().titleImageArr, res?.url],
       });
 
-      console.log(postStatusVar());
       //그리고 스피너 끝내자
       dispatch(setSpinner(false));
       return res?.url;

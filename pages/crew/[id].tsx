@@ -1,10 +1,9 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useReactiveVar } from '@apollo/client';
 import { writtenPostVar } from 'cache/common/common.cache';
 import { Button } from 'components/common/Button';
 import CrewProfile from 'components/crew/CrewProfile';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   getCrewByName,
   getCrewByNameVariables,
@@ -13,7 +12,6 @@ import {
   FirstCategoryName,
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
-import { RootState } from 'store/modules';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
 const GET_CREW_BY_NAME = gql`
@@ -35,13 +33,10 @@ const GET_CREW_BY_NAME = gql`
 `;
 
 const Crew = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const { post, pickTempId, isModify, modifyPostId } = useSelector(
-    (state: RootState) => state.upload
-  );
+  const post = useReactiveVar(writtenPostVar);
   const { id } = router.query;
-  console.log(id);
+
   const { data, loading, error } = useQuery<
     getCrewByName,
     getCrewByNameVariables

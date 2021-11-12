@@ -23,7 +23,6 @@ import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import CategorySelector from '../components/upload/CategorySelector';
 import WysiwygEditor from '../components/upload/Editor';
 import TempPostBox from '../components/upload/TempPostBox';
-import TitleImagePicker from '../components/upload/TitleImagePicker';
 import {
   createPost,
   createPostVariables,
@@ -228,22 +227,47 @@ const Upload = () => {
   const handleTitleImage = () => {
     const container = document.querySelectorAll('.toastui-editor-ww-container');
 
-    container &&
-      container[0]?.childNodes.forEach((node) => {
-        node.addEventListener('click', (e: MouseEvent) => {
-          const el = e.target as HTMLElement;
-          const src = el.getAttribute('src');
+    if (
+      !writtenPostVar().titleImg ||
+      !document.querySelectorAll('.folks-titleImg').length
+    ) {
+      const container = document.querySelectorAll(
+        '.toastui-editor-ww-container'
+      );
 
-          if (el.tagName === 'IMG' && src) {
-            //Wrapper.tsx에 클래스 스타일 정의되어 있음.
-            document.querySelectorAll('.folks-titleImg').forEach((inDoc) => {
-              inDoc.classList.remove('folks-titleImg');
-            });
+      container[0] &&
+        container[0]
+          .getElementsByTagName('img')[0]
+          .classList.add('folks-titleImg');
 
-            el.classList.add('folks-titleImg');
-          }
-        });
+      container[0] &&
+        container[0].querySelectorAll('img')[0].classList.add('folks-titleImg');
+
+      writtenPostVar({
+        ...writtenPostVar(),
+        titleImg:
+          container[0] &&
+          container[0].getElementsByTagName('img')[0].getAttribute('src'),
       });
+    } else {
+      container &&
+        container[0]?.childNodes.forEach((node) => {
+          node.addEventListener('click', (e: MouseEvent) => {
+            const el = e.target as HTMLElement;
+            const src = el.getAttribute('src');
+
+            if (el.tagName === 'IMG' && src) {
+              //Wrapper.tsx에 클래스 스타일 정의되어 있음.
+              document.querySelectorAll('.folks-titleImg').forEach((inDoc) => {
+                inDoc.classList.remove('folks-titleImg');
+              });
+
+              el.classList.add('folks-titleImg');
+              writtenPostVar({ ...post, titleImg: src });
+            }
+          });
+        });
+    }
   };
 
   useEffect(() => {
@@ -273,7 +297,7 @@ const Upload = () => {
           }}
         />
 
-        <TitleImagePicker />
+        {/* <TitleImagePicker /> */}
 
         <div className="buttonWrapper">
           {modifyPostId ? (
