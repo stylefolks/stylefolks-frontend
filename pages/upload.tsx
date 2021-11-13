@@ -241,18 +241,20 @@ const Upload = () => {
 
   const handleTitleImage = useCallback(() => {
     const container = document.querySelectorAll('.toastui-editor-ww-container');
-    const imgTag = container[0] && container[0].getElementsByTagName('img')[0];
+    const firstImgTag =
+      container[0] && container[0].getElementsByTagName('img')[0];
+
     const childNodesSet = container && container[0]?.childNodes;
 
     if (
       !writtenPostVar().titleImg ||
       !document.querySelectorAll('.folks-titleImg').length
     ) {
-      imgTag?.classList.add('folks-titleImg');
+      firstImgTag?.classList.add('folks-titleImg');
 
       writtenPostVar({
         ...writtenPostVar(),
-        titleImg: imgTag?.getAttribute('src'),
+        titleImg: firstImgTag?.getAttribute('src'),
       });
       return;
     }
@@ -264,14 +266,36 @@ const Upload = () => {
     });
   }, [post]);
 
+  const setTitleImageWithFirstRender = () => {
+    const container = document.querySelectorAll('.toastui-editor-ww-container');
+    const imgTag = container[0] && container[0].getElementsByTagName('img');
+    const childNodesSet = container && container[0]?.childNodes;
+
+    //posts내의 전체 노드에서 img중 Src를 가진놈이  titleImg의 값과 똑같은 애한테
+    //클래스를 부여해주고 사라지면 될듯
+    if (imgTag && imgTag.length) {
+      console.log('imgTag', imgTag, 'childNodesSet', childNodesSet);
+      for (let i = 0; i < imgTag.length; i++) {
+        if (imgTag[i].getAttribute('src') === post.titleImg) {
+          imgTag[i]?.classList.add('folks-titleImg');
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     handleTitleImage();
-
     return () => {
       postStatusVar({ ...initialPostStatusVar });
       writtenPostVar({ ...initialWrittePostVar });
     };
   }, []);
+
+  useEffect(() => {
+    if (post.titleImg && !document.querySelectorAll('.folks-titleImg').length) {
+      setTitleImageWithFirstRender();
+    }
+  }, [post.titleImg]);
 
   if (createPostLoading || createTempLoading)
     return <div>업로드중입니다 잠시만 기다려주세요... :)</div>;
