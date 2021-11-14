@@ -65,10 +65,12 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   }, [loading]);
 
   useEffect(() => {
-    writtenPostVar({
-      ...post,
-      secondCategoryName: secondCategoryArr && secondCategoryArr[0].name,
-    });
+    if (!isModify) {
+      writtenPostVar({
+        ...post,
+        secondCategoryName: secondCategoryArr && secondCategoryArr[0].name,
+      });
+    }
   }, [post.firstCategoryName]);
 
   if (loading) {
