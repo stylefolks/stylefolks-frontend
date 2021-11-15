@@ -3,11 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+
 import { CreatePostInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: createPost
 // ====================================================
+
 
 export interface createPost_createPost {
   __typename: "CreatePostOutput";

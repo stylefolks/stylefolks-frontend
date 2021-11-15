@@ -1,4 +1,4 @@
-import { useMutation, useReactiveVar } from '@apollo/client';
+import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import {
   alertVar,
@@ -18,6 +18,10 @@ import {
 } from 'graphql/mutations';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import {
+  getCrewNotice,
+  getCrewNoticeVariables,
+} from 'src/__generated__/getCrewNotice';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import CategorySelector from '../components/upload/CategorySelector';
@@ -36,13 +40,37 @@ import {
   modifyTempVariables,
 } from '../src/__generated__/modifyTemp';
 
+const GET_CREW_NOTICE = gql`
+  query getCrewNotice($input: GetCrewNoticeInput!) {
+    getCrewNotice(input: $input) {
+      ok
+      error
+      posts {
+        title
+        id
+      }
+    }
+  }
+`;
+
 const Upload = () => {
   const user = userInfoVar();
   const router = useRouter();
   const post = useReactiveVar(writtenPostVar);
+  const { data, loading, error } = useQuery<
+    getCrewNotice,
+    getCrewNoticeVariables
+  >(GET_CREW_NOTICE);
   const { pickTempId, isModify, modifyPostId } = useReactiveVar(postStatusVar);
-  const { title, contents, titleImg, firstCategoryName, secondCategoryName } =
-    post;
+  const {
+    title,
+    contents,
+    titleImg,
+    firstCategoryName,
+    secondCategoryName,
+    crewId,
+    brandId,
+  } = post;
 
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
@@ -175,6 +203,8 @@ const Upload = () => {
           titleImg,
           firstCategoryName,
           secondCategoryName,
+          crewId,
+          brandId,
         },
       },
     });
@@ -189,6 +219,8 @@ const Upload = () => {
           titleImg,
           firstCategoryName,
           secondCategoryName,
+          crewId,
+          brandId,
         },
       },
     });
@@ -204,6 +236,8 @@ const Upload = () => {
           firstCategoryName,
           secondCategoryName,
           tempId: pickTempId,
+          crewId,
+          brandId,
         },
       },
     });
@@ -219,6 +253,8 @@ const Upload = () => {
           firstCategoryName,
           secondCategoryName,
           postId: modifyPostId,
+          crewId,
+          brandId,
         },
       },
     });

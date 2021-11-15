@@ -1,3 +1,26 @@
 .container {
   width: 100%;
 }
+
+.joinedPeopleContaier {
+  width: 100%;
+  & > ul {
+    display: flex;
+  }
+
+  // border: 1px solid black;
+}
+
+.joinedPerson {
+  & > div:first-child {
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 20px;
+    overflow: hidden;
+
+    &:hover {
+      border: 1px solid $font-color-main;
+    }
+  }
+}

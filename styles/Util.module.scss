@@ -1,6 +1,16 @@
 $lines: 16;
 $delayandduration: 4;
 
+.sectionMain {
+  margin: 0 auto;
+  height: 100%;
+
+  min-height: calc(100vh - 200px - 25px);
+  //min-height: calc(100vh + 20px);
+  max-width: 1024px;
+  padding: 0 4vw;
+}
+
 .flexCenter {
   display: flex;
   justify-content: center;
