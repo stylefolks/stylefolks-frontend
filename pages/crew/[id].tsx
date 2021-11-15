@@ -1,17 +1,15 @@
-import { gql, useQuery, useReactiveVar } from '@apollo/client';
-import { writtenPostVar } from 'cache/common/common.cache';
-import { Button } from 'components/common/Button';
+import { gql, useQuery } from '@apollo/client';
+import SmallCircleProfile from 'components/common/SmallCircleProfile';
 import CrewProfile from 'components/crew/CrewProfile';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
+import VacantImage from 'public/solidwhite.png';
 import React from 'react';
 import {
   getCrewByName,
   getCrewByNameVariables,
 } from 'src/__generated__/getCrewByName';
-import {
-  FirstCategoryName,
-  SecondCategoryName,
-} from 'src/__generated__/globalTypes';
+import { SecondCategoryName } from 'src/__generated__/globalTypes';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
 const GET_CREW_BY_NAME = gql`
@@ -26,7 +24,20 @@ const GET_CREW_BY_NAME = gql`
         backgroundImg
       }
       users {
+        id
         nickname
+        profileImg
+        crewUser {
+          grade
+        }
+      }
+      posts {
+        titleImg
+        title
+        id
+        user {
+          nickname
+        }
       }
     }
   }
@@ -34,7 +45,6 @@ const GET_CREW_BY_NAME = gql`
 
 const Crew = () => {
   const router = useRouter();
-  const post = useReactiveVar(writtenPostVar);
   const { id } = router.query;
 
   const { data, loading, error } = useQuery<
@@ -48,40 +58,55 @@ const Crew = () => {
     },
   });
 
-  const goWirteCrewPost = () => {
-    writtenPostVar({
-      ...post,
-      firstCategoryName: FirstCategoryName.CREW,
-    });
-
-    router.push('/upload');
-  };
+  console.log('@@@@data', data, '@@@ id', id, error);
 
   if (loading) return <div>Loading...</div>;
 
   return (
     <main className={CrewPageStyle.container}>
       <CrewProfile
-        name={data.getCrewByName.crew.name}
-        backgroundImg={data.getCrewByName.crew.backgroundImg}
-        profileImg={data.getCrewByName.crew.profileImg}
+        name={data?.getCrewByName.crew.name}
+        backgroundImg={data?.getCrewByName.crew.backgroundImg || VacantImage}
+        profileImg={data?.getCrewByName.crew.profileImg || VacantImage}
       />
-      <div>{data?.getCrewByName?.crew.name}</div>
-      <div>
-        <span>Joined Person</span>
-        {data.getCrewByName.users.map((el, index) => (
-          <div key={index}>{el.nickname}</div>
-        ))}
+
+      <div className={CrewPageStyle.joinedPeopleContaier}>
+        {data?.getCrewByName.users.length ? <h4>Joined People</h4> : ''}
+        <ul>
+          {data?.getCrewByName.users.length
+            ? data?.getCrewByName.users.map((el) => (
+                <SmallCircleProfile
+                  key={el.id}
+                  name={el.nickname}
+                  profileImg={el.profileImg}
+                />
+              ))
+            : ''}
+        </ul>
       </div>
       <div>
         <div>
-          <h2>{SecondCategoryName.CREW_NOTICE} </h2>
-          <Button
-            actionText="글쓰기"
-            onClick={() => goWirteCrewPost()}
-            loading={false}
-            canClick
-          />
+          <h2>{SecondCategoryName.CREW_NOTICE}</h2>
+          <ul>
+            {data?.getCrewByName.posts.map((el) => (
+              <li key={el.id}>
+                <>
+                  <div>
+                    <div>
+                      <Image
+                        src={el.titleImg || VacantImage}
+                        width="40px"
+                        height="40px"
+                        alt={el.title}
+                      />
+                    </div>
+                    <span>{el.title}</span>
+                  </div>
+                  <span>{el.user.nickname}</span>
+                </>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </main>

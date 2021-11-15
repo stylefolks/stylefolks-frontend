@@ -70,6 +70,9 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         await fetch('http://localhost:4000/images', {
           method: 'POST',
           body: formdata,
+          headers: {
+            'folks-token': localStorage.getItem('folks-token'),
+          },
         })
       ).json();
 

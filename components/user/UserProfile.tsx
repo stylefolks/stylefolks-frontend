@@ -11,10 +11,10 @@ import {
   isVisibleEditProfileModalVar,
   isVisibleProfileImageModalVar,
 } from 'cache/user/user.cache';
+import SmallCircleProfile from 'components/common/SmallCircleProfile';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import vacantImage from 'public/solidwhite.png';
 import React, { useEffect, useState } from 'react';
@@ -179,23 +179,11 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
         <ul>
           {getUserCrewData?.getUserCrew.crews.length
             ? getUserCrewData?.getUserCrew?.crews?.map((el) => (
-                <li key={el.id}>
-                  <Link href={`/crew/${el.name}`}>
-                    <a>
-                      <div className={UserStyle.userJoinCrewImage}>
-                        <Image
-                          width="48px"
-                          height="48px"
-                          src={el.profileImg}
-                          alt="crewImage"
-                          placeholder="blur"
-                          blurDataURL={el.profileImg}
-                        />
-                      </div>
-                      <span>{el.name}</span>
-                    </a>
-                  </Link>
-                </li>
+                <SmallCircleProfile
+                  key={el.id}
+                  name={el.name}
+                  profileImg={el.profileImg}
+                />
               ))
             : ''}
         </ul>

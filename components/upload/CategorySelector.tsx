@@ -69,6 +69,8 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
       writtenPostVar({
         ...post,
         secondCategoryName: secondCategoryArr && secondCategoryArr[0].name,
+        crewId: null,
+        brandId: null,
       });
     }
   }, [post.firstCategoryName]);
@@ -132,8 +134,22 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
           </select>
           {post.firstCategoryName === FirstCategoryName.FOLKS && (
             <>
+              {/* 브랜드 */}
               <span> Of </span>
-              <select>
+              <select
+                value={
+                  data.getCategoryByUserRole.brands.filter(
+                    (el) => el.id === post.brandId
+                  )[0]?.name
+                }
+                onChange={(el) => {
+                  const selectedIndex = el.target.options.selectedIndex;
+                  const selectElement =
+                    data.getCategoryByUserRole.brands[selectedIndex];
+
+                  writtenPostVar({ ...post, brandId: selectElement.id });
+                }}
+              >
                 {data.getCategoryByUserRole.brands.map((el) => (
                   <option key={el.name}>{el.name}</option>
                 ))}
@@ -144,7 +160,20 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
           {post.firstCategoryName === FirstCategoryName.CREW && (
             <>
               <span> Of </span>
-              <select>
+              <select
+                value={
+                  data.getCategoryByUserRole.crews.filter(
+                    (el) => el.id === post.crewId
+                  )[0]?.name
+                }
+                onChange={(el) => {
+                  const selectedIndex = el.target.options.selectedIndex;
+                  const selectElement =
+                    data.getCategoryByUserRole.crews[selectedIndex];
+
+                  writtenPostVar({ ...post, crewId: selectElement.id });
+                }}
+              >
                 {data.getCategoryByUserRole.crews.map((el) => (
                   <option key={el.name}>{el.name}</option>
                 ))}

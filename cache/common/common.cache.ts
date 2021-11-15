@@ -23,6 +23,8 @@ interface IPostVar {
   titleImg: string;
   firstCategoryName?: FirstCategoryName;
   secondCategoryName?: SecondCategoryName;
+  crewId?: number;
+  brandId?: number;
 }
 
 interface IPostStatus {
@@ -40,6 +42,8 @@ export const initialWrittePostVar: IPostVar = {
   titleImg: '',
   firstCategoryName: FirstCategoryName.TALK,
   secondCategoryName: SecondCategoryName.FREE,
+  crewId: null,
+  brandId: null,
 };
 
 export const initialPostStatusVar: IPostStatus = {

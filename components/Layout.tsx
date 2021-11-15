@@ -12,7 +12,9 @@ const Layout: React.FC<ILayout> = ({ children }) => {
   return (
     <>
       <DynamicHeader />
-      <section className={`${UtilStyle.flexColumnCenter} .section-main`}>
+      <section
+        className={`${UtilStyle.flexColumnCenter} ${UtilStyle.sectionMain}`}
+      >
         {children}
       </section>
       <Footer />
@@ -23,7 +25,8 @@ const Layout: React.FC<ILayout> = ({ children }) => {
           width: 100%;
           min-height: calc(100vh - 200px - 25px);
           //min-height: calc(100vh + 20px);
-          padding: 0;
+
+          padding: 0 4vw;
         }
       `}</style>
     </>

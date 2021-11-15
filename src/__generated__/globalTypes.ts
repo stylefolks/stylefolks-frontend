@@ -3,9 +3,17 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
+
+export enum CrewUserGrade {
+  CrewManager = "CrewManager",
+  CrewMaster = "CrewMaster",
+  CrewUser = "CrewUser",
+}
 
 export enum FirstCategoryName {
   COLUMN = "COLUMN",
@@ -87,6 +95,10 @@ export interface GetCrewByNameInput {
   name: string;
 }
 
+export interface GetCrewNoticeInput {
+  crewId: number;
+}
+
 export interface GetPostByCategoryInput {
   page?: number | null;
   inputTake?: number | null;
@@ -149,3 +161,4 @@ export interface VerifyEmailInput {
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
+

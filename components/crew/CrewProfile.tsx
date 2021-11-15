@@ -5,8 +5,8 @@ import CrewProfileStyle from 'styles/crew/CrewProfile.module.scss';
 
 interface ICrewProfileProps {
   name: string;
-  backgroundImg: string;
-  profileImg: string;
+  backgroundImg: string | StaticImageData;
+  profileImg: string | StaticImageData;
 }
 
 const CrewProfile: React.FC<ICrewProfileProps> = ({
@@ -28,7 +28,7 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
             height="160px"
             unoptimized={true}
             placeholder="blur"
-            blurDataURL={profileImg}
+            // blurDataURL={profileImg}
           />
         </div>
         <h2>{name}</h2>
