@@ -17,7 +17,7 @@ import {
   UPLOAD_TEMP_MUTATION,
 } from 'graphql/mutations';
 import { useRouter } from 'next/router';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import CategorySelector from '../components/upload/CategorySelector';
@@ -225,6 +225,8 @@ const Upload = () => {
   };
 
   const clickTitleImageCallbackFn = (e: MouseEvent) => {
+    // const childNodesSet = container && container[0]?.childNodes;
+    // const imgTag = container[0] && container[0].getElementsByTagName('img');
     const el = e.target as HTMLElement;
     const src = el.getAttribute('src');
 
@@ -235,43 +237,66 @@ const Upload = () => {
       });
 
       el.classList.add('folks-titleImg');
-      writtenPostVar({ ...post, titleImg: src });
+      writtenPostVar({ ...writtenPostVar(), titleImg: src });
     }
   };
 
-  const handleTitleImage = useCallback(() => {
+  const handleTitleImage = () => {
     const container = document.querySelectorAll('.toastui-editor-ww-container');
-    const imgTag = container[0] && container[0].getElementsByTagName('img')[0];
-    const childNodesSet = container && container[0]?.childNodes;
 
-    if (
-      !writtenPostVar().titleImg ||
-      !document.querySelectorAll('.folks-titleImg').length
-    ) {
-      imgTag?.classList.add('folks-titleImg');
-
-      writtenPostVar({
-        ...writtenPostVar(),
-        titleImg: imgTag?.getAttribute('src'),
-      });
-      return;
-    }
-
-    childNodesSet.forEach((node) => {
-      node.addEventListener('click', (e: MouseEvent) => {
+    const imgTag = container[0] && container[0].getElementsByTagName('img');
+    //posts내의 전체 노드에서 img중 Src를 가진놈이  titleImg의 값과 똑같은 애한테
+    //클래스를 부여해주고 사라지면 될듯
+    if (imgTag && imgTag.length === 2) {
+      //tui editor에서 이미지 업로드하면 img 태그 두개씩 생기므로 2개로 정함
+      imgTag[0]?.classList.add('folks-titleImg');
+      imgTag[0].addEventListener('click', (e: MouseEvent) => {
         clickTitleImageCallbackFn(e);
       });
-    });
-  }, [post]);
+    }
+
+    if (imgTag && imgTag.length) {
+      for (let i = 0; i < imgTag.length; i++) {
+        imgTag[i].addEventListener('click', (e: MouseEvent) => {
+          clickTitleImageCallbackFn(e);
+        });
+        if (imgTag[i].getAttribute('src') === post.titleImg) {
+          imgTag[i]?.classList.add('folks-titleImg');
+        }
+      }
+    }
+  };
 
   useEffect(() => {
-    handleTitleImage();
+    // ref : https://stackoverflow.com/questions/15875128/is-there-element-rendered-event
 
+    const observer = new MutationObserver((mutations) => {
+      console.log('Observer: upload sth');
+      handleTitleImage();
+      if (
+        document.contains(document.getElementsByClassName('folks-titleImg')[0])
+      ) {
+        handleTitleImage();
+        console.log("Observer: It's in dom!!!");
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(document, {
+      attributes: false,
+      childList: true,
+      characterData: false,
+      subtree: true,
+    });
     return () => {
       postStatusVar({ ...initialPostStatusVar });
       writtenPostVar({ ...initialWrittePostVar });
     };
   }, []);
+
+  useEffect(() => {
+    handleTitleImage();
+  }, [post]);
 
   if (createPostLoading || createTempLoading)
     return <div>업로드중입니다 잠시만 기다려주세요... :)</div>;
@@ -287,7 +312,6 @@ const Upload = () => {
           height={'90vh'}
           onChange={(contents) => {
             writtenPostVar({ ...post, contents });
-            handleTitleImage();
           }}
         />
 
