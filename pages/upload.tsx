@@ -247,6 +247,14 @@ const Upload = () => {
     const imgTag = container[0] && container[0].getElementsByTagName('img');
     //posts내의 전체 노드에서 img중 Src를 가진놈이  titleImg의 값과 똑같은 애한테
     //클래스를 부여해주고 사라지면 될듯
+    if (imgTag && imgTag.length === 2) {
+      //tui editor에서 이미지 업로드하면 img 태그 두개씩 생기므로 2개로 정함
+      imgTag[0]?.classList.add('folks-titleImg');
+      imgTag[0].addEventListener('click', (e: MouseEvent) => {
+        clickTitleImageCallbackFn(e);
+      });
+    }
+
     if (imgTag && imgTag.length) {
       for (let i = 0; i < imgTag.length; i++) {
         imgTag[i].addEventListener('click', (e: MouseEvent) => {
@@ -261,7 +269,10 @@ const Upload = () => {
 
   useEffect(() => {
     // ref : https://stackoverflow.com/questions/15875128/is-there-element-rendered-event
+
     const observer = new MutationObserver((mutations) => {
+      console.log('Observer: upload sth');
+      handleTitleImage();
       if (
         document.contains(document.getElementsByClassName('folks-titleImg')[0])
       ) {
