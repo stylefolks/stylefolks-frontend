@@ -225,7 +225,6 @@ const Upload = () => {
   };
 
   const clickTitleImageCallbackFn = (e: MouseEvent) => {
-    console.log('clickTitleImageCallbackFn');
     // const childNodesSet = container && container[0]?.childNodes;
     // const imgTag = container[0] && container[0].getElementsByTagName('img');
     const el = e.target as HTMLElement;
@@ -243,37 +242,17 @@ const Upload = () => {
   };
 
   const handleTitleImage = () => {
-    console.log('handleTitleImage');
     const container = document.querySelectorAll('.toastui-editor-ww-container');
 
-    const childNodesSet = container && container[0]?.childNodes;
-    console.log('childNodesSet', childNodesSet);
-    childNodesSet?.forEach((node) => {
-      node.addEventListener('click', (e: MouseEvent) => {
-        console.log('handleTitleImage add event');
-
-        clickTitleImageCallbackFn(e);
-      });
-    });
-  };
-
-  const setTitleImageWithFirstRender = () => {
-    console.log('첫번째 렌더', 'setTitleImageWithFirstRender');
-
-    const container = document.querySelectorAll('.toastui-editor-ww-container');
-    const childNodesSet = container && container[0]?.childNodes;
     const imgTag = container[0] && container[0].getElementsByTagName('img');
     //posts내의 전체 노드에서 img중 Src를 가진놈이  titleImg의 값과 똑같은 애한테
     //클래스를 부여해주고 사라지면 될듯
     if (imgTag && imgTag.length) {
-      console.log('imgTag', imgTag, 'childNodesSet', childNodesSet);
       for (let i = 0; i < imgTag.length; i++) {
+        imgTag[i].addEventListener('click', (e: MouseEvent) => {
+          clickTitleImageCallbackFn(e);
+        });
         if (imgTag[i].getAttribute('src') === post.titleImg) {
-          console.log(
-            '첫번째 렌더',
-            post.titleImg,
-            imgTag[i].getAttribute('src')
-          );
           imgTag[i]?.classList.add('folks-titleImg');
         }
       }
@@ -281,7 +260,22 @@ const Upload = () => {
   };
 
   useEffect(() => {
-    handleTitleImage();
+    const observer = new MutationObserver((mutations) => {
+      if (
+        document.contains(document.getElementsByClassName('folks-titleImg')[0])
+      ) {
+        handleTitleImage();
+        console.log("Observer: It's in dom!!!");
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(document, {
+      attributes: false,
+      childList: true,
+      characterData: false,
+      subtree: true,
+    });
     return () => {
       postStatusVar({ ...initialPostStatusVar });
       writtenPostVar({ ...initialWrittePostVar });
@@ -289,18 +283,8 @@ const Upload = () => {
   }, []);
 
   useEffect(() => {
-    console.log(post);
-
     handleTitleImage();
-  }, [post, document]);
-
-  useEffect(() => {
-    console.log(post.titleImg, '렌더시 안불리나?..');
-
-    if (post.titleImg && !document.querySelectorAll('.folks-titleImg').length) {
-      setTitleImageWithFirstRender();
-    }
-  }, [post.titleImg, document]);
+  }, [post]);
 
   if (createPostLoading || createTempLoading)
     return <div>업로드중입니다 잠시만 기다려주세요... :)</div>;
