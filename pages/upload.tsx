@@ -260,6 +260,7 @@ const Upload = () => {
   };
 
   useEffect(() => {
+    // ref : https://stackoverflow.com/questions/15875128/is-there-element-rendered-event
     const observer = new MutationObserver((mutations) => {
       if (
         document.contains(document.getElementsByClassName('folks-titleImg')[0])
