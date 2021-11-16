@@ -266,7 +266,7 @@ const Upload = () => {
     const el = e.target as HTMLElement;
     const src = el.getAttribute('src');
 
-    if (el.tagName === 'IMG' && src && e.type === 'click') {
+    if (el.tagName === 'IMG' && e.type === 'click') {
       //Wrapper.tsx에 클래스 스타일 정의되어 있음.
       document.querySelectorAll('.folks-titleImg').forEach((inDoc) => {
         inDoc.classList.remove('folks-titleImg');
@@ -286,6 +286,10 @@ const Upload = () => {
     if (imgTag && imgTag.length === 2) {
       //tui editor에서 이미지 업로드하면 img 태그 두개씩 생기므로 2개로 정함
       imgTag[0]?.classList.add('folks-titleImg');
+      writtenPostVar({
+        ...writtenPostVar(),
+        titleImg: imgTag[0].getAttribute('src'),
+      });
       imgTag[0].addEventListener('click', (e: MouseEvent) => {
         clickTitleImageCallbackFn(e);
       });
@@ -331,7 +335,8 @@ const Upload = () => {
   }, []);
 
   useEffect(() => {
-    handleTitleImage();
+    console.log(post);
+    // handleTitleImage();
   }, [post]);
 
   if (createPostLoading || createTempLoading)
@@ -348,6 +353,7 @@ const Upload = () => {
           height={'90vh'}
           onChange={(contents) => {
             writtenPostVar({ ...post, contents });
+            handleTitleImage();
           }}
         />
 

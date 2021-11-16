@@ -27,6 +27,12 @@ export const GET_EACH_POST_QUERY = gql`
           link
           id
         }
+        crew {
+          id
+        }
+        brand {
+          id
+        }
       }
     }
   }

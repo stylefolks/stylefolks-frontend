@@ -174,7 +174,6 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     <div className={TempStyle.tempContainer}>
       <div className={TempStyle.tempWrapper}>
         <h3>Save Posting List</h3>
-
         <ul>
           {userTempData?.getUserTemp.temps.length &&
             userTempData?.getUserTemp.temps.map((el) => (

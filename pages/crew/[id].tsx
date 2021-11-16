@@ -53,12 +53,10 @@ const Crew = () => {
   >(GET_CREW_BY_NAME, {
     variables: {
       input: {
-        name: id as string,
+        name: id + '',
       },
     },
   });
-
-  console.log('@@@@data', data, '@@@ id', id, error);
 
   if (loading) return <div>Loading...</div>;
 
@@ -84,26 +82,28 @@ const Crew = () => {
             : ''}
         </ul>
       </div>
-      <div>
+      <div className={CrewPageStyle.crewNoticeContainer}>
         <div>
           <h2>{SecondCategoryName.CREW_NOTICE}</h2>
           <ul>
             {data?.getCrewByName.posts.map((el) => (
-              <li key={el.id}>
-                <>
+              <li
+                key={el.id}
+                className={CrewPageStyle.noticeWrapper}
+                onClick={() => router.push(`/post/${el.id}`)}
+              >
+                <div>
                   <div>
-                    <div>
-                      <Image
-                        src={el.titleImg || VacantImage}
-                        width="40px"
-                        height="40px"
-                        alt={el.title}
-                      />
-                    </div>
-                    <span>{el.title}</span>
+                    <Image
+                      src={el.titleImg || VacantImage}
+                      width="40px"
+                      height="40px"
+                      alt={el.title}
+                    />
                   </div>
-                  <span>{el.user.nickname}</span>
-                </>
+                  <span>{el.title}</span>
+                </div>
+                <span>{el.user.nickname}</span>
               </li>
             ))}
           </ul>
