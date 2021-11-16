@@ -1,4 +1,4 @@
-import UtilStyle from '../../styles/Util.module.scss';
+import UtilStyle from 'styles/common/Util.module.scss';
 
 interface IBackDropProps {
   children: React.ReactNode;

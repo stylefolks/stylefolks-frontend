@@ -99,6 +99,11 @@ export interface GetCrewNoticeInput {
   crewId: number;
 }
 
+export interface GetCrewPostByRoleInput {
+  crewId: number;
+  grade: CrewUserGrade;
+}
+
 export interface GetPostByCategoryInput {
   page?: number | null;
   inputTake?: number | null;

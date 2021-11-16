@@ -38,8 +38,15 @@ export const Post = () => {
   );
 
   const onEdit = () => {
-    const { firstCategory, secondCategory, title, contents, titleImg } =
-      data?.getEachPost.post;
+    const {
+      firstCategory,
+      secondCategory,
+      title,
+      contents,
+      titleImg,
+      crew,
+      brand,
+    } = data?.getEachPost.post;
 
     writtenPostVar({
       title,
@@ -47,20 +54,16 @@ export const Post = () => {
       titleImg,
       firstCategoryName: firstCategory.name as FirstCategoryName,
       secondCategoryName: secondCategory.name,
+      crewId: crew ? crew.id : null,
+      brandId: brand ? brand.id : null,
     });
-
     postStatusVar({
       ...postStatusVar(),
       titleImageArr: data.getEachPost.post.image.map((el) => el.link),
       isModify: true,
       modifyPostId: postId,
     });
-    // dispatch(
-    //   setTitleImageArr(data.getEachPost.post.image.map((el) => el.link))
-    // );
     router.push('/upload');
-    // dispatch(setIsModify(true));
-    // dispatch(setModifyPostId(postId));
   };
 
   const deleteMyPostOnCompleted = (data: deleteMyPost) => {

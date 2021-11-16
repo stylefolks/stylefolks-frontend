@@ -54,6 +54,9 @@ const EditProfileImageModal = () => {
         await fetch('http://localhost:4000/images/user', {
           method: 'POST',
           body: formBody,
+          headers: {
+            'folks-token': localStorage.getItem('folks-token'),
+          },
         })
       ).json();
 
@@ -68,7 +71,8 @@ const EditProfileImageModal = () => {
           },
         });
       }
-    } catch {
+    } catch (e) {
+      console.error(e);
       alertVar({
         title: '에러발생',
         content: '이미지 업로드 에러',
@@ -78,6 +82,7 @@ const EditProfileImageModal = () => {
   };
 
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
     if (e.target.files && e.target.files[0]) {
       let img = e.target.files[0];
       const formBody = new FormData();
@@ -95,6 +100,7 @@ const EditProfileImageModal = () => {
         body,
         headers: {
           'Content-Type': 'application/json',
+          'folks-token': localStorage.getItem('folks-token'),
         },
       })
     ).json();
@@ -108,8 +114,7 @@ const EditProfileImageModal = () => {
           input: {
             nickname: user.nickname,
             link: user.link,
-            profileImg:
-              'https://thefolksofstyle.s3.amazonaws.com/ef66e19d-e8d8-486d-8b5b-b4ef0101e1d9no-image.png',
+            profileImg: user.profileImg,
           },
         },
       });

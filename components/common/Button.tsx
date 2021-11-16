@@ -1,5 +1,5 @@
 import React from 'react';
-import UtilStyle from 'styles/Util.module.scss';
+import UtilStyle from 'styles/common/Util.module.scss';
 interface IButtonProps {
   canClick: boolean;
   loading: boolean;

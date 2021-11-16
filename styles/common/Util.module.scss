@@ -1,6 +1,67 @@
 $lines: 16;
 $delayandduration: 4;
 
+.imageContainer {
+  width: 100%;
+  max-width: 80px;
+  min-width: 66px;
+  border-radius: 10px;
+  border: 1px solid $back-color-main;
+  overflow: hidden;
+
+  & > div {
+    position: unset !important;
+
+    & > img {
+      object-fit: contain;
+      width: 100% !important;
+      position: relative !important;
+      height: unset !important;
+    }
+  }
+
+  // &:hover {
+  //   border: 1px solid $font-color-main;
+  // }
+}
+
+.imageCircleContainer {
+  width: 100%;
+
+  border-radius: 100%;
+  overflow: hidden;
+  border: 1px solid $back-color-main;
+
+  & > div {
+    position: unset !important;
+
+    & > img {
+      object-fit: contain;
+      width: 100% !important;
+      position: relative !important;
+      height: unset !important;
+    }
+  }
+}
+
+.imageSmallCircleContainer {
+  width: 100%;
+  max-width: 60px;
+  border-radius: 100%;
+  overflow: hidden;
+
+  & > div {
+    position: unset !important;
+
+    & > img {
+      object-fit: contain;
+      width: 100% !important;
+      position: relative !important;
+      height: unset !important;
+    }
+  }
+}
+
 .sectionMain {
   margin: 0 auto;
   height: 100%;
@@ -34,6 +95,13 @@ $delayandduration: 4;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.flexColumnStart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .clickable {

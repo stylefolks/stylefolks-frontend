@@ -4,6 +4,11 @@
 
 .joinedPeopleContaier {
   width: 100%;
+
+  & > h4 {
+    font-size: 24px;
+  }
+
   & > ul {
     display: flex;
   }
@@ -22,5 +27,123 @@
     &:hover {
       border: 1px solid $font-color-main;
     }
+  }
+}
+
+.crewNoticeContainer {
+  margin-top: 48px;
+}
+
+.noticeWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid $back-color-main;
+  padding: 1.6rem;
+  border-radius: 10px;
+  margin-bottom: 12px;
+
+  & > div {
+    display: flex;
+  }
+
+  & > span {
+    font-size: 1.17em;
+    font-weight: 700;
+  }
+
+  &:hover {
+    border: 1px solid $font-color-main;
+  }
+}
+
+.imageContainer {
+  width: 100%;
+
+  & > div {
+    position: unset !important;
+
+    & > img {
+      object-fit: contain;
+      width: 100% !important;
+      position: relative !important;
+      height: unset !important;
+    }
+  }
+}
+.eachNoticeInfoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+  margin-left: 24px;
+
+  & > h3 {
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0px;
+  }
+}
+
+.eachNoticeWritterWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > div {
+    position: relative;
+    margin-left: 12px;
+    & > h4 {
+      display: block;
+      text-overflow: ellipsis;
+
+      white-space: nowrap;
+      position: absolute;
+      visibility: hidden;
+      bottom: 0px;
+      height: 0px;
+
+      margin: 0px;
+    }
+  }
+
+  &:hover {
+    & > div {
+      & > div {
+        height: 0px;
+        visibility: hidden;
+      }
+      & > h4 {
+        width: 12px;
+        bottom: 10px;
+        visibility: visible;
+      }
+    }
+  }
+}
+
+.crewOutfitContainer {
+  margin-top: 48px;
+}
+
+.crewOutfitWrapper {
+  display: flex;
+}
+
+.crewOutfitContentsContainer {
+  border: 1px solid black;
+  width: 100%;
+  margin-left: 12px;
+}
+
+.crewOutfitToggleButtonWrapper {
+  display: flex;
+  flex-direction: column;
+
+  & > button {
+    min-height: 360px;
+    border: 1px solid red;
   }
 }

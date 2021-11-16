@@ -36,6 +36,16 @@ export interface getEachPost_getEachPost_post_image {
   id: number;
 }
 
+export interface getEachPost_getEachPost_post_crew {
+  __typename: "Crew";
+  id: number;
+}
+
+export interface getEachPost_getEachPost_post_brand {
+  __typename: "Brand";
+  id: number;
+}
+
 export interface getEachPost_getEachPost_post {
   __typename: "Posts";
   title: string;
@@ -46,6 +56,8 @@ export interface getEachPost_getEachPost_post {
   secondCategory: getEachPost_getEachPost_post_secondCategory | null;
   user: getEachPost_getEachPost_post_user;
   image: getEachPost_getEachPost_post_image[];
+  crew: getEachPost_getEachPost_post_crew | null;
+  brand: getEachPost_getEachPost_post_brand | null;
 }
 
 export interface getEachPost_getEachPost {
