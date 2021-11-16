@@ -13,6 +13,7 @@ import { GetCrewByNameInput, CrewUserGrade } from "./globalTypes";
 
 export interface getCrewByName_getCrewByName_crew {
   __typename: "Crew";
+  id: number;
   profileImg: string | null;
   name: string;
   Introduction: string | null;
@@ -35,6 +36,7 @@ export interface getCrewByName_getCrewByName_users {
 export interface getCrewByName_getCrewByName_posts_user {
   __typename: "User";
   nickname: string;
+  profileImg: string | null;
 }
 
 export interface getCrewByName_getCrewByName_posts {
@@ -42,6 +44,8 @@ export interface getCrewByName_getCrewByName_posts {
   titleImg: string | null;
   title: string;
   id: number;
+  createdAt: any;
+  viewCount: number;
   user: getCrewByName_getCrewByName_posts_user;
 }
 

@@ -18,8 +18,8 @@ import {
   getUserTemp_getUserTemp_temps,
 } from 'src/__generated__/getUserTemp';
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
+import UtilStyle from 'styles/common/Util.module.scss';
 import TempStyle from 'styles/TempPost.module.scss';
-import UtilStyle from 'styles/Util.module.scss';
 
 interface IProps {
   userId: number;

@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { alertVar } from 'cache/common/common.cache';
+import UtilStyle from 'styles/common/Util.module.scss';
 import Portal from '../../HOC/Alert';
-import UtilStyle from '../../styles/Util.module.scss';
 import BackDrop from './BackDrop';
 
 interface IPropsAlert {

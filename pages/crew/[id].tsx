@@ -1,15 +1,16 @@
 import { gql, useQuery } from '@apollo/client';
-import SmallCircleProfile from 'components/common/SmallCircleProfile';
+import CrewJoinedPeople from 'components/crew/CrewJoinedPeople';
+import CrewNotice from 'components/crew/CrewNotice';
+import CrewOOTD from 'components/crew/CrewOOTD';
 import CrewProfile from 'components/crew/CrewProfile';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import VacantImage from 'public/solidwhite.png';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   getCrewByName,
   getCrewByNameVariables,
 } from 'src/__generated__/getCrewByName';
-import { SecondCategoryName } from 'src/__generated__/globalTypes';
+import { CrewUserGrade } from 'src/__generated__/globalTypes';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
 const GET_CREW_BY_NAME = gql`
@@ -18,6 +19,7 @@ const GET_CREW_BY_NAME = gql`
       ok
       error
       crew {
+        id
         profileImg
         name
         Introduction
@@ -35,8 +37,11 @@ const GET_CREW_BY_NAME = gql`
         titleImg
         title
         id
+        createdAt
+        viewCount
         user {
           nickname
+          profileImg
         }
       }
     }
@@ -63,52 +68,13 @@ const Crew = () => {
   return (
     <main className={CrewPageStyle.container}>
       <CrewProfile
-        name={data?.getCrewByName.crew.name}
-        backgroundImg={data?.getCrewByName.crew.backgroundImg || VacantImage}
-        profileImg={data?.getCrewByName.crew.profileImg || VacantImage}
+        name={data?.getCrewByName.crew?.name}
+        backgroundImg={data?.getCrewByName.crew?.backgroundImg || VacantImage}
+        profileImg={data?.getCrewByName.crew?.profileImg || VacantImage}
       />
-
-      <div className={CrewPageStyle.joinedPeopleContaier}>
-        {data?.getCrewByName.users.length ? <h4>Joined People</h4> : ''}
-        <ul>
-          {data?.getCrewByName.users.length
-            ? data?.getCrewByName.users.map((el) => (
-                <SmallCircleProfile
-                  key={el.id}
-                  name={el.nickname}
-                  profileImg={el.profileImg}
-                />
-              ))
-            : ''}
-        </ul>
-      </div>
-      <div className={CrewPageStyle.crewNoticeContainer}>
-        <div>
-          <h2>{SecondCategoryName.CREW_NOTICE}</h2>
-          <ul>
-            {data?.getCrewByName.posts.map((el) => (
-              <li
-                key={el.id}
-                className={CrewPageStyle.noticeWrapper}
-                onClick={() => router.push(`/post/${el.id}`)}
-              >
-                <div>
-                  <div>
-                    <Image
-                      src={el.titleImg || VacantImage}
-                      width="40px"
-                      height="40px"
-                      alt={el.title}
-                    />
-                  </div>
-                  <span>{el.title}</span>
-                </div>
-                <span>{el.user.nickname}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <CrewJoinedPeople users={data?.getCrewByName.users} />
+      <CrewNotice posts={data?.getCrewByName?.posts} />
+      <CrewOOTD crewId={data?.getCrewByName.crew.id} />
     </main>
   );
 };

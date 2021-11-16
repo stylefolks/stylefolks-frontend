@@ -6,15 +6,17 @@ import UserStyle from 'styles/User.module.scss';
 interface IPropsSmallCircleProfile {
   name: string;
   profileImg: string;
+  link: string;
 }
 
 const SmallCircleProfile: React.FC<IPropsSmallCircleProfile> = ({
   name,
   profileImg,
+  link,
 }) => {
   return (
     <li className={UserStyle.userJoinCrewWrapper}>
-      <Link href={`/crew/${name}`}>
+      <Link href={link}>
         <a>
           <div className={UserStyle.userJoinCrewImage}>
             <Image

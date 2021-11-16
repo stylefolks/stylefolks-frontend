@@ -175,11 +175,12 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
         )}
       </div>
       <div className={UserStyle.userJoinCrewContainer}>
-        {getUserCrewData?.getUserCrew.crews.length ? <h4>Joined Crew</h4> : ''}
+        {getUserCrewData?.getUserCrew.crews?.length ? <h4>Joined Crew</h4> : ''}
         <ul>
-          {getUserCrewData?.getUserCrew.crews.length
+          {getUserCrewData?.getUserCrew.crews?.length
             ? getUserCrewData?.getUserCrew?.crews?.map((el) => (
                 <SmallCircleProfile
+                  link={`/crew/${el.name}`}
                   key={el.id}
                   name={el.name}
                   profileImg={el.profileImg}

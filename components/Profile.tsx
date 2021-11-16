@@ -7,8 +7,8 @@ import {
 import UseWindowDimension from 'hooks/useWindowDimension';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+import UtilStyle from '../styles/common/Util.module.scss';
 import ProfileStyle from '../styles/Profile.module.scss';
-import UtilStyle from '../styles/Util.module.scss';
 import LoggedInUserProfileImage from './user/LoggedInUserProfileImage';
 
 interface IModalState {

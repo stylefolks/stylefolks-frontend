@@ -16,8 +16,8 @@ import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
+import UtilStyle from 'styles/common/Util.module.scss';
 import EditProfileModalStyle from 'styles/user/component/EditProfileModal.module.scss';
-import UtilStyle from 'styles/Util.module.scss';
 
 interface IlocalPw {
   pw: string;
