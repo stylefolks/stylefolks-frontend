@@ -5,12 +5,11 @@ import CrewOOTD from 'components/crew/CrewOOTD';
 import CrewProfile from 'components/crew/CrewProfile';
 import { useRouter } from 'next/router';
 import VacantImage from 'public/solidwhite.png';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   getCrewByName,
   getCrewByNameVariables,
 } from 'src/__generated__/getCrewByName';
-import { CrewUserGrade } from 'src/__generated__/globalTypes';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
 const GET_CREW_BY_NAME = gql`
@@ -31,17 +30,6 @@ const GET_CREW_BY_NAME = gql`
         profileImg
         crewUser {
           grade
-        }
-      }
-      posts {
-        titleImg
-        title
-        id
-        createdAt
-        viewCount
-        user {
-          nickname
-          profileImg
         }
       }
     }
@@ -73,7 +61,10 @@ const Crew = () => {
         profileImg={data?.getCrewByName.crew?.profileImg || VacantImage}
       />
       <CrewJoinedPeople users={data?.getCrewByName.users} />
-      <CrewNotice posts={data?.getCrewByName?.posts} />
+      <CrewNotice
+        posts={data?.getCrewByName?.posts}
+        crewId={data.getCrewByName.crew.id}
+      />
       <CrewOOTD crewId={data?.getCrewByName.crew.id} />
     </main>
   );

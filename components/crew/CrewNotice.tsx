@@ -1,24 +1,58 @@
+import { useQuery } from '@apollo/client';
+import PagesDivider from 'components/common/PagesDivider';
 import format from 'date-fns/format';
+import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import VacantImage from 'public/solidwhite.png';
+import { useState } from 'react';
 import { getCrewByName_getCrewByName_posts } from 'src/__generated__/getCrewByName';
+import {
+  getPostByCategory,
+  getPostByCategoryVariables,
+} from 'src/__generated__/getPostByCategory';
+import {
+  FirstCategoryName,
+  SecondCategoryName,
+} from 'src/__generated__/globalTypes';
 import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
 interface IPropsCrewNotice {
   posts: getCrewByName_getCrewByName_posts[];
+  crewId: number;
 }
 
-const CrewNotice: React.FC<IPropsCrewNotice> = ({ posts }) => {
+const CrewNotice: React.FC<IPropsCrewNotice> = ({ posts, crewId }) => {
+  const [page, setPage] = useState<number>(1);
+
+  const { data, loading, error } = useQuery<
+    getPostByCategory,
+    getPostByCategoryVariables
+  >(GET_POST_BY_CATEGORY, {
+    variables: {
+      input: {
+        firstCategoryName: FirstCategoryName.CREW,
+        secondCategoryName: SecondCategoryName.CREW_NOTICE,
+        crewId,
+        inputTake: 3,
+        page,
+      },
+    },
+  });
+
+  const handlePage = (_page: number) => {
+    setPage(_page);
+  };
+
   const router = useRouter();
 
   return (
     <div className={CrewPageStyle.crewNoticeContainer}>
+      <h2>NOTICE</h2>
       <div>
-        <h2>NOTICE</h2>
         <ul>
-          {posts?.map((el) => (
+          {data?.getPostByCategory.post?.map((el) => (
             <li
               key={el.id}
               className={CrewPageStyle.noticeWrapper}
@@ -56,6 +90,12 @@ const CrewNotice: React.FC<IPropsCrewNotice> = ({ posts }) => {
             </li>
           ))}
         </ul>
+        <PagesDivider
+          totalPages={data?.getPostByCategory.totalPages}
+          totalResults={data?.getPostByCategory.totalResults}
+          clickPage={page}
+          onClick={handlePage}
+        />
       </div>
     </div>
   );

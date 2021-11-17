@@ -32,6 +32,19 @@
 
 .crewNoticeContainer {
   margin-top: 48px;
+  width: 100%;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    & > ul {
+      min-height: 430px;
+      width: 100%;
+    }
+  }
 }
 
 .noticeWrapper {
