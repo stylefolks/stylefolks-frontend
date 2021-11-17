@@ -14,16 +14,19 @@ export const BUTTON_MAP: IButtonMap[] = [
     icon: faTshirt,
     firstCategoryName: FirstCategoryName.TALK,
     secondCategoryName: SecondCategoryName.OOTD,
+    name: 'OOTD',
   },
   {
     icon: faPenFancy,
     firstCategoryName: FirstCategoryName.COLUMN,
     secondCategoryName: null,
+    name: 'COLUMN',
   },
   {
     icon: faBookOpen,
     firstCategoryName: FirstCategoryName.FOLKS,
     secondCategoryName: SecondCategoryName.BRAND_REVIEW,
+    name: 'REVIEW',
   },
   // {
   //   icon: faTshirt,

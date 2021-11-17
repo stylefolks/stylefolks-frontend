@@ -15,6 +15,8 @@ const PagesDivider: React.FC<IProps> = ({
   clickPage,
   onClick,
 }) => {
+  if (totalPages <= 1) return <div className={PageDividerStyle.wrapper}></div>;
+
   return (
     <div className={PageDividerStyle.wrapper}>
       {clickPage > 1 ? (
