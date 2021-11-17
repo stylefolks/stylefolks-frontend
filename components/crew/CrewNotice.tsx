@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import VacantImage from 'public/solidwhite.png';
 import { getCrewByName_getCrewByName_posts } from 'src/__generated__/getCrewByName';
-import { SecondCategoryName } from 'src/__generated__/globalTypes';
 import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
@@ -17,7 +16,7 @@ const CrewNotice: React.FC<IPropsCrewNotice> = ({ posts }) => {
   return (
     <div className={CrewPageStyle.crewNoticeContainer}>
       <div>
-        <h2>{SecondCategoryName.CREW_NOTICE}</h2>
+        <h2>NOTICE</h2>
         <ul>
           {posts?.map((el) => (
             <li

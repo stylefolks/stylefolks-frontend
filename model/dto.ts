@@ -8,6 +8,7 @@ export interface IButtonMap {
   icon: IconDefinition;
   firstCategoryName: FirstCategoryName;
   secondCategoryName: SecondCategoryName;
+  name: string;
 }
 
 export interface IPickCategory {

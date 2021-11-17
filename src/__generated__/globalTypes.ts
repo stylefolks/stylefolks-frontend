@@ -100,6 +100,8 @@ export interface GetCrewNoticeInput {
 }
 
 export interface GetCrewPostByRoleInput {
+  page?: number | null;
+  inputTake?: number | null;
   crewId: number;
   grade: CrewUserGrade;
 }

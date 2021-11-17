@@ -1,8 +1,14 @@
 import { useQuery } from '@apollo/client';
-import { faUserCheck, faUserFriends } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faUserCheck,
+  faUserFriends,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PagesDivider from 'components/common/PagesDivider';
 import gql from 'graphql-tag';
 import Image from 'next/image';
+import Link from 'next/link';
 import VacantImage from 'public/solidwhite.png';
 import React, { useState } from 'react';
 import {
@@ -10,12 +16,17 @@ import {
   getCrewPostByRoleVariables,
 } from 'src/__generated__/getCrewPostByRole';
 import { CrewUserGrade } from 'src/__generated__/globalTypes';
-import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
+import UserPageStyle from 'styles/user/UserPage.module.scss';
 
 interface IPropsCrewOOTD {
   crewId: number;
 }
+
+const BUTTON_NAME_MAP = [
+  { role: CrewUserGrade.CrewManager, icon: faUserCheck },
+  { role: CrewUserGrade.CrewUser, icon: faUserFriends },
+];
 
 const GET_CREW_POST_BY_ROLE = gql`
   query getCrewPostByRole($input: GetCrewPostByRoleInput!) {
@@ -28,12 +39,20 @@ const GET_CREW_POST_BY_ROLE = gql`
         id
         viewCount
       }
+      totalPages
+      totalResults
     }
   }
 `;
 
 const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId }) => {
   const [role, setRole] = useState(CrewUserGrade.CrewManager);
+  const [page, setPage] = useState<number>(1);
+  // const [inputTake, setInputTake] = useState<number | null>(20);
+
+  const handlePage = (_page: number) => {
+    setPage(_page);
+  };
   const { data, loading, error } = useQuery<
     getCrewPostByRole,
     getCrewPostByRoleVariables
@@ -42,6 +61,8 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId }) => {
       input: {
         grade: role,
         crewId,
+        inputTake: 20,
+        page,
       },
     },
   });
@@ -53,34 +74,51 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId }) => {
     <div className={CrewPageStyle.crewOutfitContainer}>
       <h2>CREW OUTFIT</h2>
       <div className={CrewPageStyle.crewOutfitWrapper}>
-        <div className={CrewPageStyle.crewOutfitToggleButtonWrapper}>
-          <button onClick={() => setRole(CrewUserGrade.CrewManager)}>
-            <FontAwesomeIcon icon={faUserCheck} size="2x" />
-          </button>
-          <button onClick={() => setRole(CrewUserGrade.CrewUser)}>
-            <FontAwesomeIcon icon={faUserFriends} size="2x" />
-          </button>
-        </div>
-        <ul className={CrewPageStyle.crewOutfitContentsContainer}>
-          {data?.getCrewPostByRole.posts.map((el) => (
-            <li key={el.id}>
-              <div className={UtilStyle.imageSmallCircleContainer}>
-                <Image
-                  className="image"
-                  src={el.titleImg || VacantImage}
-                  layout="fill"
-                  alt={el.titleImg}
-                />
-              </div>
-
-              <span>
-                {el.title}
-                {el.viewCount}
-                {/* {el.user.nickname} */}
-              </span>
-            </li>
+        <div className={`${CrewPageStyle.crewOutfitToggleButtonWrapper} `}>
+          {BUTTON_NAME_MAP.map((el) => (
+            <button
+              className={el.role === role ? `${CrewPageStyle.isActive}` : ''}
+              onClick={() => setRole(el.role)}
+              key={el.role}
+            >
+              <FontAwesomeIcon icon={el.icon} size="2x" />
+            </button>
           ))}
-        </ul>
+        </div>
+        <div className={CrewPageStyle.crewOutfitContentsContainer}>
+          <ul className={CrewPageStyle.crewOutfitContentsWrapper}>
+            {data?.getCrewPostByRole.posts.map((el) => (
+              <li key={el.id}>
+                <Link href={`/post/${el.id}`}>
+                  <a>
+                    <div className={CrewPageStyle.gridImage}>
+                      <Image
+                        className="image"
+                        src={el.titleImg || VacantImage}
+                        layout="fill"
+                        alt={el.titleImg}
+                      />
+                    </div>
+                    <div>
+                      <span>{el.title}</span>
+                      <span>
+                        <FontAwesomeIcon icon={faCheck} /> {el.viewCount}
+                      </span>
+                    </div>
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className={UserPageStyle.seeMoreButton}>
+            <PagesDivider
+              totalPages={data?.getCrewPostByRole.totalPages}
+              totalResults={data?.getCrewPostByRole.totalResults}
+              clickPage={page}
+              onClick={handlePage}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

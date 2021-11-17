@@ -98,11 +98,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
               }
             >
               <FontAwesomeIcon icon={el.icon} />
-              <span>
-                {el.secondCategoryName === null
-                  ? el.firstCategoryName
-                  : el.secondCategoryName}
-              </span>
+              <span>{el.name}</span>
             </button>
           ))}
         </div>
