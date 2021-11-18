@@ -7,6 +7,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PagesDivider from 'components/common/PagesDivider';
 import gql from 'graphql-tag';
+import UseWindowDimension from 'hooks/useWindowDimension';
 import Image from 'next/image';
 import Link from 'next/link';
 import VacantImage from 'public/solidwhite.png';
@@ -50,6 +51,7 @@ const GET_CREW_POST_BY_ROLE = gql`
 const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId, users }) => {
   const [role, setRole] = useState(CrewUserGrade.CrewManager);
   const [page, setPage] = useState<number>(1);
+  const { width, height } = UseWindowDimension();
   // const [inputTake, setInputTake] = useState<number | null>(20);
 
   const handlePage = (_page: number) => {
@@ -64,7 +66,7 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId, users }) => {
       input: {
         grade: role,
         crewId,
-        inputTake: 20,
+        inputTake: 9,
         page,
       },
     },
@@ -87,7 +89,10 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId, users }) => {
               onClick={() => setRole(el.role)}
               key={el.role}
             >
-              <FontAwesomeIcon icon={el.icon} size="2x" />
+              <FontAwesomeIcon
+                icon={el.icon}
+                size={width <= 735 ? '1x' : '2x'}
+              />
             </button>
           ))}
         </div>

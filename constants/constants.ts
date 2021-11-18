@@ -35,4 +35,6 @@ export const BUTTON_MAP: IButtonMap[] = [
   // },
 ];
 
+export const mediaStandard = 735;
+
 export default {};

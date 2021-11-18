@@ -25,8 +25,18 @@
 
   & > h2 {
     color: black;
-    &:hover {
-      color: $font-color-main;
+  }
+
+  @media screen and (max-width: $media-standard) {
+    margin: 8px 0px;
+
+    & > h2 {
+      margin: 8px 0px;
+      color: black;
+
+      // &:hover {
+      //   color: $font-color-main;
+      // }
     }
   }
 }
@@ -36,7 +46,30 @@
   right: 20px;
   top: 20px;
 
-  & > button {
+  & > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
     margin: 10px 0px;
+    background-color: $blur-color;
+
+    &:hover {
+      background-color: $font-color-main;
+    }
+  }
+
+  @media screen and (max-width: $media-standard) {
+    // right: calc(20px + 12px);
+    right: 12px;
+    top: 0px;
+
+    & > div {
+      width: 20px;
+      height: 20px;
+      margin: 10px 0px;
+    }
   }
 }

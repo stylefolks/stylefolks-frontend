@@ -136,7 +136,7 @@ const Crew = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <main className={CrewPageStyle.container}>
+    <div className={CrewPageStyle.container}>
       <CrewProfile
         name={data?.getCrewByName.crew?.name}
         backgroundImg={data?.getCrewByName.crew?.backgroundImg || VacantImage}
@@ -151,7 +151,7 @@ const Crew = () => {
         crewId={data?.getCrewByName.crew.id}
         users={data?.getCrewByName.users}
       />
-    </main>
+    </div>
   );
 };
 
