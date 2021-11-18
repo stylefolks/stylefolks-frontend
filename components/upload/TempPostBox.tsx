@@ -168,6 +168,10 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
       router.push('/');
       return;
     }
+
+    // if (alert.title === '수정 게시물') {
+
+    // }
   };
 
   return userTempData?.getUserTemp.temps.length ? (

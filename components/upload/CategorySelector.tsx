@@ -64,40 +64,37 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   }, [loading]);
 
   useEffect(() => {
-    //folks, crew인 경우는 두번째 카테고리중 첫번째 값을 받아와야 함 . ->어쨌든 첫번째가 바뀌면
-    // 무조건 두번째 카테고리의 첫번째값이 세팅되어야 함.
-    //modify인 경우는 서버로 부터 받아온 두번째 값이 되어야함.
-
-    writtenPostVar({
-      ...post,
-      secondCategoryName: secondCategoryArr && secondCategoryArr[0].name,
-    });
+    if (secondCategoryArr) {
+      writtenPostVar({
+        ...post,
+        secondCategoryName: secondCategoryArr && secondCategoryArr[0].name,
+      });
+    }
   }, [post.firstCategoryName]);
 
   useEffect(() => {
-    // folks, crew인 경우는 첫번째 브랜드를 받아와야 함
-    //modify인 경우는 서버로 부터 받아온 브랜드나 크루값이 되어야 함.
+    if (data?.getCategoryByUserRole) {
+      if (writtenPostVar().firstCategoryName !== FirstCategoryName.FOLKS) {
+        writtenPostVar({ ...writtenPostVar(), brandId: null });
+      }
 
-    if (writtenPostVar().firstCategoryName !== FirstCategoryName.FOLKS) {
-      writtenPostVar({ ...writtenPostVar(), brandId: null });
-    }
+      if (writtenPostVar().firstCategoryName === FirstCategoryName.FOLKS) {
+        writtenPostVar({
+          ...writtenPostVar(),
+          brandId: data?.getCategoryByUserRole.brands[0].id,
+        });
+      }
 
-    if (writtenPostVar().firstCategoryName === FirstCategoryName.FOLKS) {
-      writtenPostVar({
-        ...writtenPostVar(),
-        brandId: data.getCategoryByUserRole.brands[0].id,
-      });
-    }
+      if (post.firstCategoryName !== FirstCategoryName.CREW) {
+        writtenPostVar({ ...writtenPostVar(), crewId: null });
+      }
 
-    if (post.firstCategoryName !== FirstCategoryName.CREW) {
-      writtenPostVar({ ...writtenPostVar(), crewId: null });
-    }
-
-    if (writtenPostVar().firstCategoryName === FirstCategoryName.CREW) {
-      writtenPostVar({
-        ...writtenPostVar(),
-        crewId: data.getCategoryByUserRole.crews[0].id,
-      });
+      if (writtenPostVar().firstCategoryName === FirstCategoryName.CREW) {
+        writtenPostVar({
+          ...writtenPostVar(),
+          crewId: data?.getCategoryByUserRole.crews[0].id,
+        });
+      }
     }
   }, [post.secondCategoryName]);
 
@@ -154,9 +151,6 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                 firstCategoryName: el.target.value as FirstCategoryName,
               });
             }}
-            onSelect={(el) => {
-              console.log('@@@@@', el);
-            }}
           >
             {data?.getCategoryByUserRole.firstCategory.map((el) => (
               <option key={el.name}>{el.name}</option>
@@ -173,7 +167,6 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                   )[0]?.name
                 }
                 onChange={(el) => {
-                  console.log(el, '생겨날때는 안되는거니 Brand');
                   const selectedIndex = el.target.options.selectedIndex;
                   const selectElement =
                     data.getCategoryByUserRole.brands[selectedIndex];
@@ -198,7 +191,6 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                   )[0]?.name
                 }
                 onChange={(el) => {
-                  console.log(el, '생겨날때는 안되는거니 crew');
                   const selectedIndex = el.target.options.selectedIndex;
                   const selectElement =
                     data.getCategoryByUserRole.crews[selectedIndex];

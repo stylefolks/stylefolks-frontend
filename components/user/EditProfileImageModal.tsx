@@ -121,14 +121,6 @@ const EditProfileImageModal = () => {
     }
   };
 
-  // const onConfirmAlert = () => {
-
-  //   router.reload();
-  //   refetch(); //여기도 나중에 캐시만 업데이트 하는 방식으로 변경하자
-  //   alertVar({ title: '', content: '', visible: false });
-  //   isVisibleProfileImageModalVar(false);
-  // };
-
   return (
     <>
       <Modal visible={modal}>
