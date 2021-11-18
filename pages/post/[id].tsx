@@ -47,7 +47,11 @@ export const Post = () => {
       crew,
       brand,
     } = data?.getEachPost.post;
-
+    postStatusVar({
+      ...postStatusVar(),
+      isModify: true,
+      modifyPostId: postId,
+    });
     writtenPostVar({
       title,
       contents,
@@ -57,12 +61,7 @@ export const Post = () => {
       crewId: crew ? crew.id : null,
       brandId: brand ? brand.id : null,
     });
-    postStatusVar({
-      ...postStatusVar(),
-      titleImageArr: data.getEachPost.post.image.map((el) => el.link),
-      isModify: true,
-      modifyPostId: postId,
-    });
+
     router.push('/upload');
   };
 

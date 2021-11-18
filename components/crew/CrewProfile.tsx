@@ -28,7 +28,7 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
             height="160px"
             unoptimized={true}
             placeholder="blur"
-            // blurDataURL={profileImg}
+            blurDataURL={profileImg as string}
           />
         </div>
         <h2>{name}</h2>

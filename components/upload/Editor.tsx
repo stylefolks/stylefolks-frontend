@@ -44,9 +44,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
   const post = useReactiveVar(writtenPostVar);
   const postStatus = useReactiveVar(postStatusVar);
   const { isTemp } = postStatus;
-  // const { isTemp, pickTempId, isModify } = useSelector(
-  //   (state: RootState) => state.upload
-  // );
+
   const editorRef = React.useRef<EditorType>();
   const handleChange = React.useCallback(() => {
     if (!editorRef.current) {
