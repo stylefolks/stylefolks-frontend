@@ -3,11 +3,9 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 // ====================================================
 // GraphQL query operation: getEachPostComments
 // ====================================================
-
 
 export interface getEachPostComments_getEachPostComments_comments_user {
   __typename: "User";

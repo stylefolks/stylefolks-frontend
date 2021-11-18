@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { EditProfileInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: editProfile
 // ====================================================
-
 
 export interface editProfile_editProfile {
   __typename: "EditProfileOutput";

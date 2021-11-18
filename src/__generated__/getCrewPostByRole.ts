@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { GetCrewPostByRoleInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCrewPostByRole
 // ====================================================
-
 
 export interface getCrewPostByRole_getCrewPostByRole_posts {
   __typename: "Posts";

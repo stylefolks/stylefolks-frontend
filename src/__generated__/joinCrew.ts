@@ -3,20 +3,22 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { JoinCrewInput } from "./globalTypes";
+
 // ====================================================
-// GraphQL mutation operation: deleteTemp
+// GraphQL mutation operation: joinCrew
 // ====================================================
 
-export interface deleteTemp_deleteTemp {
-  __typename: "DeleteTempOutput";
+export interface joinCrew_joinCrew {
+  __typename: "JoinCrewOutput";
   ok: boolean;
   error: string | null;
 }
 
-export interface deleteTemp {
-  deleteTemp: deleteTemp_deleteTemp;
+export interface joinCrew {
+  joinCrew: joinCrew_joinCrew;
 }
 
-export interface deleteTempVariables {
-  postId: number;
+export interface joinCrewVariables {
+  input: JoinCrewInput;
 }

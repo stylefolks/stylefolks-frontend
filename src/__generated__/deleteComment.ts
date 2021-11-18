@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { DeleteCommentInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: deleteComment
 // ====================================================
-
 
 export interface deleteComment_deleteComment {
   __typename: "DeleteCommentOutput";

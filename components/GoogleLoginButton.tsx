@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import GoogleLogo from '../public/google.png';
-import UtilStyle from '../styles/Util.module.scss';
+import UtilStyle from '../styles/common/Util.module.scss';
 
 const GoogleLoginButton = () => {
   return (
