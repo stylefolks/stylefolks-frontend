@@ -7,8 +7,8 @@ import { useForm } from 'react-hook-form';
 import { FormError } from '../components/FormError';
 import GoogleLoginButton from '../components/GoogleLoginButton';
 import { login, loginVariables } from '../src/__generated__/login';
+import UtilStyle from '../styles/common/Util.module.scss';
 import LoginStyle from '../styles/Login.module.scss';
-import UtilStyle from '../styles/Util.module.scss';
 
 interface ILoginForm {
   email: string;

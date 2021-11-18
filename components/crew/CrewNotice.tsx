@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import VacantImage from 'public/solidwhite.png';
 import { useState } from 'react';
-import { getCrewByName_getCrewByName_posts } from 'src/__generated__/getCrewByName';
 import {
   getPostByCategory,
   getPostByCategoryVariables,
@@ -19,11 +18,10 @@ import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
 interface IPropsCrewNotice {
-  posts: getCrewByName_getCrewByName_posts[];
   crewId: number;
 }
 
-const CrewNotice: React.FC<IPropsCrewNotice> = ({ posts, crewId }) => {
+const CrewNotice: React.FC<IPropsCrewNotice> = ({ crewId }) => {
   const [page, setPage] = useState<number>(1);
 
   const { data, loading, error } = useQuery<

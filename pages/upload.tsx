@@ -140,7 +140,19 @@ const Upload = () => {
   };
   const modifyPostOnCompleted = (data: modifyPost) => {
     if (data.modifyPost.ok) {
+      const modifyPostId = postStatusVar().modifyPostId;
+      postStatusVar({
+        ...postStatusVar(),
+        isModify: false,
+        modifyPostId: null,
+      });
       router.push(`/post/${modifyPostId}`);
+
+      // alertVar({
+      //   title: '수정 게시물',
+      //   content: '수정된 게시물의 업로드가 완료되었습니다. :)',
+      //   visible: true,
+      // });
     }
   };
 
@@ -317,7 +329,7 @@ const Upload = () => {
         document.contains(document.getElementsByClassName('folks-titleImg')[0])
       ) {
         handleTitleImage();
-        console.log("Observer: It's in dom!!!");
+        console.log("Observer: It's in dom!!! for titleImg");
         observer.disconnect();
       }
     });
@@ -336,7 +348,6 @@ const Upload = () => {
 
   useEffect(() => {
     console.log(post);
-    // handleTitleImage();
   }, [post]);
 
   if (createPostLoading || createTempLoading)

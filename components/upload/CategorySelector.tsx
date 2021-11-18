@@ -39,7 +39,6 @@ interface IProps {
 }
 
 const CategorySelector: React.FC<IProps> = ({ role }) => {
-  // const user = useReactiveVar(userInfoVar);
   const post = writtenPostVar();
   const { isModify } = useReactiveVar(postStatusVar);
 
@@ -51,7 +50,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
     // }
   );
   const secondCategoryArr = data?.getCategoryByUserRole.firstCategory.filter(
-    (el) => el.name === post.firstCategoryName
+    (el) => el.name === writtenPostVar().firstCategoryName
   )[0]?.secondCategory;
 
   useEffect(() => {
@@ -65,15 +64,39 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   }, [loading]);
 
   useEffect(() => {
-    if (!isModify) {
+    if (secondCategoryArr) {
       writtenPostVar({
         ...post,
         secondCategoryName: secondCategoryArr && secondCategoryArr[0].name,
-        crewId: null,
-        brandId: null,
       });
     }
   }, [post.firstCategoryName]);
+
+  useEffect(() => {
+    if (data?.getCategoryByUserRole) {
+      if (writtenPostVar().firstCategoryName !== FirstCategoryName.FOLKS) {
+        writtenPostVar({ ...writtenPostVar(), brandId: null });
+      }
+
+      if (writtenPostVar().firstCategoryName === FirstCategoryName.FOLKS) {
+        writtenPostVar({
+          ...writtenPostVar(),
+          brandId: data?.getCategoryByUserRole.brands[0].id,
+        });
+      }
+
+      if (post.firstCategoryName !== FirstCategoryName.CREW) {
+        writtenPostVar({ ...writtenPostVar(), crewId: null });
+      }
+
+      if (writtenPostVar().firstCategoryName === FirstCategoryName.CREW) {
+        writtenPostVar({
+          ...writtenPostVar(),
+          crewId: data?.getCategoryByUserRole.crews[0].id,
+        });
+      }
+    }
+  }, [post.secondCategoryName]);
 
   if (loading) {
     return <div>Loading ...</div>;
@@ -106,6 +129,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                 value={post.secondCategoryName}
                 onChange={(el) => {
                   const selectedIndex = el.target.options.selectedIndex;
+                  console.log('그럼 들어가자마자 얘로 되야하는거 아닌가');
                   writtenPostVar({
                     ...post,
                     secondCategoryName: el.target.value as SecondCategoryName,

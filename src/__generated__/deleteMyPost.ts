@@ -3,11 +3,9 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 // ====================================================
 // GraphQL mutation operation: deleteMyPost
 // ====================================================
-
 
 export interface deleteMyPost_deleteMyPost {
   __typename: "DeletePostOutput";

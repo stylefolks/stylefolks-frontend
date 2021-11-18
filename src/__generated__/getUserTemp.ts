@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { SecondCategoryName } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: getUserTemp
 // ====================================================
-
 
 export interface getUserTemp_getUserTemp_temps_firstCategory {
   __typename: "FirstCategory";

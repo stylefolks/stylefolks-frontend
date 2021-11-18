@@ -3,11 +3,9 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
-
 
 export enum CrewUserGrade {
   CrewManager = "CrewManager",
@@ -85,6 +83,10 @@ export interface DeleteCommentInput {
   commentId: number;
 }
 
+export interface DepartCrewInput {
+  crewName: string;
+}
+
 export interface EditProfileInput {
   nickname?: string | null;
   profileImg?: string | null;
@@ -115,6 +117,10 @@ export interface GetPostByCategoryInput {
   brandId?: number | null;
   crewId?: number | null;
   nickname?: string | null;
+}
+
+export interface JoinCrewInput {
+  crewName: string;
 }
 
 export interface LoginInput {
@@ -168,4 +174,3 @@ export interface VerifyEmailInput {
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
-
