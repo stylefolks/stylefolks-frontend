@@ -146,8 +146,11 @@ const Crew = () => {
         doDepart={doDepart}
       />
       <CrewJoinedPeople users={data?.getCrewByName.users} />
-      <CrewNotice crewId={data.getCrewByName.crew.id} />
-      <CrewOOTD crewId={data?.getCrewByName.crew.id} />
+      <CrewNotice crewId={data?.getCrewByName.crew.id} />
+      <CrewOOTD
+        crewId={data?.getCrewByName.crew.id}
+        users={data?.getCrewByName.users}
+      />
     </main>
   );
 };

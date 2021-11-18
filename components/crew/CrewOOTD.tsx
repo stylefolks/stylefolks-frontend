@@ -10,7 +10,8 @@ import gql from 'graphql-tag';
 import Image from 'next/image';
 import Link from 'next/link';
 import VacantImage from 'public/solidwhite.png';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { getCrewByName_getCrewByName_users } from 'src/__generated__/getCrewByName';
 import {
   getCrewPostByRole,
   getCrewPostByRoleVariables,
@@ -21,6 +22,7 @@ import UserPageStyle from 'styles/user/UserPage.module.scss';
 
 interface IPropsCrewOOTD {
   crewId: number;
+  users: getCrewByName_getCrewByName_users[];
 }
 
 const BUTTON_NAME_MAP = [
@@ -45,7 +47,7 @@ const GET_CREW_POST_BY_ROLE = gql`
   }
 `;
 
-const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId }) => {
+const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId, users }) => {
   const [role, setRole] = useState(CrewUserGrade.CrewManager);
   const [page, setPage] = useState<number>(1);
   // const [inputTake, setInputTake] = useState<number | null>(20);
@@ -53,10 +55,11 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId }) => {
   const handlePage = (_page: number) => {
     setPage(_page);
   };
-  const { data, loading, error } = useQuery<
+  const { data, loading, error, refetch } = useQuery<
     getCrewPostByRole,
     getCrewPostByRoleVariables
   >(GET_CREW_POST_BY_ROLE, {
+    nextFetchPolicy: 'cache-and-network',
     variables: {
       input: {
         grade: role,
@@ -67,7 +70,10 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId }) => {
     },
   });
 
-  console.log(data);
+  useEffect(() => {
+    refetch();
+  }, [users]);
+
   if (loading) return <div>Loading..</div>;
 
   return (
