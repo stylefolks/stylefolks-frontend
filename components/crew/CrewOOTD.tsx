@@ -5,6 +5,7 @@ import {
   faUserFriends,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import NoPost from 'components/common/NoPost';
 import PagesDivider from 'components/common/PagesDivider';
 import gql from 'graphql-tag';
 import UseWindowDimension from 'hooks/useWindowDimension';
@@ -97,30 +98,35 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId, users }) => {
           ))}
         </div>
         <div className={CrewPageStyle.crewOutfitContentsContainer}>
-          <ul className={CrewPageStyle.crewOutfitContentsWrapper}>
-            {data?.getCrewPostByRole.posts.map((el) => (
-              <li key={el.id}>
-                <Link href={`/post/${el.id}`}>
-                  <a>
-                    <div className={CrewPageStyle.gridImage}>
-                      <Image
-                        className="image"
-                        src={el.titleImg || VacantImage}
-                        layout="fill"
-                        alt={el.titleImg}
-                      />
-                    </div>
-                    <div>
-                      <span>{el.title}</span>
-                      <span>
-                        <FontAwesomeIcon icon={faCheck} /> {el.viewCount}
-                      </span>
-                    </div>
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {data?.getCrewPostByRole.posts.length ? (
+            <ul className={CrewPageStyle.crewOutfitContentsWrapper}>
+              {data?.getCrewPostByRole.posts.map((el) => (
+                <li key={el.id}>
+                  <Link href={`/post/${el.id}`}>
+                    <a>
+                      <div className={CrewPageStyle.gridImage}>
+                        <Image
+                          className="image"
+                          src={el.titleImg || VacantImage}
+                          layout="fill"
+                          alt={el.titleImg}
+                        />
+                      </div>
+                      <div>
+                        <span>{el.title}</span>
+                        <span>
+                          <FontAwesomeIcon icon={faCheck} /> {el.viewCount}
+                        </span>
+                      </div>
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <NoPost />
+          )}
+
           <div className={UserPageStyle.seeMoreButton}>
             <PagesDivider
               totalPages={data?.getCrewPostByRole.totalPages}

@@ -1,11 +1,11 @@
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { userInfoVar } from 'cache/common/common.cache';
+import CrewIntroduction from 'components/crew/CrewIntorduction';
 import CrewJoinedPeople from 'components/crew/CrewJoinedPeople';
 import CrewNotice from 'components/crew/CrewNotice';
 import CrewOOTD from 'components/crew/CrewOOTD';
 import CrewProfile from 'components/crew/CrewProfile';
 import { useRouter } from 'next/router';
-import VacantImage from 'public/solidwhite.png';
 import React from 'react';
 import { departCrew, departCrewVariables } from 'src/__generated__/departCrew';
 import {
@@ -24,8 +24,12 @@ const GET_CREW_BY_NAME = gql`
         id
         profileImg
         name
-        Introduction
+        introduction
         backgroundImg
+        link {
+          type
+          href
+        }
       }
       users {
         id
@@ -34,6 +38,9 @@ const GET_CREW_BY_NAME = gql`
         crewUser {
           grade
         }
+      }
+      manager {
+        id
       }
     }
   }
@@ -67,7 +74,7 @@ const Crew = () => {
   >(GET_CREW_BY_NAME, {
     variables: {
       input: {
-        name: id + '',
+        name: id as string,
       },
     },
   });
@@ -110,7 +117,7 @@ const Crew = () => {
   );
 
   const isJoined = data?.getCrewByName.users
-    .map((el) => el.id)
+    ?.map((el) => el.id)
     .includes(userInfoVar().id);
 
   const doJoin = () => {
@@ -138,13 +145,14 @@ const Crew = () => {
   return (
     <div className={CrewPageStyle.container}>
       <CrewProfile
-        name={data?.getCrewByName.crew?.name}
-        backgroundImg={data?.getCrewByName.crew?.backgroundImg || VacantImage}
-        profileImg={data?.getCrewByName.crew?.profileImg || VacantImage}
+        refetch={refetch}
+        data={data?.getCrewByName.crew}
+        managerId={data?.getCrewByName.manager.id}
         isJoined={isJoined}
         doJoin={doJoin}
         doDepart={doDepart}
       />
+      <CrewIntroduction introduction={data?.getCrewByName.crew.introduction} />
       <CrewJoinedPeople users={data?.getCrewByName.users} />
       <CrewNotice crewId={data?.getCrewByName.crew.id} />
       <CrewOOTD

@@ -2,8 +2,14 @@
   display: flex;
   align-items: center;
   font-size: 20px;
-  margin-bottom: 12px;
-  min-height: 48px;
+
+  @media screen and (max-width: $media-tablet) {
+    font-size: 20px;
+  }
+
+  @media screen and (max-width: $media-phone) {
+    font-size: 12px;
+  }
 
   & > div {
     width: 18px;

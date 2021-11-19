@@ -154,7 +154,13 @@
 .crewOutfitContainer {
   margin-top: 48px;
   margin-bottom: 48px;
-  @media screen and (max-width: 735px) {
+
+  @media screen and (max-width: $media-tablet) {
+    margin-top: 24px;
+    margin-bottom: 24px;
+  }
+
+  @media screen and (max-width: $media-phone) {
     margin-top: 12px;
     margin-bottom: 12px;
   }
@@ -162,11 +168,14 @@
 
 .crewOutfitWrapper {
   display: flex;
+  justify-content: space-between;
+  min-height: 404px;
 }
 
 .crewOutfitContentsContainer {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -177,8 +186,8 @@
   grid-template-columns: repeat(3, calc((100% - 12px - 0.1vw * 2) / 3));
   row-gap: 0.4vw;
   column-gap: 0.4vw;
-  width: 100%;
-  margin-left: 12px;
+
+  // margin: 0px 0px 12px 12px;
 
   & > li {
     position: relative;
@@ -205,7 +214,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            width: 80px;
+            width: 8vw;
             color: $font-color-main;
             display: block;
           }
@@ -215,13 +224,22 @@
     }
   }
 
-  @media screen and (max-width: 735px) {
+  @media screen and (max-width: $media-tablet) {
     grid-template-rows: repeat(3, 32.6vw);
-    grid-template-columns: repeat(3, calc((100% - 12px - 0.1vw * 2) / 3));
-    row-gap: 0.4vw;
-    column-gap: 0.4vw;
+    grid-template-columns: repeat(3, calc((100%) / 3 - 12px - 0.1vw * 3));
+    row-gap: 0.1vw;
+    column-gap: 0.1vw;
     width: 100%;
-    margin-left: 12px;
+  }
+
+  @media screen and (max-width: $media-phone) {
+    // grid-template-rows: repeat(3, 20.6vw);
+    grid-template-rows: repeat(auto-fill, minmax(110px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+
+    // grid-template-columns: repeat(3, 20.6vw);
+    row-gap: 0.1vw;
+    column-gap: 0.1vw;
   }
 }
 
@@ -266,5 +284,15 @@
       position: relative !important;
       height: unset !important;
     }
+  }
+}
+
+.crewIntroductionContainer {
+  & > h4 {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  & > span {
+    font-size: 16px;
   }
 }
