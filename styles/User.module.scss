@@ -2,7 +2,7 @@
   width: 100%;
   margin-top: 44px;
 
-  @media screen and (max-width: $media-standard) {
+  @media screen and (max-width: $media-phone) {
     margin-top: 0px;
   }
 }
@@ -30,7 +30,7 @@
     height: 30px;
   }
 
-  @media screen and (max-width: $media-standard) {
+  @media screen and (max-width: $media-phone) {
     padding-bottom: 20px;
     border-bottom: 1px solid $back-color-main;
   }
@@ -43,7 +43,7 @@
   & > div:nth-child(2) {
     margin-left: 50px;
 
-    @media screen and (max-width: $media-standard) {
+    @media screen and (max-width: $media-phone) {
       justify-content: center;
       margin-left: 12px;
     }
@@ -62,7 +62,7 @@
     }
   }
 
-  @media screen and (max-width: $media-standard) {
+  @media screen and (max-width: $media-phone) {
     width: $userpage-profile-size / 1.4;
     height: $userpage-profile-size / 1.4;
     h4,
@@ -140,7 +140,7 @@
     left: 0px;
   }
 
-  @media screen and (max-width: $media-standard) {
+  @media screen and (max-width: $media-phone) {
     width: $userpage-profile-size / 1.4;
     height: $userpage-profile-size / 1.4;
   }

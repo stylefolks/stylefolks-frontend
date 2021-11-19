@@ -27,7 +27,7 @@
     color: black;
   }
 
-  @media screen and (max-width: $media-standard) {
+  @media screen and (max-width: $media-phone) {
     margin: 8px 0px;
 
     & > h2 {
@@ -61,7 +61,7 @@
     }
   }
 
-  @media screen and (max-width: $media-standard) {
+  @media screen and (max-width: $media-phone) {
     // right: calc(20px + 12px);
     right: 12px;
     top: 0px;

@@ -154,6 +154,7 @@
 .crewOutfitContainer {
   margin-top: 48px;
   margin-bottom: 48px;
+
   @media screen and (max-width: 735px) {
     margin-top: 12px;
     margin-bottom: 12px;
@@ -178,7 +179,9 @@
   row-gap: 0.4vw;
   column-gap: 0.4vw;
   width: 100%;
-  margin-left: 12px;
+  margin: 0px 0px 12px 12px;
+  // margin-left: 12px;
+  // margin-bottom: 12px;
 
   & > li {
     position: relative;
@@ -215,7 +218,16 @@
     }
   }
 
-  @media screen and (max-width: 735px) {
+  @media screen and (max-width: $media-phone) {
+    grid-template-rows: repeat(3, 32.6vw);
+    grid-template-columns: repeat(3, calc((100% - 12px - 0.1vw * 2) / 3));
+    row-gap: 0.4vw;
+    column-gap: 0.4vw;
+    width: 100%;
+    margin-left: 12px;
+  }
+
+  @media screen and (max-width: $media-tablet) {
     grid-template-rows: repeat(3, 32.6vw);
     grid-template-columns: repeat(3, calc((100% - 12px - 0.1vw * 2) / 3));
     row-gap: 0.4vw;
