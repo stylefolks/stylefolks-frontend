@@ -1,11 +1,12 @@
 import { useQuery } from '@apollo/client';
+import NoPost from 'components/common/NoPost';
 import PagesDivider from 'components/common/PagesDivider';
 import format from 'date-fns/format';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import VacantImage from 'public/solidwhite.png';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   getPostByCategory,
   getPostByCategoryVariables,
@@ -49,45 +50,52 @@ const CrewNotice: React.FC<IPropsCrewNotice> = ({ crewId }) => {
     <div className={CrewPageStyle.crewNoticeContainer}>
       <h2>NOTICE</h2>
       <div>
-        <ul>
-          {data?.getPostByCategory.post?.map((el) => (
-            <li
-              key={el.id}
-              className={CrewPageStyle.noticeWrapper}
-              onClick={() => router.push(`/post/${el.id}`)}
-            >
-              <div>
-                <div className={UtilStyle.imageContainer}>
-                  <Image
-                    className="image"
-                    src={el.titleImg || VacantImage}
-                    layout="fill"
-                    alt={el.title}
-                  />
-                </div>
-                <div className={CrewPageStyle.eachNoticeInfoWrapper}>
-                  <h3>DATE : {format(new Date(el.createdAt), 'yyyy-MM-dd')}</h3>
-                  <h3>TITLE : {el.title}</h3>
-                  <h3>VIEW : {el.viewCount}</h3>
-                </div>
-              </div>
-              <div className={CrewPageStyle.eachNoticeWritterWrapper}>
-                <h3>By </h3>
+        {data?.getPostByCategory.post.length ? (
+          <ul>
+            {data?.getPostByCategory.post?.map((el) => (
+              <li
+                key={el.id}
+                className={CrewPageStyle.noticeWrapper}
+                onClick={() => router.push(`/post/${el.id}`)}
+              >
                 <div>
-                  <div className={UtilStyle.imageSmallCircleContainer}>
+                  <div className={UtilStyle.imageContainer}>
                     <Image
                       className="image"
-                      src={el.user.profileImg || VacantImage}
+                      src={el.titleImg || VacantImage}
                       layout="fill"
-                      alt={el.user.profileImg}
+                      alt={el.title}
                     />
                   </div>
-                  <h4>{el.user.nickname}</h4>
+                  <div className={CrewPageStyle.eachNoticeInfoWrapper}>
+                    <h3>
+                      DATE : {format(new Date(el.createdAt), 'yyyy-MM-dd')}
+                    </h3>
+                    <h3>TITLE : {el.title}</h3>
+                    <h3>VIEW : {el.viewCount}</h3>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+                <div className={CrewPageStyle.eachNoticeWritterWrapper}>
+                  <h3>By </h3>
+                  <div>
+                    <div className={UtilStyle.imageSmallCircleContainer}>
+                      <Image
+                        className="image"
+                        src={el.user.profileImg || VacantImage}
+                        layout="fill"
+                        alt={el.user.profileImg}
+                      />
+                    </div>
+                    <h4>{el.user.nickname}</h4>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <NoPost />
+          // <div>No Post Yet</div>
+        )}
         <PagesDivider
           totalPages={data?.getPostByCategory.totalPages}
           totalResults={data?.getPostByCategory.totalResults}

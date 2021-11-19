@@ -169,11 +169,13 @@
 .crewOutfitWrapper {
   display: flex;
   justify-content: space-between;
+  min-height: 404px;
 }
 
 .crewOutfitContentsContainer {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
 }
 
