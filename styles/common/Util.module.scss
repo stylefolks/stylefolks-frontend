@@ -339,3 +339,55 @@ $delayandduration: 4;
   align-items: center;
   margin: 2vw 0px;
 }
+
+.modalContainer {
+  position: relative;
+
+  border: 1px solid $back-color-main;
+  border-radius: 20px;
+  background-color: white;
+  overflow: hidden;
+  padding: 28px;
+  // border-radius: 12px;
+
+  & > button {
+    width: 40px;
+    height: 40px;
+    right: 15px;
+    top: 15px;
+
+    &:hover {
+      color: $font-color-main;
+    }
+  }
+}
+
+.modalInputWrapper {
+  display: flex;
+  flex-direction: column;
+
+  & > label {
+    font-size: 16px;
+  }
+
+  & > input {
+    height: 24px;
+    margin: 8px 0px;
+  }
+
+  & > button {
+    margin: 8px 0px;
+  }
+}
+
+.modalButtonWrapper {
+  display: flex;
+
+  & > button {
+    margin: 0px;
+
+    &:first-child {
+      margin-right: 4px;
+    }
+  }
+}

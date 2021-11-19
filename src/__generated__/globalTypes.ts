@@ -7,6 +7,12 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum CrewLinkType {
+  HOME = "HOME",
+  INSTAGRAM = "INSTAGRAM",
+  YOUTUBE = "YOUTUBE",
+}
+
 export enum CrewUserGrade {
   CrewManager = "CrewManager",
   CrewMaster = "CrewMaster",
@@ -78,6 +84,11 @@ export interface CreateTempInput {
   brandId?: number | null;
 }
 
+export interface CrewLinkOptionInputType {
+  type: CrewLinkType;
+  href: string;
+}
+
 export interface DeleteCommentInput {
   postId: number;
   commentId: number;
@@ -132,6 +143,15 @@ export interface ModifyCommentInput {
   postId: number;
   comment: string;
   commentId: number;
+}
+
+export interface ModifyCrewInput {
+  name?: string | null;
+  link?: CrewLinkOptionInputType[] | null;
+  profileImg?: string | null;
+  backgroundImg?: string | null;
+  introduction?: string | null;
+  crewName: string;
 }
 
 export interface ModifyMyPostInput {

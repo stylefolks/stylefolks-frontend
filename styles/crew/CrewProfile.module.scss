@@ -73,3 +73,16 @@
     }
   }
 }
+
+.linkWrapper {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
