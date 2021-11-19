@@ -25,7 +25,7 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
   const { width, height } = UseWindowDimension();
 
   return (
-    <section
+    <div
       style={{ backgroundImage: `url(${backgroundImg})` }}
       className={CrewProfileStyle.container}
     >
@@ -68,7 +68,7 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
           /> */}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
