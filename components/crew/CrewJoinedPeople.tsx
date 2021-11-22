@@ -40,10 +40,10 @@ const CrewJoinedPeople: React.FC<ICrewJoinedPeople> = ({
           <ul>
             {users?.map((el) => (
               <SmallCircleProfile
-                link={`/user/${el.nickname}`}
-                key={el.id}
-                name={el.nickname}
-                profileImg={el.profileImg}
+                link={`/user/${el.user.nickname}`}
+                key={el.user.id}
+                name={el.user.nickname}
+                profileImg={el.user.profileImg}
               />
             ))}
           </ul>

@@ -384,6 +384,7 @@ $delayandduration: 4;
   display: flex;
   flex-direction: column;
   margin-top: 12px;
+  width: 100%;
 
   & > div {
     display: flex;
@@ -399,4 +400,11 @@ $delayandduration: 4;
       }
     }
   }
+}
+
+.smallCircleProfileWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+  overflow: hidden;
 }

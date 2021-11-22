@@ -86,7 +86,7 @@ export interface CreateTempInput {
 
 export interface CrewLinkOptionInputType {
   type: CrewLinkType;
-  href: string;
+  href?: string | null;
 }
 
 export interface DeleteCommentInput {

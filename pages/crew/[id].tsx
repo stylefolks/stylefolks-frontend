@@ -32,11 +32,12 @@ const GET_CREW_BY_NAME = gql`
         }
       }
       users {
-        id
-        nickname
-        profileImg
-        crewUser {
-          grade
+        grade
+        user {
+          id
+          nickname
+          profileImg
+          link
         }
       }
       manager {
@@ -117,7 +118,7 @@ const Crew = () => {
   );
 
   const isJoined = data?.getCrewByName.users
-    ?.map((el) => el.id)
+    ?.map((el) => el.user.id)
     .includes(userInfoVar().id);
 
   const doJoin = () => {
