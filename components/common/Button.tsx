@@ -7,7 +7,9 @@ interface IButtonProps {
   width?: string;
   height?: string;
   fontSize?: string;
-  onClick?: () => void;
+  onClick?:
+    | (() => void)
+    | ((e: React.MouseEvent<HTMLButtonElement>) => Promise<void>);
   name?: string;
 }
 

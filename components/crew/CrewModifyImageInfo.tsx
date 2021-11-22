@@ -3,9 +3,15 @@ import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
-interface IPropsCrewModifyImageInfo {}
+interface IPropsCrewModifyImageInfo {
+  crewProfileImage: string;
+  crewBackgroundImage: string;
+}
 
-const CrewModifyImageInfo: React.FC<IPropsCrewModifyImageInfo> = () => {
+const CrewModifyImageInfo: React.FC<IPropsCrewModifyImageInfo> = ({
+  crewProfileImage,
+  crewBackgroundImage,
+}) => {
   const router = useRouter();
   const profileRef = useRef<HTMLInputElement>(null);
   const backgroundRef = useRef<HTMLInputElement>(null);
@@ -51,6 +57,49 @@ const CrewModifyImageInfo: React.FC<IPropsCrewModifyImageInfo> = () => {
     }
   };
 
+  const onDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button: HTMLButtonElement = e.currentTarget;
+    let body;
+
+    try {
+      if (button.name === 'deleteCrewProfile') {
+        body = JSON.stringify({
+          crewName: router.query['id'] as string,
+          type: 'profileImage',
+          link: crewProfileImage,
+        });
+      }
+
+      if (button.name === 'deleteCrewBackground') {
+        body = JSON.stringify({
+          crewName: router.query['id'] as string,
+          type: 'backgroundImage',
+          link: crewBackgroundImage,
+        });
+      }
+
+      const res = await (
+        await fetch('http://localhost:4000/images/crew', {
+          method: 'PUT',
+          body,
+          headers: {
+            'Content-Type': 'application/json',
+            'folks-token': localStorage.getItem('folks-token'),
+          },
+        })
+      ).json();
+
+      if (res.status === 200) {
+        router.reload();
+      } else {
+        window.alert('삭제에 실패하였습니다.');
+      }
+    } catch (e) {
+      console.log(e);
+      window.alert('에러가 발생했습니다.');
+    }
+  };
+
   return (
     <section className={CrewPageStyle.modifyImageContainer}>
       <div>
@@ -63,9 +112,11 @@ const CrewModifyImageInfo: React.FC<IPropsCrewModifyImageInfo> = () => {
           onClick={() => profileRef.current.click()}
         />
         <Button
+          name="deleteCrewProfile"
           actionText="Remove current profile photo"
           canClick
           loading={false}
+          onClick={onDelete}
         />
         <input
           ref={profileRef}
@@ -86,8 +137,10 @@ const CrewModifyImageInfo: React.FC<IPropsCrewModifyImageInfo> = () => {
           onClick={() => backgroundRef.current.click()}
         />
         <Button
+          name="deleteCrewBackground"
           actionText="Remove current background photo"
           canClick
+          onClick={onDelete}
           loading={false}
         />
         <input

@@ -129,7 +129,10 @@ const CrewModifyModal: React.FC<ICrewModifyModalProps> = ({
         <section className={UtilStyle.modalContainer}>
           <h2>Change Crew Detail</h2>
           {isImageChange ? (
-            <CrewModifyImageInfo />
+            <CrewModifyImageInfo
+              crewBackgroundImage={data?.backgroundImg}
+              crewProfileImage={data?.profileImg}
+            />
           ) : (
             <CrewModifyTextInfo
               crewInfo={crewInfo}
