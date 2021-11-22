@@ -56,6 +56,8 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
     return <div>Error</div>;
   }
 
+  console.log(backgroundImg);
+
   return (
     <div
       style={{ backgroundImage: `url(${backgroundImg})` }}

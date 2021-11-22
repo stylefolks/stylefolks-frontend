@@ -8,6 +8,7 @@ interface IButtonProps {
   height?: string;
   fontSize?: string;
   onClick?: () => void;
+  name?: string;
 }
 
 export const Button: React.FC<IButtonProps> = ({
@@ -15,10 +16,12 @@ export const Button: React.FC<IButtonProps> = ({
   loading,
   actionText,
   onClick,
+  name,
 }) => {
   return (
     <>
       <button
+        name={name ? name : ''}
         onClick={onClick}
         className={`${UtilStyle.button} ${
           canClick ? 'ableButton' : 'disabledClickButton'
