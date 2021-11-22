@@ -1,7 +1,7 @@
 import { userInfoVar } from 'cache/common/common.cache';
 import UseWindowDimension from 'hooks/useWindowDimension';
 import Image from 'next/image';
-import vacantImage from 'public/solidwhite.png';
+import vacantImage from 'public/vacantImage.png';
 import ProfileStyle from 'styles/Profile.module.scss';
 
 interface IPropsLoggedInUserProfileImage {

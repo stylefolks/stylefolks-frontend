@@ -4,7 +4,7 @@ import { Button } from 'components/common/Button';
 import gql from 'graphql-tag';
 import Modal from 'HOC/Modal';
 import { useRouter } from 'next/router';
-import { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   getCrewByName,
   getCrewByNameVariables,
@@ -14,6 +14,8 @@ import {
 import { CrewLinkType } from 'src/__generated__/globalTypes';
 import { modifyCrew, modifyCrewVariables } from 'src/__generated__/modifyCrew';
 import UtilStyle from 'styles/common/Util.module.scss';
+import CrewModifyImageInfo from './CrewModifyImageInfo';
+import CrewModifyTextInfo from './CrewModifyTextInfo';
 
 interface ICrewModifyModalProps {
   visible: boolean;
@@ -24,7 +26,7 @@ interface ICrewModifyModalProps {
   data: getCrewByName_getCrewByName_crew;
 }
 
-interface ICrewInfo {
+export interface ICrewInfo {
   name: string;
   link: getCrewByName_getCrewByName_crew_link[];
   introduction: string;
@@ -46,6 +48,7 @@ const CrewModifyModal: React.FC<ICrewModifyModalProps> = ({
   refetch,
 }) => {
   const router = useRouter();
+  const [isImageChange, setIsImageChange] = useState<boolean>(false);
   const [crewInfo, setCrewInfo] = useState<ICrewInfo>({
     name: '',
     link: [],
@@ -72,6 +75,7 @@ const CrewModifyModal: React.FC<ICrewModifyModalProps> = ({
       router.push(`/crew/${crewInfo.name}`);
     }
     if (data.modifyCrew.error) {
+      console.log(data.modifyCrew.error);
       window.alert('크루 수정 에러가 발생했습니다.');
     }
   };
@@ -86,12 +90,11 @@ const CrewModifyModal: React.FC<ICrewModifyModalProps> = ({
   useEffect(() => {
     if (data) {
       const { name, link, introduction } = data;
-      console.log('came from props', link);
 
       setCrewInfo({
-        name,
+        name: name ? name : '',
         link,
-        introduction,
+        introduction: introduction ? introduction : '',
       });
     }
     () => {
@@ -103,7 +106,7 @@ const CrewModifyModal: React.FC<ICrewModifyModalProps> = ({
     };
   }, [data]);
 
-  const handleLinkOnChange = (type: CrewLinkType, href: string) => {
+  const handleLinkOnChange = (type: CrewLinkType, href: string): void => {
     setCrewInfo({
       ...crewInfo,
       link: [...crewInfo.link].map((el) => {
@@ -118,69 +121,55 @@ const CrewModifyModal: React.FC<ICrewModifyModalProps> = ({
         }
       }),
     });
-    //1.type통해서 배열내의 해당 객체 찾기
-    //2. 스프레드 연산자로 해당객체만 셋 스테이팅 하기
   };
-
-  useEffect(() => {
-    console.log('in useEffect', crewInfo.link);
-  }, [crewInfo]);
 
   return (
     <Modal visible={visible}>
       <BackDrop>
         <section className={UtilStyle.modalContainer}>
           <h2>Change Crew Detail</h2>
-          <div className={UtilStyle.modalInputWrapper}>
-            <label htmlFor="crewName">Name</label>
-            <input
-              value={crewInfo.name}
-              onChange={(e) =>
-                setCrewInfo({ ...crewInfo, name: e.target.value })
-              }
-              placeholder="Hello Crew"
-              name="crewName"
-              type="text"
-              className={UtilStyle.input}
+          {isImageChange ? (
+            <CrewModifyImageInfo
+              crewBackgroundImage={data?.backgroundImg}
+              crewProfileImage={data?.profileImg}
             />
-            <label htmlFor="introduction">Introduction</label>
-            <input
-              value={crewInfo.introduction}
-              onChange={(e) =>
-                setCrewInfo({ ...crewInfo, introduction: e.target.value })
-              }
-              placeholder="Crew for new folks"
-              name="Introduction"
-              type="text"
-              className={UtilStyle.input}
+          ) : (
+            <CrewModifyTextInfo
+              crewInfo={crewInfo}
+              handleLinkOnChange={handleLinkOnChange}
+              setCrewInfo={setCrewInfo}
             />
-            <h4>Link List</h4>
-            {crewInfo.link.map((el) => (
-              <>
-                <label htmlFor={el.type}>{el.type}</label>
-                <input
-                  value={el.href}
-                  type="text"
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    handleLinkOnChange(el.type, e.target.value)
-                  }
-                />
-              </>
-            ))}
-          </div>
+          )}
+
           <div className={UtilStyle.modalButtonWrapper}>
-            <Button
-              actionText="SAVE"
-              onClick={onSave}
-              loading={false}
-              canClick
-            />
-            <Button
-              actionText="QUIT"
-              onClick={onQuit}
-              loading={false}
-              canClick
-            />
+            <div>
+              <Button
+                actionText={
+                  isImageChange ? 'Back To Text Change' : 'Change Image'
+                }
+                onClick={() => setIsImageChange((prev) => !prev)}
+                loading={false}
+                canClick
+              />
+            </div>
+            {isImageChange ? (
+              ''
+            ) : (
+              <div>
+                <Button
+                  actionText="SAVE"
+                  onClick={onSave}
+                  loading={false}
+                  canClick
+                />
+                <Button
+                  actionText="QUIT"
+                  onClick={onQuit}
+                  loading={false}
+                  canClick
+                />
+              </div>
+            )}
           </div>
         </section>
       </BackDrop>

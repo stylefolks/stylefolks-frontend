@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import vacantImage from 'public/solidwhite.png';
+import vacantImage from 'public/vacantImage.png';
 import UserStyle from 'styles/User.module.scss';
 
 interface IPropsSmallCircleProfile {

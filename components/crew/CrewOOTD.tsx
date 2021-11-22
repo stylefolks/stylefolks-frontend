@@ -11,7 +11,7 @@ import gql from 'graphql-tag';
 import UseWindowDimension from 'hooks/useWindowDimension';
 import Image from 'next/image';
 import Link from 'next/link';
-import VacantImage from 'public/solidwhite.png';
+import VacantImage from 'public/vacantImage.png';
 import React, { useEffect, useState } from 'react';
 import { getCrewByName_getCrewByName_users } from 'src/__generated__/getCrewByName';
 import {

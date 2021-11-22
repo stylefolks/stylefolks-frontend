@@ -6,7 +6,7 @@ import { GET_USER_ALL_POST } from 'graphql/queries';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import whiteImage from 'public/solidwhite.png';
+import whiteImage from 'public/vacantImage.png';
 import {
   deleteMyPost,
   deleteMyPostVariables,
