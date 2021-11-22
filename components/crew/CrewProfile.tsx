@@ -12,6 +12,7 @@ import { mediaStandard } from 'constants/constants';
 import UseWindowDimension from 'hooks/useWindowDimension';
 import Image from 'next/image';
 import Link from 'next/link';
+import vacantImage from 'public/vacantImage.png';
 import React, { useState } from 'react';
 import {
   getCrewByName,
@@ -74,13 +75,13 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
         </div>
         <div className={CrewProfileStyle.imgWrapper}>
           <Image
-            src={profileImg}
+            src={profileImg ? profileImg : vacantImage}
             alt="profile-image"
             width={width > mediaStandard ? '160px' : '80px'}
             height={width > mediaStandard ? '160px' : '80px'}
             unoptimized={true}
-            placeholder="blur"
-            blurDataURL={profileImg as string}
+            // placeholder="blur"
+            // blurDataURL={profileImg as string}
           />
         </div>
         <h2>{name}</h2>

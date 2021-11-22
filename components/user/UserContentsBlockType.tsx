@@ -2,7 +2,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
-import VacantImage from 'public/solidwhite.png';
+import VacantImage from 'public/vacantImage.png';
 import { getPostByCategory } from 'src/__generated__/getPostByCategory';
 import UserStyle from 'styles/User.module.scss';
 import UserContentsBlockTypeStyle from 'styles/user/component/UserContentsBlockType.module.scss';

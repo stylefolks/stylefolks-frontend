@@ -146,18 +146,20 @@ const Crew = () => {
     <div className={CrewPageStyle.container}>
       <CrewProfile
         refetch={refetch}
-        data={data?.getCrewByName.crew}
-        managerId={data?.getCrewByName.manager.id}
+        data={data?.getCrewByName?.crew}
+        managerId={data?.getCrewByName?.manager?.id}
         isJoined={isJoined}
         doJoin={doJoin}
         doDepart={doDepart}
       />
-      <CrewIntroduction introduction={data?.getCrewByName.crew.introduction} />
-      <CrewJoinedPeople users={data?.getCrewByName.users} />
-      <CrewNotice crewId={data?.getCrewByName.crew.id} />
+      <CrewIntroduction
+        introduction={data?.getCrewByName?.crew?.introduction}
+      />
+      <CrewJoinedPeople users={data?.getCrewByName?.users} />
+      <CrewNotice crewId={data?.getCrewByName?.crew?.id} />
       <CrewOOTD
-        crewId={data?.getCrewByName.crew.id}
-        users={data?.getCrewByName.users}
+        crewId={data?.getCrewByName?.crew?.id}
+        users={data?.getCrewByName?.users}
       />
     </div>
   );

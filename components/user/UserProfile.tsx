@@ -16,7 +16,7 @@ import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import vacantImage from 'public/solidwhite.png';
+import vacantImage from 'public/vacantImage.png';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {

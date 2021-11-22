@@ -5,7 +5,7 @@ import format from 'date-fns/format';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import VacantImage from 'public/solidwhite.png';
+import VacantImage from 'public/vacantImage.png';
 import React, { useState } from 'react';
 import {
   getPostByCategory,
