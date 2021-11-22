@@ -12,7 +12,7 @@ import { GetCrewByNameInput, CrewLinkType, CrewUserGrade } from "./globalTypes";
 export interface getCrewByName_getCrewByName_crew_link {
   __typename: "CrewLinkOption";
   type: CrewLinkType;
-  href: string;
+  href: string | null;
 }
 
 export interface getCrewByName_getCrewByName_crew {
@@ -22,20 +22,21 @@ export interface getCrewByName_getCrewByName_crew {
   name: string;
   introduction: string | null;
   backgroundImg: string | null;
-  link: getCrewByName_getCrewByName_crew_link[] | null;
+  link: getCrewByName_getCrewByName_crew_link[];
 }
 
-export interface getCrewByName_getCrewByName_users_crewUser {
-  __typename: "CrewUsers";
-  grade: CrewUserGrade;
-}
-
-export interface getCrewByName_getCrewByName_users {
+export interface getCrewByName_getCrewByName_users_user {
   __typename: "User";
   id: number;
   nickname: string;
   profileImg: string | null;
-  crewUser: getCrewByName_getCrewByName_users_crewUser;
+  link: string | null;
+}
+
+export interface getCrewByName_getCrewByName_users {
+  __typename: "CrewUsers";
+  grade: CrewUserGrade;
+  user: getCrewByName_getCrewByName_users_user;
 }
 
 export interface getCrewByName_getCrewByName_manager {

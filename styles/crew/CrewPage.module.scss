@@ -332,13 +332,42 @@
 .crewManagePeopleModalContainer {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   background-color: white;
-  min-width: 400px;
+  min-width: 360px;
+  padding: 2vw;
+  border-radius: 20px;
 
   & > ul {
+    margin: 2rem 0px;
     background-color: white;
+    width: 100%;
+    overflow-x: scroll;
+    height: 200px;
+
     & > li {
-      width: fit-content;
+      // width: calc(100% - 0.4rem * 2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid $back-color-main;
+      margin: 8px 0px;
+      border-radius: 10px;
+
+      & > div {
+        margin: 0.4rem;
+        display: flex;
+        align-items: center;
+        & > span {
+          margin-left: 12px;
+        }
+      }
+
+      & > button {
+        width: fit-content;
+        margin: 0px 0px 0px 12px;
+      }
     }
   }
 }
