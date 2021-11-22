@@ -155,7 +155,10 @@ const Crew = () => {
       <CrewIntroduction
         introduction={data?.getCrewByName?.crew?.introduction}
       />
-      <CrewJoinedPeople users={data?.getCrewByName?.users} />
+      <CrewJoinedPeople
+        users={data?.getCrewByName?.users}
+        managerId={data?.getCrewByName?.manager?.id}
+      />
       <CrewNotice crewId={data?.getCrewByName?.crew?.id} />
       <CrewOOTD
         crewId={data?.getCrewByName?.crew?.id}
