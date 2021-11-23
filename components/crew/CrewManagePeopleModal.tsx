@@ -1,8 +1,9 @@
-import { useMutation } from '@apollo/client';
+import { ApolloQueryResult, useMutation } from '@apollo/client';
 import { modalVisibleVar, userInfoVar } from 'cache/common/common.cache';
 import BackDrop from 'components/common/BackDrop';
 import { Button } from 'components/common/Button';
 import CircleProfileImage from 'components/common/CircleProfileImage';
+import PageChange from 'components/pageChange/PageChange';
 import gql from 'graphql-tag';
 import Modal from 'HOC/Modal';
 import React from 'react';
@@ -10,7 +11,11 @@ import {
   changeCrewUserGrade,
   changeCrewUserGradeVariables,
 } from 'src/__generated__/changeCrewUserGrade';
-import { getCrewByName_getCrewByName_users } from 'src/__generated__/getCrewByName';
+import {
+  getCrewByName,
+  getCrewByNameVariables,
+  getCrewByName_getCrewByName_users,
+} from 'src/__generated__/getCrewByName';
 import { CrewUserGrade } from 'src/__generated__/globalTypes';
 import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
@@ -28,18 +33,25 @@ interface IProps {
   crewName: string;
   isVisible: boolean;
   users: getCrewByName_getCrewByName_users[];
+  refetch: (
+    variables?: Partial<getCrewByNameVariables>
+  ) => Promise<ApolloQueryResult<getCrewByName>>;
 }
 
 const CrewManagePeopleModal: React.FC<IProps> = ({
   users,
   isVisible,
-
+  refetch,
   crewName,
 }) => {
   // const visibleVar = useReactiveVar(modalVisibleVar);
   const onCompleted = (data: changeCrewUserGrade) => {
     if (data.changeCrewUserGrade.ok) {
       window.alert('등급 변경이 완료되었습니다!');
+      refetch();
+    }
+    if (data.changeCrewUserGrade.error) {
+      window.alert('에러가 발생했습니다');
     }
   };
 
@@ -47,8 +59,6 @@ const CrewManagePeopleModal: React.FC<IProps> = ({
     changeCrewUserGrade,
     changeCrewUserGradeVariables
   >(CHANGE_CREW_USER_GRADE, { onCompleted });
-
-  console.log(users);
 
   const handleCrewUserGrade = ({
     nickname,
@@ -71,7 +81,7 @@ const CrewManagePeopleModal: React.FC<IProps> = ({
     });
   };
 
-  console.log(isVisible);
+  if (loading) return <PageChange />;
 
   return (
     <Modal visible={isVisible}>

@@ -169,6 +169,7 @@ const Crew = () => {
         users={data?.getCrewByName?.users}
       />
       <CrewManagePeopleModal
+        refetch={refetch}
         crewName={data.getCrewByName.crew.name}
         users={data?.getCrewByName?.users}
         isVisible={visible.isVisibleCrewUserManageModal}
