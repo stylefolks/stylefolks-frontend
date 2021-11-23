@@ -3,6 +3,7 @@ import {
   alertVar,
   authTokenVar,
   isLoggedInVar,
+  modalVisibleVar,
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
@@ -41,6 +42,12 @@ export const writtenPost = {
 export const postStatus = {
   read() {
     return postStatusVar();
+  },
+};
+
+export const modalVisible = {
+  read() {
+    return modalVisibleVar();
   },
 };
 

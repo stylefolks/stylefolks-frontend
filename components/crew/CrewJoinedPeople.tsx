@@ -1,11 +1,10 @@
 import { faUsersCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { userInfoVar } from 'cache/common/common.cache';
+import { modalVisibleVar, userInfoVar } from 'cache/common/common.cache';
 import SmallCircleProfile from 'components/common/SmallCircleProfile';
-import React, { useState } from 'react';
+import React from 'react';
 import { getCrewByName_getCrewByName_users } from 'src/__generated__/getCrewByName';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
-import CrewManagePeopleModal from './CrewManagePeopleModal';
 
 interface ICrewJoinedPeople {
   users: getCrewByName_getCrewByName_users[];
@@ -16,8 +15,6 @@ const CrewJoinedPeople: React.FC<ICrewJoinedPeople> = ({
   users,
   managerId,
 }) => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-
   return (
     <div className={CrewPageStyle.joinedPeopleContaier}>
       {users?.length ? (
@@ -29,7 +26,14 @@ const CrewJoinedPeople: React.FC<ICrewJoinedPeople> = ({
                 <FontAwesomeIcon
                   icon={faUsersCog}
                   size="2x"
-                  onClick={() => setIsVisible((prev) => !prev)}
+                  onClick={() => {
+                    console.log('onclick??', modalVisibleVar());
+
+                    modalVisibleVar({
+                      ...modalVisibleVar(),
+                      isVisibleCrewUserManageModal: true,
+                    });
+                  }}
                 />
               </div>
             ) : (
@@ -51,11 +55,6 @@ const CrewJoinedPeople: React.FC<ICrewJoinedPeople> = ({
       ) : (
         ''
       )}
-      <CrewManagePeopleModal
-        users={users}
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-      />
     </div>
   );
 };
