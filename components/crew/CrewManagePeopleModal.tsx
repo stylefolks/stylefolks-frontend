@@ -1,26 +1,87 @@
-import { userInfoVar } from 'cache/common/common.cache';
+import { ApolloQueryResult, useMutation } from '@apollo/client';
+import { modalVisibleVar, userInfoVar } from 'cache/common/common.cache';
 import BackDrop from 'components/common/BackDrop';
 import { Button } from 'components/common/Button';
 import CircleProfileImage from 'components/common/CircleProfileImage';
+import PageChange from 'components/pageChange/PageChange';
+import gql from 'graphql-tag';
 import Modal from 'HOC/Modal';
 import React from 'react';
-import { getCrewByName_getCrewByName_users } from 'src/__generated__/getCrewByName';
+import {
+  changeCrewUserGrade,
+  changeCrewUserGradeVariables,
+} from 'src/__generated__/changeCrewUserGrade';
+import {
+  getCrewByName,
+  getCrewByNameVariables,
+  getCrewByName_getCrewByName_users,
+} from 'src/__generated__/getCrewByName';
 import { CrewUserGrade } from 'src/__generated__/globalTypes';
 import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
+const CHANGE_CREW_USER_GRADE = gql`
+  mutation changeCrewUserGrade($input: ChangeCrewUserGradeInput!) {
+    changeCrewUserGrade(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
 interface IProps {
+  crewName: string;
   isVisible: boolean;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   users: getCrewByName_getCrewByName_users[];
+  refetch: (
+    variables?: Partial<getCrewByNameVariables>
+  ) => Promise<ApolloQueryResult<getCrewByName>>;
 }
 
 const CrewManagePeopleModal: React.FC<IProps> = ({
   users,
   isVisible,
-  setIsVisible,
+  refetch,
+  crewName,
 }) => {
-  console.log(users);
+  // const visibleVar = useReactiveVar(modalVisibleVar);
+  const onCompleted = (data: changeCrewUserGrade) => {
+    if (data.changeCrewUserGrade.ok) {
+      window.alert('등급 변경이 완료되었습니다!');
+      refetch();
+    }
+    if (data.changeCrewUserGrade.error) {
+      window.alert('에러가 발생했습니다');
+    }
+  };
+
+  const [changeCrewUserGradeMutation, { data, loading, error }] = useMutation<
+    changeCrewUserGrade,
+    changeCrewUserGradeVariables
+  >(CHANGE_CREW_USER_GRADE, { onCompleted });
+
+  const handleCrewUserGrade = ({
+    nickname,
+    pickGrade,
+  }: {
+    nickname: string;
+    pickGrade: CrewUserGrade;
+  }) => {
+    changeCrewUserGradeMutation({
+      variables: {
+        input: {
+          changeGrade:
+            pickGrade === CrewUserGrade.CrewUser
+              ? CrewUserGrade.CrewManager
+              : CrewUserGrade.CrewUser,
+          crewName,
+          nickname,
+        },
+      },
+    });
+  };
+
+  if (loading) return <PageChange />;
 
   return (
     <Modal visible={isVisible}>
@@ -53,7 +114,12 @@ const CrewManagePeopleModal: React.FC<IProps> = ({
                     }
                     loading={false}
                     canClick
-                    onClick={() => setIsVisible((prev) => !prev)}
+                    onClick={() =>
+                      handleCrewUserGrade({
+                        pickGrade: el.grade,
+                        nickname: el.user.nickname,
+                      })
+                    }
                   />
                 </li>
               ))}
@@ -63,7 +129,12 @@ const CrewManagePeopleModal: React.FC<IProps> = ({
               actionText="Close"
               loading={false}
               canClick
-              onClick={() => setIsVisible((prev) => !prev)}
+              onClick={() =>
+                modalVisibleVar({
+                  ...modalVisibleVar(),
+                  isVisibleCrewUserManageModal: false,
+                })
+              }
             />
           </div>
         </section>

@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PagesDivider from 'components/common/PagesDivider';
+import PageChange from 'components/pageChange/PageChange';
 import { BUTTON_MAP } from 'constants/constants';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import { IButtonMap, IPickCategory } from 'model/dto';
@@ -76,6 +77,7 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
   //     window.scroll(0, 0); // reset the scroll position to the top left of the document.
   //   }
   // }, [page]);
+  if (loading) return <PageChange />;
 
   return (
     <div className={UserStyle.contentsSection}>

@@ -12,13 +12,13 @@ import {
   isVisibleProfileImageModalVar,
 } from 'cache/user/user.cache';
 import SmallCircleProfile from 'components/common/SmallCircleProfile';
+import PageChange from 'components/pageChange/PageChange';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import vacantImage from 'public/vacantImage.png';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   editProfile,
   editProfileVariables,
@@ -35,7 +35,6 @@ interface IUserProfileProps {
 }
 
 const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const user = useReactiveVar(userInfoVar);
 
@@ -70,7 +69,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   useEffect(() => {
     getUserCrew({
       variables: {
-        nickname: pageUserData.nickname,
+        nickname: pageUserData?.nickname,
       },
     });
   }, [user]);
@@ -114,6 +113,8 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   useEffect(() => {
     if (user.nickname === pageUserData.nickname) setIsUser(true);
   }, []);
+
+  if (loading) return <PageChange />;
 
   return (
     <>

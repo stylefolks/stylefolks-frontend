@@ -3,9 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+
 // ====================================================
 // GraphQL mutation operation: deleteTemp
 // ====================================================
+
 
 export interface deleteTemp_deleteTemp {
   __typename: "DeleteTempOutput";

@@ -3,11 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+
 import { GetPostByCategoryInput, UserRole, FirstCategoryName, SecondCategoryName } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: getPostByCategory
 // ====================================================
+
 
 export interface getPostByCategory_getPostByCategory_post_user {
   __typename: "User";

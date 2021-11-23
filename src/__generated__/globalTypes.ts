@@ -3,9 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
+
 
 export enum CrewLinkType {
   HOME = "HOME",
@@ -45,6 +47,12 @@ export enum UserRole {
   Master = "Master",
   Publisher = "Publisher",
   User = "User",
+}
+
+export interface ChangeCrewUserGradeInput {
+  changeGrade: CrewUserGrade;
+  nickname: string;
+  crewName: string;
 }
 
 export interface ChangePasswordInput {
@@ -194,3 +202,4 @@ export interface VerifyEmailInput {
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
+

@@ -3,11 +3,13 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+
 import { LoginInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: login
 // ====================================================
+
 
 export interface login_login {
   __typename: "LoginOutput";

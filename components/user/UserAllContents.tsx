@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { Button } from 'components/common/Button';
+import PageChange from 'components/pageChange/PageChange';
 import { format } from 'date-fns';
 import { DELETE_POST } from 'graphql/mutations';
 import { GET_USER_ALL_POST } from 'graphql/queries';
@@ -53,6 +54,7 @@ const UserAllContents: React.FC<IPropsUserAllContents> = ({ pageUserData }) => {
       },
     });
   };
+  if (loading) return <PageChange />;
 
   return (
     <section>

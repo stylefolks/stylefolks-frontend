@@ -36,6 +36,14 @@ interface IPostStatus {
   titleImageArr: [] | string[];
 }
 
+interface IModalStatus {
+  isVisibleCrewUserManageModal: boolean;
+}
+
+export const initialModalVisibleVar: IModalStatus = {
+  isVisibleCrewUserManageModal: false,
+};
+
 export const initialWrittePostVar: IPostVar = {
   title: '',
   contents: '',
@@ -66,6 +74,9 @@ export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
   profileImg: '',
   nickname: '',
   link: '',
+});
+export const modalVisibleVar: ReactiveVar<IModalStatus> = makeVar({
+  ...initialModalVisibleVar,
 });
 
 export const writtenPostVar = makeVar<IPostVar>({
