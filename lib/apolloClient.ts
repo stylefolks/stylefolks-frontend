@@ -29,21 +29,6 @@ interface IUserInforVar {
   link: string;
 }
 
-// const token =
-//   typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
-
-// export const isLoggedInVar = makeVar(Boolean(token));
-// export const authTokenVar = makeVar(token);
-// export const isUserTotalPostVar = makeVar(false);
-// export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
-//   email: '',
-//   id: null,
-//   role: UserRole.User,
-//   profileImg: '',
-//   nickname: '',
-//   link: '',
-// });
-
 let apolloClient;
 
 const httpLink = createHttpLink({

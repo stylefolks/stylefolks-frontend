@@ -5,6 +5,7 @@ import {
   isVisibleEditProfileModalVar,
   isVisibleProfileImageModalVar,
 } from 'cache/user/user.cache';
+import PageChange from 'components/pageChange/PageChange';
 import EditProfileImageModal from 'components/user/EditProfileImageModal';
 import { useMe } from 'hooks/useMe';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
@@ -87,7 +88,11 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
       }
     };
 
-    if (getUserCrewLoading) return <div>Loading..</div>;
+    if (getUserCrewError) {
+      router.push('/');
+    }
+
+    if (getUserCrewLoading) return <PageChange />;
 
     return (
       <div className={UserStyle.container}>
