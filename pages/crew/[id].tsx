@@ -146,6 +146,8 @@ const Crew = () => {
 
   if (loading) return <div>Loading...</div>;
 
+  if (!data) return <div>Error</div>;
+
   return (
     <div className={CrewPageStyle.container}>
       <CrewProfile
@@ -170,7 +172,7 @@ const Crew = () => {
       />
       <CrewManagePeopleModal
         refetch={refetch}
-        crewName={data.getCrewByName.crew.name}
+        crewName={data?.getCrewByName?.crew?.name}
         users={data?.getCrewByName?.users}
         isVisible={visible.isVisibleCrewUserManageModal}
       />
