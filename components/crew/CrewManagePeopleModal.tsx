@@ -97,32 +97,33 @@ const CrewManagePeopleModal: React.FC<IProps> = ({
             />
           </div>
           <ul>
-            {users
-              .filter((el) => el.user.id !== userInfoVar().id)
-              ?.map((el) => (
-                <li key={el.user.id}>
-                  <div>
-                    <CircleProfileImage profileImg={el.user.profileImg} />
-                    <span>{el.user.nickname}</span>
-                    <span>{el.grade}</span>
-                  </div>
-                  <Button
-                    actionText={
-                      el.grade === CrewUserGrade.CrewUser
-                        ? '매니저로 변경'
-                        : '유저로 변경'
-                    }
-                    loading={false}
-                    canClick
-                    onClick={() =>
-                      handleCrewUserGrade({
-                        pickGrade: el.grade,
-                        nickname: el.user.nickname,
-                      })
-                    }
-                  />
-                </li>
-              ))}
+            {users &&
+              users
+                .filter((el) => el.user.id !== userInfoVar().id)
+                ?.map((el) => (
+                  <li key={el.user.id}>
+                    <div>
+                      <CircleProfileImage profileImg={el.user.profileImg} />
+                      <span>{el.user.nickname}</span>
+                      <span>{el.grade}</span>
+                    </div>
+                    <Button
+                      actionText={
+                        el.grade === CrewUserGrade.CrewUser
+                          ? '매니저로 변경'
+                          : '유저로 변경'
+                      }
+                      loading={false}
+                      canClick
+                      onClick={() =>
+                        handleCrewUserGrade({
+                          pickGrade: el.grade,
+                          nickname: el.user.nickname,
+                        })
+                      }
+                    />
+                  </li>
+                ))}
           </ul>
           <div className={UtilStyle.modalButtonWrapper}>
             <Button

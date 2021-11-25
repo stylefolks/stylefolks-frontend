@@ -47,20 +47,18 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
   doDepart,
   refetch,
 }) => {
-  const { name, profileImg, backgroundImg, link } = data;
+  // const { name, profileImg, backgroundImg, link } = data;
   const { width, height } = UseWindowDimension();
   const [visible, setVisible] = useState<boolean>(false);
   const isManager = managerId === userInfoVar().id;
 
-  if (!data) {
-    return <div>Error</div>;
-  }
-
-  console.log(backgroundImg);
-
   return (
     <div
-      style={{ backgroundImage: `url(${backgroundImg})` }}
+      style={{
+        backgroundImage: `url(${
+          data?.backgroundImg ? data.backgroundImg : ''
+        })`,
+      }}
       className={CrewProfileStyle.container}
     >
       <div className={CrewProfileStyle.infoContainer}>
@@ -77,7 +75,7 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
         </div>
         <div className={CrewProfileStyle.imgWrapper}>
           <Image
-            src={profileImg ? profileImg : vacantImage}
+            src={data?.profileImg ? data?.profileImg : vacantImage}
             alt="profile-image"
             width={width > mediaStandard ? '160px' : '80px'}
             height={width > mediaStandard ? '160px' : '80px'}
@@ -86,7 +84,7 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
             // blurDataURL={profileImg as string}
           />
         </div>
-        <h2>{name}</h2>
+        <h2>{data?.name}</h2>
         <div className={CrewProfileStyle.btnWrapper}>
           {!isManager && (
             <div>
