@@ -3,11 +3,9 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 //==============================================================
 // START Enums and Input Objects
 //==============================================================
-
 
 export enum CrewLinkType {
   HOME = "HOME",
@@ -112,6 +110,11 @@ export interface EditProfileInput {
   link?: string | null;
 }
 
+export interface GetAllCrewInput {
+  page?: number | null;
+  inputTake?: number | null;
+}
+
 export interface GetCrewByNameInput {
   name: string;
 }
@@ -202,4 +205,3 @@ export interface VerifyEmailInput {
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
-

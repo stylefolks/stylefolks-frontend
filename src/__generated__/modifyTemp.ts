@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { ModifyMyTemptInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: modifyTemp
 // ====================================================
-
 
 export interface modifyTemp_modifyTemp {
   __typename: "ModifyMyTempOutput";

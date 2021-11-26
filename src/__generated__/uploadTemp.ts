@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { UploadTempInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: uploadTemp
 // ====================================================
-
 
 export interface uploadTemp_uploadTemp {
   __typename: "UploadTempOutput";

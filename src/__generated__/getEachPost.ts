@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { SecondCategoryName } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: getEachPost
 // ====================================================
-
 
 export interface getEachPost_getEachPost_post_firstCategory {
   __typename: "FirstCategory";
