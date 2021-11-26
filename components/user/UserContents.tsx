@@ -16,11 +16,11 @@ import {
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
 import UserStyle from 'styles/User.module.scss';
+import UserContentsBlockTypeStyle from 'styles/user/component/UserContentsBlockType.module.scss';
 import UserContentsPlainTypeStyle from 'styles/user/component/UserContentsPlainType.module.scss';
 import UserPageStyle from 'styles/user/UserPage.module.scss';
 import UserContentsBlockType from './UserContentsBlockType';
 import UserContentsPlainType from './UserContentsPlainType';
-
 interface IPropsUserContents {
   pageUserData: findByNickName_findByNickName_user;
 }
@@ -105,35 +105,31 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
           ))}
         </div>
         <div className={UserStyle.userContentsWrapper}>
-          {loading ? (
-            <div style={{ minHeight: '1024px' }}>Loading...</div>
-          ) : (
-            <>
-              <ul
-                className={
-                  isPlain
-                    ? UserContentsPlainTypeStyle.userContentsPlainList
-                    : UserPageStyle.userContentsBlockList
-                }
-              >
-                {isPlain ? (
-                  <UserContentsPlainType data={data} />
-                ) : (
-                  <UserContentsBlockType data={data} />
-                )}
-              </ul>
-              <div className={UserPageStyle.seeMoreButton}>
-                {data?.getPostByCategory.totalPages > 1 && (
-                  <PagesDivider
-                    totalPages={data?.getPostByCategory.totalPages}
-                    totalResults={data?.getPostByCategory.totalResults}
-                    clickPage={page}
-                    onClick={handlePage}
-                  />
-                )}
-              </div>
-            </>
-          )}
+          <>
+            <ul
+              className={
+                isPlain
+                  ? UserContentsPlainTypeStyle.userContentsPlainList
+                  : UserContentsBlockTypeStyle.userContentsBlockList
+              }
+            >
+              {isPlain ? (
+                <UserContentsPlainType data={data} />
+              ) : (
+                <UserContentsBlockType data={data} />
+              )}
+            </ul>
+            <div className={UserPageStyle.seeMoreButton}>
+              {data?.getPostByCategory.totalPages > 1 && (
+                <PagesDivider
+                  totalPages={data?.getPostByCategory.totalPages}
+                  totalResults={data?.getPostByCategory.totalResults}
+                  clickPage={page}
+                  onClick={handlePage}
+                />
+              )}
+            </div>
+          </>
         </div>
       </div>
     </div>

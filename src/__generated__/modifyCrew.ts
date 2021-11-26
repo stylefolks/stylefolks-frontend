@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { ModifyCrewInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: modifyCrew
 // ====================================================
-
 
 export interface modifyCrew_modifyCrew {
   __typename: "ModifyCrewOutput";

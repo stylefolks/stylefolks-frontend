@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { ModifyCommentInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: modifyComment
 // ====================================================
-
 
 export interface modifyComment_modifyComment {
   __typename: "ModifyCommentOutput";

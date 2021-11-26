@@ -3,13 +3,11 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-
 import { GetCrewByNameInput, CrewLinkType, CrewUserGrade } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: getCrewByName
 // ====================================================
-
 
 export interface getCrewByName_getCrewByName_crew_link {
   __typename: "CrewLinkOption";
@@ -38,7 +36,7 @@ export interface getCrewByName_getCrewByName_users_user {
 export interface getCrewByName_getCrewByName_users {
   __typename: "CrewUsers";
   grade: CrewUserGrade;
-  user: getCrewByName_getCrewByName_users_user;
+  user: getCrewByName_getCrewByName_users_user | null;
 }
 
 export interface getCrewByName_getCrewByName_manager {

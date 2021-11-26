@@ -1,6 +1,10 @@
 $lines: 16;
 $delayandduration: 4;
 
+.mainContainer {
+  width: 80vw;
+}
+
 .imageContainer {
   width: 100%;
   max-width: 80px;
@@ -407,4 +411,22 @@ $delayandduration: 4;
   height: 48px;
   border-radius: 100%;
   overflow: hidden;
+}
+
+.gridImage {
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+  & > div {
+    position: unset !important;
+    height: 100%;
+
+    & > img {
+      object-fit: contain;
+      width: 100% !important;
+      height: 100%;
+      position: relative !important;
+      height: unset !important;
+    }
+  }
 }
