@@ -4,8 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import VacantImage from 'public/vacantImage.png';
 import { getPostByCategory } from 'src/__generated__/getPostByCategory';
+import UtilStlye from 'styles/common/Util.module.scss';
 import UserStyle from 'styles/User.module.scss';
-import UserContentsBlockTypeStyle from 'styles/user/component/UserContentsBlockType.module.scss';
 interface IUserContentsBlockTypeProps {
   data: getPostByCategory;
 }
@@ -21,23 +21,20 @@ const UserContentsBlockType: React.FC<IUserContentsBlockTypeProps> = ({
       {data?.getPostByCategory?.post.map((el) => (
         <li
           key={el.id}
-          className={UserContentsBlockTypeStyle.userContentsEachBlock}
+          // className={UserContentsBlockTypeStyle.userContentsEachBlock}
         >
           <Link href={`/post/${el.id}`}>
             <a>
-              <div>
+              <div className={UtilStlye.gridImage}>
                 <Image
                   src={el?.titleImg ? el.titleImg : VacantImage}
-                  layout={'responsive'}
-                  width={'21vw'}
-                  height={'21vw'}
-                  alt="contents"
-                  //blur적용시 에러메시지 발생 이유 찾아봐야할듯 다른곳은 안그런데 흠 ..
+                  layout={'fill'}
+                  alt={el.title}
                   placeholder="blur"
                   blurDataURL={el?.titleImg}
                 />
               </div>
-              <div className={UserContentsBlockTypeStyle.hiddenContentsTitle}>
+              <div>
                 {el.title}
                 <span>
                   <FontAwesomeIcon icon={faCheck} /> {el.viewCount}

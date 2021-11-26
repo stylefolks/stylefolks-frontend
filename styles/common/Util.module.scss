@@ -408,3 +408,21 @@ $delayandduration: 4;
   border-radius: 100%;
   overflow: hidden;
 }
+
+.gridImage {
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+  & > div {
+    position: unset !important;
+    height: 100%;
+
+    & > img {
+      object-fit: contain;
+      width: 100% !important;
+      height: 100%;
+      position: relative !important;
+      height: unset !important;
+    }
+  }
+}
