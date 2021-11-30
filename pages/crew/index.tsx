@@ -83,14 +83,14 @@ const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
     <InfiniteScroll
       dataLength={initialData?.getAllCrew.totalResults}
       next={() => setPage((prev) => prev + 1)}
-      hasMore={page < initialData?.getAllCrew.totalPages}
+      hasMore={data.length < initialData?.getAllCrew.totalResults}
       loader={<h1>Loading..</h1>}
       endMessage={<h4>No data</h4>}
     >
       <div className={UtilStyle.mainContainer}>
         <ul className={CrewPageStyle.crewMainPageContentsContainer}>
-          {data?.map((el) => (
-            <Link href={`/crew/${el.name}`} key={el.id + el.name}>
+          {data?.map((el, index) => (
+            <Link href={`/crew/${el.name}`} key={el.id + el.name + index}>
               <a>
                 <li
                   className={CrewPageStyle.crewMainPageEachContents}
