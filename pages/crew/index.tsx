@@ -16,6 +16,8 @@ import {
 } from 'src/__generated__/getAllCrew';
 import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
+import NoMore from './components/NoMore';
+
 const GET_ALL_CREW = gql`
   query getAllCrew($input: GetAllCrewInput!) {
     getAllCrew(input: $input) {
@@ -76,6 +78,7 @@ const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   };
 
   useEffect(() => {
+    console.log(page);
     getMorePost(page);
   }, [page]);
 
@@ -85,7 +88,7 @@ const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
       next={() => setPage((prev) => prev + 1)}
       hasMore={data.length < initialData?.getAllCrew.totalResults}
       loader={<h1>Loading..</h1>}
-      endMessage={<h4>No data</h4>}
+      endMessage={<NoMore />}
     >
       <div className={UtilStyle.mainContainer}>
         <ul className={CrewPageStyle.crewMainPageContentsContainer}>
