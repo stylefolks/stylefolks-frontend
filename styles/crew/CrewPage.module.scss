@@ -416,6 +416,9 @@
     width: 99%;
     background-color: white;
     padding: 2rem;
+    & > div {
+      display: flex;
+    }
   }
 
   & > h3 {
