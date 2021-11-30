@@ -10,8 +10,8 @@ import {
   createAccountVariables,
 } from '../src/__generated__/createAccount';
 import { UserRole } from '../src/__generated__/globalTypes';
+import UtilStyle from '../styles/common/Util.module.scss';
 import LoginStyle from '../styles/Login.module.scss';
-import UtilStyle from '../styles/Util.module.scss';
 
 interface ICreateAccountForm {
   email: string;

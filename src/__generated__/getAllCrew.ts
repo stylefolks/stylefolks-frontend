@@ -23,6 +23,8 @@ export interface getAllCrew_getAllCrew {
   __typename: "GetAllCrewOutput";
   ok: boolean;
   error: string | null;
+  totalPages: number | null;
+  totalResults: number | null;
   crew: getAllCrew_getAllCrew_crew[];
 }
 
