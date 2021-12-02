@@ -1,0 +1,20 @@
+// .container {
+//   d
+// }
+
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(3, calc((100%) / 3 - 12px - 0.1vw * 3));
+  row-gap: 1.2vw;
+  column-gap: 1.2vw;
+  width: 100%;
+  margin-top: 44px;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid $back-color-main;
+  min-height: 80vh;
+}

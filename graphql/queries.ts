@@ -151,6 +151,7 @@ export const GET_POST_BY_CATEGORY = gql`
       error
       totalPages
       totalResults
+
       post {
         id
         createdAt
