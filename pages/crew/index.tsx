@@ -25,6 +25,7 @@ const GET_ALL_CREW = gql`
       error
       totalPages
       totalResults
+
       crew {
         id
         profileImg
@@ -48,7 +49,7 @@ const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   const [data, setData] = useState<getAllCrew_getAllCrew_crew[]>(
     initialData.getAllCrew.crew
   );
-  const [totalResult, setTotalResult] = useState<number>(0);
+
   const router = useRouter();
   const onError = () => {
     router.push('/');
@@ -71,7 +72,7 @@ const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
       variables: {
         input: {
           page: _page,
-          inputTake: 9 * _page,
+          inputTake: 9,
         },
       },
     });
@@ -84,7 +85,7 @@ const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   return (
     <InfiniteScroll
-      dataLength={initialData?.getAllCrew.totalResults}
+      dataLength={data.length}
       next={() => setPage((prev) => prev + 1)}
       hasMore={data.length < initialData?.getAllCrew.totalResults}
       loader={<h1>Loading..</h1>}

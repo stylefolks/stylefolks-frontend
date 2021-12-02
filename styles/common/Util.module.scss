@@ -29,6 +29,23 @@ $delayandduration: 4;
   // }
 }
 
+.imageSquareContainer {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid $back-color-main;
+
+  & > div {
+    position: unset !important;
+
+    & > img {
+      object-fit: contain;
+      width: 100% !important;
+      position: relative !important;
+      height: unset !important;
+    }
+  }
+}
+
 .imageCircleContainer {
   width: 100%;
 
