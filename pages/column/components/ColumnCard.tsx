@@ -1,4 +1,4 @@
-import { faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faPenNib, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,7 +14,7 @@ interface IColumnCard {
 
 const ColumnCard: React.FC<IColumnCard> = ({ data }) => {
   return (
-    <li className={ColumnStyle.cardWrapper}>
+    <li>
       <Link href={`post/${data.id}`}>
         <a>
           <div className={UtilStyle.imageSquareContainer}>
@@ -28,7 +28,9 @@ const ColumnCard: React.FC<IColumnCard> = ({ data }) => {
           <div className={ColumnStyle.cardTextWrapper}>
             <div className={ColumnStyle.cardTitleWrapper}>
               <h2>{data.title}</h2>
-              <h4>{data.user.nickname}</h4>
+              <h4>
+                <FontAwesomeIcon icon={faPenNib} /> {data.user.nickname}
+              </h4>
             </div>
             <span>{makePreContents(data.contents).slice(0, 100)}</span>
             <div>

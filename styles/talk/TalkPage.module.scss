@@ -1,0 +1,53 @@
+.cardContainer {
+  width: 100%;
+}
+
+.cardWrapper {
+  border-bottom: 1px solid $back-color-main;
+  margin-bottom: 24px;
+
+  & > a {
+    text-decoration: none !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.cardContentsWrapper {
+  display: block;
+  max-height: 44px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  font-size: 8px;
+  line-height: 22px;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-clamp: 2;
+  -moz-box-orient: vertical;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  word-wrap: break-word;
+  word-break: break-word;
+
+  @media screen and (max-width: $media-phone) {
+    // width: calc(100% - 120px - 6px);
+  }
+}
+
+.cardConfigWrapper {
+  & > span {
+    margin-right: 12px;
+    font-size: 8px;
+
+    &:first-child {
+      font-weight: 700;
+    }
+  }
+}
+
+.cardContentsContainer {
+  width: calc(100% - 120px - 24px);
+}
