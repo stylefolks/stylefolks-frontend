@@ -160,6 +160,9 @@ export const GET_POST_BY_CATEGORY = gql`
         titleImg
         viewCount
         contents
+        comments {
+          id
+        }
         user {
           email
           nickname

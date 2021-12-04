@@ -9,6 +9,11 @@ import { GetPostByCategoryInput, UserRole, FirstCategoryName, SecondCategoryName
 // GraphQL query operation: getPostByCategory
 // ====================================================
 
+export interface getPostByCategory_getPostByCategory_post_comments {
+  __typename: "Comments";
+  id: number;
+}
+
 export interface getPostByCategory_getPostByCategory_post_user {
   __typename: "User";
   email: string;
@@ -26,6 +31,7 @@ export interface getPostByCategory_getPostByCategory_post {
   titleImg: string | null;
   viewCount: number;
   contents: string;
+  comments: getPostByCategory_getPostByCategory_post_comments[];
   user: getPostByCategory_getPostByCategory_post_user;
 }
 
