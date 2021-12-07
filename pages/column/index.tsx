@@ -55,16 +55,8 @@ const Column: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   };
 
   useEffect(() => {
-    console.log(page);
-    console.log(data.length, initialData?.getPostByCategory.totalResults);
-    console.log(
-      '남은 개수',
-      initialData.getPostByCategory.totalResults - data.length
-    );
     getMorePost(page);
   }, [page]);
-
-  console.log(data.length, initialData?.getPostByCategory.totalResults);
 
   return (
     <InfiniteScroll

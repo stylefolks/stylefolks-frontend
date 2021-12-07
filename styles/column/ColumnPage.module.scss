@@ -1,17 +1,16 @@
-// .container {
-//   d
-// }
-
 .cardContainer {
   display: grid;
   grid-template-columns: repeat(2, calc((100%) / 2 - 1.2vw * 1));
   row-gap: 1.2vw;
   column-gap: 1.2vw;
   margin-top: 44px;
+
+  @media screen and (max-width: $media-phone) {
+    grid-template-columns: repeat(1, calc((100%)));
+  }
 }
 
 .cardWrapper {
-  // min-height: 40vh;
   border: 1px solid $back-color-main;
 
   & > a {
@@ -28,14 +27,41 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
+
+  & > span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: keep-all;
+    line-clamp: 2;
+    white-space: nowrap;
+    width: calc(220px);
+    @media screen and (max-width: $media-tablet) {
+      width: calc(186px);
+    }
+
+    @media screen and (max-width: $media-phone) {
+      width: calc(168px);
+    }
+  }
 }
 
 .cardTitleWrapper {
   & > h2,
   h4 {
-    margin: 0px;
-    // max-width: 160px;
+    margin: 4px 0px;
     text-overflow: ellipsis;
     overflow: hidden;
+    word-break: keep-all;
+    line-clamp: 2;
+    white-space: nowrap;
+    width: calc(220px);
+
+    @media screen and (max-width: $media-tablet) {
+      width: calc(186px);
+    }
+
+    @media screen and (max-width: $media-phone) {
+      width: calc(168px);
+    }
   }
 }
