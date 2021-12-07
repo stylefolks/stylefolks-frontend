@@ -63,16 +63,15 @@ const Talk: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
       next={() => setPage((prev) => prev + 1)}
       hasMore={page < initialData?.getPostByCategory.totalPages}
       loader={<h1>Loading..</h1>}
-      endMessage={<NoMore />}
+      endMessage={<NoMore text={'No More Talks 😅'} />}
+      style={{ width: '100%' }}
     >
-      <div>
-        <h2>Talks!</h2>
-        <ul className={TalkStyle.cardContainer}>
-          {data?.map((el) => (
-            <TalkColumn data={el} key={el.id} />
-          ))}
-        </ul>
-      </div>
+      <h2>Talks!</h2>
+      <ul className={TalkStyle.cardContainer}>
+        {data?.map((el) => (
+          <TalkColumn data={el} key={el.id} />
+        ))}
+      </ul>
     </InfiniteScroll>
   );
 };

@@ -1,16 +1,20 @@
-const NoMore = () => {
+interface INoMoreProps {
+  text: string;
+}
+
+const NoMore: React.FC<INoMoreProps> = ({ text }) => {
   return (
     <>
-      <div>No More Crew 😅</div>
-
+      <div>{text}</div>
+      {/* No More Crew 😅 */}
       <style jsx>{`
         div {
           display: inline-flex;
           justify-content: center;
           align-items: center;
-          padding: 3rem;
+          padding: 3vw;
           width: 100%;
-          font-size: 3rem;
+          font-size: 3vw;
         }
       `}</style>
     </>

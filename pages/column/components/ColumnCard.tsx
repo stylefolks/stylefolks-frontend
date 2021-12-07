@@ -14,7 +14,7 @@ interface IColumnCard {
 
 const ColumnCard: React.FC<IColumnCard> = ({ data }) => {
   return (
-    <li>
+    <li className={ColumnStyle.cardWrapper}>
       <Link href={`post/${data.id}`}>
         <a>
           <div className={UtilStyle.imageSquareContainer}>

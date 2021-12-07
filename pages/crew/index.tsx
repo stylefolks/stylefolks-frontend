@@ -14,7 +14,6 @@ import {
   getAllCrewVariables,
   getAllCrew_getAllCrew_crew,
 } from 'src/__generated__/getAllCrew';
-import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 import NoMore from './components/NoMore';
 
@@ -89,35 +88,33 @@ const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
       next={() => setPage((prev) => prev + 1)}
       hasMore={data.length < initialData?.getAllCrew.totalResults}
       loader={<h1>Loading..</h1>}
-      endMessage={<NoMore />}
+      endMessage={<NoMore text={'No More Crew 😅'} />}
     >
-      <div className={UtilStyle.mainContainer}>
-        <ul className={CrewPageStyle.crewMainPageContentsContainer}>
-          {data?.map((el, index) => (
-            <Link href={`/crew/${el.name}`} key={el.id + el.name + index}>
-              <a>
-                <li
-                  className={CrewPageStyle.crewMainPageEachContents}
-                  style={{
-                    backgroundImage: `url(${
-                      el.backgroundImg ? el.backgroundImg : ''
-                    })`,
-                  }}
-                >
-                  <div>
-                    <CircleProfileImage profileImg={el.profileImg} />
-                  </div>
-                  <h2>
-                    {el.name}
-                    {'\u00A0'} <FontAwesomeIcon icon={faUser} />
-                    {el.followerCount}
-                  </h2>
-                </li>
-              </a>
-            </Link>
-          ))}
-        </ul>
-      </div>
+      <ul className={CrewPageStyle.crewMainPageContentsContainer}>
+        {data?.map((el, index) => (
+          <Link href={`/crew/${el.name}`} key={el.id + el.name + index}>
+            <a>
+              <li
+                className={CrewPageStyle.crewMainPageEachContents}
+                style={{
+                  backgroundImage: `url(${
+                    el.backgroundImg ? el.backgroundImg : ''
+                  })`,
+                }}
+              >
+                <div>
+                  <CircleProfileImage profileImg={el.profileImg} />
+                </div>
+                <h2>
+                  {el.name}
+                  {'\u00A0'} <FontAwesomeIcon icon={faUser} />
+                  {el.followerCount}
+                </h2>
+              </li>
+            </a>
+          </Link>
+        ))}
+      </ul>
     </InfiniteScroll>
   );
 };

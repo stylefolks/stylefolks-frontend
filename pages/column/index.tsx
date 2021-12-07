@@ -13,7 +13,6 @@ import {
 } from 'src/__generated__/getPostByCategory';
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import ColumnStyle from 'styles/column/ColumnPage.module.scss';
-import UtilStyle from 'styles/common/Util.module.scss';
 import ColumnCard from './components/ColumnCard';
 
 const Column: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
@@ -73,16 +72,14 @@ const Column: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
       next={() => setPage((prev) => prev + 1)}
       hasMore={page < initialData?.getPostByCategory.totalPages}
       loader={<h1>Loading..</h1>}
-      endMessage={<NoMore />}
+      endMessage={<NoMore text={'No More Column 😅'} />}
     >
-      <div className={UtilStyle.mainContainer}>
-        <h2>Column!</h2>
-        <ul className={ColumnStyle.cardContainer}>
-          {data?.map((el, index) => (
-            <ColumnCard key={el.id + el.title + index} data={el} />
-          ))}
-        </ul>
-      </div>
+      <h2>Column!</h2>
+      <ul className={ColumnStyle.cardContainer}>
+        {data?.map((el, index) => (
+          <ColumnCard key={el.id + el.title + index} data={el} />
+        ))}
+      </ul>
     </InfiniteScroll>
   );
 };

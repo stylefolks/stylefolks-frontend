@@ -1,10 +1,6 @@
 $lines: 16;
 $delayandduration: 4;
 
-.mainContainer {
-  width: 80vw;
-}
-
 .imageContainer {
   width: 100%;
   max-width: 80px;
@@ -88,11 +84,15 @@ $delayandduration: 4;
 .sectionMain {
   margin: 0 auto;
   height: 100%;
-
+  width: 100%;
   min-height: calc(100vh - 200px - 25px);
   //min-height: calc(100vh + 20px);
   max-width: 1024px;
   padding: 0px 4vw;
+
+  & > div {
+    width: 100%;
+  }
 
   @media screen and (max-width: 735px) {
     padding: 0px 1vw;
