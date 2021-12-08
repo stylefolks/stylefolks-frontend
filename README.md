@@ -13,13 +13,21 @@
 ## Specification
 
 - USER
-  - [ ] Personnel Page With Categorization Post
-  - CRUD Personal Post and Comment
+  - [x] Personnel Page With Categorization Post
+  - [x]CRUD Personal Post
+  - [ ]CRUD Comment
 - CREW
-  - [ ] Make Crew with Other User
-  - [ ] Show Specific Post of Joined User
+  - [x] Make Crew with Other User
+  - [x] Connection with follower
+  - [x] Designate manager
+  - [x] Show Specific Post of Joined User
 - BRAND
-  - Connection With Crew
-- [ ] Landing Page
+  [ ] Connection With Crew
+- Landing Page
+  - [x] CREW
+  - [x] Talks
+  - [x] Column
+  - [x] Brand
+  - [ ] Index
 - [ ] Unit Test Code
 - [ ] Integration Code
