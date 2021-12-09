@@ -14,15 +14,15 @@
 
 - USER
   - [x] Personnel Page With Categorization Post
-  - [x]CRUD Personal Post
-  - [ ]CRUD Comment
+  - [x] CRUD Personal Post
+  - [ ] CRUD Comment
 - CREW
   - [x] Make Crew with Other User
   - [x] Connection with follower
   - [x] Designate manager
   - [x] Show Specific Post of Joined User
 - BRAND
-  [ ] Connection With Crew
+  - [ ] Connection With Crew
 - Landing Page
   - [x] CREW
   - [x] Talks

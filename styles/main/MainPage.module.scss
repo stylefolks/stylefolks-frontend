@@ -1,0 +1,46 @@
+.titleTextContainer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10;
+  top: calc(
+    (60vh - 40px - 3vw - 1vw) / 2
+  ); //(화면크기 - GNB높이)  의 나누기 2의 값
+  width: 100%;
+  background-color: transparent;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+    border: 1px solid black;
+    background-color: white;
+
+    & > h1 {
+      margin: 1.2rem 0px;
+      color: black;
+      z-index: 10;
+
+      &:last-child {
+        text-decoration: underline;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.headerCard {
+  width: 50%;
+}
+
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 100px);
+
+  & > a {
+  }
+}
