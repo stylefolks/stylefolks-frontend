@@ -37,10 +37,6 @@ const GET_ALL_CREW = gql`
   }
 `;
 
-interface IProps {
-  params: any;
-}
-
 const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   data: initialData,
 }) => {

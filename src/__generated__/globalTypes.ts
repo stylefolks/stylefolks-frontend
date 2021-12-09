@@ -115,6 +115,11 @@ export interface GetAllCrewInput {
   inputTake?: number | null;
 }
 
+export interface GetAllPostsInput {
+  page?: number | null;
+  inputTake?: number | null;
+}
+
 export interface GetCrewByNameInput {
   name: string;
 }
