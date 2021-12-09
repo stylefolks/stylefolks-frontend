@@ -19,7 +19,7 @@ const Column: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   data: initialData,
 }) => {
   const router = useRouter();
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(2);
   const [data, setData] = useState<getPostByCategory_getPostByCategory_post[]>(
     initialData.getPostByCategory.post
   );
@@ -55,6 +55,7 @@ const Column: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   };
 
   useEffect(() => {
+    console.log('렌더할때 먹히는감', page);
     getMorePost(page);
   }, [page]);
 

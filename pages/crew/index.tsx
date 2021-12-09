@@ -44,7 +44,7 @@ interface IProps {
 const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   data: initialData,
 }) => {
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(2);
   const [data, setData] = useState<getAllCrew_getAllCrew_crew[]>(
     initialData.getAllCrew.crew
   );
@@ -78,7 +78,6 @@ const Crew: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   };
 
   useEffect(() => {
-    console.log(page);
     getMorePost(page);
   }, [page]);
 

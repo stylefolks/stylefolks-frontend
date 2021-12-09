@@ -19,7 +19,7 @@ const Talk: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   data: initialData,
 }) => {
   const router = useRouter();
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(2);
   const [data, setData] = useState<getPostByCategory_getPostByCategory_post[]>(
     initialData.getPostByCategory.post
   );
