@@ -97,7 +97,7 @@ const IndexPage: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
         </div>
       </div>
       <ul className={MainStyle.cardsContainer}>
-        {data.map((el, index) => (
+        {data.map((el) => (
           <Link href={`/post/${el.id}`} key={el.id}>
             <a>
               <li>
