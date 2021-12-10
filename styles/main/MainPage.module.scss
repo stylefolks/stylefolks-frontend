@@ -6,7 +6,7 @@
 
   z-index: 10;
   top: calc(
-    (60vh - 40px - 3vw - 1vw) / 2
+    (20vh - 40px - 3vw - 1vw) / 2
   ); //(화면크기 - GNB높이)  의 나누기 2의 값
   width: 100%;
   background-color: transparent;
@@ -29,6 +29,11 @@
         text-decoration: underline;
         font-weight: 600;
       }
+
+      @media screen and (max-width: $media-phone) {
+        margin: 1.2vw 0px;
+        font-size: 1vw;
+      }
     }
   }
 }
@@ -39,8 +44,50 @@
 
 .cardsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 100px);
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2vw;
 
   & > a {
+    &:nth-child(13n - 12),
+    &:nth-child(13n - 11) {
+      grid-column: auto/span 2;
+      grid-row: auto/span 2;
+    }
+    &:nth-child(13n - 12) {
+      margin-right: -1vw;
+    }
+    &:nth-child(13n - 11) {
+      margin-left: -1vw;
+    }
+
+    &:nth-child(13n + 3),
+    &:nth-child(13n + 4),
+    &:nth-child(13n + 5),
+    &:nth-child(13n + 6) {
+      grid-column: auto/span 1;
+      grid-row: auto/span 1;
+    }
+
+    &:nth-child(13n + 7),
+    &:nth-child(13n + 8) {
+      grid-column: auto/span 2;
+      grid-row: auto/span 2;
+    }
+    &:nth-child(13n + 9),
+    &:nth-child(13n + 10) {
+      grid-column: auto/span 1;
+      grid-row: auto/span 1;
+    }
+
+    &:nth-child(13n + 12),
+    &:nth-child(13n + 13) {
+      grid-column: auto/span 1;
+      grid-row: auto/span 1;
+    }
+
+    &:nth-child(13n + 11) {
+      grid-column: auto/span 2;
+      grid-row: auto/span 2;
+    }
   }
 }
