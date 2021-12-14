@@ -15,7 +15,7 @@ import {
 } from 'src/__generated__/modifyComment';
 import { RootState } from 'store/modules';
 import CommentBoxStyle from 'styles/CommentBox.module.scss';
-import { Button } from './Button';
+import { Button } from './button/Button';
 
 interface IPropsComment {
   comment: string;

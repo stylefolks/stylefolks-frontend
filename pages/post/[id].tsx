@@ -4,7 +4,7 @@ import {
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
-import { Button } from 'components/common/Button';
+import { Button } from 'components/common/button/Button';
 import CommentBox from 'components/common/CommentBox';
 import { DELETE_POST } from 'graphql/mutations';
 import { GET_EACH_POST_QUERY } from 'graphql/queries';

@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import UtilStyle from '../styles/common/Util.module.scss';
+import UtilStyle from 'styles/common/Util.module.scss';
 import Footer from './Footer';
 
 interface ILayout {

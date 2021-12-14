@@ -8,7 +8,7 @@ import {
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
-import { Button } from 'components/common/Button';
+import { Button } from 'components/common/button/Button';
 import {
   CREATE_POST_MUTATION,
   CREATE_TEMP_MUTATION,

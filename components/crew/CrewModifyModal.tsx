@@ -1,6 +1,6 @@
 import { ApolloQueryResult, useMutation } from '@apollo/client';
 import BackDrop from 'components/common/BackDrop';
-import { Button } from 'components/common/Button';
+import { Button } from 'components/common/button/Button';
 import gql from 'graphql-tag';
 import Modal from 'HOC/Modal';
 import { useRouter } from 'next/router';

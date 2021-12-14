@@ -3,7 +3,7 @@ import PageChange from 'components/pageChange/PageChange';
 import dynamic from 'next/dynamic';
 import Router from 'next/router';
 import ReactDOM from 'react-dom';
-import Layout from '../components/Layout';
+import Layout from '../components/layout/Layout';
 import Wrapper from '../components/Wrapper';
 import { useApollo } from '../lib/apolloClient';
 import { wrapper } from '../store';

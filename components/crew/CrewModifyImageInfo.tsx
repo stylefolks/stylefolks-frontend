@@ -1,4 +1,4 @@
-import { Button } from 'components/common/Button';
+import { Button } from 'components/common/button/Button';
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';

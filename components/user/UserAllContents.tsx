@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Button } from 'components/common/Button';
+import { Button } from 'components/common/button/Button';
 import PageChange from 'components/pageChange/PageChange';
 import { format } from 'date-fns';
 import { DELETE_POST } from 'graphql/mutations';
