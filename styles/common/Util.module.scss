@@ -30,7 +30,7 @@ $delayandduration: 4;
   overflow: hidden;
   border: 1px solid $back-color-main;
 
-  & > div {
+  & > span {
     position: unset !important;
 
     & > img {
@@ -49,7 +49,7 @@ $delayandduration: 4;
   overflow: hidden;
   border: 1px solid $back-color-main;
 
-  & > div {
+  & > span {
     position: unset !important;
 
     & > img {
@@ -69,7 +69,7 @@ $delayandduration: 4;
   border-radius: 100%;
   overflow: hidden;
 
-  & > div {
+  & > span {
     position: unset !important;
 
     & > img {
@@ -434,7 +434,8 @@ $delayandduration: 4;
   width: 100%;
   overflow: hidden;
   height: 100%;
-  & > div {
+
+  & > span {
     position: unset !important;
     height: 100%;
 
