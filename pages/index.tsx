@@ -65,6 +65,9 @@ const IndexPage: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
     });
 
   const getMorePost = async (_page: number) => {
+    if (_page == 1) {
+      return;
+    }
     getAllPostsData({
       variables: {
         input: {
