@@ -104,8 +104,6 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const handleLogging = (el: getUserTemp_getUserTemp_temps) => {
     postStatusVar({ ...postStatus, pickTempId: el.id });
 
-    // dispatch(setPickTempId(el.id));
-
     alertVar({
       title: '임시저장 불러오기',
       content: `${el.title}를 불러옵니다.`,
@@ -115,8 +113,6 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
   const handleDelete = (el: getUserTemp_getUserTemp_temps) => {
     postStatusVar({ ...postStatus, pickTempId: el.id });
-
-    // dispatch(setPickTempId(el.id));
 
     alertVar({
       title: '임시저장 게시글 삭제하기',
@@ -129,8 +125,6 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     alertVar({ title: '', content: '', visible: false });
     postStatusVar({ ...postStatus, pickTempId: prevTempId });
 
-    // dispatch(setPickTempId(prevTempId));
-
     if (alert.title === '임시 게시물' || alert.title === '새로운 게시물') {
       router.push('/');
       return;
@@ -142,9 +136,8 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     }
 
     if (alert.title !== '새로운 게시글 작성') {
-      // dispatch(setPickTempId(null));
       postStatusVar({ ...postStatus, isTemp: false });
-      // dispatch(setIsTemp(false));
+
       return;
     }
   };

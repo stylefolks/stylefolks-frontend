@@ -5,6 +5,7 @@ import {
   alert,
   isLoggedIn,
   nickname,
+  spinnerVisible,
   token,
   writtenPost,
 } from 'cache/common/common.field';
@@ -16,18 +17,8 @@ import {
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
-import { UserRole } from './../src/__generated__/globalTypes';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
-
-interface IUserInforVar {
-  email: string;
-  id: number | null;
-  role: UserRole;
-  profileImg: string;
-  nickname: string;
-  link: string;
-}
 
 let apolloClient;
 
@@ -72,6 +63,7 @@ function createApolloClient() {
             isVisibleEditProfileModal,
             alert,
             writtenPost,
+            spinnerVisible,
           },
         },
       },

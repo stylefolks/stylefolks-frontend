@@ -4,7 +4,6 @@ import BurgerButton from 'components/common/button/BurgerButton';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import UtilStyle from 'styles/common/Util.module.scss';
 import GNBStyle from 'styles/GNB.module.scss';
 import ProfileStyle from 'styles/Profile.module.scss';
@@ -20,11 +19,10 @@ const DynamicProfile = dynamic(() => import('../Profile'), {
 export const Header = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState<boolean>(false);
-  const dispatch = useDispatch();
+
   const onCompleted = (data: meQuery) => {
     const { verified, __typename, id, ...input } = data?.me;
     userInfoVar({ id, ...input });
-    // dispatch(upadateUser({ id: id + '', ...input }));
   };
 
   const [getMeInfo, { refetch, data, error, loading }] = useLazyQuery<meQuery>(

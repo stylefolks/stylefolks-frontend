@@ -1,27 +1,28 @@
 import { useMutation, useReactiveVar } from '@apollo/client';
-import { alertVar, userInfoVar } from 'cache/common/common.cache';
+import {
+  alertVar,
+  spinnerVisibleVar,
+  userInfoVar,
+} from 'cache/common/common.cache';
 import { isVisibleProfileImageModalVar } from 'cache/user/user.cache';
 import BackDrop from 'components/common/BackDrop';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import Modal from 'HOC/Modal';
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
-import { setSpinner } from 'store/modules/commonReducer';
 import UploadModalStyle from 'styles/UploadModal.module.scss';
 
 const EditProfileImageModal = () => {
-  const dispatch = useDispatch();
   const user = userInfoVar();
   const ref = useRef<HTMLInputElement>(null);
   const modal = useReactiveVar(isVisibleProfileImageModalVar);
 
   const onImageChangeCompleted = (data: editProfile) => {
     if (data.editProfile.ok) {
-      dispatch(setSpinner(false));
+      spinnerVisibleVar(false);
 
       alertVar({
         title: '프로필 이미지 수정',

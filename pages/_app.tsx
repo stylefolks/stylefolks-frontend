@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
 import Layout from '../components/layout/Layout';
 import Wrapper from '../components/Wrapper';
 import { useApollo } from '../lib/apolloClient';
-import { wrapper } from '../store';
 
 Router.events.on('routeChangeStart', (url) => {
   document.body.classList.add('body-page-transition');
@@ -42,4 +41,4 @@ const App = ({ Component, pageProps }) => {
   );
 };
 
-export default wrapper.withRedux(App);
+export default App;
