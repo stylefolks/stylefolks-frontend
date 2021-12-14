@@ -31,7 +31,6 @@ const EditProfileImageModal = () => {
     }
 
     if (data.editProfile.error) {
-      console.log(data.editProfile.error);
       alert('에러발생');
     }
   };
@@ -82,7 +81,6 @@ const EditProfileImageModal = () => {
   };
 
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
     if (e.target.files && e.target.files[0]) {
       let img = e.target.files[0];
       const formBody = new FormData();

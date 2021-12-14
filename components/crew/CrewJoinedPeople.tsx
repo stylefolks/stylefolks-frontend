@@ -27,8 +27,6 @@ const CrewJoinedPeople: React.FC<ICrewJoinedPeople> = ({
                   icon={faUsersCog}
                   size="2x"
                   onClick={() => {
-                    console.log('onclick??', modalVisibleVar());
-
                     modalVisibleVar({
                       ...modalVisibleVar(),
                       isVisibleCrewUserManageModal: true,

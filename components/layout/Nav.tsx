@@ -17,7 +17,7 @@ const NAV_MAP: INavMap[] = [
   { name: 'Talk', pathname: '/talk' },
   { name: 'Crew', pathname: '/crew' },
   { name: 'Column', pathname: '/column' },
-  { name: 'Folks', pathname: '/folks' },
+  // { name: 'Folks', pathname: '/folks' },
 ];
 
 const Nav: React.FC<IProps> = ({ onClick, isVisible }) => {

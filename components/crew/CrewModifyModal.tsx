@@ -75,7 +75,6 @@ const CrewModifyModal: React.FC<ICrewModifyModalProps> = ({
       router.push(`/crew/${crewInfo.name}`);
     }
     if (data.modifyCrew.error) {
-      console.log(data.modifyCrew.error);
       window.alert('크루 수정 에러가 발생했습니다.');
     }
   };

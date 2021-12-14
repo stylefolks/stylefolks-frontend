@@ -55,7 +55,6 @@ const Column: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   };
 
   useEffect(() => {
-    console.log('렌더할때 먹히는감', page);
     getMorePost(page);
   }, [page]);
 

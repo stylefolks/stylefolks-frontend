@@ -55,8 +55,6 @@ const Talk: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
     getMorePost(page);
   }, [page]);
 
-  console.log(initialData.getPostByCategory.post);
-
   return (
     <InfiniteScroll
       dataLength={data.length}

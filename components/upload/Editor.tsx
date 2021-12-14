@@ -78,7 +78,6 @@ const WysiwygEditor: React.FC<Props> = (props) => {
       dispatch(setSpinner(false));
       return res?.url;
     } catch (error) {
-      console.log(error);
       alert('이미지 업로드 에러 발생');
     }
   };
