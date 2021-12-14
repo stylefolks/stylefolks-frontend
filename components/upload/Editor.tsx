@@ -1,12 +1,14 @@
 import { useReactiveVar } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor as EditorType, EditorProps } from '@toast-ui/react-editor';
-import { postStatusVar, writtenPostVar } from 'cache/common/common.cache';
+import {
+  postStatusVar,
+  spinnerVisibleVar,
+  writtenPostVar,
+} from 'cache/common/common.cache';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setSpinner } from 'store/modules/commonReducer';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
 
 interface EditorPropsWithHandlers extends EditorProps {
@@ -40,7 +42,6 @@ const WysiwygEditor: React.FC<Props> = (props) => {
     initialEditType,
     useCommandShortcut,
   } = props;
-  const dispatch = useDispatch();
   const post = useReactiveVar(writtenPostVar);
   const postStatus = useReactiveVar(postStatusVar);
   const { isTemp } = postStatus;
@@ -75,10 +76,10 @@ const WysiwygEditor: React.FC<Props> = (props) => {
       ).json();
 
       //그리고 스피너 끝내자
-      dispatch(setSpinner(false));
+      spinnerVisibleVar(false);
+
       return res?.url;
     } catch (error) {
-      console.log(error);
       alert('이미지 업로드 에러 발생');
     }
   };
@@ -104,7 +105,8 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         onChange={handleChange}
         hooks={{
           addImageBlobHook: async (blob, callback) => {
-            dispatch(setSpinner(true));
+            spinnerVisibleVar(true);
+
             // 여기서 interceptor 작동시켜서 스피너 돌게 하자
             const upload = await uploadImage(blob);
             callback(upload, 'alt text');

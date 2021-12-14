@@ -1,4 +1,4 @@
-import { Button } from 'components/common/Button';
+import { Button } from 'components/common/button/Button';
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
@@ -17,8 +17,6 @@ const CrewModifyImageInfo: React.FC<IPropsCrewModifyImageInfo> = ({
   const backgroundRef = useRef<HTMLInputElement>(null);
 
   const uploadCrewProfileImage = async (formBody: FormData) => {
-    console.log(formBody);
-
     try {
       const { url } = await (
         await fetch('http://localhost:4000/images/crew', {
@@ -95,7 +93,6 @@ const CrewModifyImageInfo: React.FC<IPropsCrewModifyImageInfo> = ({
         window.alert('삭제에 실패하였습니다.');
       }
     } catch (e) {
-      console.log(e);
       window.alert('에러가 발생했습니다.');
     }
   };

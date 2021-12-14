@@ -14,7 +14,7 @@ import {
   getEachPostCommentsVariables,
 } from 'src/__generated__/getEachPostComments';
 import CommentBoxStyle from 'styles/CommentBox.module.scss';
-import { Button } from './Button';
+import { Button } from './button/Button';
 
 interface ICommentBoxProps {
   postId: number;

@@ -8,7 +8,7 @@ import {
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
-import { Button } from 'components/common/Button';
+import { Button } from 'components/common/button/Button';
 import {
   CREATE_POST_MUTATION,
   CREATE_TEMP_MUTATION,
@@ -323,13 +323,11 @@ const Upload = () => {
     // ref : https://stackoverflow.com/questions/15875128/is-there-element-rendered-event
 
     const observer = new MutationObserver((mutations) => {
-      console.log('Observer: upload sth');
       handleTitleImage();
       if (
         document.contains(document.getElementsByClassName('folks-titleImg')[0])
       ) {
         handleTitleImage();
-        console.log("Observer: It's in dom!!! for titleImg");
         observer.disconnect();
       }
     });
@@ -345,10 +343,6 @@ const Upload = () => {
       writtenPostVar({ ...initialWrittePostVar });
     };
   }, []);
-
-  useEffect(() => {
-    console.log(post);
-  }, [post]);
 
   if (createPostLoading || createTempLoading)
     return <div>업로드중입니다 잠시만 기다려주세요... :)</div>;

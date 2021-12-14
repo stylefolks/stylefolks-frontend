@@ -1,9 +1,9 @@
 import { useMutation } from '@apollo/client';
+import { userInfoVar } from 'cache/common/common.cache';
 import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
 import { DELETE_COMMENT, MODIFY_COMMENT } from 'graphql/mutations';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import {
   deleteComment,
   deleteCommentVariables,
@@ -13,9 +13,8 @@ import {
   modifyComment,
   modifyCommentVariables,
 } from 'src/__generated__/modifyComment';
-import { RootState } from 'store/modules';
 import CommentBoxStyle from 'styles/CommentBox.module.scss';
-import { Button } from './Button';
+import { Button } from './button/Button';
 
 interface IPropsComment {
   comment: string;
@@ -32,7 +31,6 @@ const Comment: React.FC<IPropsComment> = ({
 }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
-  const { user: loginUser } = useSelector((state: RootState) => state.user);
   const router = useRouter();
   const onCompletedModify = (data: modifyComment) => {
     if (data.modifyComment.ok) {
@@ -107,7 +105,7 @@ const Comment: React.FC<IPropsComment> = ({
         <textarea onChange={onChange} value={value}></textarea>
       )}
 
-      {commentUser.id === +loginUser.id ? (
+      {commentUser.id === userInfoVar().id ? (
         <div className={CommentBoxStyle.buttonSpace}>
           {edit ? (
             <Button

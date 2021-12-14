@@ -129,7 +129,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                 value={post.secondCategoryName}
                 onChange={(el) => {
                   const selectedIndex = el.target.options.selectedIndex;
-                  console.log('그럼 들어가자마자 얘로 되야하는거 아닌가');
+
                   writtenPostVar({
                     ...post,
                     secondCategoryName: el.target.value as SecondCategoryName,

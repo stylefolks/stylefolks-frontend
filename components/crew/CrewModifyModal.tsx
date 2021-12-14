@@ -1,6 +1,6 @@
 import { ApolloQueryResult, useMutation } from '@apollo/client';
 import BackDrop from 'components/common/BackDrop';
-import { Button } from 'components/common/Button';
+import { Button } from 'components/common/button/Button';
 import gql from 'graphql-tag';
 import Modal from 'HOC/Modal';
 import { useRouter } from 'next/router';
@@ -75,7 +75,6 @@ const CrewModifyModal: React.FC<ICrewModifyModalProps> = ({
       router.push(`/crew/${crewInfo.name}`);
     }
     if (data.modifyCrew.error) {
-      console.log(data.modifyCrew.error);
       window.alert('크루 수정 에러가 발생했습니다.');
     }
   };

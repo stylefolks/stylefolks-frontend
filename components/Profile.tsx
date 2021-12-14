@@ -102,7 +102,7 @@ const Profile: React.FC = () => {
           border-radius: 2px;
           animation-duration: 0.3s;
           animation-name: slideIn;
-          z-index: 2;
+          z-index: 3;
         }
 
         .direction {

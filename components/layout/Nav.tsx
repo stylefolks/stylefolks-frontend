@@ -1,8 +1,8 @@
+import QuitButton from 'components/common/button/QuitButton';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import GNBStyle from '../styles/GNB.module.scss';
-import QuitButton from './QuitButton';
+import GNBStyle from 'styles/GNB.module.scss';
 interface IProps {
   onClick: () => void;
   isVisible: boolean;
@@ -17,7 +17,7 @@ const NAV_MAP: INavMap[] = [
   { name: 'Talk', pathname: '/talk' },
   { name: 'Crew', pathname: '/crew' },
   { name: 'Column', pathname: '/column' },
-  { name: 'Folks', pathname: '/folks' },
+  // { name: 'Folks', pathname: '/folks' },
 ];
 
 const Nav: React.FC<IProps> = ({ onClick, isVisible }) => {

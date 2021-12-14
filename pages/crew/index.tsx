@@ -129,8 +129,6 @@ export const getStaticProps: GetStaticProps<{ data: getAllCrew }> = async (
     },
   });
 
-  console.log(data);
-
   return addApolloState(apolloClient, {
     props: {
       data: data.data,

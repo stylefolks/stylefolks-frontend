@@ -4,7 +4,7 @@
   justify-content: center;
   align-items: center;
 
-  z-index: 10;
+  z-index: 2;
   top: calc(
     (20vh - 40px - 3vw - 1vw) / 2
   ); //(화면크기 - GNB높이)  의 나누기 2의 값
@@ -23,7 +23,7 @@
     & > h1 {
       margin: 1.2rem 0px;
       color: black;
-      z-index: 10;
+      z-index: 2;
 
       &:last-child {
         text-decoration: underline;
