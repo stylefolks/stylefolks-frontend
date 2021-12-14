@@ -19,10 +19,13 @@ const DynamicProfile = dynamic(() => import('../Profile'), {
 export const Header = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
 
   const onCompleted = (data: meQuery) => {
-    const { verified, __typename, id, ...input } = data?.me;
-    userInfoVar({ id, ...input });
+    if (data?.me) {
+      const { verified, __typename, id, ...input } = data?.me;
+      userInfoVar({ id, ...input });
+    }
   };
 
   const [getMeInfo, { refetch, data, error, loading }] = useLazyQuery<meQuery>(
@@ -41,7 +44,6 @@ export const Header = () => {
       onCompleted,
     }
   );
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
 
   const onClick = () => {
     setIsVisible((prev) => !prev);
@@ -54,7 +56,7 @@ export const Header = () => {
   }, [router.pathname]);
 
   useEffect(() => {
-    getMeInfo();
+    isLoggedIn && getMeInfo();
   }, [isLoggedIn]);
 
   return (
