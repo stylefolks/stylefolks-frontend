@@ -136,9 +136,13 @@ export const Login = () => {
         </div>
         <GoogleLoginButton />
         <div className={LoginStyle.registerButtonWrapper}>
-          <span>The Folks에 처음이신가요?</span>
           <Link href="/create-account">
-            <a>회원가입 하러 가기</a>
+            <a>회원가입</a>
+          </Link>
+        </div>
+        <div className={LoginStyle.registerButtonWrapper}>
+          <Link href="/find-password">
+            <a>비밀번호 찾기</a>
           </Link>
         </div>
       </section>

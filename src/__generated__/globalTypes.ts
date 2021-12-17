@@ -110,6 +110,10 @@ export interface EditProfileInput {
   link?: string | null;
 }
 
+export interface FindPasswordIntput {
+  email: string;
+}
+
 export interface GetAllCrewInput {
   page?: number | null;
   inputTake?: number | null;
