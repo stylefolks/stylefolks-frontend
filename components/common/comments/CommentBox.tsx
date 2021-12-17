@@ -1,8 +1,8 @@
-import { Button } from 'components/common/button/Button';
 import Comments from 'components/common/comments/Comments';
 import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
 import React, { useEffect } from 'react';
 import CommentBoxStyle from 'styles/CommentBox.module.scss';
+import { ModifyButton } from '../button/ModifyButton';
 import useCommentBox from './useCommentBox';
 
 interface ICommentBoxProps {
@@ -31,11 +31,9 @@ const CommentBox: React.FC<ICommentBoxProps> = ({ postId }) => {
       <div>
         <LoggedInUserProfileImage staticWidth={'40px'} staticHeight={'40px'} />
         <input value={comment} onChange={onChange} />
-        <Button
-          actionText={'등록'}
+        <ModifyButton
           onClick={onClick}
           canClick={!createCommentLoading && comment.length >= 1}
-          loading={createCommentLoading}
         />
       </div>
       <ul className={CommentBoxStyle.commentsWrapper}>
