@@ -1,36 +1,24 @@
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import UtilStyle from 'styles/common/Util.module.scss';
-export interface IButtonProps {
-  canClick: boolean;
-  loading: boolean;
-  actionText: string;
-  width?: string;
-  height?: string;
-  fontSize?: string;
-  onClick?:
-    | (() => void)
-    | ((e: React.MouseEvent<HTMLButtonElement>) => Promise<void>);
-  name?: string;
-}
+import { IButtonProps } from './ModifyButton';
 
-export const Button: React.FC<IButtonProps> = ({
+export const CompleteButton: React.FC<IButtonProps> = ({
   canClick,
-  loading,
-  actionText,
   onClick,
-  name,
 }) => {
   return (
     <>
       <button
-        name={name ? name : ''}
+        name="deleteButtn"
         onClick={onClick}
         className={`${UtilStyle.button} ${
           canClick ? 'ableButton' : 'disabledClickButton'
         }`}
         type="submit"
       >
-        {loading ? 'Loading...' : actionText}
+        <FontAwesomeIcon icon={faCheckCircle} />
       </button>
       <style jsx>{`
         button:hover {

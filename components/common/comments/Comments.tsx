@@ -3,7 +3,10 @@ import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
 import React, { useEffect } from 'react';
 import { getEachPostComments_getEachPostComments_comments_user } from 'src/__generated__/getEachPostComments';
 import CommentBoxStyle from 'styles/CommentBox.module.scss';
-import { Button } from '../button/Button';
+import { CancelButton } from '../button/CancelButton';
+import { CompleteButton } from '../button/CompleteButton';
+import { DeleteButton } from '../button/DeleteButton';
+import { ModifyButton } from '../button/ModifyButton';
 import useComments from './useComments';
 
 interface IPropsComment {
@@ -56,34 +59,17 @@ const Comments: React.FC<IPropsComment> = ({
       {commentUser.id === userInfoVar().id ? (
         <div className={CommentBoxStyle.buttonSpace}>
           {edit ? (
-            <Button
-              onClick={() => onSave({ value, commentId })}
-              actionText="수정완료"
-              loading={false}
+            <CompleteButton
               canClick={true}
+              onClick={() => onSave({ value, commentId })}
             />
           ) : (
-            <Button
-              onClick={onEdit}
-              actionText="수정"
-              loading={false}
-              canClick={true}
-            />
+            <ModifyButton onClick={onEdit} canClick={true} />
           )}
           {edit ? (
-            <Button
-              onClick={onEdit}
-              actionText="수정 취소"
-              loading={false}
-              canClick={true}
-            />
+            <CancelButton onClick={onEdit} canClick={true} />
           ) : (
-            <Button
-              onClick={() => onDelete(commentId)}
-              actionText="삭제"
-              loading={false}
-              canClick={true}
-            />
+            <DeleteButton onClick={() => onDelete(commentId)} canClick={true} />
           )}
         </div>
       ) : (

@@ -4,7 +4,8 @@ import {
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
-import { Button } from 'components/common/button/Button';
+import { DeleteButton } from 'components/common/button/DeleteButton';
+import { ModifyButton } from 'components/common/button/ModifyButton';
 import CommentBox from 'components/common/comments/CommentBox';
 import { DELETE_POST } from 'graphql/mutations';
 import { GET_EACH_POST_QUERY } from 'graphql/queries';
@@ -109,16 +110,9 @@ export const Post = () => {
           <div className={CategoryStyle.categoryButtonWrapper}>
             {user.id === data.getEachPost.post.user.id && (
               <div>
-                <Button
-                  onClick={onEdit}
-                  actionText="수정"
-                  loading={false}
-                  canClick={true}
-                />
-                <Button
+                <ModifyButton onClick={onEdit} canClick={true} />
+                <DeleteButton
                   onClick={onDelete}
-                  actionText="삭제"
-                  loading={deleteMyPostLoading}
                   canClick={!deleteMyPostLoading && !deleteMyPostError}
                 />
               </div>
