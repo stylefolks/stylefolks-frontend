@@ -14,7 +14,7 @@ import {
   modifyCommentVariables,
 } from 'src/__generated__/modifyComment';
 import CommentBoxStyle from 'styles/CommentBox.module.scss';
-import { Button } from './button/Button';
+import { Button } from '../button/Button';
 
 interface IPropsComment {
   comment: string;
@@ -23,7 +23,7 @@ interface IPropsComment {
   commentId: number;
 }
 
-const Comment: React.FC<IPropsComment> = ({
+const Comments: React.FC<IPropsComment> = ({
   comment,
   commentUser,
   postId,
@@ -145,4 +145,4 @@ const Comment: React.FC<IPropsComment> = ({
   );
 };
 
-export default Comment;
+export default Comments;
