@@ -128,8 +128,6 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
               <select
                 value={post.secondCategoryName}
                 onChange={(el) => {
-                  const selectedIndex = el.target.options.selectedIndex;
-
                   writtenPostVar({
                     ...post,
                     secondCategoryName: el.target.value as SecondCategoryName,

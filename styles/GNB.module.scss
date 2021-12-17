@@ -56,6 +56,16 @@
     font-size: 1vw;
     margin: 0;
   }
+
+  @media screen and (max-width: $media-phone) {
+    h1 {
+      font-size: 5vw;
+    }
+
+    h4 {
+      display: none;
+    }
+  }
 }
 
 .isActive {

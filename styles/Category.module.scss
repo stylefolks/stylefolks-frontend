@@ -32,20 +32,6 @@
     margin: 0px;
     font-size: 16px;
   }
-
-  @media screen and (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-    font-size: 4vw;
-
-    select {
-      font-size: 4vw;
-    }
-
-    button {
-      display: none;
-    }
-  }
 }
 
 .categoryButtonWrapper {
@@ -58,8 +44,26 @@
   & > div {
     & > button {
       margin-bottom: 24px;
-      width: 5vw;
+      width: 24px;
       height: 24px;
+    }
+  }
+
+  @media screen and (max-width: $media-phone) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0px;
+
+    & > div {
+      & > button {
+        margin-bottom: 0px;
+      }
+    }
+
+    & > span {
+      font-size: 12px;
     }
   }
 }

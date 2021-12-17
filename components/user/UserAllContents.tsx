@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
-import { Button } from 'components/common/button/Button';
+import { DeleteButton } from 'components/common/button/DeleteButton';
+import { ModifyButton } from 'components/common/button/ModifyButton';
 import PageChange from 'components/pageChange/PageChange';
 import { format } from 'date-fns';
 import { DELETE_POST } from 'graphql/mutations';
@@ -83,18 +84,11 @@ const UserAllContents: React.FC<IPropsUserAllContents> = ({ pageUserData }) => {
               </div>
             </div>
             <div className={UserStyle.userAllEachContentsButtons}>
-              <Button
-                actionText="수정"
+              <ModifyButton
                 onClick={() => router.push(`/post/${el.id}`)}
                 canClick={true}
-                loading={false}
               />
-              <Button
-                actionText="삭제"
-                onClick={() => onDelete(el.id)}
-                canClick={true}
-                loading={deleteLoading}
-              />
+              <DeleteButton onClick={() => onDelete(el.id)} canClick={true} />
             </div>
           </li>
         ))}
