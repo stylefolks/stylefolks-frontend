@@ -44,8 +44,7 @@
   }
 
   & > span {
-    min-width: calc(100% - 80px - 10vw);
-    max-width: 30vw;
+    margin-left: 12px;
     white-space: pre-line;
   }
   & > textarea {
@@ -54,19 +53,40 @@
     resize: vertical;
   }
 
-  & > button {
-    max-width: 40px;
+  @media screen and (max-width: $media-phone) {
+    & > span {
+      margin-left: 8px;
+    }
   }
 }
 
 .buttonSpace {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  width: 96px;
+  margin-right: 12px;
 
   & > button {
-    width: 44px;
+    width: 38px;
+    height: 38px;
     margin: 0px;
+    border-radius: 100%;
+
+    &:first-child {
+      margin-bottom: 16px;
+    }
+  }
+
+  @media screen and (max-width: $media-phone) {
+    & > button {
+      width: 24px;
+      height: 24px;
+      margin: 0px;
+
+      &:first-child {
+        margin-bottom: 8px;
+      }
+    }
   }
 }
