@@ -1,26 +1,19 @@
-import { useMutation } from '@apollo/client';
 import { userInfoVar } from 'cache/common/common.cache';
 import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
-import { DELETE_COMMENT, MODIFY_COMMENT } from 'graphql/mutations';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import {
-  deleteComment,
-  deleteCommentVariables,
-} from 'src/__generated__/deleteComment';
+import React, { useEffect } from 'react';
 import { getEachPostComments_getEachPostComments_comments_user } from 'src/__generated__/getEachPostComments';
-import {
-  modifyComment,
-  modifyCommentVariables,
-} from 'src/__generated__/modifyComment';
 import CommentBoxStyle from 'styles/CommentBox.module.scss';
 import { Button } from '../button/Button';
+import useComments from './useComments';
 
 interface IPropsComment {
   comment: string;
   commentUser: getEachPostComments_getEachPostComments_comments_user;
   postId: number;
   commentId: number;
+  loading: boolean;
+  onSave: ({ value, commentId }: { value: string; commentId: number }) => void;
+  onDelete: (commentId: number) => void;
 }
 
 const Comments: React.FC<IPropsComment> = ({
@@ -28,68 +21,23 @@ const Comments: React.FC<IPropsComment> = ({
   commentUser,
   postId,
   commentId,
+  loading,
+  onSave,
+  onDelete,
 }) => {
-  const [edit, setEdit] = useState<boolean>(false);
-  const [value, setValue] = useState<string>('');
-  const router = useRouter();
-  const onCompletedModify = (data: modifyComment) => {
-    if (data.modifyComment.ok) {
-      router.reload();
-    }
-  };
-
-  const onCompletedDelete = (data: deleteComment) => {
-    if (data.deleteComment.ok) {
-      router.reload();
-    }
-  };
-
-  const [modifyComment, { data, error, loading }] = useMutation<
-    modifyComment,
-    modifyCommentVariables
-  >(MODIFY_COMMENT, { onCompleted: onCompletedModify });
-
-  const [deleteComment] = useMutation<deleteComment, deleteCommentVariables>(
-    DELETE_COMMENT,
-    {
-      onCompleted: onCompletedDelete,
-    }
-  );
-
-  const onEdit = () => {
-    setEdit((prev) => !prev);
-  };
-
-  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
-  };
-
-  const onSave = () => {
-    modifyComment({
-      variables: {
-        input: {
-          postId,
-          comment: value,
-          commentId,
-        },
-      },
-    });
-  };
-
-  const onDelete = () => {
-    deleteComment({
-      variables: {
-        input: {
-          postId,
-          commentId,
-        },
-      },
-    });
-  };
+  const { state, actions } = useComments({ postId, commentId });
+  const { edit, value } = state;
+  const { setValue, setEdit, onEdit, onChange } = actions;
 
   useEffect(() => {
     if (edit) setValue(comment);
   }, [edit]);
+
+  useEffect(() => {
+    if (!loading) {
+      setEdit(false);
+    }
+  }, [loading]);
 
   return (
     <li className={CommentBoxStyle.comment}>
@@ -109,32 +57,32 @@ const Comments: React.FC<IPropsComment> = ({
         <div className={CommentBoxStyle.buttonSpace}>
           {edit ? (
             <Button
-              onClick={onSave}
+              onClick={() => onSave({ value, commentId })}
               actionText="수정완료"
-              loading={loading}
-              canClick={!loading}
+              loading={false}
+              canClick={true}
             />
           ) : (
             <Button
               onClick={onEdit}
               actionText="수정"
-              loading={loading}
-              canClick={!loading}
+              loading={false}
+              canClick={true}
             />
           )}
           {edit ? (
             <Button
               onClick={onEdit}
               actionText="수정 취소"
-              loading={loading}
-              canClick={!loading}
+              loading={false}
+              canClick={true}
             />
           ) : (
             <Button
-              onClick={onDelete}
+              onClick={() => onDelete(commentId)}
               actionText="삭제"
-              loading={loading}
-              canClick={!loading}
+              loading={false}
+              canClick={true}
             />
           )}
         </div>
