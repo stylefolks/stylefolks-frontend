@@ -24,7 +24,7 @@ export const Button: React.FC<IButtonProps> = ({
     <>
       <button
         name={name ? name : ''}
-        onClick={onClick}
+        onClick={canClick ? onClick : () => null}
         className={`${UtilStyle.button} ${
           canClick ? 'ableButton' : 'disabledClickButton'
         }`}

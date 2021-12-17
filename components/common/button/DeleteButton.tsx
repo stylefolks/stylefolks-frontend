@@ -18,6 +18,10 @@ export const DeleteButton: React.FC<IButtonProps> = ({ canClick, onClick }) => {
         <FontAwesomeIcon icon={faTrashAlt} />
       </button>
       <style jsx>{`
+        button {
+          border-radius: 100%;
+        }
+
         button:hover {
           background-color: black;
           color: white;
