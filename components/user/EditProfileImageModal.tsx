@@ -6,6 +6,7 @@ import {
 } from 'cache/common/common.cache';
 import { isVisibleProfileImageModalVar } from 'cache/user/user.cache';
 import BackDrop from 'components/common/BackDrop';
+import { folksServer } from 'config';
 import { EDIT_PROFILE } from 'graphql/mutations';
 import Modal from 'HOC/Modal';
 import React, { useRef } from 'react';
@@ -51,7 +52,7 @@ const EditProfileImageModal = () => {
       isVisibleProfileImageModalVar(true);
 
       const { url } = await (
-        await fetch('http://localhost:4000/images/user', {
+        await fetch(`${folksServer}/images/user`, {
           method: 'POST',
           body: formBody,
           headers: {
@@ -94,7 +95,7 @@ const EditProfileImageModal = () => {
     const body = JSON.stringify({ link: user.profileImg });
 
     const res = await (
-      await fetch('http://localhost:4000/images/user', {
+      await fetch(`${folksServer}/images/user`, {
         method: 'PUT',
         body,
         headers: {

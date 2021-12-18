@@ -1,4 +1,5 @@
 import { Button } from 'components/common/button/Button';
+import { folksServer } from 'config';
 import { useRouter } from 'next/router';
 import React, { useRef } from 'react';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
@@ -19,7 +20,7 @@ const CrewModifyImageInfo: React.FC<IPropsCrewModifyImageInfo> = ({
   const uploadCrewProfileImage = async (formBody: FormData) => {
     try {
       const { url } = await (
-        await fetch('http://localhost:4000/images/crew', {
+        await fetch(`${folksServer}/images/crew`, {
           method: 'POST',
           body: formBody,
           headers: {
@@ -77,7 +78,7 @@ const CrewModifyImageInfo: React.FC<IPropsCrewModifyImageInfo> = ({
       }
 
       const res = await (
-        await fetch('http://localhost:4000/images/crew', {
+        await fetch(`${folksServer}/images/crew`, {
           method: 'PUT',
           body,
           headers: {

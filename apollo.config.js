@@ -8,7 +8,9 @@ module.exports = {
     tagName: 'gql',
     service: {
       name: 'stylefolks-backend',
-      url: 'http://localhost:4000/graphql',
+      url: 'https://api.the-folks.com:4000/graphql',
+      // // url: 'http://localhost:4000/graphql',
+      // url: folksServer,
     },
   },
 };
