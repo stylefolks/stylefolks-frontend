@@ -60,6 +60,7 @@ const IndexPage: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
   const [getAllPostsData, { data: moreData, loading, error, refetch }] =
     useLazyQuery<getAllPosts, getAllPostsVariables>(GET_ALL_POSTS_QUERY, {
+      fetchPolicy: 'no-cache',
       onError,
       onCompleted,
     });
