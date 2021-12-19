@@ -55,12 +55,14 @@ const IndexPage: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   };
 
   const onError = () => {
+    console.log('메인 페이지 알 수 없는 에러 발생');
     router.push('/');
   };
 
   const [getAllPostsData, { data: moreData, loading, error, refetch }] =
     useLazyQuery<getAllPosts, getAllPostsVariables>(GET_ALL_POSTS_QUERY, {
-      fetchPolicy: 'no-cache',
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'network-only',
       onError,
       onCompleted,
     });
