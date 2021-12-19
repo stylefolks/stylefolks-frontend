@@ -14,6 +14,7 @@ import {
   isVisibleEditProfileModal,
   isVisibleProfileImageModal,
 } from 'cache/user/user.field';
+import { folksServer } from 'config';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
@@ -23,7 +24,7 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 let apolloClient;
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: folksServer,
   headers: {
     'folks-token': authTokenVar() || '',
   },
