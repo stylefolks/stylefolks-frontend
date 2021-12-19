@@ -25,6 +25,21 @@ export default function App({ children }) {
           font-size: 14px;
           line-height: 24px;
         }
+        input,
+        textarea {
+          appearance: none;
+          -webkit-appearance: none;
+          -webkit-border-radius: 0;
+        }
+        select {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+        }
+        select::-ms-expand {
+          display: none;
+        }
+
         article {
           margin: 0 auto;
           max-width: 650px;
