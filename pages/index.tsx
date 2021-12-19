@@ -94,14 +94,14 @@ const IndexPage: React.FC<
       endMessage={<NoMore text={'No More Posts 😅'} />}
       style={{ position: 'relative' }}
     >
-      <div className={MainStyle.titleTextContainer}>
+      {/* <div className={MainStyle.titleTextContainer}>
         <div>
           <h1 className={MainStyle.titleText}>The Folks</h1>
           <h1 className={MainStyle.titleText}>
             The Advanced Fashion Community
           </h1>
         </div>
-      </div>
+      </div> */}
       <ul className={MainStyle.cardsContainer}>
         {data.map((el) => (
           <Link href={`/post/${el.id}`} key={el.id}>
@@ -126,7 +126,6 @@ const IndexPage: React.FC<
 export const getServerSideProps: GetServerSideProps<{ data: getAllPosts }> =
   async () => {
     const apolloClient = initializeApollo();
-
     const data: { data: getAllPosts } = await apolloClient.query({
       query: GET_ALL_POSTS_QUERY,
       variables: {
