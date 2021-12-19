@@ -3,7 +3,7 @@ import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import NoMore from 'pages/crew/components/NoMore';
+import NoMore from 'components/common/NoMore';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
@@ -13,7 +13,7 @@ import {
 } from 'src/__generated__/getPostByCategory';
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import ColumnStyle from 'styles/column/ColumnPage.module.scss';
-import ColumnCard from './components/ColumnCard';
+import ColumnCard from '../../components/column/ColumnCard';
 
 const Column: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   data: initialData,

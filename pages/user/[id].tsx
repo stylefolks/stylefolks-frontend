@@ -6,11 +6,11 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 import UserStyle from 'styles/User.module.scss';
 import { FIND_BY_NICKNAME } from '../../graphql/queries';
+import useUser from '../../hooks/pages/user/useUser';
 import {
   findByNickName_findByNickName,
   findByNickName_findByNickName_user,
 } from '../../src/__generated__/findByNickName';
-import useUser from './hooks/useUser';
 
 const DynamicAlert = dynamic(() => import('components/common/Alert'), {
   ssr: false,
