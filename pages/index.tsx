@@ -1,4 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
+import { authTokenVar, isLoggedInVar } from 'cache/common/common.cache';
 import gql from 'graphql-tag';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -84,6 +85,13 @@ const IndexPage: React.FC<
   useEffect(() => {
     getMorePost(page);
   }, [page]);
+
+  useEffect(() => {
+    if (localStorage && localStorage.getItem('folks-token')) {
+      isLoggedInVar(true);
+      authTokenVar(localStorage.getItem('folks-token'));
+    }
+  }, []);
 
   return (
     <InfiniteScroll

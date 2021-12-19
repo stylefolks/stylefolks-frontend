@@ -1,5 +1,10 @@
-import { gql, useQuery, useReactiveVar } from '@apollo/client';
-import { postStatusVar, writtenPostVar } from 'cache/common/common.cache';
+import { gql, useLazyQuery, useReactiveVar } from '@apollo/client';
+import {
+  isLoggedInVar,
+  postStatusVar,
+  writtenPostVar,
+} from 'cache/common/common.cache';
+import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { getCategoryByUserRole } from 'src/__generated__/getCategoryByUserRole';
 import {
@@ -40,15 +45,17 @@ interface IProps {
 
 const CategorySelector: React.FC<IProps> = ({ role }) => {
   const post = writtenPostVar();
+  const route = useRouter();
   const { isModify } = useReactiveVar(postStatusVar);
-
-  const { data, loading, error } = useQuery<getCategoryByUserRole>(
-    GET_CATEGORY_BY_USER_ROLE
-    // {
-    //   fetchPolicy: 'network-only',
-    //   nextFetchPolicy: 'network-only',
-    // }
-  );
+  const isLogin = useReactiveVar(isLoggedInVar);
+  const [getCategoryByUserQuery, { data, loading, error }] =
+    useLazyQuery<getCategoryByUserRole>(
+      GET_CATEGORY_BY_USER_ROLE
+      // {
+      //   fetchPolicy: 'network-only',
+      //   nextFetchPolicy: 'network-only',
+      // }
+    );
   const secondCategoryArr = data?.getCategoryByUserRole.firstCategory.filter(
     (el) => el.name === writtenPostVar().firstCategoryName
   )[0]?.secondCategory;
@@ -71,6 +78,12 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
       });
     }
   }, [post.firstCategoryName]);
+
+  useEffect(() => {
+    if (isLogin) {
+      getCategoryByUserQuery();
+    }
+  }, []);
 
   useEffect(() => {
     if (data?.getCategoryByUserRole) {
@@ -103,6 +116,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   }
 
   if (error) {
+    route.reload();
     return <div>Error!</div>;
   }
 
@@ -168,7 +182,6 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
                   const selectedIndex = el.target.options.selectedIndex;
                   const selectElement =
                     data.getCategoryByUserRole.brands[selectedIndex];
-
                   writtenPostVar({ ...post, brandId: selectElement.id });
                 }}
               >

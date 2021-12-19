@@ -7,7 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 80vw;
   max-width: 512px;
   height: 100%;
   border-right: 1px solid black;
@@ -27,13 +27,17 @@
     // border-top: 1px solid gray;
 
     &:hover {
-      background-color: #efeff0;
+      background-color: #8181ac;
     }
   }
 }
 
 .headerContainer {
-  // width: 100%;
+  position: fixed;
+  right: 0px;
+  left: 0px;
+  top: 0px;
+  z-index: 100;
   background-color: white;
   border-bottom: 1px solid #efeff0;
   display: flex;
