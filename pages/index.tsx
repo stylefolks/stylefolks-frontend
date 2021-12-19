@@ -1,7 +1,7 @@
 import { useLazyQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -38,9 +38,9 @@ const GET_ALL_POSTS_QUERY = gql`
   }
 `;
 
-const IndexPage: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  data: initialData,
-}) => {
+const IndexPage: React.FC<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ data: initialData }) => {
   const [page, setPage] = useState<number>(2);
   const [data, setData] = useState<getAllPosts_getAllPosts_post[]>(
     initialData.getAllPosts.post
@@ -123,26 +123,25 @@ const IndexPage: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   );
 };
 
-export const getStaticProps: GetStaticProps<{ data: getAllPosts }> = async (
-  ctx
-) => {
-  const apolloClient = initializeApollo(ctx);
+export const getServerSideProps: GetServerSideProps<{ data: getAllPosts }> =
+  async () => {
+    const apolloClient = initializeApollo();
 
-  const data: { data: getAllPosts } = await apolloClient.query({
-    query: GET_ALL_POSTS_QUERY,
-    variables: {
-      input: {
-        page: 1,
-        inputTake: 13,
+    const data: { data: getAllPosts } = await apolloClient.query({
+      query: GET_ALL_POSTS_QUERY,
+      variables: {
+        input: {
+          page: 1,
+          inputTake: 13,
+        },
       },
-    },
-  });
+    });
 
-  return addApolloState(apolloClient, {
-    props: {
-      data: data.data,
-    },
-  });
-};
+    return addApolloState(apolloClient, {
+      props: {
+        data: data.data,
+      },
+    });
+  };
 
 export default IndexPage;

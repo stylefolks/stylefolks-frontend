@@ -48,6 +48,12 @@
   grid-gap: 2vw;
 
   & > a {
+    border: 1px solid white;
+    overflow: hidden;
+
+    &:hover {
+      border: 1px solid $font-color-main;
+    }
     &:nth-child(13n - 12),
     &:nth-child(13n - 11) {
       grid-column: auto/span 2;
