@@ -8,6 +8,7 @@ import {
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
+import Alert from 'components/common/Alert';
 import { Button } from 'components/common/button/Button';
 import {
   CREATE_POST_MUTATION,
@@ -52,6 +53,23 @@ const Upload = () => {
     brandId,
   } = post;
 
+  const alertOnConfirm = () => {
+    alertVar({
+      title: '',
+      content: '',
+      visible: false,
+    });
+    router.push('/');
+  };
+  const alertOnCancel = () => {
+    alertVar({
+      title: '',
+      content: '',
+      visible: false,
+    });
+    router.push('/');
+  };
+
   const createPostonCompleted = (data: createPost) => {
     if (data?.createPost.ok) {
       writtenPostVar({ ...initialWrittePostVar });
@@ -82,7 +100,7 @@ const Upload = () => {
     }
 
     if (data?.createTemp.error) {
-      console.log(
+      alert(
         `${data.createTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
       );
     }
@@ -98,7 +116,7 @@ const Upload = () => {
     }
 
     if (data?.modifyTemp.error) {
-      console.log(
+      alert(
         `${data.modifyTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
       );
     }
@@ -113,7 +131,7 @@ const Upload = () => {
       });
     }
     if (data?.uploadTemp.error) {
-      console.log(
+      alert(
         `${data.uploadTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
       );
     }
@@ -376,6 +394,7 @@ const Upload = () => {
           )}
         </div>
         {modifyPostId ? '' : <TempPostBox userId={user.id} />}
+        <Alert onCancel={alertOnConfirm} onConfirm={alertOnCancel} />
       </div>
 
       <style jsx>{`
