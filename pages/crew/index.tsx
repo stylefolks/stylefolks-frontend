@@ -15,7 +15,7 @@ import {
   getAllCrew_getAllCrew_crew,
 } from 'src/__generated__/getAllCrew';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
-import NoMore from './components/NoMore';
+import NoMore from '../../components/common/NoMore';
 
 const GET_ALL_CREW = gql`
   query getAllCrew($input: GetAllCrewInput!) {

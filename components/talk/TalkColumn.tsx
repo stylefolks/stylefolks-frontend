@@ -14,7 +14,8 @@ interface IProps {
   data: getPostByCategory_getPostByCategory_post;
 }
 
-const TalkColumn: React.FC<IProps> = ({ data }) => {
+const TalkColumn: React.FC<IProps> = (props) => {
+  const { data } = props;
   return (
     <li className={TalkStyle.cardWrapper}>
       <Link href={`post/${data.id}`}>

@@ -15,7 +15,7 @@ import {
 } from 'src/__generated__/getAllPosts';
 import UtilStyle from 'styles/common/Util.module.scss';
 import MainStyle from 'styles/main/MainPage.module.scss';
-import NoMore from './crew/components/NoMore';
+import NoMore from '../components/common/NoMore';
 
 const GET_ALL_POSTS_QUERY = gql`
   query getAllPosts($input: GetAllPostsInput!) {

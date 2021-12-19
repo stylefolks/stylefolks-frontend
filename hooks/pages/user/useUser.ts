@@ -8,7 +8,6 @@ import {
 import { GET_USER_CREW } from 'graphql/queries';
 import { useMe } from 'hooks/useMe';
 import { useRouter } from 'next/router';
-import { findByNickName_findByNickName_user } from 'src/__generated__/findByNickName';
 import {
   getUserCrew,
   getUserCrewVariables,

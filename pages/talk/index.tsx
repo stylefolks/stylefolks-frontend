@@ -3,7 +3,7 @@ import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { useRouter } from 'next/router';
-import NoMore from 'pages/crew/components/NoMore';
+import NoMore from 'components/common/NoMore';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
@@ -13,7 +13,7 @@ import {
 } from 'src/__generated__/getPostByCategory';
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import TalkStyle from 'styles/talk/TalkPage.module.scss';
-import TalkColumn from './components/TalkColumn';
+import TalkColumn from '../../components/talk/TalkColumn';
 
 const Talk: React.FC<InferGetStaticPropsType<typeof getStaticProps>> = ({
   data: initialData,
