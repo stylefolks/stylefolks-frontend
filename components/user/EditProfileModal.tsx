@@ -1,120 +1,23 @@
-import { useMutation, useReactiveVar } from '@apollo/client';
-import { alertVar, userInfoVar } from 'cache/common/common.cache';
-import { isVisibleEditProfileModalVar } from 'cache/user/user.cache';
 import BackDrop from 'components/common/BackDrop';
 import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
-import { CHANGE_PASSWORD, EDIT_PROFILE } from 'graphql/mutations';
 import Modal from 'HOC/Modal';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import {
-  changePassword,
-  changePasswordVariables,
-} from 'src/__generated__/changePassword';
-import {
-  editProfile,
-  editProfileVariables,
-} from 'src/__generated__/editProfile';
+import React, { useEffect } from 'react';
 import UtilStyle from 'styles/common/Util.module.scss';
 import EditProfileModalStyle from 'styles/user/component/EditProfileModal.module.scss';
-
-interface IlocalPw {
-  pw: string;
-  changePw: string;
-  checkPw: string;
-}
+import useEditProfileModal from './hooks/useEditProfileModal';
 
 const EditProfileModal = () => {
-  const router = useRouter();
-  const visible = useReactiveVar(isVisibleEditProfileModalVar);
-  const user = useReactiveVar(userInfoVar);
-  const [localVal, setLocalVal] = useState({ nick: '', link: '' });
-  const [isChangePw, setIsChangePw] = useState<boolean>(false);
-  const [localPw, setLocalPw] = useState<IlocalPw>({
-    pw: '',
-    changePw: '',
-    checkPw: '',
-  });
-
-  const onCompleted = (data: editProfile) => {
-    if (data.editProfile.ok) {
-      userInfoVar({
-        ...userInfoVar(),
-        link: localVal.link,
-        nickname: localVal.nick,
-      });
-      isVisibleEditProfileModalVar(false);
-      router.push(`/user/${localVal.nick}`);
-    }
-  };
-
-  const onCompletedChangePw = (data: changePassword) => {
-    if (data.changePassword.ok) {
-      alertVar({
-        visible: true,
-        title: '비밀번호 변경',
-        content: '비밀번호 변경이 완료되었습니다.',
-      });
-    }
-    if (data.changePassword.error) {
-      alertVar({
-        visible: true,
-        title: '비밀번호 변경',
-        content: data.changePassword.error,
-      });
-    }
-  };
-
-  const [
-    changePasswordMutation,
-    { data: changePasswordData, loading, error: changePasswordError },
-  ] = useMutation<changePassword, changePasswordVariables>(CHANGE_PASSWORD, {
-    onCompleted: onCompletedChangePw,
-  });
-
-  const [editProfileMutation, {}] = useMutation<
-    editProfile,
-    editProfileVariables
-  >(EDIT_PROFILE, {
-    onCompleted,
-  });
-
-  useEffect(() => {
-    setLocalVal({
-      nick: user.nickname,
-      link: user.link,
-    });
-  }, [visible]);
-
-  const onSave = () => {
-    editProfileMutation({
-      variables: {
-        input: {
-          link: localVal.link,
-          nickname: localVal.nick,
-          profileImg: user.profileImg,
-        },
-      },
-    });
-  };
-
-  const onSaveChangePassword = () => {
-    changePasswordMutation({
-      variables: {
-        input: {
-          password: localPw.pw,
-          changePassword: localPw.changePw,
-        },
-      },
-    });
-  };
-
-  const onQuit = () => {
-    setLocalPw({ pw: '', changePw: '', checkPw: '' });
-    setIsChangePw(false);
-    isVisibleEditProfileModalVar(false);
-  };
+  const { state, actions } = useEditProfileModal();
+  const { visible, isChangePw, user, localPw, localVal, loading } = state;
+  const {
+    setLocalVal,
+    setLocalPw,
+    setIsChangePw,
+    onSaveChangePassword,
+    onSave,
+    onQuit,
+  } = actions;
 
   useEffect(
     () => () => {
@@ -122,6 +25,13 @@ const EditProfileModal = () => {
     },
     []
   );
+
+  useEffect(() => {
+    setLocalVal({
+      nick: user.nickname,
+      link: user.link,
+    });
+  }, [visible]);
 
   return (
     <Modal visible={visible}>

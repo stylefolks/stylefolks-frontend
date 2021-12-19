@@ -375,7 +375,7 @@ const Upload = () => {
           ) : (
             <>
               <Button
-                canClick={false}
+                canClick={true}
                 actionText={
                   pickTempId ? 'Modifications completed' : 'Temporarily Save'
                 }
@@ -383,7 +383,7 @@ const Upload = () => {
                 onClick={pickTempId ? handleTempModify : handleTempSave}
               />
               <Button
-                canClick={false}
+                canClick={true}
                 actionText={
                   pickTempId
                     ? 'Upload temp post to new post'

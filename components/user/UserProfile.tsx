@@ -98,18 +98,6 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
     isVisibleEditProfileModalVar(true);
   };
 
-  const onSave = () => {
-    editProfileMutation({
-      variables: {
-        input: {
-          link: localVal.link,
-          nickname: localVal.nick,
-          profileImg: user.profileImg,
-        },
-      },
-    });
-  };
-
   useEffect(() => {
     if (user.nickname === pageUserData.nickname) setIsUser(true);
   }, []);

@@ -6,7 +6,7 @@ import {
   spinnerVisibleVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
-import { folksServer } from 'config';
+import { folksServerNoGql } from 'config';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useEffect } from 'react';
@@ -67,7 +67,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
 
     try {
       const res = await (
-        await fetch(`${folksServer}/images`, {
+        await fetch(`${folksServerNoGql}/images`, {
           method: 'POST',
           body: formdata,
           headers: {
