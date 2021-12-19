@@ -82,7 +82,8 @@ $delayandduration: 4;
 }
 
 .sectionMain {
-  margin: 0 auto;
+  margin: 0px auto;
+  margin-top: calc(40px + 3vw + 1vw);
   height: 100%;
   // width: 100%;
   min-height: calc(100vh - 200px - 25px);
