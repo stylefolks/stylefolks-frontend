@@ -71,17 +71,21 @@ export const initialPostStatusVar: IPostStatus = {
   titleImageArr: [],
 };
 
-const token =
-  typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
-export const isLoggedInVar = makeVar(Boolean(token));
-export const authTokenVar = makeVar(token);
-export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
+export const initialUserInfoVar: IUserInforVar = {
   email: '',
   id: null,
   role: UserRole.User,
   profileImg: '',
   nickname: '',
   link: '',
+};
+
+const token =
+  typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
+export const isLoggedInVar = makeVar(Boolean(token));
+export const authTokenVar = makeVar(token);
+export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
+  ...initialUserInfoVar,
 });
 export const modalVisibleVar: ReactiveVar<IModalStatus> = makeVar({
   ...initialModalVisibleVar,

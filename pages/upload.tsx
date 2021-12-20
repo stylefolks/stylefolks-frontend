@@ -39,9 +39,9 @@ import {
 } from '../src/__generated__/modifyTemp';
 
 const Upload = () => {
-  const user = userInfoVar();
-  const router = useRouter();
+  const user = useReactiveVar(userInfoVar);
   const post = useReactiveVar(writtenPostVar);
+  const router = useRouter();
 
   const { pickTempId, isModify, modifyPostId } = useReactiveVar(postStatusVar);
   const {

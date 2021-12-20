@@ -14,7 +14,7 @@ import {
 } from 'src/__generated__/editProfile';
 
 const useEditProfileImageModal = () => {
-  const user = userInfoVar();
+  const user = useReactiveVar(userInfoVar);
   const ref = useRef<HTMLInputElement>(null);
   const modal = useReactiveVar(isVisibleProfileImageModalVar);
 
