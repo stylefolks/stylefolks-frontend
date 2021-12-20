@@ -1,8 +1,8 @@
 import { ApolloQueryResult, useMutation } from '@apollo/client';
 import { modalVisibleVar, userInfoVar } from 'cache/common/common.cache';
-import BackDrop from 'components/common/BackDrop';
 import { Button } from 'components/common/button/Button';
 import CircleProfileImage from 'components/common/CircleProfileImage';
+import BackDrop from 'components/common/shared/BackDrop';
 import PageChange from 'components/pageChange/PageChange';
 import gql from 'graphql-tag';
 import Modal from 'HOC/Modal';

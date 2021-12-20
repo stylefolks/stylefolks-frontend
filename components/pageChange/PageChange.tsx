@@ -1,6 +1,6 @@
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import BackDrop from 'components/common/BackDrop';
+import BackDrop from 'components/common/shared/BackDrop';
 
 const PageChange = () => {
   return (

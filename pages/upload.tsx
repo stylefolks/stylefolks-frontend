@@ -1,7 +1,6 @@
 import { useMutation, useReactiveVar } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import {
-  alertVar,
   initialPostStatusVar,
   initialWrittePostVar,
   postStatusVar,
@@ -9,8 +8,10 @@ import {
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
-import Alert from 'components/common/Alert';
+import { uploadDialogVar } from 'cache/upload/upload.cache';
 import { Button } from 'components/common/button/Button';
+import PageChange from 'components/pageChange/PageChange';
+import UploadDialog from 'components/upload/UploadDialog';
 import {
   CREATE_POST_MUTATION,
   CREATE_TEMP_MUTATION,
@@ -55,7 +56,7 @@ const Upload = () => {
   } = post;
 
   const alertOnConfirm = () => {
-    alertVar({
+    uploadDialogVar({
       title: '',
       content: '',
       visible: false,
@@ -63,7 +64,7 @@ const Upload = () => {
     router.push('/');
   };
   const alertOnCancel = () => {
-    alertVar({
+    uploadDialogVar({
       title: '',
       content: '',
       visible: false,
@@ -75,7 +76,7 @@ const Upload = () => {
     if (data?.createPost.ok) {
       writtenPostVar({ ...initialWrittePostVar });
       postStatusVar({ ...initialPostStatusVar });
-      alertVar({
+      uploadDialogVar({
         title: '새로운 게시물',
         content: '새로운 게시물 업로드를 완료하였습니다. ^_^',
         visible: true,
@@ -93,7 +94,7 @@ const Upload = () => {
     if (data?.createTemp.ok) {
       writtenPostVar({ ...initialWrittePostVar });
       postStatusVar({ ...initialPostStatusVar, isTemp: true }); //에디터 내부에서 리셋을 위해 isTemp true설정
-      alertVar({
+      uploadDialogVar({
         title: '임시 게시물',
         content: '새로운 임시저장 게시물 저장을 완료하였습니다. :)',
         visible: true,
@@ -109,7 +110,7 @@ const Upload = () => {
 
   const ModifyTempOnCompleted = (data: modifyTemp) => {
     if (data?.modifyTemp.ok) {
-      alertVar({
+      uploadDialogVar({
         title: '임시 게시물',
         content: '임시저장 게시물 저장이 완료되었습니다. :)',
         visible: true,
@@ -125,7 +126,7 @@ const Upload = () => {
 
   const uploadMutationOnCompleted = (data: uploadTemp) => {
     if (data?.uploadTemp.ok) {
-      alertVar({
+      uploadDialogVar({
         title: '임시 게시물',
         content: '임시저장 게시물의 업로드가 완료되었습니다. :)',
         visible: true,
@@ -145,13 +146,8 @@ const Upload = () => {
         isModify: false,
         modifyPostId: null,
       });
-      router.push(`/post/${modifyPostId}`);
 
-      // alertVar({
-      //   title: '수정 게시물',
-      //   content: '수정된 게시물의 업로드가 완료되었습니다. :)',
-      //   visible: true,
-      // });
+      router.push(`/post/${modifyPostId}`);
     }
   };
 
@@ -317,8 +313,7 @@ const Upload = () => {
 
       //이미지 다 커지기 전까지 로더 계속 돌리기
       //어차피 새로 추가되는 사진 이 있는경우 해당 함수가 실행될 것이므로  추가되는 것만 체크하기
-      // spinnerVisibleVar(false);
-      spinnerVisibleVar(false);
+      spinnerVisibleVar(false); //
     }
   };
 
@@ -347,8 +342,8 @@ const Upload = () => {
     };
   }, []);
 
-  if (createPostLoading || createTempLoading)
-    return <div>업로드중입니다 잠시만 기다려주세요... :)</div>;
+  if (createPostLoading || createTempLoading || ModifyTempLoading)
+    return <PageChange />;
 
   return (
     <>
@@ -399,7 +394,13 @@ const Upload = () => {
           )}
         </div>
         {modifyPostId ? '' : <TempPostBox userId={user.id} />}
-        <Alert onCancel={alertOnConfirm} onConfirm={alertOnCancel} />
+        <UploadDialog
+          visible={uploadDialogVar().visible}
+          title={uploadDialogVar().title}
+          content={uploadDialogVar().content}
+          onCancel={alertOnConfirm}
+          onConfirm={alertOnCancel}
+        />
       </div>
 
       <style jsx>{`

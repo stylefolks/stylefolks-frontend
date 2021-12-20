@@ -1,6 +1,6 @@
-import BackDrop from 'components/common/BackDrop';
 import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
+import BackDrop from 'components/common/shared/BackDrop';
 import Modal from 'HOC/Modal';
 import React, { useEffect } from 'react';
 import UtilStyle from 'styles/common/Util.module.scss';
