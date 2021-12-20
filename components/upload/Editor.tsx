@@ -76,12 +76,10 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         })
       ).json();
 
-      //그리고 스피너 끝내자
-      spinnerVisibleVar(false);
-
       return res?.url;
     } catch (error) {
-      alert('이미지 업로드 에러 발생');
+      spinnerVisibleVar(false);
+      alert('이미지 업로드 에러 발생 : 임시 저장 후 새로고침 후 시도해주세요!');
     }
   };
 
