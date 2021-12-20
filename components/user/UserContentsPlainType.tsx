@@ -1,3 +1,5 @@
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
 import UseWindowDimension from 'hooks/useWindowDimension';
 import Link from 'next/link';
@@ -5,7 +7,6 @@ import { getPostByCategory } from 'src/__generated__/getPostByCategory';
 import UserStyle from 'styles/User.module.scss';
 import UserContentsPlaintTypeStyle from 'styles/user/component/UserContentsPlainType.module.scss';
 import { makePreContents } from 'utils/Utils';
-import EditorViewer from '../../components/upload/EditorViewer';
 
 interface IUserContentsPlainTypeProps {
   data: getPostByCategory;
@@ -28,22 +29,25 @@ const UserContentsPlainType: React.FC<IUserContentsPlainTypeProps> = ({
               <div className={UserContentsPlaintTypeStyle.titleWrapper}>
                 <h2>TITLE : {el.title}</h2>
                 <div>
-                  <span>VIEWER : {el.viewCount}</span>
+                  <span>
+                    <FontAwesomeIcon icon={faUser} /> {el.viewCount}
+                  </span>
                   <span>
                     DATE : {format(new Date(el.createdAt), 'yyyy-MM-dd')}
                   </span>
                 </div>
               </div>
               <div>
-                {width >= 1024 ? (
+                <span className={UserContentsPlaintTypeStyle.plainContent}>
+                  {makePreContents(el.contents)}
+                </span>
+                {/* {width >= 1024 ? (
                   <div className={UserContentsPlaintTypeStyle.contentBlinder}>
                     <EditorViewer content={el.contents} />
                   </div>
                 ) : (
-                  <span className={UserContentsPlaintTypeStyle.plainContent}>
-                    {makePreContents(el.contents)}
-                  </span>
-                )}
+
+                )} */}
               </div>
             </a>
           </Link>

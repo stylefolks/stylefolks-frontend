@@ -1,5 +1,7 @@
 import PageChange from 'components/pageChange/PageChange';
 import EditProfileImageModal from 'components/user/EditProfileImageModal';
+import UserAllContents from 'components/user/UserAllContents';
+import UserContents from 'components/user/UserContents';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import dynamic from 'next/dynamic';
@@ -58,9 +60,9 @@ const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
           <DynamicUserProfile pageUserData={pageUserData} />
         </div>
         {isUserTotal ? (
-          <DynamicUserAllContents pageUserData={pageUserData} />
+          <UserAllContents pageUserData={pageUserData} />
         ) : (
-          <DynamicUserContents pageUserData={pageUserData} />
+          <UserContents pageUserData={pageUserData} />
         )}
         <DynamicEditProfile />
         <EditProfileImageModal />
