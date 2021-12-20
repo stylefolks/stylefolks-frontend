@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { ApolloError, useLazyQuery } from '@apollo/client';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CircleProfileImage from 'components/common/CircleProfileImage';
@@ -45,7 +45,8 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     );
 
     const router = useRouter();
-    const onError = () => {
+    const onError = (error: ApolloError) => {
+      alert(error);
       router.push('/');
     };
 

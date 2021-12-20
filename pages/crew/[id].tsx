@@ -7,7 +7,7 @@ import CrewNotice from 'components/crew/CrewNotice';
 import CrewOOTD from 'components/crew/CrewOOTD';
 import CrewProfile from 'components/crew/CrewProfile';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React from 'react';
 import { departCrew, departCrewVariables } from 'src/__generated__/departCrew';
 import {
   getCrewByName,
@@ -70,7 +70,6 @@ const Crew = () => {
   const router = useRouter();
   const { id } = router.query;
   const visible = useReactiveVar(modalVisibleVar);
-  const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const { data, loading, error, refetch } = useQuery<
     getCrewByName,

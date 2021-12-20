@@ -45,7 +45,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   const onCompleted = (data: editProfile) => {
     if (data.editProfile.ok) {
       userInfoVar({
-        ...userInfoVar(),
+        ...user,
         link: localVal.link,
         nickname: localVal.nick,
       });
