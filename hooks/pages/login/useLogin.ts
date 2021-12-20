@@ -52,10 +52,9 @@ const useLogin = () => {
     } = data;
 
     if (ok && token) {
-      isLoggedInVar(true);
       localStorage.setItem('folks-token', token);
-
       if (localStorage.getItem('folks-token')) {
+        isLoggedInVar(true);
         authTokenVar(token);
         router.push('/');
       }
@@ -63,7 +62,7 @@ const useLogin = () => {
       isLoggedInVar(false);
       if (error) {
         console.error(error);
-        alert('로그인 에러가 발생했습니다.');
+        alert(`로그인 에러가 발생했습니다. : ${error}`);
         router.push('/');
       }
     }

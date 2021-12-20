@@ -39,7 +39,7 @@ const httpLink = createHttpLink({
 //ref: https://medium.com/risan/set-authorization-header-with-apollo-client-e934e6517ccf
 const authLink = new ApolloLink((operation, forward) => {
   //로컬스토리지로부터 토큰 받아오기
-  const token = localStorage.getItem('folks-token');
+  const token = authTokenVar();
 
   // HTTP headers 세팅을 위해 setContext method 사용
   operation.setContext({
