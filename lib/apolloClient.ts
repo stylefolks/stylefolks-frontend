@@ -1,4 +1,9 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloLink,
+  createHttpLink,
+  InMemoryCache,
+} from '@apollo/client';
 import { concatPagination } from '@apollo/client/utilities';
 import { authTokenVar } from 'cache/common/common.cache';
 import {
@@ -30,13 +35,21 @@ const httpLink = createHttpLink({
   },
 });
 
-//컨텍스트에서 처리하는건 웹소켓 연결 시 가능한거임 ㅇㅇ..
-// const authLink = setContext((_, { headers }) => {
-//   return {
-//     ...headers,
-//     'folks-token': authTokenVar() || '',
-//   };
-// });
+//middleware
+//ref: https://medium.com/risan/set-authorization-header-with-apollo-client-e934e6517ccf
+const authLink = new ApolloLink((operation, forward) => {
+  //로컬스토리지로부터 토큰 받아오기
+  const token = localStorage.getItem('folks-token');
+
+  // HTTP headers 세팅을 위해 setContext method 사용
+  operation.setContext({
+    headers: {
+      'folks-token': token ? token : '',
+    },
+  });
+
+  return forward(operation);
+});
 
 //나중에 웹소켓 연결 시 하단 split링크 사용
 // const splitLink = split(({ query }) => {
@@ -50,7 +63,7 @@ const httpLink = createHttpLink({
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: httpLink,
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache({
       typePolicies: {
         Query: {
@@ -75,15 +88,14 @@ function createApolloClient() {
 export function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient();
 
-  // If your page has Next.js data fetching methods that use Apollo Client, the initial state
-  // gets hydrated here
+  // Next.js 페이지가 apolloClient의 메소드를 사용해 data fetching하는 경우, 초기 상태값이 여기서 hydrate 된다.
   if (initialState) {
-    // Get existing cache, loaded during client side data fetching
+    //  client side 에서 data를 fetch하는 동안 존재하는 캐시를 가져오고 읽음.
     const existingCache = _apolloClient.extract();
 
-    // Merge the existing cache into data passed from getStaticProps/getServerSideProps
+    // getStaticProps/getServerSideProps로 부터 넘어온 데이터랑 존재하는 cache랑 합침
     const data = merge(initialState, existingCache, {
-      // combine arrays using object equality (like in sets)
+      // object equality (like in sets)을 사용해서 배열 합침
       arrayMerge: (destinationArray, sourceArray) => [
         ...sourceArray,
         ...destinationArray.filter((d) =>
@@ -92,9 +104,10 @@ export function initializeApollo(initialState = null) {
       ],
     });
 
-    // Restore the cache with the merged data
+    // 받아온 데이터와 존재한 캐시를 합친 데이터를 다시 저장함
     _apolloClient.cache.restore(data);
   }
+
   // For SSG and SSR always create a new Apollo Client
   if (typeof window === 'undefined') return _apolloClient;
   // Create the Apollo Client once in the client
