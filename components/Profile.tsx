@@ -1,6 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import {
   authTokenVar,
+  initialUserInfoVar,
   isLoggedInVar,
   userInfoVar,
 } from 'cache/common/common.cache';
@@ -34,6 +35,7 @@ const Profile: React.FC = () => {
     authTokenVar('');
     localStorage.clear();
     isLoggedInVar(false);
+    userInfoVar({ ...initialUserInfoVar });
     router.push('/login');
   };
 

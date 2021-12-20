@@ -48,11 +48,13 @@ export const Post = () => {
       crew,
       brand,
     } = data?.getEachPost.post;
+
     postStatusVar({
       ...postStatusVar(),
       isModify: true,
       modifyPostId: postId,
     });
+
     writtenPostVar({
       title,
       contents,
