@@ -4,16 +4,16 @@ import Link from 'next/link';
 import FooterStyle from '../../styles/Footer.module.scss';
 
 const FOOTER_ICON_MAP = [
-  { icon: faInstagram, href: '#' },
-  { icon: faYoutube, href: '#' },
+  { icon: faInstagram, href: '#1' },
+  { icon: faYoutube, href: '#2' },
   // { icon: faBlogger, href: '#' },
 ];
 const FOOTER_TEXT_MAP = [
-  { text: 'HOME', href: '#' },
-  { text: 'Services', href: '#' },
-  { text: 'About', href: '#' },
-  { text: 'Terms', href: '#' },
-  { text: 'Privacy Policy', href: '#' },
+  { text: 'HOME', href: '#3' },
+  { text: 'Services', href: '#4' },
+  { text: 'About', href: '#5' },
+  { text: 'Terms', href: '#6' },
+  { text: 'Privacy Policy', href: '#7' },
 ];
 
 const Footer = () => {

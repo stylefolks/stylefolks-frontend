@@ -5,6 +5,7 @@ import {
   initialPostStatusVar,
   initialWrittePostVar,
   postStatusVar,
+  spinnerVisibleVar,
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
@@ -271,8 +272,6 @@ const Upload = () => {
   };
 
   const clickTitleImageCallbackFn = (e: MouseEvent) => {
-    // const childNodesSet = container && container[0]?.childNodes;
-    // const imgTag = container[0] && container[0].getElementsByTagName('img');
     const el = e.target as HTMLElement;
     const src = el.getAttribute('src');
 
@@ -310,10 +309,16 @@ const Upload = () => {
         imgTag[i].addEventListener('click', (e: MouseEvent) => {
           clickTitleImageCallbackFn(e);
         });
+
         if (imgTag[i].getAttribute('src') === post.titleImg) {
           imgTag[i]?.classList.add('folks-titleImg');
         }
       }
+
+      //이미지 다 커지기 전까지 로더 계속 돌리기
+      //어차피 새로 추가되는 사진 이 있는경우 해당 함수가 실행될 것이므로  추가되는 것만 체크하기
+      // spinnerVisibleVar(false);
+      spinnerVisibleVar(false);
     }
   };
 

@@ -116,7 +116,8 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   }
 
   if (error) {
-    route.reload();
+    alert('에러가 발생했습니다 메인화면으로 다시 돌아갑니다.');
+    route.push('/');
     return <div>Error!</div>;
   }
 
