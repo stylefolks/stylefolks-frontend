@@ -1,5 +1,4 @@
 import { Button } from 'components/common/button/Button';
-import GoogleLoginButton from 'components/common/button/GoogleLoginButton';
 import { FormError } from 'components/common/FormError';
 import useLogin from 'hooks/pages/login/useLogin';
 import Link from 'next/link';
@@ -73,7 +72,7 @@ export const Login = () => {
           <span> OR </span>
           <div />
         </div>
-        <GoogleLoginButton />
+        {/* <GoogleLoginButton /> */}
         <div className={LoginStyle.registerButtonWrapper}>
           <Link href="/create-account">
             <a>회원가입</a>

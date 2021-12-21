@@ -1,5 +1,6 @@
 import { userInfoVar } from 'cache/common/common.cache';
 import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
+import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { getEachPostComments_getEachPostComments_comments_user } from 'src/__generated__/getEachPostComments';
 import CommentBoxStyle from 'styles/CommentBox.module.scss';
@@ -8,7 +9,6 @@ import { CompleteButton } from '../button/CompleteButton';
 import { DeleteButton } from '../button/DeleteButton';
 import { ModifyButton } from '../button/ModifyButton';
 import useComments from './useComments';
-
 interface IPropsComment {
   comment: string;
   commentUser: getEachPostComments_getEachPostComments_comments_user;
@@ -45,8 +45,12 @@ const Comments: React.FC<IPropsComment> = ({
   return (
     <li className={CommentBoxStyle.comment}>
       <div className={CommentBoxStyle.profileWrapper}>
-        <LoggedInUserProfileImage />
-        <span>{commentUser.nickname}</span>
+        <Link href={`/user/${commentUser.nickname}`}>
+          <a>
+            <LoggedInUserProfileImage />
+            <span>{commentUser.nickname}</span>
+          </a>
+        </Link>
       </div>
       {!edit ? (
         <>
