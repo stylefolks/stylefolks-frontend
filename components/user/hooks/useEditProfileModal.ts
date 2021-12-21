@@ -1,5 +1,5 @@
 import { useMutation, useReactiveVar } from '@apollo/client';
-import { alertVar, userInfoVar } from 'cache/common/common.cache';
+import { userInfoVar } from 'cache/common/common.cache';
 import { isVisibleEditProfileModalVar } from 'cache/user/user.cache';
 import { CHANGE_PASSWORD, EDIT_PROFILE } from 'graphql/mutations';
 import { useRouter } from 'next/router';
@@ -53,19 +53,11 @@ const useEditProfileModal = ({ doRefetch, doUseMeRefetch }: IProps) => {
   const onCompletedChangePw = (data: changePassword) => {
     if (data.changePassword.ok) {
       isVisibleEditProfileModalVar(false);
-      alertVar({
-        visible: true,
-        title: '비밀번호 변경',
-        content: '비밀번호 변경이 완료되었습니다.',
-      });
+      alert('비밀번호 변경이 완료되었습니다.');
     }
     if (data.changePassword.error) {
       isVisibleEditProfileModalVar(false);
-      alertVar({
-        visible: true,
-        title: '비밀번호 변경',
-        content: data.changePassword.error,
-      });
+      alert(`비밀번호 변경${data.changePassword.error}`);
     }
   };
 

@@ -88,7 +88,7 @@ const useEditProfileImageModal = ({ doRefetch }: IProps) => {
 
   const onDelete = async () => {
     const body = JSON.stringify({ link: user.profileImg });
-
+    spinnerVisibleVar(false); // 일단 BE수정 필요
     const res = await (
       await fetch(`${folksServerNoGql}/images/user`, {
         method: 'PUT',
@@ -101,8 +101,6 @@ const useEditProfileImageModal = ({ doRefetch }: IProps) => {
     ).json();
 
     if (res.status === 200) {
-      //여기서 gql도 날려줘야할듯.
-
       editProfileMutation({
         variables: {
           input: {

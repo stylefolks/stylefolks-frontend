@@ -48,7 +48,7 @@ const Upload = () => {
   const user = useReactiveVar(userInfoVar);
   const post = useReactiveVar(writtenPostVar);
   const router = useRouter();
-  const [alertVar, setAlertVar] = useState<IDialog>({
+  const [dialogVar, setDialogVar] = useState<IDialog>({
     visible: false,
     title: '',
     content: '',
@@ -66,7 +66,7 @@ const Upload = () => {
   } = post;
 
   const alertOnConfirm = () => {
-    setAlertVar({
+    setDialogVar({
       title: '',
       content: '',
       visible: false,
@@ -74,7 +74,7 @@ const Upload = () => {
     router.push('/');
   };
   const alertOnCancel = () => {
-    setAlertVar({
+    setDialogVar({
       title: '',
       content: '',
       visible: false,
@@ -86,7 +86,7 @@ const Upload = () => {
     if (data?.createPost.ok) {
       writtenPostVar({ ...initialWrittePostVar });
       postStatusVar({ ...initialPostStatusVar });
-      setAlertVar({
+      setDialogVar({
         title: '새로운 게시물',
         content: '새로운 게시물 업로드를 완료하였습니다. ^_^',
         visible: true,
@@ -104,7 +104,7 @@ const Upload = () => {
     if (data?.createTemp.ok) {
       writtenPostVar({ ...initialWrittePostVar });
       postStatusVar({ ...initialPostStatusVar, isTemp: true }); //에디터 내부에서 리셋을 위해 isTemp true설정
-      setAlertVar({
+      setDialogVar({
         title: '임시 게시물',
         content: '새로운 임시저장 게시물 저장을 완료하였습니다. :)',
         visible: true,
@@ -120,7 +120,7 @@ const Upload = () => {
 
   const ModifyTempOnCompleted = (data: modifyTemp) => {
     if (data?.modifyTemp.ok) {
-      setAlertVar({
+      setDialogVar({
         title: '임시 게시물',
         content: '임시저장 게시물 저장이 완료되었습니다. :)',
         visible: true,
@@ -136,7 +136,7 @@ const Upload = () => {
 
   const uploadMutationOnCompleted = (data: uploadTemp) => {
     if (data?.uploadTemp.ok) {
-      setAlertVar({
+      setDialogVar({
         title: '임시 게시물',
         content: '임시저장 게시물의 업로드가 완료되었습니다. :)',
         visible: true,
@@ -406,9 +406,9 @@ const Upload = () => {
         </div>
         {modifyPostId ? '' : <TempPostBox userId={user.id} />}
         <UploadDialog
-          visible={alertVar.visible}
-          title={alertVar.title}
-          content={alertVar.content}
+          visible={dialogVar.visible}
+          title={dialogVar.title}
+          content={dialogVar.content}
           onCancel={alertOnConfirm}
           onConfirm={alertOnCancel}
         />

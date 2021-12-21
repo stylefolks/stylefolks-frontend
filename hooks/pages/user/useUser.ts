@@ -1,10 +1,5 @@
 import { useLazyQuery, useReactiveVar } from '@apollo/client';
-import { alertVar } from 'cache/common/common.cache';
-import {
-  isUserTotalPostVar,
-  isVisibleEditProfileModalVar,
-  isVisibleProfileImageModalVar,
-} from 'cache/user/user.cache';
+import { isUserTotalPostVar } from 'cache/user/user.cache';
 import { GET_USER_CREW } from 'graphql/queries';
 import { useMe } from 'hooks/useMe';
 import { useRouter } from 'next/router';
@@ -21,7 +16,6 @@ interface IuseUser {
 const useUser = ({ userNick }: IuseUser) => {
   const { refetch } = useMe();
   const isUserTotal = useReactiveVar(isUserTotalPostVar);
-  const alert = alertVar();
   const router = useRouter();
   const [
     getUserCrewDataMutation,
@@ -34,20 +28,6 @@ const useUser = ({ userNick }: IuseUser) => {
     fetchPolicy: 'network-only',
     nextFetchPolicy: 'network-only',
   });
-
-  // const onConfirmAlert = () => {
-  //   alertVar({ title: '', content: '', visible: false });
-  //   if (alert.title === '프로필 이미지 수정') {
-  //     console.log('work in here??');
-  //     router.reload();
-  //     isVisibleProfileImageModalVar(false);
-  //     refetch(); //여기도 나중에 캐시만 업데이트 하는 방식으로 변경하자
-  //   }
-
-  //   if (alert.title === '비밀번호 변경') {
-  //     isVisibleEditProfileModalVar(false);
-  //   }
-  // };
 
   if (getUserCrewError) {
     router.push('/');
@@ -67,9 +47,7 @@ const useUser = ({ userNick }: IuseUser) => {
       getUserCrewLoading,
       isUserTotal,
     },
-    actions: {
-      // onConfirmAlert,
-    },
+    actions: {},
   };
 };
 

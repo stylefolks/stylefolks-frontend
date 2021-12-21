@@ -97,6 +97,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
               alt="profile-image"
               width="120px"
               height="120px"
+              layout={'intrinsic'}
               unoptimized={true}
               placeholder="blur"
               blurDataURL={
