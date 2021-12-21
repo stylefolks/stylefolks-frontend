@@ -327,18 +327,35 @@
 }
 
 .userAllEachContents {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 20px;
-  border: 1px solid black;
-  border-radius: 10px;
-  margin: 15px 0px;
-  position: relative;
-
-  & > div {
+  & > a {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    padding: 0px 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin: 15px 0px;
+    position: relative;
+    text-decoration: none;
+
+    & > div {
+      display: flex;
+      align-items: center;
+      // & > span {
+      //   font-size: 18px;
+
+      //   &:nth-child(2) {
+      //     text-overflow: ellipsis;
+      //     white-space: nowrap;
+      //     overflow: hidden;
+      //     width: 120px;
+      //   }
+
+      //   @media screen and (max-width: $media-phone) {
+      //     font-size: 12px;
+      //   }
+      // }
+    }
   }
 }
 
@@ -346,12 +363,26 @@
   display: flex;
   flex-direction: column;
   margin-left: 24px;
-  font-size: 16px;
+  & > span {
+    font-size: 18px;
 
-  & > a {
+    @media screen and (max-width: $media-phone) {
+      font-size: 12px;
+    }
+  }
+
+  & > span:nth-child(2) {
     margin-top: 4px;
-    color: $font-color-main;
+
     text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 180px;
+
+    @media screen and (max-width: $media-phone) {
+      width: 120px;
+    }
   }
 }
 

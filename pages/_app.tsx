@@ -20,7 +20,7 @@ Router.events.on('routeChangeComplete', (url) => {
 Router.events.on('routeChangeError', (url) => {
   ReactDOM.unmountComponentAtNode(document.getElementById('page-transition'));
   document.body.classList.remove('body-page-transition');
-  Router.push('/');
+  // Router.push('/');
 });
 
 const DynamicSpinner = dynamic(() => import('components/common/Spinner'), {
