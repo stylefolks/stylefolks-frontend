@@ -9,6 +9,7 @@ import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
+
 interface IProps {
   doRefetch: () => void;
 }
@@ -106,7 +107,7 @@ const useEditProfileImageModal = ({ doRefetch }: IProps) => {
           input: {
             nickname: user.nickname,
             link: user.link,
-            profileImg: user.profileImg,
+            profileImg: '../vacantImage.png',
           },
         },
       });
