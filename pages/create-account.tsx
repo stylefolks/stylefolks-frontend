@@ -60,9 +60,9 @@ export const CreateAccount = () => {
       createAccountMutation({
         variables: {
           createAccountInput: {
-            email: email,
-            password: password,
-            nickname: nickname,
+            email,
+            password,
+            nickname,
             role: UserRole.User,
           },
         },
