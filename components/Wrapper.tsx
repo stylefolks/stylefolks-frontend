@@ -79,6 +79,10 @@ export default function App({ children }) {
         .folks-titleImg {
           border: 3px solid #22bad9;
         }
+        .toastui-editor-contents img {
+          display: block;
+          margin: 4px auto !important;
+        }
 
         @media screen and (max-width: 600px) {
           .toastui-editor-popup {
