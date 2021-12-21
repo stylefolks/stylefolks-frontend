@@ -1,17 +1,17 @@
+import { useQuery } from '@apollo/client';
 import PageChange from 'components/pageChange/PageChange';
 import EditProfileImageModal from 'components/user/EditProfileImageModal';
 import UserAllContents from 'components/user/UserAllContents';
 import UserContents from 'components/user/UserContents';
-import { addApolloState, initializeApollo } from 'lib/apolloClient';
-import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import React from 'react';
 import UserStyle from 'styles/User.module.scss';
 import { FIND_BY_NICKNAME } from '../../graphql/queries';
 import useUser from '../../hooks/pages/user/useUser';
 import {
-  findByNickName_findByNickName,
-  findByNickName_findByNickName_user,
+  findByNickName,
+  findByNickNameVariables,
 } from '../../src/__generated__/findByNickName';
 
 const DynamicAlert = dynamic(() => import('components/common/Alert'), {
@@ -30,73 +30,73 @@ const DynamicUserProfile = dynamic(
   }
 );
 
-const DynamicUserContents = dynamic(
-  () => import('components/user/UserContents'),
-  {
-    ssr: false,
-  }
-);
+const User = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const nickname = id as string;
 
-const DynamicUserAllContents = dynamic(
-  () => import('components/user/UserAllContents')
-);
-
-const User: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
-  ({
-    pageUserData,
-    userNick,
-  }: {
-    pageUserData: findByNickName_findByNickName_user;
-    userNick: string;
-  }) => {
-    const { state, actions } = useUser({ userNick });
-    const { getUserCrewLoading, isUserTotal } = state;
-    const { onConfirmAlert } = actions;
-    if (getUserCrewLoading) return <PageChange />;
-
-    return (
-      <div className={UserStyle.container}>
-        <div className={UserStyle.userContainer}>
-          <DynamicUserProfile pageUserData={pageUserData} />
-        </div>
-        {isUserTotal ? (
-          <UserAllContents pageUserData={pageUserData} />
-        ) : (
-          <UserContents pageUserData={pageUserData} />
-        )}
-        <DynamicEditProfile />
-        <EditProfileImageModal />
-        <DynamicAlert onConfirm={onConfirmAlert} />
-      </div>
-    );
-  };
-
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const apolloClient = initializeApollo();
-
-  const data: { data: { findByNickName: findByNickName_findByNickName } } =
-    await apolloClient.query({
-      query: FIND_BY_NICKNAME,
-      variables: {
-        nickname: params?.id,
-      },
-    });
-
-  if (!data) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    };
-  }
-
-  return addApolloState(apolloClient, {
-    props: {
-      pageUserData: data.data.findByNickName.user,
-      userNick: params?.id,
+  const { data, loading, error } = useQuery<
+    findByNickName,
+    findByNickNameVariables
+  >(FIND_BY_NICKNAME, {
+    variables: {
+      nickname,
     },
   });
+
+  const { state, actions } = useUser({ userNick: nickname });
+  const { getUserCrewLoading, isUserTotal } = state;
+  const { onConfirmAlert } = actions;
+
+  if (error) {
+    alert('에러가 발생했습니다.');
+    return <PageChange />;
+  }
+  if (getUserCrewLoading || loading) return <PageChange />;
+
+  return (
+    <div className={UserStyle.container}>
+      <div className={UserStyle.userContainer}>
+        <DynamicUserProfile pageUserData={data.findByNickName.user} />
+      </div>
+      {isUserTotal ? (
+        <UserAllContents pageUserData={data.findByNickName.user} />
+      ) : (
+        <UserContents pageUserData={data.findByNickName.user} />
+      )}
+      <DynamicEditProfile />
+      <EditProfileImageModal />
+      <DynamicAlert onConfirm={onConfirmAlert} />
+    </div>
+  );
 };
+
+// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+//   const apolloClient = initializeApollo();
+
+//   const data: { data: { findByNickName: findByNickName_findByNickName } } =
+//     await apolloClient.query({
+//       query: FIND_BY_NICKNAME,
+//       variables: {
+//         nickname: params?.id,
+//       },
+//     });
+
+//   if (!data) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   return addApolloState(apolloClient, {
+//     props: {
+//       pageUserData: data.data.findByNickName.user,
+//       userNick: params?.id,
+//     },
+//   });
+// };
 
 export default User;
