@@ -1,4 +1,4 @@
-import BackDrop from 'components/common/BackDrop';
+import BackDrop from 'components/common/shared/BackDrop';
 import Modal from 'HOC/Modal';
 import React from 'react';
 import UploadModalStyle from 'styles/UploadModal.module.scss';

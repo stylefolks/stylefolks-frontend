@@ -2,7 +2,7 @@ import { useReactiveVar } from '@apollo/client';
 import { alertVar } from 'cache/common/common.cache';
 import UtilStyle from 'styles/common/Util.module.scss';
 import Portal from '../../HOC/Alert';
-import BackDrop from './BackDrop';
+import BackDrop from './shared/BackDrop';
 
 interface IPropsAlert {
   onConfirm?: () => void | 'none';

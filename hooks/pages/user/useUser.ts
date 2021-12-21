@@ -1,4 +1,4 @@
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useLazyQuery, useReactiveVar } from '@apollo/client';
 import { alertVar } from 'cache/common/common.cache';
 import {
   isUserTotalPostVar,
@@ -8,6 +8,7 @@ import {
 import { GET_USER_CREW } from 'graphql/queries';
 import { useMe } from 'hooks/useMe';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import {
   getUserCrew,
   getUserCrewVariables,
@@ -22,14 +23,14 @@ const useUser = ({ userNick }: IuseUser) => {
   const isUserTotal = useReactiveVar(isUserTotalPostVar);
   const alert = alertVar();
   const router = useRouter();
-  const {
-    data: getUserCrewData,
-    loading: getUserCrewLoading,
-    error: getUserCrewError,
-  } = useQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW, {
-    variables: {
-      nickname: userNick,
+  const [
+    getUserCrewDataMutation,
+    {
+      data: getUserCrewData,
+      loading: getUserCrewLoading,
+      error: getUserCrewError,
     },
+  ] = useLazyQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW, {
     fetchPolicy: 'network-only',
     nextFetchPolicy: 'network-only',
   });
@@ -51,8 +52,17 @@ const useUser = ({ userNick }: IuseUser) => {
     router.push('/');
   }
 
+  useEffect(() => {
+    getUserCrewDataMutation({
+      variables: {
+        nickname: userNick,
+      },
+    });
+  }, []);
+
   return {
     state: {
+      getUserCrewData,
       getUserCrewLoading,
       isUserTotal,
     },

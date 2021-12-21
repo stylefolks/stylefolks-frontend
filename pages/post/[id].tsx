@@ -74,8 +74,8 @@ export const Post = () => {
       return;
     }
     if (data.deleteMyPost.error) {
-      router.push('/');
       alert(data.deleteMyPost.error);
+      router.push('/');
     }
   };
 

@@ -1,3 +1,4 @@
+import { useReactiveVar } from '@apollo/client';
 import { faUsersCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { modalVisibleVar, userInfoVar } from 'cache/common/common.cache';
@@ -15,13 +16,15 @@ const CrewJoinedPeople: React.FC<ICrewJoinedPeople> = ({
   users,
   managerId,
 }) => {
+  const userInfo = useReactiveVar(userInfoVar);
+
   return (
     <div className={CrewPageStyle.joinedPeopleContaier}>
       {users?.length ? (
         <>
           <div>
             <h4>Joined People</h4>
-            {userInfoVar().id === managerId ? (
+            {userInfo.id === managerId ? (
               <div>
                 <FontAwesomeIcon
                   icon={faUsersCog}

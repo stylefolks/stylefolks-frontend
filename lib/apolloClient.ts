@@ -14,6 +14,7 @@ import {
   token,
   writtenPost,
 } from 'cache/common/common.field';
+import { uploadDialog } from 'cache/upload/upload.field';
 import {
   isUserTotalPost,
   isVisibleEditProfileModal,
@@ -78,6 +79,7 @@ function createApolloClient() {
             alert,
             writtenPost,
             spinnerVisible,
+            uploadDialog,
           },
         },
       },

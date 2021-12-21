@@ -78,7 +78,7 @@
 
 .plainContent {
   display: inline-block;
-  width: 88vw;
+  max-width: 240px;
   height: 64px;
   overflow: hidden;
   text-overflow: ellipsis;

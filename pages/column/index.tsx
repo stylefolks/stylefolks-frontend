@@ -1,4 +1,4 @@
-import { useLazyQuery } from '@apollo/client';
+import { ApolloError, useLazyQuery } from '@apollo/client';
 import NoMore from 'components/common/NoMore';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
@@ -28,7 +28,8 @@ const Column: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
       }
     };
 
-    const onError = () => {
+    const onError = (error: ApolloError) => {
+      alert(error);
       router.push('/');
     };
 

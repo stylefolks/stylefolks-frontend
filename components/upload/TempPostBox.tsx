@@ -1,16 +1,14 @@
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import {
-  alertVar,
   initialWrittePostVar,
   postStatusVar,
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
-import Alert from 'components/common/Alert';
 import { DELETE_TEMP } from 'graphql/mutations';
 import { GET_USER_TEMP } from 'graphql/queries';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { deleteTemp, deleteTempVariables } from 'src/__generated__/deleteTemp';
 import {
   getUserTemp,
@@ -20,16 +18,28 @@ import {
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import UtilStyle from 'styles/common/Util.module.scss';
 import TempStyle from 'styles/TempPost.module.scss';
+import TempUploadDialog from './TempUploadDialog';
 
 interface IProps {
   userId: number;
 }
 
+interface IDialog {
+  visible: boolean;
+  title: string;
+  content: string;
+}
+
 const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const router = useRouter();
   const postStatus = useReactiveVar(postStatusVar);
+  const [alert, setAlert] = useState<IDialog>({
+    visible: false,
+    title: '',
+    content: '',
+  });
   const { pickTempId, prevTempId } = postStatus;
-  const alert = useReactiveVar(alertVar);
+  // const alert = useReactiveVar(setAlert);
   const user = useReactiveVar(userInfoVar);
 
   const {
@@ -94,7 +104,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const handleBackToNewPost = () => {
-    alertVar({
+    setAlert({
       title: '새로운 게시글 작성',
       content: `새로운 게시글을 작성하시겠습니까? \n 저장하지 않으신 글은 반영되지 않습니다.`,
       visible: true,
@@ -104,7 +114,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const handleLogging = (el: getUserTemp_getUserTemp_temps) => {
     postStatusVar({ ...postStatus, pickTempId: el.id });
 
-    alertVar({
+    setAlert({
       title: '임시저장 불러오기',
       content: `${el.title}를 불러옵니다.`,
       visible: true,
@@ -114,7 +124,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   const handleDelete = (el: getUserTemp_getUserTemp_temps) => {
     postStatusVar({ ...postStatus, pickTempId: el.id });
 
-    alertVar({
+    setAlert({
       title: '임시저장 게시글 삭제하기',
       content: `${el.title}를 삭제하시겠습니까?`,
       visible: true,
@@ -122,7 +132,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const onCancel = () => {
-    alertVar({ title: '', content: '', visible: false });
+    setAlert({ title: '', content: '', visible: false });
     postStatusVar({ ...postStatus, pickTempId: prevTempId });
 
     if (alert.title === '임시 게시물' || alert.title === '새로운 게시물') {
@@ -131,7 +141,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     }
 
     if (alert.title === '임시저장 불러오기') {
-      alertVar({ title: '', content: '', visible: false });
+      setAlert({ title: '', content: '', visible: false });
       return;
     }
 
@@ -143,7 +153,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
   };
 
   const onConfirm = () => {
-    alertVar({ title: '', content: '', visible: false });
+    setAlert({ title: '', content: '', visible: false });
 
     if (alert.title === '새로운 게시글 작성') {
       return confirmBackToNewPost();
@@ -197,7 +207,13 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
             Back To Wirte New Post
           </button>
         )}
-        <Alert onCancel={onCancel} onConfirm={onConfirm} />
+        <TempUploadDialog
+          visible={alert.visible}
+          title={alert.title}
+          content={alert.content}
+          onCancel={onCancel}
+          onConfirm={onConfirm}
+        />
       </div>
     </div>
   ) : (

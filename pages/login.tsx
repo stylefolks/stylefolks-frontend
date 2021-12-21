@@ -21,7 +21,7 @@ export const Login = () => {
             <label htmlFor="email">Email</label>
             <input
               {...register('email', {
-                required: 'Only eg?',
+                required: '이메일을 입력해주세요',
                 pattern:
                   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
               })}
@@ -34,6 +34,9 @@ export const Login = () => {
             <div className={UtilStyle.errorFormWrapper}>
               {errors.email?.type === 'pattern' && (
                 <FormError errorMessage={'이메일 양식을 맞춰주세요.'} />
+              )}
+              {errors.email?.message && (
+                <FormError errorMessage={errors.email?.message} />
               )}
             </div>
           </div>

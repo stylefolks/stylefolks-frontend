@@ -1,4 +1,4 @@
-import { gql, useMutation } from '@apollo/client';
+import { ApolloError, gql, useMutation } from '@apollo/client';
 import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
 import Link from 'next/link';
@@ -50,6 +50,9 @@ export const CreateAccount = () => {
       router.push('/');
     }
   };
+  const onError = (error: ApolloError) => {
+    alert(error);
+  };
 
   const onSubmit = () => {
     //role은 유저로 자동  넘어가는게 정상
@@ -74,6 +77,7 @@ export const CreateAccount = () => {
     CREATE_ACCOUNT_MUTATION,
     {
       onCompleted,
+      onError,
     }
   );
 
@@ -87,7 +91,7 @@ export const CreateAccount = () => {
             <label htmlFor="email">Email</label>
             <input
               {...register('email', {
-                required: 'Only eg?',
+                required: '이메일을 입력해주세요',
                 pattern:
                   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
               })}
@@ -100,6 +104,9 @@ export const CreateAccount = () => {
             <div className={UtilStyle.errorFormWrapper}>
               {errors.email?.type === 'pattern' && (
                 <FormError errorMessage={'이메일 양식을 맞춰주세요.'} />
+              )}
+              {errors.email?.message && (
+                <FormError errorMessage={errors.email?.message} />
               )}
             </div>
           </div>

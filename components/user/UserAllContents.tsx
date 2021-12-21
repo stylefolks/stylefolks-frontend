@@ -1,4 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DeleteButton } from 'components/common/button/DeleteButton';
 import { ModifyButton } from 'components/common/button/ModifyButton';
 import PageChange from 'components/pageChange/PageChange';
@@ -80,7 +82,9 @@ const UserAllContents: React.FC<IPropsUserAllContents> = ({ pageUserData }) => {
                 <Link href={`/post/${el.id}`}>
                   <a>TITLE : {el.title}</a>
                 </Link>
-                <span>VIEWER : {el.viewCount}</span>
+                <span>
+                  <FontAwesomeIcon icon={faUser} /> {el.viewCount}
+                </span>
               </div>
             </div>
             <div className={UserStyle.userAllEachContentsButtons}>

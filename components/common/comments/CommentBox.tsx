@@ -1,3 +1,5 @@
+import { useReactiveVar } from '@apollo/client';
+import { isLoggedInVar } from 'cache/common/common.cache';
 import Comments from 'components/common/comments/Comments';
 import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
 import React, { useEffect } from 'react';
@@ -11,6 +13,7 @@ interface ICommentBoxProps {
 
 const CommentBox: React.FC<ICommentBoxProps> = ({ postId }) => {
   const { state, actions } = useCommentBox({ postId });
+  const isLogin = useReactiveVar(isLoggedInVar);
   const {
     comment,
     commentsLoading,
@@ -28,14 +31,20 @@ const CommentBox: React.FC<ICommentBoxProps> = ({ postId }) => {
 
   return (
     <section className={CommentBoxStyle.commentBoxContainer}>
-      <div>
-        <LoggedInUserProfileImage staticWidth={'40px'} staticHeight={'40px'} />
-        <input value={comment} onChange={onChange} />
-        <ModifyButton
-          onClick={onClick}
-          canClick={!createCommentLoading && comment.length >= 1}
-        />
-      </div>
+      {isLogin && (
+        <div>
+          <LoggedInUserProfileImage
+            staticWidth={'40px'}
+            staticHeight={'40px'}
+          />
+          <input value={comment} onChange={onChange} />
+          <ModifyButton
+            onClick={onClick}
+            canClick={!createCommentLoading && comment.length >= 1}
+          />
+        </div> //여따 그냥 광고넣어버리자
+      )}
+
       <ul className={CommentBoxStyle.commentsWrapper}>
         {commentsData?.getEachPostComments?.comments?.map((el, index) => (
           <Comments
