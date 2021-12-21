@@ -23,7 +23,7 @@ const Profile: React.FC = () => {
   const router = useRouter();
   const user = useReactiveVar(userInfoVar);
   const ref = React.createRef<HTMLDivElement>();
-  const { width, height } = UseWindowDimension();
+  const { width } = UseWindowDimension();
   const [modalState, setModalState] = useState<IModalState>({
     isVisible: false,
     top: 0,

@@ -1,5 +1,5 @@
 import { useMutation, useReactiveVar } from '@apollo/client';
-import { alertVar, userInfoVar } from 'cache/common/common.cache';
+import { userInfoVar } from 'cache/common/common.cache';
 import { isVisibleEditProfileModalVar } from 'cache/user/user.cache';
 import { CHANGE_PASSWORD, EDIT_PROFILE } from 'graphql/mutations';
 import { useRouter } from 'next/router';
@@ -19,7 +19,12 @@ interface IlocalPw {
   checkPw: string;
 }
 
-const useEditProfileModal = () => {
+interface IProps {
+  doRefetch: () => void;
+  doUseMeRefetch: () => void;
+}
+
+const useEditProfileModal = ({ doRefetch, doUseMeRefetch }: IProps) => {
   const router = useRouter();
   const visible = useReactiveVar(isVisibleEditProfileModalVar);
   const user = useReactiveVar(userInfoVar);
@@ -34,11 +39,13 @@ const useEditProfileModal = () => {
   const onCompleted = (data: editProfile) => {
     if (data.editProfile.ok) {
       userInfoVar({
-        ...userInfoVar(),
+        ...user,
         link: localVal.link,
         nickname: localVal.nick,
       });
       isVisibleEditProfileModalVar(false);
+      doRefetch();
+      doUseMeRefetch();
       router.push(`/user/${localVal.nick}`);
     }
   };
@@ -46,19 +53,11 @@ const useEditProfileModal = () => {
   const onCompletedChangePw = (data: changePassword) => {
     if (data.changePassword.ok) {
       isVisibleEditProfileModalVar(false);
-      alertVar({
-        visible: true,
-        title: '비밀번호 변경',
-        content: '비밀번호 변경이 완료되었습니다.',
-      });
+      alert('비밀번호 변경이 완료되었습니다.');
     }
     if (data.changePassword.error) {
       isVisibleEditProfileModalVar(false);
-      alertVar({
-        visible: true,
-        title: '비밀번호 변경',
-        content: data.changePassword.error,
-      });
+      alert(`비밀번호 변경${data.changePassword.error}`);
     }
   };
 

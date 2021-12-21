@@ -4,8 +4,12 @@ import React from 'react';
 import UploadModalStyle from 'styles/UploadModal.module.scss';
 import useEditProfileImageModal from './hooks/useEditProfileImageModal';
 
-const EditProfileImageModal = () => {
-  const { state, actions } = useEditProfileImageModal();
+interface IEditProps {
+  doRefetch: () => void;
+}
+
+const EditProfileImageModal = ({ doRefetch }) => {
+  const { state, actions } = useEditProfileImageModal({ doRefetch });
   const { ref, modal } = state;
   const { onDelete, onClick, onImageChange } = actions;
 
@@ -31,7 +35,6 @@ const EditProfileImageModal = () => {
           </section>
         </BackDrop>
       </Modal>
-      {/* <Alert onConfirm={onConfirmAlert} /> */}
     </>
   );
 };

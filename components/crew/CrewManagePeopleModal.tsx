@@ -1,4 +1,4 @@
-import { ApolloQueryResult, useMutation } from '@apollo/client';
+import { ApolloQueryResult, useMutation, useReactiveVar } from '@apollo/client';
 import { modalVisibleVar, userInfoVar } from 'cache/common/common.cache';
 import { Button } from 'components/common/button/Button';
 import CircleProfileImage from 'components/common/CircleProfileImage';
@@ -45,6 +45,7 @@ const CrewManagePeopleModal: React.FC<IProps> = ({
   crewName,
 }) => {
   // const visibleVar = useReactiveVar(modalVisibleVar);
+  const userInfo = useReactiveVar(userInfoVar);
   const onCompleted = (data: changeCrewUserGrade) => {
     if (data.changeCrewUserGrade.ok) {
       window.alert('등급 변경이 완료되었습니다!');
@@ -99,7 +100,7 @@ const CrewManagePeopleModal: React.FC<IProps> = ({
           <ul>
             {users &&
               users
-                .filter((el) => el.user.id !== userInfoVar().id)
+                .filter((el) => el.user.id !== userInfo.id)
                 ?.map((el) => (
                   <li key={el.user.id}>
                     <div>

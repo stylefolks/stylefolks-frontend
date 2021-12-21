@@ -1,4 +1,4 @@
-import { useLazyQuery, useMutation, useReactiveVar } from '@apollo/client';
+import { useLazyQuery, useReactiveVar } from '@apollo/client';
 import {
   faArrowCircleLeft,
   faClone,
@@ -13,16 +13,11 @@ import {
 } from 'cache/user/user.cache';
 import SmallCircleProfile from 'components/common/SmallCircleProfile';
 import PageChange from 'components/pageChange/PageChange';
-import { EDIT_PROFILE } from 'graphql/mutations';
 import { GET_USER_CREW } from 'graphql/queries';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import vacantImage from 'public/vacantImage.png';
 import React, { useEffect, useState } from 'react';
-import {
-  editProfile,
-  editProfileVariables,
-} from 'src/__generated__/editProfile';
 import { findByNickName_findByNickName_user } from 'src/__generated__/findByNickName';
 import {
   getUserCrew,
@@ -41,18 +36,6 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   const [isChange, setIsChange] = useState<boolean>(false);
   const [localVal, setLocalVal] = useState({ nick: '', link: '' });
   const [isUser, setIsUser] = useState<boolean>(false);
-
-  const onCompleted = (data: editProfile) => {
-    if (data.editProfile.ok) {
-      userInfoVar({
-        ...user,
-        link: localVal.link,
-        nickname: localVal.nick,
-      });
-      setIsChange(false);
-      router.push(`/user/${localVal.nick}`);
-    }
-  };
 
   const [
     getUserCrew,
@@ -73,13 +56,6 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
       },
     });
   }, [user]);
-
-  const [editProfileMutation, { data, loading, error }] = useMutation<
-    editProfile,
-    editProfileVariables
-  >(EDIT_PROFILE, {
-    onCompleted,
-  });
 
   useEffect(() => {
     setLocalVal({
@@ -102,7 +78,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
     if (user.nickname === pageUserData.nickname) setIsUser(true);
   }, []);
 
-  if (loading) return <PageChange />;
+  if (getUserCrewLoading) return <PageChange />;
 
   return (
     <>
@@ -121,6 +97,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
               alt="profile-image"
               width="120px"
               height="120px"
+              layout={'intrinsic'}
               unoptimized={true}
               placeholder="blur"
               blurDataURL={
