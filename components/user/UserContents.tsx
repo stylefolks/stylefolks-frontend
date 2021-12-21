@@ -6,7 +6,6 @@ import { BUTTON_MAP } from 'constants/constants';
 import { GET_POST_BY_CATEGORY } from 'graphql/queries';
 import { IButtonMap, IPickCategory } from 'model/dto';
 import React, { useEffect, useState } from 'react';
-import { findByNickName_findByNickName_user } from 'src/__generated__/findByNickName';
 import {
   getPostByCategory,
   getPostByCategoryVariables,
@@ -22,10 +21,10 @@ import UserPageStyle from 'styles/user/UserPage.module.scss';
 import UserContentsBlockType from './UserContentsBlockType';
 import UserContentsPlainType from './UserContentsPlainType';
 interface IPropsUserContents {
-  pageUserData: findByNickName_findByNickName_user;
+  nickname: string;
 }
 
-const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
+const UserContents: React.FC<IPropsUserContents> = ({ nickname }) => {
   const [pickCategory, setPickCategory] = useState<IPickCategory>({
     firstCategoryName: FirstCategoryName.TALK,
     secondCategoryName: SecondCategoryName.OOTD,
@@ -41,13 +40,15 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
   >(GET_POST_BY_CATEGORY, {
     variables: {
       input: {
-        nickname: pageUserData.nickname,
+        nickname,
         firstCategoryName: pickCategory.firstCategoryName,
         secondCategoryName: pickCategory.secondCategoryName,
         page,
         inputTake,
       },
     },
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'network-only',
   });
 
   const onClick = (el: IButtonMap) => {
@@ -72,11 +73,6 @@ const UserContents: React.FC<IPropsUserContents> = ({ pageUserData }) => {
     setPage(1);
   }, [pickCategory]);
 
-  // useEffect(() => {
-  //   if (pageUserData && window.scrollY) {
-  //     window.scroll(0, 0); // reset the scroll position to the top left of the document.
-  //   }
-  // }, [page]);
   if (loading) return <PageChange />;
 
   return (

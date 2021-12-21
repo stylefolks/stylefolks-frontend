@@ -64,7 +64,7 @@ const User = () => {
       {isUserTotal ? (
         <UserAllContents pageUserData={data.findByNickName.user} />
       ) : (
-        <UserContents pageUserData={data.findByNickName.user} />
+        <UserContents nickname={nickname} />
       )}
       <DynamicEditProfile />
       <EditProfileImageModal />
