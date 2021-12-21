@@ -42,6 +42,8 @@ const User = () => {
     variables: {
       nickname,
     },
+    fetchPolicy: 'network-only',
+    nextFetchPolicy: 'network-only',
   });
 
   const { state, actions } = useUser({ userNick: nickname });
