@@ -1,3 +1,4 @@
+import { useReactiveVar } from '@apollo/client';
 import { userInfoVar } from 'cache/common/common.cache';
 import UseWindowDimension from 'hooks/useWindowDimension';
 import Image from 'next/image';
@@ -13,8 +14,8 @@ const LoggedInUserProfileImage: React.FC<IPropsLoggedInUserProfileImage> = ({
   staticHeight,
   staticWidth,
 }) => {
-  const user = userInfoVar();
-  const { width, height } = UseWindowDimension();
+  const user = useReactiveVar(userInfoVar);
+  const { width } = UseWindowDimension();
 
   return (
     <Image

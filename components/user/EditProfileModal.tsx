@@ -2,13 +2,22 @@ import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
 import BackDrop from 'components/common/shared/BackDrop';
 import Modal from 'HOC/Modal';
+import { useLazyMe } from 'hooks/useMe';
 import React, { useEffect } from 'react';
 import UtilStyle from 'styles/common/Util.module.scss';
 import EditProfileModalStyle from 'styles/user/component/EditProfileModal.module.scss';
 import useEditProfileModal from './hooks/useEditProfileModal';
 
-const EditProfileModal = () => {
-  const { state, actions } = useEditProfileModal();
+interface IProps {
+  doRefetch: () => void;
+}
+
+const EditProfileModal = ({ doRefetch }: IProps) => {
+  const [refetch] = useLazyMe();
+  const doUseMeRefetch = () => {
+    refetch();
+  };
+  const { state, actions } = useEditProfileModal({ doRefetch, doUseMeRefetch });
   const { visible, isChangePw, user, localPw, localVal, loading } = state;
   const {
     setLocalVal,

@@ -35,18 +35,19 @@ const useUser = ({ userNick }: IuseUser) => {
     nextFetchPolicy: 'network-only',
   });
 
-  const onConfirmAlert = () => {
-    alertVar({ title: '', content: '', visible: false });
-    if (alert.title === '프로필 이미지 수정') {
-      router.reload();
-      isVisibleProfileImageModalVar(false);
-      refetch(); //여기도 나중에 캐시만 업데이트 하는 방식으로 변경하자
-    }
+  // const onConfirmAlert = () => {
+  //   alertVar({ title: '', content: '', visible: false });
+  //   if (alert.title === '프로필 이미지 수정') {
+  //     console.log('work in here??');
+  //     router.reload();
+  //     isVisibleProfileImageModalVar(false);
+  //     refetch(); //여기도 나중에 캐시만 업데이트 하는 방식으로 변경하자
+  //   }
 
-    if (alert.title === '비밀번호 변경') {
-      isVisibleEditProfileModalVar(false);
-    }
-  };
+  //   if (alert.title === '비밀번호 변경') {
+  //     isVisibleEditProfileModalVar(false);
+  //   }
+  // };
 
   if (getUserCrewError) {
     router.push('/');
@@ -67,7 +68,7 @@ const useUser = ({ userNick }: IuseUser) => {
       isUserTotal,
     },
     actions: {
-      onConfirmAlert,
+      // onConfirmAlert,
     },
   };
 };

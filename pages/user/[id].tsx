@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import PageChange from 'components/pageChange/PageChange';
 import EditProfileImageModal from 'components/user/EditProfileImageModal';
+import EditProfileModal from 'components/user/EditProfileModal';
 import UserAllContents from 'components/user/UserAllContents';
 import UserContents from 'components/user/UserContents';
 import dynamic from 'next/dynamic';
@@ -14,15 +15,6 @@ import {
   findByNickNameVariables,
 } from '../../src/__generated__/findByNickName';
 
-const DynamicAlert = dynamic(() => import('components/common/Alert'), {
-  ssr: false,
-});
-
-const DynamicEditProfile = dynamic(
-  () => import('components/user/EditProfileModal'),
-  { ssr: false }
-);
-
 const DynamicUserProfile = dynamic(
   () => import('components/user/UserProfile'),
   {
@@ -35,10 +27,12 @@ const User = () => {
   const { id } = router.query;
   const nickname = id as string;
 
-  const { data, loading, error } = useQuery<
-    findByNickName,
-    findByNickNameVariables
-  >(FIND_BY_NICKNAME, {
+  const {
+    data,
+    loading,
+    error,
+    refetch: refetchFindByNickName,
+  } = useQuery<findByNickName, findByNickNameVariables>(FIND_BY_NICKNAME, {
     variables: {
       nickname,
     },
@@ -46,9 +40,14 @@ const User = () => {
     nextFetchPolicy: 'network-only',
   });
 
-  const { state, actions } = useUser({ userNick: nickname });
+  const doRefetch = () => {
+    refetchFindByNickName({
+      nickname,
+    });
+  };
+
+  const { state } = useUser({ userNick: nickname });
   const { getUserCrewLoading, isUserTotal } = state;
-  const { onConfirmAlert } = actions;
 
   if (error) {
     alert('에러가 발생했습니다.');
@@ -66,39 +65,10 @@ const User = () => {
       ) : (
         <UserContents nickname={nickname} />
       )}
-      <DynamicEditProfile />
-      <EditProfileImageModal />
-      <DynamicAlert onConfirm={onConfirmAlert} />
+      <EditProfileModal doRefetch={doRefetch} />
+      <EditProfileImageModal doRefetch={doRefetch} />
     </div>
   );
 };
-
-// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-//   const apolloClient = initializeApollo();
-
-//   const data: { data: { findByNickName: findByNickName_findByNickName } } =
-//     await apolloClient.query({
-//       query: FIND_BY_NICKNAME,
-//       variables: {
-//         nickname: params?.id,
-//       },
-//     });
-
-//   if (!data) {
-//     return {
-//       redirect: {
-//         destination: '/',
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   return addApolloState(apolloClient, {
-//     props: {
-//       pageUserData: data.data.findByNickName.user,
-//       userNick: params?.id,
-//     },
-//   });
-// };
 
 export default User;

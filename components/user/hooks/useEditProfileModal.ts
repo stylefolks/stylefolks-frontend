@@ -19,7 +19,12 @@ interface IlocalPw {
   checkPw: string;
 }
 
-const useEditProfileModal = () => {
+interface IProps {
+  doRefetch: () => void;
+  doUseMeRefetch: () => void;
+}
+
+const useEditProfileModal = ({ doRefetch, doUseMeRefetch }: IProps) => {
   const router = useRouter();
   const visible = useReactiveVar(isVisibleEditProfileModalVar);
   const user = useReactiveVar(userInfoVar);
@@ -34,11 +39,13 @@ const useEditProfileModal = () => {
   const onCompleted = (data: editProfile) => {
     if (data.editProfile.ok) {
       userInfoVar({
-        ...userInfoVar(),
+        ...user,
         link: localVal.link,
         nickname: localVal.nick,
       });
       isVisibleEditProfileModalVar(false);
+      doRefetch();
+      doUseMeRefetch();
       router.push(`/user/${localVal.nick}`);
     }
   };

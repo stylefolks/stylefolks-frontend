@@ -70,7 +70,7 @@ const Crew = () => {
   const router = useRouter();
   const { id } = router.query;
   const visible = useReactiveVar(modalVisibleVar);
-
+  const userInfo = useReactiveVar(userInfoVar);
   const { data, loading, error, refetch } = useQuery<
     getCrewByName,
     getCrewByNameVariables
@@ -121,7 +121,7 @@ const Crew = () => {
 
   const isJoined = data?.getCrewByName.users
     ?.map((el) => el.user.id)
-    .includes(userInfoVar().id);
+    .includes(userInfo.id);
 
   const doJoin = () => {
     joinCrewMutation({

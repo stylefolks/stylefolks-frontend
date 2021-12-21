@@ -1,4 +1,4 @@
-import { ApolloQueryResult } from '@apollo/client';
+import { ApolloQueryResult, useReactiveVar } from '@apollo/client';
 import { faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import {
   faCog,
@@ -49,8 +49,9 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
 }) => {
   // const { name, profileImg, backgroundImg, link } = data;
   const { width, height } = UseWindowDimension();
+  const userInfo = useReactiveVar(userInfoVar);
   const [visible, setVisible] = useState<boolean>(false);
-  const isManager = managerId === userInfoVar().id;
+  const isManager = managerId === userInfo.id;
 
   return (
     <div
