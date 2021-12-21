@@ -8,7 +8,6 @@ import {
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
-import { uploadDialogVar } from 'cache/upload/upload.cache';
 import { Button } from 'components/common/button/Button';
 import PageChange from 'components/pageChange/PageChange';
 import UploadDialog from 'components/upload/UploadDialog';
@@ -20,7 +19,7 @@ import {
   UPLOAD_TEMP_MUTATION,
 } from 'graphql/mutations';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
 import CategorySelector from '../components/upload/CategorySelector';
@@ -39,10 +38,21 @@ import {
   modifyTempVariables,
 } from '../src/__generated__/modifyTemp';
 
+interface IDialog {
+  visible: boolean;
+  title: string;
+  content: string;
+}
+
 const Upload = () => {
   const user = useReactiveVar(userInfoVar);
   const post = useReactiveVar(writtenPostVar);
   const router = useRouter();
+  const [alertVar, setAlertVar] = useState<IDialog>({
+    visible: false,
+    title: '',
+    content: '',
+  });
 
   const { pickTempId, isModify, modifyPostId } = useReactiveVar(postStatusVar);
   const {
@@ -56,7 +66,7 @@ const Upload = () => {
   } = post;
 
   const alertOnConfirm = () => {
-    uploadDialogVar({
+    setAlertVar({
       title: '',
       content: '',
       visible: false,
@@ -64,7 +74,7 @@ const Upload = () => {
     router.push('/');
   };
   const alertOnCancel = () => {
-    uploadDialogVar({
+    setAlertVar({
       title: '',
       content: '',
       visible: false,
@@ -76,7 +86,7 @@ const Upload = () => {
     if (data?.createPost.ok) {
       writtenPostVar({ ...initialWrittePostVar });
       postStatusVar({ ...initialPostStatusVar });
-      uploadDialogVar({
+      setAlertVar({
         title: '새로운 게시물',
         content: '새로운 게시물 업로드를 완료하였습니다. ^_^',
         visible: true,
@@ -94,7 +104,7 @@ const Upload = () => {
     if (data?.createTemp.ok) {
       writtenPostVar({ ...initialWrittePostVar });
       postStatusVar({ ...initialPostStatusVar, isTemp: true }); //에디터 내부에서 리셋을 위해 isTemp true설정
-      uploadDialogVar({
+      setAlertVar({
         title: '임시 게시물',
         content: '새로운 임시저장 게시물 저장을 완료하였습니다. :)',
         visible: true,
@@ -110,7 +120,7 @@ const Upload = () => {
 
   const ModifyTempOnCompleted = (data: modifyTemp) => {
     if (data?.modifyTemp.ok) {
-      uploadDialogVar({
+      setAlertVar({
         title: '임시 게시물',
         content: '임시저장 게시물 저장이 완료되었습니다. :)',
         visible: true,
@@ -126,7 +136,7 @@ const Upload = () => {
 
   const uploadMutationOnCompleted = (data: uploadTemp) => {
     if (data?.uploadTemp.ok) {
-      uploadDialogVar({
+      setAlertVar({
         title: '임시 게시물',
         content: '임시저장 게시물의 업로드가 완료되었습니다. :)',
         visible: true,
@@ -201,6 +211,7 @@ const Upload = () => {
   };
 
   const handleTempModify = () => {
+    console.log('check for clicking');
     modifyTempMutation({
       variables: {
         input: {
@@ -395,9 +406,9 @@ const Upload = () => {
         </div>
         {modifyPostId ? '' : <TempPostBox userId={user.id} />}
         <UploadDialog
-          visible={uploadDialogVar().visible}
-          title={uploadDialogVar().title}
-          content={uploadDialogVar().content}
+          visible={alertVar.visible}
+          title={alertVar.title}
+          content={alertVar.content}
           onCancel={alertOnConfirm}
           onConfirm={alertOnCancel}
         />
