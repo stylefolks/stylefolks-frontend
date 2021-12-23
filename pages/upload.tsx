@@ -4,7 +4,6 @@ import {
   initialPostStatusVar,
   initialWrittePostVar,
   postStatusVar,
-  spinnerVisibleVar,
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
@@ -22,6 +21,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
+import { removeSpinner } from 'utils/Utils';
 import CategorySelector from '../components/upload/CategorySelector';
 import WysiwygEditor from '../components/upload/Editor';
 import TempPostBox from '../components/upload/TempPostBox';
@@ -86,6 +86,7 @@ const Upload = () => {
     if (data?.createPost.ok) {
       writtenPostVar({ ...initialWrittePostVar });
       postStatusVar({ ...initialPostStatusVar });
+      alert('새로운 게시물 업로드를 완료했습니다.');
       setDialogVar({
         title: '새로운 게시물',
         content: '새로운 게시물 업로드를 완료하였습니다. ^_^',
@@ -142,6 +143,7 @@ const Upload = () => {
         visible: true,
       });
     }
+
     if (data?.uploadTemp.error) {
       alert(
         `${data.uploadTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
@@ -324,7 +326,7 @@ const Upload = () => {
 
       //이미지 다 커지기 전까지 로더 계속 돌리기
       //어차피 새로 추가되는 사진 이 있는경우 해당 함수가 실행될 것이므로  추가되는 것만 체크하기
-      spinnerVisibleVar(false); //
+      removeSpinner();
     }
   };
 

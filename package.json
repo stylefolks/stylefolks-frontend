@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.3.0",
+    "@types/jpeg-autorotate": "^5.0.1",
     "@types/node": "^16.10.1",
     "@types/react": "^17.0.24",
     "eslint": "7.32.0",

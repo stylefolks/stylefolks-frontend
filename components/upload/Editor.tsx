@@ -1,15 +1,12 @@
 import { useReactiveVar } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor as EditorType, EditorProps } from '@toast-ui/react-editor';
-import {
-  postStatusVar,
-  spinnerVisibleVar,
-  writtenPostVar,
-} from 'cache/common/common.cache';
+import { postStatusVar, writtenPostVar } from 'cache/common/common.cache';
 import { folksServerNoGql } from 'config';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { useEffect } from 'react';
+import { createSpinner, removeSpinner } from 'utils/Utils';
 import { TuiEditorWithForwardedProps } from './TuiEditorWrapper';
 
 interface EditorPropsWithHandlers extends EditorProps {
@@ -78,7 +75,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
 
       return res?.url;
     } catch (error) {
-      spinnerVisibleVar(false);
+      removeSpinner();
       alert('이미지 업로드 에러 발생 : 임시 저장 후 새로고침 후 시도해주세요!');
     }
   };
@@ -104,7 +101,8 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         onChange={handleChange}
         hooks={{
           addImageBlobHook: async (blob, callback) => {
-            spinnerVisibleVar(true);
+            alert('그냥 뜨나 보자 일단.'); // alert는 최초부터 뜨는데 Spinner가 안뜨므로 이건 렌더 관리 문제임..
+            createSpinner();
 
             // 여기서 interceptor 작동시켜서 스피너 돌게 하자
             const upload = await uploadImage(blob);
