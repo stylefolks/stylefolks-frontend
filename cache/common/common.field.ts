@@ -28,7 +28,7 @@ export const isLoggedIn = {
   },
 };
 
-export const alert = {
+export const isAlert = {
   read() {
     return alertVar();
   },

@@ -9,6 +9,7 @@ import {
   editProfile,
   editProfileVariables,
 } from 'src/__generated__/editProfile';
+import { createSpinner, removeSpinner } from 'utils/Utils';
 
 interface IProps {
   doRefetch: () => void;
@@ -22,7 +23,8 @@ const useEditProfileImageModal = ({ doRefetch }: IProps) => {
 
   const onImageChangeCompleted = (data: editProfile) => {
     if (data.editProfile.ok) {
-      spinnerVisibleVar(false);
+      removeSpinner();
+
       isVisibleProfileImageModalVar(false);
       alert('프로필 이미지 수정이 완료되었습니다.');
       refetch(); //lazy를 해야 훅이 호출되자마자 불리는게 아니므로 변경이되지!
@@ -47,7 +49,7 @@ const useEditProfileImageModal = ({ doRefetch }: IProps) => {
 
   const uploadImage = async (formBody: FormData) => {
     try {
-      spinnerVisibleVar(true);
+      createSpinner();
       isVisibleProfileImageModalVar(true);
 
       const { url } = await (

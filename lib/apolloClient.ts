@@ -7,7 +7,7 @@ import {
 import { concatPagination } from '@apollo/client/utilities';
 import { authTokenVar } from 'cache/common/common.cache';
 import {
-  alert,
+  isAlert,
   isLoggedIn,
   nickname,
   spinnerVisible,
@@ -76,7 +76,7 @@ function createApolloClient() {
             allPosts: concatPagination(),
             isVisibleProfileImageModal,
             isVisibleEditProfileModal,
-            alert,
+            isAlert,
             writtenPost,
             spinnerVisible,
             uploadDialog,

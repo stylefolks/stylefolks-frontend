@@ -7,6 +7,7 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { getCategoryByUserRole } from 'src/__generated__/getCategoryByUserRole';
+import { createSpinner } from 'utils/Utils';
 import {
   FirstCategoryName,
   SecondCategoryName,
@@ -112,7 +113,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   }, [post.secondCategoryName]);
 
   if (loading) {
-    return <div>Loading ...</div>;
+    createSpinner();
   }
 
   if (error) {
