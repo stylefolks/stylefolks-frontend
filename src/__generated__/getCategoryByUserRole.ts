@@ -34,6 +34,35 @@ export interface getCategoryByUserRole_getCategoryByUserRole_crews {
   id: number;
 }
 
+export interface getCategoryByUserRole_getCategoryByUserRole_tempPosts_firstCategory {
+  __typename: "FirstCategory";
+  id: number;
+  name: string;
+}
+
+export interface getCategoryByUserRole_getCategoryByUserRole_tempPosts_secondCategory {
+  __typename: "SecondCategory";
+  id: number;
+  name: SecondCategoryName | null;
+}
+
+export interface getCategoryByUserRole_getCategoryByUserRole_tempPosts_image {
+  __typename: "Images";
+  link: string;
+  id: number;
+}
+
+export interface getCategoryByUserRole_getCategoryByUserRole_tempPosts {
+  __typename: "TempPost";
+  id: number;
+  title: string;
+  titleImg: string | null;
+  contents: string;
+  firstCategory: getCategoryByUserRole_getCategoryByUserRole_tempPosts_firstCategory | null;
+  secondCategory: getCategoryByUserRole_getCategoryByUserRole_tempPosts_secondCategory | null;
+  image: getCategoryByUserRole_getCategoryByUserRole_tempPosts_image[];
+}
+
 export interface getCategoryByUserRole_getCategoryByUserRole {
   __typename: "GetCategoryByUserRoleOutput";
   ok: boolean;
@@ -41,6 +70,7 @@ export interface getCategoryByUserRole_getCategoryByUserRole {
   firstCategory: getCategoryByUserRole_getCategoryByUserRole_firstCategory[] | null;
   brands: getCategoryByUserRole_getCategoryByUserRole_brands[] | null;
   crews: getCategoryByUserRole_getCategoryByUserRole_crews[] | null;
+  tempPosts: getCategoryByUserRole_getCategoryByUserRole_tempPosts[] | null;
 }
 
 export interface getCategoryByUserRole {

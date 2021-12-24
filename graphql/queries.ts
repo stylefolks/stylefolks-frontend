@@ -90,33 +90,6 @@ export const FIND_BY_NICKNAME = gql`
   }
 `;
 
-export const GET_USER_TEMP = gql`
-  query getUserTemp($userId: Int!) {
-    getUserTemp(userId: $userId) {
-      ok
-      error
-      temps {
-        id
-        title
-        titleImg
-        contents
-        firstCategory {
-          id
-          name
-        }
-        secondCategory {
-          id
-          name
-        }
-        image {
-          link
-          id
-        }
-      }
-    }
-  }
-`;
-
 export const GET_EACH_POST_COMMENTS = gql`
   query getEachPostComments($postsId: Int!) {
     getEachPostComments(postsId: $postsId) {
@@ -179,6 +152,49 @@ export const GET_USER_ALL_POST = gql`
         title
         titleImg
         viewCount
+      }
+    }
+  }
+`;
+
+export const GET_CATEGORY_BY_USER_ROLE = gql`
+  query getCategoryByUserRole {
+    getCategoryByUserRole {
+      ok
+      error
+      firstCategory {
+        name
+        id
+        secondCategory {
+          id
+          name
+        }
+      }
+      brands {
+        name
+        id
+      }
+      crews {
+        name
+        id
+      }
+      tempPosts {
+        id
+        title
+        titleImg
+        contents
+        firstCategory {
+          id
+          name
+        }
+        secondCategory {
+          id
+          name
+        }
+        image {
+          link
+          id
+        }
       }
     }
   }

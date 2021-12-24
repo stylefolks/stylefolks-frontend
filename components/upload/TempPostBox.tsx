@@ -1,27 +1,21 @@
-import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useReactiveVar } from '@apollo/client';
 import {
   initialWrittePostVar,
   postStatusVar,
-  userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
 import { DELETE_TEMP } from 'graphql/mutations';
-import { GET_USER_TEMP } from 'graphql/queries';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { deleteTemp, deleteTempVariables } from 'src/__generated__/deleteTemp';
-import {
-  getUserTemp,
-  getUserTempVariables,
-  getUserTemp_getUserTemp_temps,
-} from 'src/__generated__/getUserTemp';
+import { getCategoryByUserRole_getCategoryByUserRole_tempPosts } from 'src/__generated__/getCategoryByUserRole';
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import UtilStyle from 'styles/common/Util.module.scss';
 import TempStyle from 'styles/TempPost.module.scss';
 import TempUploadDialog from './TempUploadDialog';
 
 interface IProps {
-  userId: number;
+  tempPosts: getCategoryByUserRole_getCategoryByUserRole_tempPosts[] | null;
 }
 
 interface IDialog {
@@ -30,7 +24,7 @@ interface IDialog {
   content: string;
 }
 
-const TempPostBox: React.FC<IProps> = ({ userId }) => {
+const TempPostBox: React.FC<IProps> = ({ tempPosts }) => {
   const router = useRouter();
   const postStatus = useReactiveVar(postStatusVar);
   const [alert, setAlert] = useState<IDialog>({
@@ -39,20 +33,6 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     content: '',
   });
   const { pickTempId, prevTempId } = postStatus;
-  // const alert = useReactiveVar(setAlert);
-  const user = useReactiveVar(userInfoVar);
-
-  const {
-    data: userTempData,
-    loading: postLoading,
-    error: poseError,
-  } = useQuery<getUserTemp, getUserTempVariables>(GET_USER_TEMP, {
-    variables: {
-      userId: user.id,
-    },
-    nextFetchPolicy: 'network-only',
-    fetchPolicy: 'network-only',
-  });
 
   const onDeleteCompleted = (data: deleteTemp) => {
     if (data?.deleteTemp.ok) {
@@ -77,9 +57,7 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
 
   const confirmLogging = () => {
     postStatusVar({ ...postStatus, prevTempId: postStatus.pickTempId });
-    const PickTemp = userTempData.getUserTemp.temps.filter(
-      (el) => el.id === pickTempId
-    );
+    const PickTemp = tempPosts.filter((el) => el.id === pickTempId);
     const { image, firstCategory, secondCategory, ...input } = PickTemp[0];
 
     const titleImageArr = image.map((el) => el.link);
@@ -111,7 +89,9 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     });
   };
 
-  const handleLogging = (el: getUserTemp_getUserTemp_temps) => {
+  const handleLogging = (
+    el: getCategoryByUserRole_getCategoryByUserRole_tempPosts
+  ) => {
     postStatusVar({ ...postStatus, pickTempId: el.id });
 
     setAlert({
@@ -121,7 +101,9 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     });
   };
 
-  const handleDelete = (el: getUserTemp_getUserTemp_temps) => {
+  const handleDelete = (
+    el: getCategoryByUserRole_getCategoryByUserRole_tempPosts
+  ) => {
     postStatusVar({ ...postStatus, pickTempId: el.id });
 
     setAlert({
@@ -177,13 +159,13 @@ const TempPostBox: React.FC<IProps> = ({ userId }) => {
     // }
   };
 
-  return userTempData?.getUserTemp.temps.length ? (
+  return tempPosts?.length ? (
     <div className={TempStyle.tempContainer}>
       <div className={TempStyle.tempWrapper}>
         <h3>Save Posting List</h3>
         <ul>
-          {userTempData?.getUserTemp.temps.length &&
-            userTempData?.getUserTemp.temps.map((el) => (
+          {tempPosts.length &&
+            tempPosts.map((el) => (
               <li
                 key={el.id}
                 className={el.id === pickTempId ? UtilStyle.isActiveColor : ''}

@@ -1,4 +1,4 @@
-import { gql, useLazyQuery, useReactiveVar } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import {
   isLoggedInVar,
   postStatusVar,
@@ -6,70 +6,48 @@ import {
 } from 'cache/common/common.cache';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { getCategoryByUserRole } from 'src/__generated__/getCategoryByUserRole';
-import { createSpinner } from 'utils/Utils';
+import {
+  getCategoryByUserRole_getCategoryByUserRole_brands,
+  getCategoryByUserRole_getCategoryByUserRole_crews,
+  getCategoryByUserRole_getCategoryByUserRole_firstCategory,
+} from 'src/__generated__/getCategoryByUserRole';
 import {
   FirstCategoryName,
   SecondCategoryName,
-  UserRole,
 } from '../../src/__generated__/globalTypes';
 import CategoryStyle from '../../styles/Category.module.scss';
 
-const GET_CATEGORY_BY_USER_ROLE = gql`
-  query getCategoryByUserRole {
-    getCategoryByUserRole {
-      ok
-      error
-      firstCategory {
-        name
-        id
-        secondCategory {
-          id
-          name
-        }
-      }
-      brands {
-        name
-        id
-      }
-      crews {
-        name
-        id
-      }
-    }
-  }
-`;
-
 interface IProps {
-  role?: UserRole;
+  firstCategory:
+    | getCategoryByUserRole_getCategoryByUserRole_firstCategory[]
+    | null;
+  brands: getCategoryByUserRole_getCategoryByUserRole_brands[] | null;
+  crews: getCategoryByUserRole_getCategoryByUserRole_crews[] | null;
 }
 
-const CategorySelector: React.FC<IProps> = ({ role }) => {
+const CategorySelector: React.FC<IProps> = ({
+  firstCategory,
+  brands,
+  crews,
+}) => {
   const post = writtenPostVar();
   const route = useRouter();
   const { isModify } = useReactiveVar(postStatusVar);
   const isLogin = useReactiveVar(isLoggedInVar);
-  const [getCategoryByUserQuery, { data, loading, error }] =
-    useLazyQuery<getCategoryByUserRole>(
-      GET_CATEGORY_BY_USER_ROLE
-      // {
-      //   fetchPolicy: 'network-only',
-      //   nextFetchPolicy: 'network-only',
-      // }
-    );
-  const secondCategoryArr = data?.getCategoryByUserRole.firstCategory.filter(
+
+  const secondCategoryArr = firstCategory?.filter(
     (el) => el.name === writtenPostVar().firstCategoryName
   )[0]?.secondCategory;
 
   useEffect(() => {
-    if (!loading && !isModify) {
+    if (!isModify) {
       writtenPostVar({
         ...post,
         firstCategoryName: FirstCategoryName.TALK,
         secondCategoryName: SecondCategoryName.FREE,
       });
     }
-  }, [loading]);
+  }, [isModify]);
 
   useEffect(() => {
     if (secondCategoryArr) {
@@ -81,46 +59,28 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
   }, [post.firstCategoryName]);
 
   useEffect(() => {
-    if (isLogin) {
-      getCategoryByUserQuery();
+    if (writtenPostVar().firstCategoryName !== FirstCategoryName.FOLKS) {
+      writtenPostVar({ ...writtenPostVar(), brandId: null });
     }
-  }, []);
 
-  useEffect(() => {
-    if (data?.getCategoryByUserRole) {
-      if (writtenPostVar().firstCategoryName !== FirstCategoryName.FOLKS) {
-        writtenPostVar({ ...writtenPostVar(), brandId: null });
-      }
+    if (writtenPostVar().firstCategoryName === FirstCategoryName.FOLKS) {
+      writtenPostVar({
+        ...writtenPostVar(),
+        brandId: brands[0].id,
+      });
+    }
 
-      if (writtenPostVar().firstCategoryName === FirstCategoryName.FOLKS) {
-        writtenPostVar({
-          ...writtenPostVar(),
-          brandId: data?.getCategoryByUserRole.brands[0].id,
-        });
-      }
+    if (post.firstCategoryName !== FirstCategoryName.CREW) {
+      writtenPostVar({ ...writtenPostVar(), crewId: null });
+    }
 
-      if (post.firstCategoryName !== FirstCategoryName.CREW) {
-        writtenPostVar({ ...writtenPostVar(), crewId: null });
-      }
-
-      if (writtenPostVar().firstCategoryName === FirstCategoryName.CREW) {
-        writtenPostVar({
-          ...writtenPostVar(),
-          crewId: data?.getCategoryByUserRole.crews[0].id,
-        });
-      }
+    if (writtenPostVar().firstCategoryName === FirstCategoryName.CREW) {
+      writtenPostVar({
+        ...writtenPostVar(),
+        crewId: crews[0].id,
+      });
     }
   }, [post.secondCategoryName]);
-
-  if (loading) {
-    createSpinner();
-  }
-
-  if (error) {
-    alert('에러가 발생했습니다 메인화면으로 다시 돌아갑니다.');
-    route.push('/');
-    return <div>Error!</div>;
-  }
 
   return (
     <>
@@ -166,7 +126,7 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
               });
             }}
           >
-            {data?.getCategoryByUserRole.firstCategory.map((el) => (
+            {firstCategory?.map((el) => (
               <option key={el.name}>{el.name}</option>
             ))}
           </select>
@@ -175,19 +135,14 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
               {/* 브랜드 */}
               <span> Of </span>
               <select
-                value={
-                  data.getCategoryByUserRole.brands.filter(
-                    (el) => el.id === post.brandId
-                  )[0]?.name
-                }
+                value={brands.filter((el) => el.id === post.brandId)[0]?.name}
                 onChange={(el) => {
                   const selectedIndex = el.target.options.selectedIndex;
-                  const selectElement =
-                    data.getCategoryByUserRole.brands[selectedIndex];
+                  const selectElement = brands[selectedIndex];
                   writtenPostVar({ ...post, brandId: selectElement.id });
                 }}
               >
-                {data.getCategoryByUserRole.brands.map((el) => (
+                {brands?.map((el) => (
                   <option key={el.name}>{el.name}</option>
                 ))}
               </select>
@@ -198,20 +153,15 @@ const CategorySelector: React.FC<IProps> = ({ role }) => {
             <>
               <span> Of </span>
               <select
-                value={
-                  data.getCategoryByUserRole.crews.filter(
-                    (el) => el.id === post.crewId
-                  )[0]?.name
-                }
+                value={crews?.filter((el) => el.id === post.crewId)[0]?.name}
                 onChange={(el) => {
                   const selectedIndex = el.target.options.selectedIndex;
-                  const selectElement =
-                    data.getCategoryByUserRole.crews[selectedIndex];
+                  const selectElement = crews[selectedIndex];
 
                   writtenPostVar({ ...post, crewId: selectElement.id });
                 }}
               >
-                {data.getCategoryByUserRole.crews.map((el) => (
+                {crews.map((el) => (
                   <option key={el.name}>{el.name}</option>
                 ))}
               </select>

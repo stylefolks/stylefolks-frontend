@@ -1,4 +1,4 @@
-import { useMutation, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import {
   initialPostStatusVar,
@@ -17,11 +17,13 @@ import {
   MODIFY_TEMP_MUTATION,
   UPLOAD_TEMP_MUTATION,
 } from 'graphql/mutations';
+import { GET_CATEGORY_BY_USER_ROLE } from 'graphql/queries';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { getCategoryByUserRole } from 'src/__generated__/getCategoryByUserRole';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
-import { removeSpinner } from 'utils/Utils';
+import { createSpinner, removeSpinner } from 'utils/Utils';
 import CategorySelector from '../components/upload/CategorySelector';
 import WysiwygEditor from '../components/upload/Editor';
 import TempPostBox from '../components/upload/TempPostBox';
@@ -53,6 +55,14 @@ const Upload = () => {
     title: '',
     content: '',
   });
+
+  const { data, loading, error } = useQuery<getCategoryByUserRole>(
+    GET_CATEGORY_BY_USER_ROLE,
+    {
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'network-only',
+    }
+  );
 
   const { pickTempId, isModify, modifyPostId } = useReactiveVar(postStatusVar);
   const {
@@ -355,13 +365,27 @@ const Upload = () => {
     };
   }, []);
 
+  if (loading) {
+    createSpinner();
+  }
+
+  if (error) {
+    alert('에러가 발생했습니다 메인화면으로 다시 돌아갑니다.');
+    router.push('/');
+    return <div>Error!</div>;
+  }
+
   if (createPostLoading || createTempLoading || ModifyTempLoading)
     return <PageChange />;
 
   return (
     <>
       <div className="wrapper">
-        <CategorySelector role={user?.role} />
+        <CategorySelector
+          firstCategory={data?.getCategoryByUserRole.firstCategory}
+          brands={data?.getCategoryByUserRole.brands}
+          crews={data?.getCategoryByUserRole.crews}
+        />
 
         <WysiwygEditor
           autofocus={false}
@@ -406,7 +430,11 @@ const Upload = () => {
             </>
           )}
         </div>
-        {modifyPostId ? '' : <TempPostBox userId={user.id} />}
+        {modifyPostId ? (
+          ''
+        ) : (
+          <TempPostBox tempPosts={data?.getCategoryByUserRole.tempPosts} />
+        )}
         <UploadDialog
           visible={dialogVar.visible}
           title={dialogVar.title}
