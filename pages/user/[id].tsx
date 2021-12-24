@@ -47,18 +47,21 @@ const User = () => {
   };
 
   const { state } = useUser({ userNick: nickname });
-  const { getUserCrewLoading, isUserTotal } = state;
+  const { isUserTotal } = state;
 
   if (error) {
     alert('에러가 발생했습니다.');
     return <PageChange />;
   }
-  if (getUserCrewLoading || loading) return <PageChange />;
+  if (loading) return <PageChange />;
 
   return (
     <div className={UserStyle.container}>
       <div className={UserStyle.userContainer}>
-        <DynamicUserProfile pageUserData={data.findByNickName.user} />
+        <DynamicUserProfile
+          user={data.findByNickName.user}
+          crews={data.findByNickName.crews}
+        />
       </div>
       {isUserTotal ? (
         <UserAllContents pageUserData={data.findByNickName.user} />
