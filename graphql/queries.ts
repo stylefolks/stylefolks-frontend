@@ -73,6 +73,11 @@ export const FIND_BY_NICKNAME = gql`
     findByNickName(nickname: $nickname) {
       ok
       error
+      crews {
+        name
+        id
+        profileImg
+      }
       user {
         id
         nickname
@@ -126,20 +131,6 @@ export const GET_EACH_POST_COMMENTS = gql`
       }
       ok
       error
-    }
-  }
-`;
-
-export const GET_USER_CREW = gql`
-  query getUserCrew($nickname: String!) {
-    getUserCrew(nickname: $nickname) {
-      ok
-      error
-      crews {
-        name
-        id
-        profileImg
-      }
     }
   }
 `;

@@ -128,10 +128,6 @@ export interface GetCrewByNameInput {
   name: string;
 }
 
-export interface GetCrewNoticeInput {
-  crewId: number;
-}
-
 export interface GetCrewPostByRoleInput {
   page?: number | null;
   inputTake?: number | null;
@@ -152,11 +148,6 @@ export interface GetPostByCategoryInput {
 
 export interface JoinCrewInput {
   crewName: string;
-}
-
-export interface LoginInput {
-  email: string;
-  password: string;
 }
 
 export interface ModifyCommentInput {

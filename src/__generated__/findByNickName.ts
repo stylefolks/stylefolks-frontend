@@ -9,6 +9,13 @@ import { UserRole } from "./globalTypes";
 // GraphQL query operation: findByNickName
 // ====================================================
 
+export interface findByNickName_findByNickName_crews {
+  __typename: "Crew";
+  name: string;
+  id: number;
+  profileImg: string | null;
+}
+
 export interface findByNickName_findByNickName_user {
   __typename: "User";
   id: number;
@@ -23,6 +30,7 @@ export interface findByNickName_findByNickName {
   __typename: "FindByNicknameOutput";
   ok: boolean;
   error: string | null;
+  crews: findByNickName_findByNickName_crews[] | null;
   user: findByNickName_findByNickName_user | null;
 }
 

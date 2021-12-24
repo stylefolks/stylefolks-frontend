@@ -1,4 +1,4 @@
-import { useLazyQuery, useReactiveVar } from '@apollo/client';
+import { useReactiveVar } from '@apollo/client';
 import {
   faArrowCircleLeft,
   faClone,
@@ -12,50 +12,31 @@ import {
   isVisibleProfileImageModalVar,
 } from 'cache/user/user.cache';
 import SmallCircleProfile from 'components/common/SmallCircleProfile';
-import PageChange from 'components/pageChange/PageChange';
-import { GET_USER_CREW } from 'graphql/queries';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import vacantImage from 'public/vacantImage.png';
 import React, { useEffect, useState } from 'react';
-import { findByNickName_findByNickName_user } from 'src/__generated__/findByNickName';
 import {
-  getUserCrew,
-  getUserCrewVariables,
-} from 'src/__generated__/getUserCrew';
+  findByNickName_findByNickName_crews,
+  findByNickName_findByNickName_user,
+} from 'src/__generated__/findByNickName';
 import UserStyle from 'styles/User.module.scss';
 
 interface IUserProfileProps {
-  pageUserData: findByNickName_findByNickName_user;
+  user: findByNickName_findByNickName_user | null;
+  crews: findByNickName_findByNickName_crews[] | null;
 }
 
-const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
+const UserProfile: React.FC<IUserProfileProps> = ({
+  user: pageUser,
+  crews,
+}) => {
   const router = useRouter();
   const user = useReactiveVar(userInfoVar);
 
   const [isChange, setIsChange] = useState<boolean>(false);
   const [localVal, setLocalVal] = useState({ nick: '', link: '' });
   const [isUser, setIsUser] = useState<boolean>(false);
-
-  const [
-    getUserCrew,
-    {
-      data: getUserCrewData,
-      loading: getUserCrewLoading,
-      error: getUserCrewError,
-    },
-  ] = useLazyQuery<getUserCrew, getUserCrewVariables>(GET_USER_CREW, {
-    fetchPolicy: 'network-only',
-    nextFetchPolicy: 'network-only',
-  });
-
-  useEffect(() => {
-    getUserCrew({
-      variables: {
-        nickname: pageUserData?.nickname,
-      },
-    });
-  }, [user]);
 
   useEffect(() => {
     setLocalVal({
@@ -75,10 +56,8 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
   };
 
   useEffect(() => {
-    if (user.nickname === pageUserData.nickname) setIsUser(true);
+    if (user.nickname === pageUser.nickname) setIsUser(true);
   }, []);
-
-  if (getUserCrewLoading) return <PageChange />;
 
   return (
     <>
@@ -90,9 +69,7 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
           >
             <Image
               src={
-                pageUserData?.profileImg
-                  ? pageUserData?.profileImg
-                  : vacantImage.src
+                pageUser?.profileImg ? pageUser?.profileImg : vacantImage.src
               }
               alt="profile-image"
               width="120px"
@@ -101,17 +78,15 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
               unoptimized={true}
               placeholder="blur"
               blurDataURL={
-                pageUserData?.profileImg
-                  ? pageUserData?.profileImg
-                  : vacantImage.src
+                pageUser?.profileImg ? pageUser?.profileImg : vacantImage.src
               }
             />
           </div>
           <div className={UserStyle.userInfoBioWrapper}>
-            <h4>{pageUserData?.role}</h4>
-            <h2> {pageUserData?.nickname}</h2>
-            <a href={pageUserData?.link} target="_blank" rel="noreferrer">
-              Link Of {pageUserData?.nickname}
+            <h4>{pageUser?.role}</h4>
+            <h2> {pageUser?.nickname}</h2>
+            <a href={pageUser?.link} target="_blank" rel="noreferrer">
+              Link Of {pageUser?.nickname}
             </a>
           </div>
         </div>
@@ -141,10 +116,10 @@ const UserProfile: React.FC<IUserProfileProps> = ({ pageUserData }) => {
         )}
       </div>
       <div className={UserStyle.userJoinCrewContainer}>
-        {getUserCrewData?.getUserCrew.crews?.length ? <h4>Joined Crew</h4> : ''}
+        {crews?.length ? <h4>Joined Crew</h4> : ''}
         <ul>
-          {getUserCrewData?.getUserCrew.crews?.length
-            ? getUserCrewData?.getUserCrew?.crews?.map((el) => (
+          {crews?.length
+            ? crews?.map((el) => (
                 <SmallCircleProfile
                   link={`/crew/${el.name}`}
                   key={el.id}
