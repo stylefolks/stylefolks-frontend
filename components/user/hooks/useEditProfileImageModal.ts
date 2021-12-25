@@ -1,5 +1,5 @@
 import { useMutation, useReactiveVar } from '@apollo/client';
-import { spinnerVisibleVar, userInfoVar } from 'cache/common/common.cache';
+import { userInfoVar } from 'cache/common/common.cache';
 import { isVisibleProfileImageModalVar } from 'cache/user/user.cache';
 import { folksServerNoGql } from 'config';
 import { EDIT_PROFILE } from 'graphql/mutations';
@@ -75,7 +75,7 @@ const useEditProfileImageModal = ({ doRefetch }: IProps) => {
       }
     } catch (e) {
       console.error(e);
-      spinnerVisibleVar(false);
+      removeSpinner();
       alert('이미지 업로드 에러가 발생했습니다.');
     }
   };
@@ -91,7 +91,7 @@ const useEditProfileImageModal = ({ doRefetch }: IProps) => {
 
   const onDelete = async () => {
     const body = JSON.stringify({ link: user.profileImg });
-    spinnerVisibleVar(false); // 일단 BE수정 필요
+    removeSpinner(); // 일단 BE수정 필요
     const res = await (
       await fetch(`${folksServerNoGql}/images/user`, {
         method: 'PUT',

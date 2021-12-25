@@ -40,16 +40,8 @@ interface IModalStatus {
   isVisibleCrewUserManageModal: boolean;
 }
 
-interface ISpinnerStatus {
-  isVisibleSpinner: boolean;
-}
-
 export const initialModalVisibleVar: IModalStatus = {
   isVisibleCrewUserManageModal: false,
-};
-
-export const initialIsVisibleSpinnerVar: ISpinnerStatus = {
-  isVisibleSpinner: false,
 };
 
 export const initialWrittePostVar: IPostVar = {
@@ -90,8 +82,6 @@ export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
 export const modalVisibleVar: ReactiveVar<IModalStatus> = makeVar({
   ...initialModalVisibleVar,
 });
-
-export const spinnerVisibleVar: ReactiveVar<boolean> = makeVar(false);
 
 export const writtenPostVar = makeVar<IPostVar>({
   ...initialWrittePostVar,

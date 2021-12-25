@@ -10,7 +10,6 @@ import {
   isAlert,
   isLoggedIn,
   nickname,
-  spinnerVisible,
   token,
   writtenPost,
 } from 'cache/common/common.field';
@@ -78,7 +77,7 @@ function createApolloClient() {
             isVisibleEditProfileModal,
             isAlert,
             writtenPost,
-            spinnerVisible,
+
             uploadDialog,
           },
         },

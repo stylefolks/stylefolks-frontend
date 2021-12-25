@@ -64,7 +64,7 @@ const User = () => {
         />
       </div>
       {isUserTotal ? (
-        <UserAllContents pageUserData={data.findByNickName.user} />
+        <UserAllContents nickname={nickname} />
       ) : (
         <UserContents nickname={nickname} />
       )}
