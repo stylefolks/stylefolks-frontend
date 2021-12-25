@@ -29,5 +29,5 @@ export interface getUserPost {
 }
 
 export interface getUserPostVariables {
-  userId: number;
+  nickname: string;
 }

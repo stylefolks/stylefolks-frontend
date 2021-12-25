@@ -397,8 +397,6 @@ const Upload = () => {
           }}
         />
 
-        {/* <TitleImagePicker /> */}
-
         <div className="buttonWrapper">
           {modifyPostId ? (
             <Button

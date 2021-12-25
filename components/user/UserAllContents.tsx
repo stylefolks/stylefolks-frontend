@@ -8,7 +8,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import whiteImage from 'public/vacantImage.png';
-import { findByNickName_findByNickName_user } from 'src/__generated__/findByNickName';
 import {
   getUserPost,
   getUserPostVariables,
@@ -16,16 +15,16 @@ import {
 import UserStyle from 'styles/User.module.scss';
 
 interface IPropsUserAllContents {
-  pageUserData: findByNickName_findByNickName_user;
+  nickname: string;
 }
 
-const UserAllContents: React.FC<IPropsUserAllContents> = ({ pageUserData }) => {
+const UserAllContents: React.FC<IPropsUserAllContents> = ({ nickname }) => {
   const router = useRouter();
   const { data, loading, error } = useQuery<getUserPost, getUserPostVariables>(
     GET_USER_ALL_POST,
     {
       variables: {
-        userId: pageUserData.id,
+        nickname,
       },
     }
   );

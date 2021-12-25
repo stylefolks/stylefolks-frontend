@@ -141,8 +141,8 @@ export const GET_POST_BY_CATEGORY = gql`
 `;
 
 export const GET_USER_ALL_POST = gql`
-  query getUserPost($userId: Int!) {
-    getUserPost(userId: $userId) {
+  query getUserPost($nickname: String!) {
+    getUserPost(nickname: $nickname) {
       ok
       error
       posts {

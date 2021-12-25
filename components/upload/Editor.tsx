@@ -58,8 +58,9 @@ const WysiwygEditor: React.FC<Props> = (props) => {
   }, [props, editorRef]);
 
   const uploadImage = async (blob: File | Blob) => {
+    alert('그냥 뜨나 보자 일단.'); // alert는 최초부터 뜨는데 Spinner가 안뜨므로 이건 렌더 관리 문제임..
+    createSpinner();
     let formdata = new FormData();
-
     formdata.append('file', blob);
 
     try {
@@ -101,9 +102,6 @@ const WysiwygEditor: React.FC<Props> = (props) => {
         onChange={handleChange}
         hooks={{
           addImageBlobHook: async (blob, callback) => {
-            alert('그냥 뜨나 보자 일단.'); // alert는 최초부터 뜨는데 Spinner가 안뜨므로 이건 렌더 관리 문제임..
-            createSpinner();
-
             // 여기서 interceptor 작동시켜서 스피너 돌게 하자
             const upload = await uploadImage(blob);
             callback(upload, 'alt text');
