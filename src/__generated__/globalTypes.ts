@@ -150,6 +150,11 @@ export interface JoinCrewInput {
   crewName: string;
 }
 
+export interface LoginInput {
+  email: string;
+  password: string;
+}
+
 export interface ModifyCommentInput {
   postId: number;
   comment: string;

@@ -36,5 +36,6 @@ export const BUTTON_MAP: IButtonMap[] = [
 ];
 
 export const mediaStandard = 735;
+export const koEngNumRegEx = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/gi;
 
 export default {};

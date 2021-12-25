@@ -2,6 +2,7 @@ module.exports = {
   client: {
     includes: [
       './components/**/*.{tsx,ts}',
+      './hooks/**/*.{tsx,ts}',
       './graphql/**/*.{tsx,ts}',
       './pages/**/*.{tsx,ts}',
     ],
