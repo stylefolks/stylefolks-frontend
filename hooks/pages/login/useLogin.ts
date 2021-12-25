@@ -3,6 +3,7 @@ import { authTokenVar, isLoggedInVar } from 'cache/common/common.cache';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { login, loginVariables } from 'src/__generated__/login';
+
 interface ILoginForm {
   email: string;
   password: string;
