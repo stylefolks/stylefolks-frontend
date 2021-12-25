@@ -23,7 +23,6 @@ import React, { useEffect, useState } from 'react';
 import { getCategoryByUserRole } from 'src/__generated__/getCategoryByUserRole';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
-import { createSpinner } from 'utils/Utils';
 import CategorySelector from '../components/upload/CategorySelector';
 import WysiwygEditor from '../components/upload/Editor';
 import TempPostBox from '../components/upload/TempPostBox';
@@ -361,16 +360,15 @@ const Upload = () => {
     };
   }, []);
 
-  if (loading) {
-    createSpinner();
-  }
-
   if (error) {
     alert('에러가 발생했습니다 메인화면으로 다시 돌아갑니다.');
     router.push('/');
     return <div>Error!</div>;
   }
 
+  if (loading) {
+    return <PageChange />;
+  }
   if (createPostLoading || createTempLoading || ModifyTempLoading)
     return <PageChange />;
 
