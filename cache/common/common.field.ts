@@ -4,7 +4,6 @@ import {
   authTokenVar,
   isLoggedInVar,
   modalVisibleVar,
-  spinnerVisibleVar,
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
@@ -49,12 +48,6 @@ export const postStatus = {
 export const modalVisible = {
   read() {
     return modalVisibleVar();
-  },
-};
-
-export const spinnerVisible = {
-  read() {
-    return spinnerVisibleVar();
   },
 };
 

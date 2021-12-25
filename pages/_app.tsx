@@ -1,5 +1,4 @@
 import { ApolloProvider } from '@apollo/client';
-import Spinner from 'components/common/Spinner';
 import Router from 'next/router';
 import React from 'react';
 import { createSpinner, removeSpinner } from 'utils/Utils';
@@ -29,7 +28,6 @@ const App = ({ Component, pageProps }) => {
           <Component {...pageProps} />
         </Layout>
       </Wrapper>
-      <Spinner />
     </ApolloProvider>
   );
 };

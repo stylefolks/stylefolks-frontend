@@ -9,7 +9,6 @@ export default class MyDocument extends Document {
           <Main />
           <div id="alert" />
           <div id="modal" />
-          <div id="spinner" />
           <div id="page-transition" />
           <NextScript />
         </body>
