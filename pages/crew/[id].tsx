@@ -1,103 +1,21 @@
-import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { modalVisibleVar, userInfoVar } from 'cache/common/common.cache';
 import CrewIntroduction from 'components/crew/CrewIntorduction';
 import CrewJoinedPeople from 'components/crew/CrewJoinedPeople';
 import CrewManagePeopleModal from 'components/crew/CrewManagePeopleModal';
 import CrewNotice from 'components/crew/CrewNotice';
 import CrewOOTD from 'components/crew/CrewOOTD';
 import CrewProfile from 'components/crew/CrewProfile';
-import { DEPART_CREW, JOIN_CREW } from 'graphql/crew/mutations';
-import { GET_CREW_BY_NAME } from 'graphql/crew/queries';
-import { useRouter } from 'next/router';
+import useEachCrew from 'hooks/pages/crew/useEachCrew';
 import React from 'react';
-import { departCrew, departCrewVariables } from 'src/__generated__/departCrew';
-import {
-  getCrewByName,
-  getCrewByNameVariables,
-} from 'src/__generated__/getCrewByName';
-import { joinCrew, joinCrewVariables } from 'src/__generated__/joinCrew';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
 const Crew = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const visible = useReactiveVar(modalVisibleVar);
-  const userInfo = useReactiveVar(userInfoVar);
-  const { data, loading, error, refetch } = useQuery<
-    getCrewByName,
-    getCrewByNameVariables
-  >(GET_CREW_BY_NAME, {
-    variables: {
-      input: {
-        name: id as string,
-      },
-    },
-  });
-
-  const onCompletedJoinCrew = (data: joinCrew) => {
-    if (data.joinCrew.ok) {
-      window.alert('크루 가입이 완료되었습니다 :)');
-      refetch();
-      return;
-    }
-
-    if (data.joinCrew.error) {
-      alert('에러가 발생했습니다.');
-    }
-  };
-
-  const onCompletedDepartCrew = (data: departCrew) => {
-    if (data.departCrew.ok) {
-      window.alert('크루 탈퇴가 완료되었습니다 :)');
-      refetch();
-    }
-
-    if (data.departCrew.error) {
-      alert('에러가 발생했습니다.');
-    }
-  };
-
-  const [joinCrewMutation] = useMutation<joinCrew, joinCrewVariables>(
-    JOIN_CREW,
-    {
-      onCompleted: onCompletedJoinCrew,
-    }
-  );
-
-  const [departCrewMutation] = useMutation<departCrew, departCrewVariables>(
-    DEPART_CREW,
-    {
-      onCompleted: onCompletedDepartCrew,
-    }
-  );
-
-  const isJoined = data?.getCrewByName.users
-    ?.map((el) => el.user.id)
-    .includes(userInfo.id);
-
-  const doJoin = () => {
-    joinCrewMutation({
-      variables: {
-        input: {
-          crewName: data?.getCrewByName.crew.name,
-        },
-      },
-    });
-  };
-
-  const doDepart = () => {
-    departCrewMutation({
-      variables: {
-        input: {
-          crewName: data?.getCrewByName.crew.name,
-        },
-      },
-    });
-  };
+  const { state, actions } = useEachCrew();
+  const { data, loading, error, isJoined, visible } = state;
+  const { refetch, doDepart, doJoin } = actions;
 
   if (loading) return <div>Loading...</div>;
 
-  if (!data) return <div>Error</div>;
+  if (!data || error) return <div>Error</div>;
 
   return (
     <div className={CrewPageStyle.container}>
