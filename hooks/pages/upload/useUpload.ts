@@ -15,13 +15,14 @@ import {
 } from 'graphql/upload/mutations';
 import { GET_CATEGORY_BY_USER_ROLE } from 'graphql/upload/queries';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { createPost, createPostVariables } from 'src/__generated__/createPost';
 import { createTemp, createTempVariables } from 'src/__generated__/createTemp';
 import { getCategoryByUserRole } from 'src/__generated__/getCategoryByUserRole';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { modifyTemp, modifyTempVariables } from 'src/__generated__/modifyTemp';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
+import useHandleUploadRes from './useUploadRes';
 
 interface IDialog {
   visible: boolean;
@@ -33,11 +34,17 @@ const useUpload = () => {
   const user = useReactiveVar(userInfoVar);
   const post = useReactiveVar(writtenPostVar);
   const router = useRouter();
-  const [dialogVar, setDialogVar] = useState<IDialog>({
-    visible: false,
-    title: '',
-    content: '',
-  });
+  const { state: resState, actions: resActions } = useHandleUploadRes();
+  const { dialogVar } = resState;
+  const {
+    alertOnConfirm,
+    alertOnCancel,
+    createPostonCompleted,
+    createTemponCompleted,
+    ModifyTempOnCompleted,
+    uploadMutationOnCompleted,
+    modifyPostOnCompleted,
+  } = resActions;
 
   const { data, loading, error } = useQuery<getCategoryByUserRole>(
     GET_CATEGORY_BY_USER_ROLE,
@@ -57,104 +64,6 @@ const useUpload = () => {
     crewId,
     brandId,
   } = post;
-
-  const alertOnConfirm = () => {
-    setDialogVar({
-      title: '',
-      content: '',
-      visible: false,
-    });
-    router.push('/');
-  };
-  const alertOnCancel = () => {
-    setDialogVar({
-      title: '',
-      content: '',
-      visible: false,
-    });
-    router.push('/');
-  };
-
-  const createPostonCompleted = (data: createPost) => {
-    if (data?.createPost.ok) {
-      writtenPostVar({ ...initialWrittePostVar });
-      postStatusVar({ ...initialPostStatusVar });
-
-      setDialogVar({
-        title: '새로운 게시물',
-        content: '새로운 게시물 업로드를 완료하였습니다. ^_^',
-        visible: true,
-      });
-    }
-
-    if (data?.createPost.error) {
-      console.log(
-        `${data.createPost.error}. \n문제가 지속되면 관리자에게 문의해주세요!`
-      );
-    }
-  };
-
-  const createTemponCompleted = (data: createTemp) => {
-    if (data?.createTemp.ok) {
-      writtenPostVar({ ...initialWrittePostVar });
-      postStatusVar({ ...initialPostStatusVar, isTemp: true }); //에디터 내부에서 리셋을 위해 isTemp true설정
-      setDialogVar({
-        title: '임시 게시물',
-        content: '새로운 임시저장 게시물 저장을 완료하였습니다. :)',
-        visible: true,
-      });
-    }
-
-    if (data?.createTemp.error) {
-      alert(
-        `${data.createTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
-      );
-    }
-  };
-
-  const ModifyTempOnCompleted = (data: modifyTemp) => {
-    if (data?.modifyTemp.ok) {
-      setDialogVar({
-        title: '임시 게시물',
-        content: '임시저장 게시물 저장이 완료되었습니다. :)',
-        visible: true,
-      });
-    }
-
-    if (data?.modifyTemp.error) {
-      alert(
-        `${data.modifyTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
-      );
-    }
-  };
-
-  const uploadMutationOnCompleted = (data: uploadTemp) => {
-    if (data?.uploadTemp.ok) {
-      setDialogVar({
-        title: '임시 게시물',
-        content: '임시저장 게시물의 업로드가 완료되었습니다. :)',
-        visible: true,
-      });
-    }
-
-    if (data?.uploadTemp.error) {
-      alert(
-        `${data.uploadTemp.error}. \n문제가 지속되면 관리자에게 문의해주세요 :)`
-      );
-    }
-  };
-  const modifyPostOnCompleted = (data: modifyPost) => {
-    if (data.modifyPost.ok) {
-      const modifyPostId = postStatusVar().modifyPostId;
-      postStatusVar({
-        ...postStatusVar(),
-        isModify: false,
-        modifyPostId: null,
-      });
-
-      router.push(`/post/${modifyPostId}`);
-    }
-  };
 
   const [
     modifyPostMutation,
