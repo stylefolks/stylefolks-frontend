@@ -2,8 +2,7 @@ import PageChange from 'components/pageChange/PageChange';
 import removeMarkdown from 'markdown-to-text';
 import ReactDOM from 'react-dom';
 
-//https://stackoverflow.com/questions/3790681/regular-expression-to-remove-html-tags
-
+//ref: https://stackoverflow.com/questions/3790681/regular-expression-to-remove-html-tags
 export const makePreContents = (data: string) => {
   const altTextReg = /alt text/g;
 

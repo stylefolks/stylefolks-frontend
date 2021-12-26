@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { POST_FRAGMENT, USER_FRAGMENT } from 'graphql/fragment';
+import { CREW_FRAGMENT, POST_FRAGMENT, USER_FRAGMENT } from 'graphql/fragment';
 
 export const GET_ALL_CREW = gql`
   query getAllCrew($input: GetAllCrewInput!) {
@@ -8,17 +8,13 @@ export const GET_ALL_CREW = gql`
       error
       totalPages
       totalResults
-
       crew {
-        id
-        profileImg
-        name
-        introduction
-        backgroundImg
+        ...CrewParts
         followerCount
       }
     }
   }
+  ${CREW_FRAGMENT}
 `;
 
 export const GET_CREW_BY_NAME = gql`
@@ -27,11 +23,7 @@ export const GET_CREW_BY_NAME = gql`
       ok
       error
       crew {
-        id
-        profileImg
-        name
-        introduction
-        backgroundImg
+        ...CrewParts
         link {
           type
           href
@@ -49,6 +41,7 @@ export const GET_CREW_BY_NAME = gql`
       }
     }
   }
+  ${CREW_FRAGMENT}
   ${USER_FRAGMENT}
 `;
 

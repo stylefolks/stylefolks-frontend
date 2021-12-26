@@ -18,3 +18,13 @@ export const USER_FRAGMENT = gql`
     profileImg
   }
 `;
+
+export const CREW_FRAGMENT = gql`
+  fragment CrewParts on Crew {
+    id
+    profileImg
+    name
+    introduction
+    backgroundImg
+  }
+`;
