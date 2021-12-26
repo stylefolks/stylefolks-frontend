@@ -1,17 +1,17 @@
 import { gql } from '@apollo/client';
+import { USER_FRAGMENT } from './../fragment';
 
 export const ME_QUERY = gql`
   query meQuery {
     me {
-      id
-      nickname
+      ...UserParts
       email
       role
       verified
-      profileImg
       link
     }
   }
+  ${USER_FRAGMENT}
 `;
 
 export const FIND_BY_ID_QUERY = gql`
@@ -20,14 +20,13 @@ export const FIND_BY_ID_QUERY = gql`
       ok
       error
       user {
-        id
-        nickname
+        ...UserParts
         email
         role
-        profileImg
       }
     }
   }
+  ${USER_FRAGMENT}
 `;
 
 export const FIND_BY_NICKNAME = gql`
@@ -41,13 +40,12 @@ export const FIND_BY_NICKNAME = gql`
         profileImg
       }
       user {
-        id
-        nickname
+        ...UserParts
         email
         link
         role
-        profileImg
       }
     }
   }
+  ${USER_FRAGMENT}
 `;

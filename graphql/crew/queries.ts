@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { POST_FRAGMENT, USER_FRAGMENT } from 'graphql/fragment';
 
 export const GET_ALL_CREW = gql`
   query getAllCrew($input: GetAllCrewInput!) {
@@ -39,9 +40,7 @@ export const GET_CREW_BY_NAME = gql`
       users {
         grade
         user {
-          id
-          nickname
-          profileImg
+          ...UserParts
           link
         }
       }
@@ -50,6 +49,7 @@ export const GET_CREW_BY_NAME = gql`
       }
     }
   }
+  ${USER_FRAGMENT}
 `;
 
 export const GET_CREW_POST_BY_ROLE = gql`
@@ -58,13 +58,11 @@ export const GET_CREW_POST_BY_ROLE = gql`
       ok
       error
       posts {
-        title
-        titleImg
-        id
-        viewCount
+        ...PostParts
       }
       totalPages
       totalResults
     }
   }
+  ${POST_FRAGMENT}
 `;

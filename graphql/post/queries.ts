@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { POST_FRAGMENT, USER_FRAGMENT } from 'graphql/fragment';
 
 export const GET_EACH_POST_QUERY = gql`
   query getEachPost($postId: Int!) {
@@ -6,10 +7,8 @@ export const GET_EACH_POST_QUERY = gql`
       ok
       error
       post {
-        title
-        titleImg
+        ...PostParts
         contents
-        viewCount
         firstCategory {
           name
           id
@@ -19,9 +18,7 @@ export const GET_EACH_POST_QUERY = gql`
           id
         }
         user {
-          nickname
-          id
-          profileImg
+          ...UserParts
         }
         image {
           link
@@ -36,6 +33,8 @@ export const GET_EACH_POST_QUERY = gql`
       }
     }
   }
+  ${POST_FRAGMENT}
+  ${USER_FRAGMENT}
 `;
 
 export const GET_EACH_POST_COMMENTS = gql`
@@ -45,15 +44,14 @@ export const GET_EACH_POST_COMMENTS = gql`
         comment
         id
         user {
-          id
-          nickname
-          profileImg
+          ...UserParts
         }
       }
       ok
       error
     }
   }
+  ${USER_FRAGMENT}
 `;
 
 export const GET_POST_BY_CATEGORY = gql`
@@ -63,29 +61,24 @@ export const GET_POST_BY_CATEGORY = gql`
       error
       totalPages
       totalResults
-
       post {
-        id
-        createdAt
-        updatedAt
-        title
-        titleImg
-        viewCount
+        ...PostParts
         contents
         comments {
           id
         }
         user {
+          ...UserParts
           email
-          nickname
           role
-          profileImg
         }
       }
       firstCategoryName
       secondCategoryName
     }
   }
+  ${POST_FRAGMENT}
+  ${USER_FRAGMENT}
 `;
 
 export const GET_USER_ALL_POST = gql`
@@ -94,15 +87,11 @@ export const GET_USER_ALL_POST = gql`
       ok
       error
       posts {
-        id
-        createdAt
-        updatedAt
-        title
-        titleImg
-        viewCount
+        ...PostParts
       }
     }
   }
+  ${POST_FRAGMENT}
 `;
 
 export const GET_ALL_POSTS_QUERY = gql`
@@ -111,17 +100,15 @@ export const GET_ALL_POSTS_QUERY = gql`
       ok
       error
       post {
-        id
-        title
-        titleImg
+        ...PostParts
         user {
-          id
-          nickname
+          ...UserParts
         }
-        viewCount
       }
       totalPages
       totalResults
     }
   }
+  ${POST_FRAGMENT}
+  ${USER_FRAGMENT}
 `;
