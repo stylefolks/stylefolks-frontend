@@ -13,15 +13,18 @@ export interface getAllPosts_getAllPosts_post_user {
   __typename: "User";
   id: number;
   nickname: string;
+  profileImg: string | null;
 }
 
 export interface getAllPosts_getAllPosts_post {
   __typename: "Posts";
   id: number;
+  createdAt: any;
+  updatedAt: any;
   title: string;
   titleImg: string | null;
-  user: getAllPosts_getAllPosts_post_user;
   viewCount: number;
+  user: getAllPosts_getAllPosts_post_user;
 }
 
 export interface getAllPosts_getAllPosts {
