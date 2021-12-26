@@ -1,98 +1,24 @@
-import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import {
-  postStatusVar,
-  userInfoVar,
-  writtenPostVar,
-} from 'cache/common/common.cache';
 import { DeleteButton } from 'components/common/button/DeleteButton';
 import { ModifyButton } from 'components/common/button/ModifyButton';
 import CommentBox from 'components/common/comments/CommentBox';
-import { GET_EACH_POST_QUERY } from 'graphql/post/queries';
-import { DELETE_POST } from 'graphql/upload/mutations';
+import useEachPost from 'hooks/pages/post/useEachPost';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import {
-  deleteMyPost,
-  deleteMyPostVariables,
-} from 'src/__generated__/deleteMyPost';
-import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import PostStyle from 'styles/Post.module.scss';
 import EditorViewer from '../../components/upload/EditorViewer';
-import {
-  getEachPost,
-  getEachPostVariables,
-} from '../../src/__generated__/getEachPost';
 import CategoryStyle from '../../styles/Category.module.scss';
 
 export const Post = () => {
-  const router = useRouter();
-  const postId = +router?.query.id;
-  const user = useReactiveVar(userInfoVar);
-
-  const { data, error, loading } = useQuery<getEachPost, getEachPostVariables>(
-    GET_EACH_POST_QUERY,
-    {
-      nextFetchPolicy: 'network-only',
-      fetchPolicy: 'network-only',
-      variables: { postId },
-    }
-  );
-
-  const onEdit = () => {
-    const {
-      firstCategory,
-      secondCategory,
-      title,
-      contents,
-      titleImg,
-      crew,
-      brand,
-    } = data?.getEachPost.post;
-
-    postStatusVar({
-      ...postStatusVar(),
-      isModify: true,
-      modifyPostId: postId,
-    });
-
-    writtenPostVar({
-      title,
-      contents,
-      titleImg,
-      firstCategoryName: firstCategory.name as FirstCategoryName,
-      secondCategoryName: secondCategory.name,
-      crewId: crew ? crew.id : null,
-      brandId: brand ? brand.id : null,
-    });
-
-    router.push('/upload');
-  };
-
-  const deleteMyPostOnCompleted = (data: deleteMyPost) => {
-    if (data.deleteMyPost.ok) {
-      router.push('/');
-      return;
-    }
-    if (data.deleteMyPost.error) {
-      alert(data.deleteMyPost.error);
-      router.push('/');
-    }
-  };
-
-  const [
-    deletePostMutation,
-    { loading: deleteMyPostLoading, error: deleteMyPostError },
-  ] = useMutation<deleteMyPost, deleteMyPostVariables>(DELETE_POST, {
-    onCompleted: deleteMyPostOnCompleted,
-  });
-
-  const onDelete = () => {
-    deletePostMutation({
-      variables: {
-        postId,
-      },
-    });
-  };
+  const { state, actions } = useEachPost();
+  const {
+    user,
+    postId,
+    data,
+    loading,
+    error,
+    deleteMyPostLoading,
+    deleteMyPostError,
+  } = state;
+  const { onEdit, onDelete } = actions;
 
   if (loading) return <div>Loading...</div>;
 
