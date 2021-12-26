@@ -22,6 +22,7 @@ const Column: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     const [data, setData] = useState<
       getPostByCategory_getPostByCategory_post[]
     >(initialData.getPostByCategory.post);
+
     const onCompleted = (data: getPostByCategory) => {
       if (data?.getPostByCategory?.ok) {
         setData((prev) => [...prev, ...moreData?.getPostByCategory.post]);
