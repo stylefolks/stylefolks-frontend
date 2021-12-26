@@ -1,6 +1,6 @@
 import { ApolloError, useLazyQuery } from '@apollo/client';
 import NoMore from 'components/common/NoMore';
-import { GET_POST_BY_CATEGORY } from 'graphql/queries';
+import { GET_POST_BY_CATEGORY } from 'graphql/post/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';

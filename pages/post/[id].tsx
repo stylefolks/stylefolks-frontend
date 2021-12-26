@@ -7,8 +7,8 @@ import {
 import { DeleteButton } from 'components/common/button/DeleteButton';
 import { ModifyButton } from 'components/common/button/ModifyButton';
 import CommentBox from 'components/common/comments/CommentBox';
-import { DELETE_POST } from 'graphql/mutations';
-import { GET_EACH_POST_QUERY } from 'graphql/queries';
+import { GET_EACH_POST_QUERY } from 'graphql/post/queries';
+import { DELETE_POST } from 'graphql/upload/mutations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {

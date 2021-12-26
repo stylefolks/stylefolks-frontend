@@ -1,5 +1,6 @@
-import { ApolloError, gql, useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { authTokenVar, isLoggedInVar } from 'cache/common/common.cache';
+import { LOGIN_MUTATION } from 'graphql/user/mutations';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { login, loginVariables } from 'src/__generated__/login';
@@ -8,16 +9,6 @@ interface ILoginForm {
   email: string;
   password: string;
 }
-
-const LOGIN_MUTATION = gql`
-  mutation login($loginInput: LoginInput!) {
-    login(input: $loginInput) {
-      ok
-      token
-      error
-    }
-  }
-`;
 
 const useLogin = () => {
   const router = useRouter();

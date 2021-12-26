@@ -9,6 +9,9 @@ import {
 } from 'cache/common/common.cache';
 import { Button } from 'components/common/button/Button';
 import PageChange from 'components/pageChange/PageChange';
+import CategorySelector from 'components/upload/CategorySelector';
+import WysiwygEditor from 'components/upload/Editor';
+import TempPostBox from 'components/upload/TempPostBox';
 import UploadDialog from 'components/upload/UploadDialog';
 import {
   CREATE_POST_MUTATION,
@@ -16,28 +19,25 @@ import {
   MODIFY_POST,
   MODIFY_TEMP_MUTATION,
   UPLOAD_TEMP_MUTATION,
-} from 'graphql/mutations';
-import { GET_CATEGORY_BY_USER_ROLE } from 'graphql/queries';
+} from 'graphql/upload/mutations';
+import { GET_CATEGORY_BY_USER_ROLE } from 'graphql/upload/queries';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { getCategoryByUserRole } from 'src/__generated__/getCategoryByUserRole';
 import { modifyPost, modifyPostVariables } from 'src/__generated__/modifyPost';
 import { uploadTemp, uploadTempVariables } from 'src/__generated__/uploadTemp';
-import CategorySelector from '../components/upload/CategorySelector';
-import WysiwygEditor from '../components/upload/Editor';
-import TempPostBox from '../components/upload/TempPostBox';
 import {
   createPost,
   createPostVariables,
-} from '../src/__generated__/createPost';
+} from '../../src/__generated__/createPost';
 import {
   createTemp,
   createTempVariables,
-} from '../src/__generated__/createTemp';
+} from '../../src/__generated__/createTemp';
 import {
   modifyTemp,
   modifyTempVariables,
-} from '../src/__generated__/modifyTemp';
+} from '../../src/__generated__/modifyTemp';
 
 interface IDialog {
   visible: boolean;

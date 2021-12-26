@@ -30,7 +30,7 @@ const Comments: React.FC<IPropsComment> = ({
   onDelete,
 }) => {
   const userInfo = useReactiveVar(userInfoVar);
-  const { state, actions } = useComments({ postId, commentId });
+  const { state, actions } = useComments();
   const { edit, value } = state;
   const { setValue, setEdit, onEdit, onChange } = actions;
 

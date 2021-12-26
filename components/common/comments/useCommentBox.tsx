@@ -4,8 +4,8 @@ import {
   CREATE_COMMENT,
   DELETE_COMMENT,
   MODIFY_COMMENT,
-} from 'graphql/mutations';
-import { GET_EACH_POST_COMMENTS } from 'graphql/queries';
+} from 'graphql/post/mutations';
+import { GET_EACH_POST_COMMENTS } from 'graphql/post/queries';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {

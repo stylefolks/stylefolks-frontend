@@ -1,7 +1,7 @@
 import { ApolloError, useMutation } from '@apollo/client';
 import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
-import gql from 'graphql-tag';
+import { FIND_PASSWORD } from 'graphql/user/mutations';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -9,16 +9,7 @@ import {
   findPassword,
   findPasswordVariables,
 } from 'src/__generated__/findPassword';
-import UtilStyle from '../styles/common/Util.module.scss';
-
-const FIND_PASSWORD = gql`
-  mutation findPassword($input: FindPasswordIntput!) {
-    findPassword(input: $input) {
-      ok
-      error
-    }
-  }
-`;
+import UtilStyle from 'styles/common/Util.module.scss';
 
 interface ICreateAccountForm {
   email: string;

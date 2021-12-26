@@ -13,7 +13,6 @@ import {
 } from 'cache/user/user.cache';
 import SmallCircleProfile from 'components/common/SmallCircleProfile';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import vacantImage from 'public/vacantImage.png';
 import React, { useEffect, useState } from 'react';
 import {
@@ -31,7 +30,6 @@ const UserProfile: React.FC<IUserProfileProps> = ({
   user: pageUser,
   crews,
 }) => {
-  const router = useRouter();
   const user = useReactiveVar(userInfoVar);
 
   const [isChange, setIsChange] = useState<boolean>(false);

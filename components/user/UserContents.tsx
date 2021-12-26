@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PagesDivider from 'components/common/PagesDivider';
 import PageChange from 'components/pageChange/PageChange';
 import { BUTTON_MAP } from 'constants/constants';
-import { GET_POST_BY_CATEGORY } from 'graphql/queries';
+import { GET_POST_BY_CATEGORY } from 'graphql/post/queries';
 import { IButtonMap, IPickCategory } from 'model/dto';
 import React, { useEffect, useState } from 'react';
 import {

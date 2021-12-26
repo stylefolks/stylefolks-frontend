@@ -4,7 +4,7 @@ import {
   postStatusVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
-import { DELETE_TEMP } from 'graphql/mutations';
+import { DELETE_TEMP } from 'graphql/upload/mutations';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { deleteTemp, deleteTempVariables } from 'src/__generated__/deleteTemp';

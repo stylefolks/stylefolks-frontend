@@ -1,7 +1,7 @@
 import { useLazyQuery, useQuery } from '@apollo/client';
 import { userInfoVar } from 'cache/common/common.cache';
-import { ME_QUERY } from '../graphql/queries';
-import { meQuery } from '../src/__generated__/meQuery';
+import { ME_QUERY } from 'graphql/user/queries';
+import { meQuery } from 'src/__generated__/meQuery';
 
 export const useLazyMe = () => {
   const onCompleted = (data: meQuery) => {

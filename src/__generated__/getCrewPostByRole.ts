@@ -11,9 +11,11 @@ import { GetCrewPostByRoleInput } from "./globalTypes";
 
 export interface getCrewPostByRole_getCrewPostByRole_posts {
   __typename: "Posts";
+  id: number;
+  createdAt: any;
+  updatedAt: any;
   title: string;
   titleImg: string | null;
-  id: number;
   viewCount: number;
 }
 

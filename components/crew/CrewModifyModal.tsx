@@ -1,7 +1,7 @@
 import { ApolloQueryResult, useMutation } from '@apollo/client';
 import { Button } from 'components/common/button/Button';
 import BackDrop from 'components/common/shared/BackDrop';
-import gql from 'graphql-tag';
+import { MODIFY_CREW } from 'graphql/crew/mutations';
 import Modal from 'HOC/Modal';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -31,15 +31,6 @@ export interface ICrewInfo {
   link: getCrewByName_getCrewByName_crew_link[];
   introduction: string;
 }
-
-const MODIFY_CREW = gql`
-  mutation modifyCrew($input: ModifyCrewInput!) {
-    modifyCrew(input: $input) {
-      ok
-      error
-    }
-  }
-`;
 
 const CrewModifyModal: React.FC<ICrewModifyModalProps> = ({
   visible,

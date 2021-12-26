@@ -23,8 +23,8 @@ export interface getEachPost_getEachPost_post_secondCategory {
 
 export interface getEachPost_getEachPost_post_user {
   __typename: "User";
-  nickname: string;
   id: number;
+  nickname: string;
   profileImg: string | null;
 }
 
@@ -46,10 +46,13 @@ export interface getEachPost_getEachPost_post_brand {
 
 export interface getEachPost_getEachPost_post {
   __typename: "Posts";
+  id: number;
+  createdAt: any;
+  updatedAt: any;
   title: string;
   titleImg: string | null;
-  contents: string;
   viewCount: number;
+  contents: string;
   firstCategory: getEachPost_getEachPost_post_firstCategory | null;
   secondCategory: getEachPost_getEachPost_post_secondCategory | null;
   user: getEachPost_getEachPost_post_user;

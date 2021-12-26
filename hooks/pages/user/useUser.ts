@@ -1,6 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 import { isUserTotalPostVar } from 'cache/user/user.cache';
-import { useMe } from 'hooks/useMe';
+import { useMe } from 'hooks/common/useMe';
 import { useRouter } from 'next/router';
 
 interface IuseUser {

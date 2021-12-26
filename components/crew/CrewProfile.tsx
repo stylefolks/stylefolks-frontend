@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userInfoVar } from 'cache/common/common.cache';
 import { mediaStandard } from 'constants/constants';
-import UseWindowDimension from 'hooks/useWindowDimension';
+import UseWindowDimension from 'hooks/common/useWindowDimension';
 import Image from 'next/image';
 import Link from 'next/link';
 import vacantImage from 'public/vacantImage.png';

@@ -16,10 +16,11 @@ export interface getPostByCategory_getPostByCategory_post_comments {
 
 export interface getPostByCategory_getPostByCategory_post_user {
   __typename: "User";
-  email: string;
+  id: number;
   nickname: string;
-  role: UserRole;
   profileImg: string | null;
+  email: string;
+  role: UserRole;
 }
 
 export interface getPostByCategory_getPostByCategory_post {

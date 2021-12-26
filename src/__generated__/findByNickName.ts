@@ -20,10 +20,10 @@ export interface findByNickName_findByNickName_user {
   __typename: "User";
   id: number;
   nickname: string;
+  profileImg: string | null;
   email: string;
   link: string | null;
   role: UserRole;
-  profileImg: string | null;
 }
 
 export interface findByNickName_findByNickName {

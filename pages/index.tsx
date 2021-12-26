@@ -1,6 +1,6 @@
 import { useLazyQuery } from '@apollo/client';
 import { authTokenVar, isLoggedInVar } from 'cache/common/common.cache';
-import gql from 'graphql-tag';
+import { GET_ALL_POSTS_QUERY } from 'graphql/post/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
@@ -17,27 +17,6 @@ import {
 import UtilStyle from 'styles/common/Util.module.scss';
 import MainStyle from 'styles/main/MainPage.module.scss';
 import NoMore from '../components/common/NoMore';
-
-const GET_ALL_POSTS_QUERY = gql`
-  query getAllPosts($input: GetAllPostsInput!) {
-    getAllPosts(input: $input) {
-      ok
-      error
-      post {
-        id
-        title
-        titleImg
-        user {
-          id
-          nickname
-        }
-        viewCount
-      }
-      totalPages
-      totalResults
-    }
-  }
-`;
 
 const IndexPage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
