@@ -4,16 +4,16 @@ import EditProfileImageModal from 'components/user/EditProfileImageModal';
 import EditProfileModal from 'components/user/EditProfileModal';
 import UserAllContents from 'components/user/UserAllContents';
 import UserContents from 'components/user/UserContents';
+import { FIND_BY_NICKNAME } from 'graphql/user/queries';
+import useUser from 'hooks/pages/user/useUser';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React from 'react';
-import UserStyle from 'styles/User.module.scss';
-import { FIND_BY_NICKNAME } from '../../graphql/queries';
-import useUser from '../../hooks/pages/user/useUser';
 import {
   findByNickName,
   findByNickNameVariables,
-} from '../../src/__generated__/findByNickName';
+} from 'src/__generated__/findByNickName';
+import UserStyle from 'styles/User.module.scss';
 
 const DynamicUserProfile = dynamic(
   () => import('components/user/UserProfile'),

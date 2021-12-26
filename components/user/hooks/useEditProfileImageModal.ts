@@ -2,8 +2,8 @@ import { useMutation, useReactiveVar } from '@apollo/client';
 import { userInfoVar } from 'cache/common/common.cache';
 import { isVisibleProfileImageModalVar } from 'cache/user/user.cache';
 import { folksServerNoGql } from 'config';
-import { EDIT_PROFILE } from 'graphql/mutations';
-import { useLazyMe } from 'hooks/useMe';
+import { EDIT_PROFILE } from 'graphql/user/mutations';
+import { useLazyMe } from 'hooks/common/useMe';
 import React, { useRef } from 'react';
 import {
   editProfile,

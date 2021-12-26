@@ -3,7 +3,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PageChange from 'components/pageChange/PageChange';
 import { format } from 'date-fns';
-import { GET_USER_ALL_POST } from 'graphql/queries';
+import { GET_USER_ALL_POST } from 'graphql/post/queries';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';

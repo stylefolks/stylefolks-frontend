@@ -7,8 +7,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import NoPost from 'components/common/NoPost';
 import PagesDivider from 'components/common/PagesDivider';
-import gql from 'graphql-tag';
-import UseWindowDimension from 'hooks/useWindowDimension';
+import { GET_CREW_POST_BY_ROLE } from 'graphql/crew/queries';
+import UseWindowDimension from 'hooks/common/useWindowDimension';
 import Image from 'next/image';
 import Link from 'next/link';
 import VacantImage from 'public/vacantImage.png';
@@ -31,23 +31,6 @@ const BUTTON_NAME_MAP = [
   { role: CrewUserGrade.CrewManager, icon: faUserCheck },
   { role: CrewUserGrade.CrewUser, icon: faUserFriends },
 ];
-
-const GET_CREW_POST_BY_ROLE = gql`
-  query getCrewPostByRole($input: GetCrewPostByRoleInput!) {
-    getCrewPostByRole(input: $input) {
-      ok
-      error
-      posts {
-        title
-        titleImg
-        id
-        viewCount
-      }
-      totalPages
-      totalResults
-    }
-  }
-`;
 
 const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId, users }) => {
   const [role, setRole] = useState(CrewUserGrade.CrewManager);

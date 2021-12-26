@@ -1,20 +1,11 @@
 import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag';
+import { VERIFY_EMAIL_MUTATION } from 'graphql/user/mutations';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import {
   verifyEmail,
   verifyEmailVariables,
-} from '../src/__generated__/verifyEmail';
-
-const VERIFY_EMAIL_MUTATION = gql`
-  mutation verifyEmail($input: VerifyEmailInput!) {
-    verifyEmail(input: $input) {
-      ok
-      error
-    }
-  }
-`;
+} from 'src/__generated__/verifyEmail';
 
 const Confirm: React.FC = () => {
   const onCompleted = (data: verifyEmail) => {

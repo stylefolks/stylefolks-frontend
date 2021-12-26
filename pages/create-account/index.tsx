@@ -1,6 +1,7 @@
-import { ApolloError, gql, useMutation } from '@apollo/client';
+import { ApolloError, useMutation } from '@apollo/client';
 import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
+import { CREATE_ACCOUNT_MUTATION } from 'graphql/user/mutations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -8,10 +9,10 @@ import { useForm } from 'react-hook-form';
 import {
   createAccount,
   createAccountVariables,
-} from '../src/__generated__/createAccount';
-import { UserRole } from '../src/__generated__/globalTypes';
-import UtilStyle from '../styles/common/Util.module.scss';
-import LoginStyle from '../styles/Login.module.scss';
+} from 'src/__generated__/createAccount';
+import { UserRole } from 'src/__generated__/globalTypes';
+import UtilStyle from 'styles/common/Util.module.scss';
+import LoginStyle from 'styles/Login.module.scss';
 
 interface ICreateAccountForm {
   email: string;
@@ -19,16 +20,6 @@ interface ICreateAccountForm {
   checkPassword: string;
   nickname: string;
 }
-
-//https://codesandbox.io/s/react-hook-form-password-match-check-standard-validation-eo6en?file=/src/index.js:974-982
-export const CREATE_ACCOUNT_MUTATION = gql`
-  mutation createAccount($createAccountInput: CreateAccountInput!) {
-    createAccount(input: $createAccountInput) {
-      ok
-      error
-    }
-  }
-`;
 
 export const CreateAccount = () => {
   const router = useRouter();

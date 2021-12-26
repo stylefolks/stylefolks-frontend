@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 
-interface IuseCommentsProps {
-  postId: number;
-  commentId: number;
-}
-
-const useComments = ({ postId, commentId }: IuseCommentsProps) => {
+const useComments = () => {
   const [edit, setEdit] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
 

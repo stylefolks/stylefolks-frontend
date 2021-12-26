@@ -2,7 +2,7 @@ import { ApolloError, useLazyQuery } from '@apollo/client';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CircleProfileImage from 'components/common/CircleProfileImage';
-import gql from 'graphql-tag';
+import { GET_ALL_CREW } from 'graphql/crew/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Link from 'next/link';
@@ -16,26 +16,6 @@ import {
 } from 'src/__generated__/getAllCrew';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 import NoMore from '../../components/common/NoMore';
-
-const GET_ALL_CREW = gql`
-  query getAllCrew($input: GetAllCrewInput!) {
-    getAllCrew(input: $input) {
-      ok
-      error
-      totalPages
-      totalResults
-
-      crew {
-        id
-        profileImg
-        name
-        introduction
-        backgroundImg
-        followerCount
-      }
-    }
-  }
-`;
 
 const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
   ({ data: initialData }) => {

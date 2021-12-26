@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { modalVisibleVar, userInfoVar } from 'cache/common/common.cache';
 import CrewIntroduction from 'components/crew/CrewIntorduction';
 import CrewJoinedPeople from 'components/crew/CrewJoinedPeople';
@@ -6,6 +6,8 @@ import CrewManagePeopleModal from 'components/crew/CrewManagePeopleModal';
 import CrewNotice from 'components/crew/CrewNotice';
 import CrewOOTD from 'components/crew/CrewOOTD';
 import CrewProfile from 'components/crew/CrewProfile';
+import { DEPART_CREW, JOIN_CREW } from 'graphql/crew/mutations';
+import { GET_CREW_BY_NAME } from 'graphql/crew/queries';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { departCrew, departCrewVariables } from 'src/__generated__/departCrew';
@@ -15,56 +17,6 @@ import {
 } from 'src/__generated__/getCrewByName';
 import { joinCrew, joinCrewVariables } from 'src/__generated__/joinCrew';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
-
-const GET_CREW_BY_NAME = gql`
-  query getCrewByName($input: GetCrewByNameInput!) {
-    getCrewByName(input: $input) {
-      ok
-      error
-      crew {
-        id
-        profileImg
-        name
-        introduction
-        backgroundImg
-        link {
-          type
-          href
-        }
-      }
-      users {
-        grade
-        user {
-          id
-          nickname
-          profileImg
-          link
-        }
-      }
-      manager {
-        id
-      }
-    }
-  }
-`;
-
-const JOIN_CREW = gql`
-  mutation joinCrew($input: JoinCrewInput!) {
-    joinCrew(input: $input) {
-      ok
-      error
-    }
-  }
-`;
-
-const DEPART_CREW = gql`
-  mutation departCrew($input: DepartCrewInput!) {
-    departCrew(input: $input) {
-      ok
-      error
-    }
-  }
-`;
 
 const Crew = () => {
   const router = useRouter();

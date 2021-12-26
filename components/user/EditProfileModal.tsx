@@ -2,7 +2,7 @@ import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
 import BackDrop from 'components/common/shared/BackDrop';
 import Modal from 'HOC/Modal';
-import { useLazyMe } from 'hooks/useMe';
+import { useLazyMe } from 'hooks/common/useMe';
 import React, { useEffect } from 'react';
 import UtilStyle from 'styles/common/Util.module.scss';
 import EditProfileModalStyle from 'styles/user/component/EditProfileModal.module.scss';

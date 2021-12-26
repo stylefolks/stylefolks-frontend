@@ -4,7 +4,7 @@ import { Button } from 'components/common/button/Button';
 import CircleProfileImage from 'components/common/CircleProfileImage';
 import BackDrop from 'components/common/shared/BackDrop';
 import PageChange from 'components/pageChange/PageChange';
-import gql from 'graphql-tag';
+import { CHANGE_CREW_USER_GRADE } from 'graphql/crew/mutations';
 import Modal from 'HOC/Modal';
 import React from 'react';
 import {
@@ -19,15 +19,6 @@ import {
 import { CrewUserGrade } from 'src/__generated__/globalTypes';
 import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
-
-const CHANGE_CREW_USER_GRADE = gql`
-  mutation changeCrewUserGrade($input: ChangeCrewUserGradeInput!) {
-    changeCrewUserGrade(input: $input) {
-      ok
-      error
-    }
-  }
-`;
 
 interface IProps {
   crewName: string;

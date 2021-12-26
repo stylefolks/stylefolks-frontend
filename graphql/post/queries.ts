@@ -38,58 +38,6 @@ export const GET_EACH_POST_QUERY = gql`
   }
 `;
 
-export const ME_QUERY = gql`
-  query meQuery {
-    me {
-      id
-      nickname
-      email
-      role
-      verified
-      profileImg
-      link
-    }
-  }
-`;
-
-export const FIND_BY_ID_QUERY = gql`
-  query findById($userId: Float!) {
-    findById(userId: $userId) {
-      ok
-      error
-      user {
-        id
-        nickname
-        email
-        role
-        profileImg
-      }
-    }
-  }
-`;
-
-export const FIND_BY_NICKNAME = gql`
-  query findByNickName($nickname: String!) {
-    findByNickName(nickname: $nickname) {
-      ok
-      error
-      crews {
-        name
-        id
-        profileImg
-      }
-      user {
-        id
-        nickname
-        email
-        link
-        role
-        profileImg
-      }
-    }
-  }
-`;
-
 export const GET_EACH_POST_COMMENTS = gql`
   query getEachPostComments($postsId: Int!) {
     getEachPostComments(postsId: $postsId) {
@@ -157,47 +105,23 @@ export const GET_USER_ALL_POST = gql`
   }
 `;
 
-export const GET_CATEGORY_BY_USER_ROLE = gql`
-  query getCategoryByUserRole {
-    getCategoryByUserRole {
+export const GET_ALL_POSTS_QUERY = gql`
+  query getAllPosts($input: GetAllPostsInput!) {
+    getAllPosts(input: $input) {
       ok
       error
-      firstCategory {
-        name
-        id
-        secondCategory {
-          id
-          name
-        }
-      }
-      brands {
-        name
-        id
-      }
-      crews {
-        name
-        id
-      }
-      tempPosts {
+      post {
         id
         title
         titleImg
-        contents
-        firstCategory {
+        user {
           id
-          name
+          nickname
         }
-        secondCategory {
-          id
-          name
-        }
-        image {
-          link
-          id
-        }
+        viewCount
       }
+      totalPages
+      totalResults
     }
   }
 `;
-
-export default {};

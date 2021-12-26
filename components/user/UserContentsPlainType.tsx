@@ -1,7 +1,7 @@
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
-import UseWindowDimension from 'hooks/useWindowDimension';
+import UseWindowDimension from 'hooks/common/useWindowDimension';
 import Link from 'next/link';
 import { getPostByCategory } from 'src/__generated__/getPostByCategory';
 import UserStyle from 'styles/User.module.scss';

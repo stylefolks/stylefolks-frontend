@@ -5,7 +5,7 @@ import {
   isLoggedInVar,
   userInfoVar,
 } from 'cache/common/common.cache';
-import UseWindowDimension from 'hooks/useWindowDimension';
+import UseWindowDimension from 'hooks/common/useWindowDimension';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import UtilStyle from '../styles/common/Util.module.scss';

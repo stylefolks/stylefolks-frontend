@@ -1,6 +1,6 @@
 import { useReactiveVar } from '@apollo/client';
 import { userInfoVar } from 'cache/common/common.cache';
-import UseWindowDimension from 'hooks/useWindowDimension';
+import UseWindowDimension from 'hooks/common/useWindowDimension';
 import Image from 'next/image';
 import vacantImage from 'public/vacantImage.png';
 import ProfileStyle from 'styles/Profile.module.scss';

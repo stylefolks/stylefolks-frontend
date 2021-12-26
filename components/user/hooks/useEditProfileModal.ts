@@ -1,7 +1,7 @@
 import { useMutation, useReactiveVar } from '@apollo/client';
 import { userInfoVar } from 'cache/common/common.cache';
 import { isVisibleEditProfileModalVar } from 'cache/user/user.cache';
-import { CHANGE_PASSWORD, EDIT_PROFILE } from 'graphql/mutations';
+import { CHANGE_PASSWORD, EDIT_PROFILE } from 'graphql/user/mutations';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
