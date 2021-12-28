@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
-import { alertVar } from 'cache/common/common.cache';
+import { isAlertVar } from 'cache/common/common.cache';
 import UtilStyle from 'styles/common/Util.module.scss';
-import Portal from '../../HOC/Alert';
+import AlertPortal from '../../HOC/AlertPortal';
 import BackDrop from './shared/BackDrop';
 
 interface IPropsAlert {
@@ -10,21 +10,29 @@ interface IPropsAlert {
 }
 
 const Alert: React.FC<IPropsAlert> = ({ onConfirm, onCancel }) => {
-  const alert = useReactiveVar(alertVar);
+  const alert = useReactiveVar(isAlertVar);
 
   return (
-    <Portal>
+    <AlertPortal>
       <BackDrop>
         <div className={UtilStyle.alertWrapper}>
           <span>{alert.title}</span>
           <span>{alert.content}</span>
           <div>
             {onConfirm && <button onClick={onConfirm}>Confirm</button>}
-            {onCancel && <button onClick={onCancel}>Cancel</button>}
+            {
+              <button
+                onClick={() =>
+                  isAlertVar({ visible: false, title: '', content: '' })
+                }
+              >
+                Cancel
+              </button>
+            }
           </div>
         </div>
       </BackDrop>
-    </Portal>
+    </AlertPortal>
   );
 };
 

@@ -46,7 +46,8 @@ const UserAllContents: React.FC<IPropsUserAllContents> = ({ nickname }) => {
                       alt="titleimage"
                       width="60px"
                       height="60px"
-                      unoptimized={true}
+                      blurDataURL={el.titleImg}
+                      placeholder="blur"
                     />
                   </div>
                   <div className={UserStyle.userAllEachContentsTitle}>

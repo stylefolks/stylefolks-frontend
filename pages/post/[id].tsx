@@ -1,3 +1,4 @@
+import Alert from 'components/common/Alert';
 import { DeleteButton } from 'components/common/button/DeleteButton';
 import { ModifyButton } from 'components/common/button/ModifyButton';
 import CommentBox from 'components/common/comments/CommentBox';
@@ -52,6 +53,7 @@ export const Post = () => {
         <EditorViewer content={data?.getEachPost.post.contents} />
         <div className={PostStyle.divider} />
         <CommentBox postId={postId} />
+        <Alert onConfirm={onDelete} />
       </div>
     </>
   );

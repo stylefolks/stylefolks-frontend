@@ -80,7 +80,6 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
             alt="profile-image"
             width={width > mediaStandard ? '160px' : '80px'}
             height={width > mediaStandard ? '160px' : '80px'}
-            unoptimized={true}
             // placeholder="blur"
             // blurDataURL={profileImg as string}
           />

@@ -65,7 +65,7 @@ const Column: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         next={() => setPage((prev) => prev + 1)}
         hasMore={page < initialData?.getPostByCategory.totalPages}
         loader={<h1>Loading..</h1>}
-        endMessage={<NoMore text={'No More Column 😅'} />}
+        endMessage={<NoMore text={'Column End'} />}
       >
         <h2>Column!</h2>
         <ul className={ColumnStyle.cardContainer}>

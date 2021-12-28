@@ -63,7 +63,7 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         next={() => setPage((prev) => prev + 1)}
         hasMore={data.length < initialData?.getAllCrew.totalResults}
         loader={<h1>Loading..</h1>}
-        endMessage={<NoMore text={'No More Crew 😅'} />}
+        endMessage={<NoMore text={'Crew End'} />}
       >
         <ul className={CrewPageStyle.crewMainPageContentsContainer}>
           {data?.map((el, index) => (

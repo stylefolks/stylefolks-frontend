@@ -91,7 +91,7 @@ export const postStatusVar: ReactiveVar<IPostStatus> = makeVar<IPostStatus>({
   ...initialPostStatusVar,
 });
 
-export const alertVar: ReactiveVar<IAlert> = makeVar({
+export const isAlertVar: ReactiveVar<IAlert> = makeVar({
   title: '',
   content: '',
   visible: false,
