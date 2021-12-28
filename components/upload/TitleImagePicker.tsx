@@ -19,7 +19,6 @@ const TitleImagePicker: React.FC = () => {
                 onClick={() => writtenPostVar({ ...post, titleImg: el })}
                 src={el}
                 blurDataURL={el}
-                unoptimized={true}
                 placeholder="blur"
                 alt={post.title + el.substring(0, 2)}
                 width="40px"

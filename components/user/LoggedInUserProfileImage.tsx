@@ -37,7 +37,6 @@ const LoggedInUserProfileImage: React.FC<IPropsLoggedInUserProfileImage> = ({
           ? (width * 4) / 100
           : '40px'
       }
-      unoptimized={true}
       alt="profileImage"
     />
   );

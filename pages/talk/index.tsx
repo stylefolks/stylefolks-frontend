@@ -61,7 +61,7 @@ const Talk: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         next={() => setPage((prev) => prev + 1)}
         hasMore={page < initialData?.getPostByCategory.totalPages}
         loader={<h1>Loading..</h1>}
-        endMessage={<NoMore text={'No More Talks 😅'} />}
+        endMessage={<NoMore text={'Talks End'} />}
         style={{ width: '100%' }}
       >
         <h2>Talks!</h2>

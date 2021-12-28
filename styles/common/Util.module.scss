@@ -29,6 +29,7 @@ $delayandduration: 4;
   width: 100%;
   overflow: hidden;
   border: 1px solid $back-color-main;
+  position: static;
 
   & > span {
     position: unset !important;
