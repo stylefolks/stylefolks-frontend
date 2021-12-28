@@ -1,5 +1,5 @@
 import { useReactiveVar } from '@apollo/client';
-import { alertVar } from 'cache/common/common.cache';
+import { isAlertVar } from 'cache/common/common.cache';
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -7,8 +7,8 @@ interface IPropsPortal {
   children: React.ReactNode;
 }
 
-const Portal: React.FC<IPropsPortal> = ({ children }) => {
-  const alert = useReactiveVar(alertVar);
+const AlertPortal: React.FC<IPropsPortal> = ({ children }) => {
+  const alert = useReactiveVar(isAlertVar);
   const { visible } = alert;
 
   useEffect(() => {
@@ -21,4 +21,4 @@ const Portal: React.FC<IPropsPortal> = ({ children }) => {
     : null;
 };
 
-export default Portal;
+export default AlertPortal;

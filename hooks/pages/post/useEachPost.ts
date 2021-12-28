@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import {
+  isAlertVar,
   postStatusVar,
   userInfoVar,
   writtenPostVar,
@@ -21,6 +22,7 @@ const useEachPost = () => {
   const router = useRouter();
   const postId = +router?.query.id;
   const user = useReactiveVar(userInfoVar);
+  const alertVar = useReactiveVar(isAlertVar);
 
   const { data, error, loading } = useQuery<getEachPost, getEachPostVariables>(
     GET_EACH_POST_QUERY,
@@ -80,10 +82,21 @@ const useEachPost = () => {
   });
 
   const onDelete = () => {
-    deletePostMutation({
-      variables: {
-        postId,
-      },
+    if (alertVar.visible) {
+      deletePostMutation({
+        variables: {
+          postId,
+        },
+      });
+      isAlertVar({ visible: false, content: '.', title: '' });
+      router.push('/');
+      return;
+    }
+
+    isAlertVar({
+      visible: true,
+      content: '삭제하시겠습니까?',
+      title: '게시글 삭제',
     });
   };
 
