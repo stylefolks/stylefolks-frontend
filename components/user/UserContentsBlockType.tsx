@@ -23,11 +23,11 @@ const UserContentsBlockType: React.FC<IUserContentsBlockTypeProps> = ({
             <a>
               <div>
                 <Image
+                  alt={el.title}
                   src={el?.titleImg ? el.titleImg : VacantImage}
                   layout={'responsive'}
                   width={512}
                   height={512}
-                  alt={el.title}
                   objectFit="cover"
                   objectPosition="center"
                   placeholder="blur"

@@ -6,7 +6,6 @@ import Link from 'next/link';
 import VacantImage from 'public/vacantImage.png';
 import React from 'react';
 import { getPostByCategory_getPostByCategory_post } from 'src/__generated__/getPostByCategory';
-import UtilStyle from 'styles/common/Util.module.scss';
 import TalkStyle from 'styles/talk/TalkPage.module.scss';
 import { makePreContents } from 'utils/Utils';
 
@@ -36,18 +35,17 @@ const TalkColumn: React.FC<IProps> = (props) => {
               </span>
             </div>
           </div>
-          <div
-            className={UtilStyle.imageSquareContainer}
-            style={{ width: '120px' }}
-          >
+          <div style={{ width: '128px' }}>
             <Image
-              src={data.titleImg || VacantImage}
-              layout="fixed"
-              width="120px"
-              height="120px"
               alt={data.title}
-              blurDataURL={data.titleImg}
+              src={data.titleImg || VacantImage}
+              layout={'responsive'}
+              width={512}
+              height={512}
+              objectFit="cover"
+              objectPosition="center"
               placeholder="blur"
+              blurDataURL={data.titleImg}
             />
           </div>
         </a>

@@ -6,7 +6,6 @@ import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import VacantImage from 'public/vacantImage.png';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
@@ -41,8 +40,8 @@ const IndexPage: React.FC<
 
   const [getAllPostsData, { data: moreData, loading, error, refetch }] =
     useLazyQuery<getAllPosts, getAllPostsVariables>(GET_ALL_POSTS_QUERY, {
-      fetchPolicy: 'network-only',
-      nextFetchPolicy: 'network-only',
+      fetchPolicy: 'network-only', // Used for first execution
+      // nextFetchPolicy: 'network-only', // Used for subsequent executions
       onError,
       onCompleted,
     });
@@ -91,7 +90,7 @@ const IndexPage: React.FC<
                   <div className={UtilStyle.imageSquareContainer}>
                     <Image
                       alt={el.title}
-                      src={el.titleImg || VacantImage}
+                      src={el.titleImg}
                       layout="fill"
                       blurDataURL={el.titleImg}
                       placeholder="blur"
