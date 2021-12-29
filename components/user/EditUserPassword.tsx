@@ -1,7 +1,15 @@
+import { useMutation } from '@apollo/client';
+import { isVisibleEditProfileModalVar } from 'cache/user/user.cache';
+import Alert from 'components/common/Alert';
 import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
+import { CHANGE_PASSWORD } from 'graphql/user/mutations';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import {
+  changePassword,
+  changePasswordVariables,
+} from 'src/__generated__/changePassword';
 import UtilStyle from 'styles/common/Util.module.scss';
 import EditProfileModalStyle from 'styles/user/component/EditProfileModal.module.scss';
 
@@ -24,12 +32,33 @@ const EditUserPassword: React.FC<EditUserInfoProps> = ({ userEmail }) => {
     handleSubmit,
   } = useForm<EditProfileForm>({ mode: 'onChange' });
 
-  const { modalPassword, changePassword, checkChangePassword, email } =
-    getValues();
+  const onCompletedChangePw = (data: changePassword) => {
+    if (!data.changePassword.ok) {
+      alert(data.changePassword.error);
+      return;
+    }
 
-  const onSubmit = () => {
-    console.log(getValues()); //mutation here
+    isVisibleEditProfileModalVar(false);
+    alert('비밀번호 변경이 완료되었습니다');
   };
+
+  const [changePasswordMutation, { loading, error: changePasswordError }] =
+    useMutation<changePassword, changePasswordVariables>(CHANGE_PASSWORD, {
+      onCompleted: onCompletedChangePw,
+    });
+  const onSubmit = () => {
+    const { modalPassword, changePassword } = getValues();
+
+    changePasswordMutation({
+      variables: {
+        input: {
+          password: modalPassword,
+          changePassword: changePassword,
+        },
+      },
+    });
+  };
+
   return (
     <>
       <form
@@ -80,7 +109,7 @@ const EditUserPassword: React.FC<EditUserInfoProps> = ({ userEmail }) => {
           {...register('checkChangePassword', {
             required: '변경할 비밀번호 확인을 위해 입력해주세요.',
             validate: (value) =>
-              value === changePassword ||
+              value === getValues().changePassword ||
               '변경할 비밀번호가 일치하지 않습니다.',
           })}
           name="checkChangePassword"
@@ -94,9 +123,17 @@ const EditUserPassword: React.FC<EditUserInfoProps> = ({ userEmail }) => {
           {errors.checkChangePassword?.message && (
             <FormError errorMessage={errors.checkChangePassword?.message} />
           )}
+          {changePasswordError?.message && (
+            <FormError errorMessage={changePasswordError?.message} />
+          )}
         </div>
-        <Button actionText="비밀번호 변경하기" loading={false} canClick />
+        <Button
+          actionText="비밀번호 변경하기"
+          loading={loading}
+          canClick={isValid}
+        />
       </form>
+      <Alert />
     </>
   );
 };

@@ -67,7 +67,16 @@ const useEditProfileModal = ({ doRefetch, doUseMeRefetch }: IProps) => {
   ] = useMutation<changePassword, changePasswordVariables>(CHANGE_PASSWORD, {
     onCompleted: onCompletedChangePw,
   });
-
+  const onSaveChangePassword = () => {
+    changePasswordMutation({
+      variables: {
+        input: {
+          password: localPw.pw,
+          changePassword: localPw.changePw,
+        },
+      },
+    });
+  };
   const [editProfileMutation, {}] = useMutation<
     editProfile,
     editProfileVariables
@@ -82,17 +91,6 @@ const useEditProfileModal = ({ doRefetch, doUseMeRefetch }: IProps) => {
           link: localVal.link,
           nickname: localVal.nick,
           profileImg: user.profileImg,
-        },
-      },
-    });
-  };
-
-  const onSaveChangePassword = () => {
-    changePasswordMutation({
-      variables: {
-        input: {
-          password: localPw.pw,
-          changePassword: localPw.changePw,
         },
       },
     });
