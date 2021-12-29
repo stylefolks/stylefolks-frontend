@@ -47,6 +47,8 @@ const UserAllContents: React.FC<IPropsUserAllContents> = ({ nickname }) => {
                       width="60px"
                       height="60px"
                       blurDataURL={el.titleImg}
+                      objectFit="scale-down"
+                      objectPosition="center"
                       placeholder="blur"
                     />
                   </div>

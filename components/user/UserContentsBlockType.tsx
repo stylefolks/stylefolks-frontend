@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import VacantImage from 'public/vacantImage.png';
 import { getPostByCategory } from 'src/__generated__/getPostByCategory';
-import UtilStlye from 'styles/common/Util.module.scss';
 import UserStyle from 'styles/user/User.module.scss';
 interface IUserContentsBlockTypeProps {
   data: getPostByCategory;
@@ -19,17 +18,18 @@ const UserContentsBlockType: React.FC<IUserContentsBlockTypeProps> = ({
   return (
     <>
       {data?.getPostByCategory?.post.map((el) => (
-        <li
-          key={el.id}
-          // className={UserContentsBlockTypeStyle.userContentsEachBlock}
-        >
+        <li key={el.id}>
           <Link href={`/post/${el.id}`}>
             <a>
-              <div className={UtilStlye.gridImage}>
+              <div>
                 <Image
                   src={el?.titleImg ? el.titleImg : VacantImage}
-                  layout={'fill'}
+                  layout={'responsive'}
+                  width={512}
+                  height={512}
                   alt={el.title}
+                  objectFit="cover"
+                  objectPosition="center"
                   placeholder="blur"
                   blurDataURL={el?.titleImg}
                 />
