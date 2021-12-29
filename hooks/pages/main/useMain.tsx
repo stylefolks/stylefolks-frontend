@@ -1,14 +1,18 @@
 import { useLazyQuery } from '@apollo/client';
 import { GET_ALL_POSTS_QUERY } from 'graphql/post/queries';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getAllPosts,
   getAllPostsVariables,
   getAllPosts_getAllPosts_post,
 } from 'src/__generated__/getAllPosts';
 
-const useMain = () => {
+interface IUseMain {
+  initialData: getAllPosts;
+}
+
+const useMain = ({ initialData }: IUseMain) => {
   const router = useRouter();
   const [page, setPage] = useState<number>(2);
   const [data, setData] = useState<getAllPosts_getAllPosts_post[]>(
@@ -48,8 +52,14 @@ const useMain = () => {
     });
   };
 
+  useEffect(() => {
+    getMorePost(page);
+  }, [page]);
+
   return {
-    state: {},
-    actions: {},
+    state: { data },
+    actions: { setPage },
   };
 };
+
+export default useMain;
