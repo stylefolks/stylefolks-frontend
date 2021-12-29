@@ -15,6 +15,7 @@ export interface getUserPost_getUserPost_posts {
   title: string;
   titleImg: string | null;
   viewCount: number;
+  contents: string;
 }
 
 export interface getUserPost_getUserPost {

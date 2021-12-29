@@ -88,6 +88,7 @@ export const GET_USER_ALL_POST = gql`
       error
       posts {
         ...PostParts
+        contents
       }
     }
   }
