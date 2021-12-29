@@ -1,8 +1,8 @@
-import { useReactiveVar } from '@apollo/client';
 import {
   authTokenVar,
   initialUserInfoVar,
   isLoggedInVar,
+  IUserInforVar,
   userInfoVar,
 } from 'cache/common/common.cache';
 import UseWindowDimension from 'hooks/common/useWindowDimension';
@@ -19,9 +19,13 @@ interface IModalState {
   direction: number;
 }
 
-const Profile: React.FC = () => {
+interface IProfileProps {
+  user: IUserInforVar;
+}
+
+const Profile: React.FC<IProfileProps> = ({ user }) => {
   const router = useRouter();
-  const user = useReactiveVar(userInfoVar);
+
   const ref = React.createRef<HTMLDivElement>();
   const { width } = UseWindowDimension();
   const [modalState, setModalState] = useState<IModalState>({

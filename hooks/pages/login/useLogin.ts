@@ -4,6 +4,7 @@ import { LOGIN_MUTATION } from 'graphql/user/mutations';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { login, loginVariables } from 'src/__generated__/login';
+import { useLazyMe } from './../../common/useMe';
 
 interface ILoginForm {
   email: string;
@@ -12,6 +13,10 @@ interface ILoginForm {
 
 const useLogin = () => {
   const router = useRouter();
+  const [refetch] = useLazyMe();
+  const doUseMeRefetch = () => {
+    refetch();
+  };
 
   const {
     register,
@@ -48,6 +53,7 @@ const useLogin = () => {
       if (localStorage.getItem('folks-token')) {
         isLoggedInVar(true);
         authTokenVar(token);
+        doUseMeRefetch();
         router.push('/');
       }
     } else {
