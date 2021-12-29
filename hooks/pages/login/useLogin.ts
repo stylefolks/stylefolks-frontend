@@ -13,11 +13,7 @@ interface ILoginForm {
 
 const useLogin = () => {
   const router = useRouter();
-  const [refetch] = useLazyMe();
-  const doUseMeRefetch = () => {
-    refetch();
-  };
-
+  const [getUserData] = useLazyMe();
   const {
     register,
     getValues,
@@ -27,9 +23,15 @@ const useLogin = () => {
     mode: 'onChange',
   });
 
-  if (router.query.keyword === 'true') {
-    router.push('/login');
-  }
+  const doUseMeRefetch = (token: string) => {
+    getUserData({
+      context: {
+        headers: {
+          'folks-token': token,
+        },
+      },
+    });
+  };
 
   const onSubmit = () => {
     if (!loading) {
@@ -53,7 +55,9 @@ const useLogin = () => {
       if (localStorage.getItem('folks-token')) {
         isLoggedInVar(true);
         authTokenVar(token);
-        doUseMeRefetch();
+        console.log('onCompleted', token);
+
+        doUseMeRefetch(token);
         router.push('/');
       }
     } else {
@@ -74,6 +78,10 @@ const useLogin = () => {
       onCompleted,
       onError,
     });
+
+  if (router.query.keyword === 'true') {
+    router.push('/login');
+  }
 
   return {
     state: { isValid, loading, loginMutationResult, errors },
