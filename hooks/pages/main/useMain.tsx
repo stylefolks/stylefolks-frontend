@@ -20,7 +20,7 @@ const useMain = ({ initialData }: IUseMain) => {
   );
 
   const onCompleted = (data: getAllPosts) => {
-    if (data.getAllPosts.ok) {
+    if (data?.getAllPosts?.ok) {
       setData((prev) => [...prev, ...moreData?.getAllPosts.post]);
     }
   };
@@ -32,16 +32,13 @@ const useMain = ({ initialData }: IUseMain) => {
 
   const [getAllPostsData, { data: moreData, loading, error, refetch }] =
     useLazyQuery<getAllPosts, getAllPostsVariables>(GET_ALL_POSTS_QUERY, {
-      fetchPolicy: 'cache-first', // Used for first execution
-      nextFetchPolicy: 'network-only', // Used for subsequent executions
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'network-only',
       onError,
       onCompleted,
     });
 
   const getMorePost = async (_page: number) => {
-    if (_page == 1) {
-      return;
-    }
     getAllPostsData({
       variables: {
         input: {
