@@ -1,12 +1,17 @@
 .container {
   position: relative;
-
+  min-width: 480px;
+  height: 90vh;
   border: 1px solid $back-color-main;
   border-radius: 20px;
   background-color: white;
-  overflow: hidden;
+  overflow: scroll;
   padding: 28px;
   // border-radius: 12px;
+
+  @media screen and (max-width: $media-phone) {
+    min-width: 100vw;
+  }
 
   & > button {
     width: 40px;
