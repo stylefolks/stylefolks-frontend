@@ -13,7 +13,6 @@ import {
   getAllPostsVariables,
   getAllPosts_getAllPosts_post,
 } from 'src/__generated__/getAllPosts';
-import UtilStyle from 'styles/common/Util.module.scss';
 import MainStyle from 'styles/main/MainPage.module.scss';
 import NoMore from '../components/common/NoMore';
 
@@ -87,15 +86,18 @@ const IndexPage: React.FC<
             <Link href={`/post/${el.id}`} key={el.id}>
               <a>
                 <li>
-                  <div className={UtilStyle.imageSquareContainer}>
+                  <div>
                     <Image
                       alt={el.title}
                       src={el.titleImg}
-                      layout="fill"
+                      layout="responsive"
+                      width={512}
+                      height={512}
+                      objectFit="cover"
+                      objectPosition="center"
                       blurDataURL={el.titleImg}
                       placeholder="blur"
                       quality={50}
-                      objectFit="cover"
                     />
                   </div>
                 </li>
