@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { isLoggedInVar } from 'cache/common/common.cache';
 import BurgerButton from 'components/common/button/BurgerButton';
-import Profile from 'components/Profile';
+import Profile from 'components/user/Profile';
 import { useLazyMe } from 'hooks/common/useMe';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';

@@ -43,19 +43,18 @@ const Column: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         }
       );
 
-    const getMorePost = async (_page: number) => {
-      getPostByCategoryData({
-        variables: {
-          input: {
-            page: _page,
-            inputTake: 9,
-            firstCategoryName: FirstCategoryName.COLUMN,
-          },
-        },
-      });
-    };
-
     useEffect(() => {
+      const getMorePost = async (_page: number) => {
+        getPostByCategoryData({
+          variables: {
+            input: {
+              page: _page,
+              inputTake: 9,
+              firstCategoryName: FirstCategoryName.COLUMN,
+            },
+          },
+        });
+      };
       getMorePost(page);
     }, [page]);
 

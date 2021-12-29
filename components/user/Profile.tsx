@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import UtilStyle from 'styles/common/Util.module.scss';
 import ProfileStyle from 'styles/user/Profile.module.scss';
-import LoggedInUserProfileImage from './user/LoggedInUserProfileImage';
+import LoggedInUserProfileImage from './LoggedInUserProfileImage';
 
 interface IModalState {
   isVisible: boolean;
