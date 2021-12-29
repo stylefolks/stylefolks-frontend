@@ -1,17 +1,9 @@
-import { useMutation } from '@apollo/client';
-import { IUserInforVar, userInfoVar } from 'cache/common/common.cache';
+import { IUserInforVar } from 'cache/common/common.cache';
 import { isVisibleEditProfileModalVar } from 'cache/user/user.cache';
 import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
-import { EDIT_PROFILE } from 'graphql/user/mutations';
-import { useLazyMe } from 'hooks/common/useMe';
-import { useRouter } from 'next/router';
+import useEditInformation from 'hooks/pages/user/components/useEditInformation';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import {
-  editProfile,
-  editProfileVariables,
-} from 'src/__generated__/editProfile';
 import EditProfileModalStyle from 'styles/user/component/EditProfileModal.module.scss';
 
 interface EditUserInformation {
@@ -25,55 +17,10 @@ interface EditUserInformationProps {
   user: IUserInforVar;
 }
 
-const EditUserInformation: React.FC<EditUserInformationProps> = ({
-  nickname: exNickname,
-  link: exLink,
-  user,
-}) => {
-  const {
-    register,
-    getValues,
-    formState: { errors, isValid },
-    handleSubmit,
-  } = useForm<EditUserInformation>({ mode: 'onChange' });
-
-  const [getAndSaveUserData] = useLazyMe();
-  const route = useRouter();
-
-  const onCompleted = (data: editProfile) => {
-    if (data.editProfile.ok) {
-      const { modalNickname, modalLink } = getValues();
-      userInfoVar({
-        ...user,
-        link: modalLink,
-        nickname: modalNickname,
-      });
-      isVisibleEditProfileModalVar(false);
-      getAndSaveUserData();
-      route.push(`/user/${modalNickname}`);
-    }
-  };
-
-  const [editProfileMutation, {}] = useMutation<
-    editProfile,
-    editProfileVariables
-  >(EDIT_PROFILE, {
-    onCompleted,
-  });
-
-  const onSubmit = () => {
-    //react-hook-form은 리렌더가 되어 값이 변경되는것이 아니므로 호출시점에 값을 들고와야한다.
-    const { modalNickname, modalLink } = getValues();
-    editProfileMutation({
-      variables: {
-        input: {
-          link: modalLink,
-          nickname: modalNickname,
-          profileImg: user.profileImg,
-        },
-      },
-    });
-  };
+const EditUserInformation: React.FC<EditUserInformationProps> = ({}) => {
+  const { state, actions } = useEditInformation();
+  const { user, isValid, errors } = state;
+  const { onSubmit, register, handleSubmit } = actions;
 
   return (
     <>
@@ -88,7 +35,7 @@ const EditUserInformation: React.FC<EditUserInformationProps> = ({
             minLength: 4,
             pattern: /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/gi,
           })}
-          defaultValue={exNickname}
+          defaultValue={user.nickname}
           name="modalNickname"
           type="text"
         />
@@ -109,7 +56,7 @@ const EditUserInformation: React.FC<EditUserInformationProps> = ({
             pattern:
               /(http[s]?|ftp):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}/g,
           })}
-          defaultValue={exLink}
+          defaultValue={user.link}
           name="modalLink"
         />
         {errors.modalLink?.message && (

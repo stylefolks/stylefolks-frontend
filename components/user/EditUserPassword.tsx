@@ -1,63 +1,19 @@
-import { useMutation } from '@apollo/client';
-import { isVisibleEditProfileModalVar } from 'cache/user/user.cache';
 import Alert from 'components/common/Alert';
 import { Button } from 'components/common/button/Button';
 import { FormError } from 'components/common/FormError';
-import { CHANGE_PASSWORD } from 'graphql/user/mutations';
+import useEditPassword from 'hooks/pages/user/components/useEditPassword';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import {
-  changePassword,
-  changePasswordVariables,
-} from 'src/__generated__/changePassword';
 import UtilStyle from 'styles/common/Util.module.scss';
 import EditProfileModalStyle from 'styles/user/component/EditProfileModal.module.scss';
-
-interface EditProfileForm {
-  email: string;
-  modalPassword: string;
-  changePassword: string;
-  checkChangePassword: string;
-}
 
 interface EditUserInfoProps {
   userEmail: string;
 }
 
 const EditUserPassword: React.FC<EditUserInfoProps> = ({ userEmail }) => {
-  const {
-    register,
-    getValues,
-    formState: { errors, isValid },
-    handleSubmit,
-  } = useForm<EditProfileForm>({ mode: 'onChange' });
-
-  const onCompletedChangePw = (data: changePassword) => {
-    if (!data.changePassword.ok) {
-      alert(data.changePassword.error);
-      return;
-    }
-
-    isVisibleEditProfileModalVar(false);
-    alert('비밀번호 변경이 완료되었습니다');
-  };
-
-  const [changePasswordMutation, { loading, error: changePasswordError }] =
-    useMutation<changePassword, changePasswordVariables>(CHANGE_PASSWORD, {
-      onCompleted: onCompletedChangePw,
-    });
-  const onSubmit = () => {
-    const { modalPassword, changePassword } = getValues();
-
-    changePasswordMutation({
-      variables: {
-        input: {
-          password: modalPassword,
-          changePassword: changePassword,
-        },
-      },
-    });
-  };
+  const { state, actions } = useEditPassword();
+  const { loading, isValid, errors, changePasswordError } = state;
+  const { register, onSubmit, handleSubmit, getValues } = actions;
 
   return (
     <>

@@ -46,7 +46,7 @@ const User = () => {
         ) : (
           <UserContents nickname={nickname} />
         )}
-        <EditProfileModal doRefetch={doRefetch} />
+        <EditProfileModal />
         <EditProfileImageModal doRefetch={doRefetch} />
       </div>
     </>
