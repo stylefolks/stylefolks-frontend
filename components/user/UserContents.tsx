@@ -14,9 +14,9 @@ import {
   FirstCategoryName,
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
-import UserStyle from 'styles/user/User.module.scss';
 import UserContentsBlockTypeStyle from 'styles/user/component/UserContentsBlockType.module.scss';
 import UserContentsPlainTypeStyle from 'styles/user/component/UserContentsPlainType.module.scss';
+import UserStyle from 'styles/user/User.module.scss';
 import UserPageStyle from 'styles/user/UserPage.module.scss';
 import UserContentsBlockType from './UserContentsBlockType';
 import UserContentsPlainType from './UserContentsPlainType';
@@ -106,7 +106,9 @@ const UserContents: React.FC<IPropsUserContents> = ({ nickname }) => {
               className={
                 isPlain
                   ? UserContentsPlainTypeStyle.userContentsPlainList
-                  : UserContentsBlockTypeStyle.userContentsBlockList
+                  : data?.getPostByCategory.totalResults > 0
+                  ? UserContentsBlockTypeStyle.userContentsBlockList
+                  : 'noGrid'
               }
             >
               {isPlain ? (

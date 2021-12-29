@@ -8,9 +8,8 @@ import LoginStyle from 'styles/login/Login.module.scss';
 
 export const CreateAccount = () => {
   const { state, actions } = useCreateAccount();
-  const { errors, isValid, loading, password, createAccountMuataionResult } =
-    state;
-  const { handleSubmit, onSubmit, register } = actions;
+  const { errors, isValid, loading, createAccountMuataionResult } = state;
+  const { handleSubmit, onSubmit, register, getValues } = actions;
 
   return (
     <>
@@ -66,7 +65,8 @@ export const CreateAccount = () => {
               {...register('checkPassword', {
                 required: '비밀번호 확인을 위해 입력해주세요.',
                 validate: (value) =>
-                  value === password || 'The passwords do not match',
+                  value === getValues().password ||
+                  'The passwords do not match',
               })}
               name="checkPassword"
               type="password"

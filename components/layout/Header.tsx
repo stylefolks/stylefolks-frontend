@@ -35,25 +35,33 @@ export const Header = () => {
   return (
     <>
       <div className={GNBStyle.headerContainer}>
-        <BurgerButton onClick={onClick} />
-        <header
-          onClick={() => router.push('/')}
-          className={`${UtilStyle.flexColumnCenter} ${UtilStyle.clickable}`}
-        >
-          <h1>The Folks</h1>
-          <h4>The Advanced Fashion Community</h4>
-        </header>
-        {isLoggedIn ? (
-          <Profile user={user} />
-        ) : (
-          <button
-            onClick={() => router.push('/login')}
-            className={ProfileStyle.loginText}
+        <div>
+          <BurgerButton onClick={onClick} />
+          <header
+            onClick={() => router.push('/')}
+            className={`${UtilStyle.flexColumnCenter} ${UtilStyle.clickable}`}
           >
-            Login
-          </button>
+            <h1>The Folks</h1>
+            <h4>The Advanced Fashion Community</h4>
+          </header>
+          {isLoggedIn ? (
+            <Profile user={user} />
+          ) : (
+            <button
+              onClick={() => router.push('/login')}
+              className={ProfileStyle.loginText}
+            >
+              Login
+            </button>
+          )}
+        </div>
+        {!user.verified && isLoggedIn && (
+          <div className={GNBStyle.verifyUrginContainer}>
+            <h3>이메일 인증을 완료해주세요 :)</h3>
+          </div>
         )}
       </div>
+
       <Nav onClick={onClick} isVisible={isVisible} />
     </>
   );

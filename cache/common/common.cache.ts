@@ -9,6 +9,7 @@ export interface IUserInforVar {
   profileImg: string;
   nickname: string;
   link: string;
+  verified: boolean;
 }
 
 interface IAlert {
@@ -70,6 +71,7 @@ export const initialUserInfoVar: IUserInforVar = {
   profileImg: '',
   nickname: '',
   link: '',
+  verified: false,
 };
 
 const token =
