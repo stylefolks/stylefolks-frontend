@@ -26,8 +26,6 @@ const useCreateAccount = () => {
     mode: 'onChange',
   });
 
-  const { password, checkPassword, email, nickname } = getValues();
-
   const onCompleted = (data: createAccount) => {
     if (data.createAccount.ok) {
       alert('가입하신 메일을 통해 인증을 완료해주세요!');
@@ -39,6 +37,7 @@ const useCreateAccount = () => {
   };
 
   const onSubmit = () => {
+    const { password, email, nickname } = getValues();
     //role은 유저로 자동  넘어가는게 정상
     if (!loading) {
       createAccountMutation({
@@ -70,10 +69,9 @@ const useCreateAccount = () => {
       errors,
       isValid,
       loading,
-      password,
       createAccountMuataionResult,
     },
-    actions: { handleSubmit, onSubmit, register },
+    actions: { handleSubmit, onSubmit, register, getValues },
   };
 };
 
