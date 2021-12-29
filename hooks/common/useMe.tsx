@@ -6,7 +6,7 @@ import { meQuery } from 'src/__generated__/meQuery';
 export const useLazyMe = () => {
   const onCompleted = (data: meQuery) => {
     if (data?.me) {
-      const { verified, __typename, id, ...input } = data?.me;
+      const { __typename, id, ...input } = data?.me;
       userInfoVar({ id, ...input });
     }
   };
@@ -22,7 +22,7 @@ export const useLazyMe = () => {
 export const useMe = () => {
   const onCompleted = (data: meQuery) => {
     if (data?.me) {
-      const { verified, __typename, id, ...input } = data?.me;
+      const { __typename, id, ...input } = data?.me;
       userInfoVar({ id, ...input });
     }
   };

@@ -54,6 +54,11 @@ export const Header = () => {
           </button>
         )}
       </div>
+      {!user.verified && isLoggedIn && (
+        <div className={GNBStyle.verifyUrginContainer}>
+          <h3>이메일 인증을 완료해주세요 :)</h3>
+        </div>
+      )}
       <Nav onClick={onClick} isVisible={isVisible} />
     </>
   );
