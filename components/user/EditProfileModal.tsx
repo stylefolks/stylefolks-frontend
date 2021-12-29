@@ -70,7 +70,11 @@ const EditProfileModal = ({ doRefetch }: IProps) => {
         <section className={EditProfileModalStyle.container}>
           <h2>프로필 관리</h2>
           <EditUserPassword userEmail={user.email} />
-          <EditUserInformation link={user.link} nickname={user.nickname} />
+          <EditUserInformation
+            link={user.link}
+            nickname={user.nickname}
+            user={user}
+          />
         </section>
       </BackDrop>
     </Modal>
