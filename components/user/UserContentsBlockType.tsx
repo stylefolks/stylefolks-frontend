@@ -5,7 +5,7 @@ import Link from 'next/link';
 import VacantImage from 'public/vacantImage.png';
 import { getPostByCategory } from 'src/__generated__/getPostByCategory';
 import UtilStlye from 'styles/common/Util.module.scss';
-import UserStyle from 'styles/User.module.scss';
+import UserStyle from 'styles/user/User.module.scss';
 interface IUserContentsBlockTypeProps {
   data: getPostByCategory;
 }

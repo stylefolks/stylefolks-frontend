@@ -56,21 +56,25 @@ const Talk: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     }, [page]);
 
     return (
-      <InfiniteScroll
-        dataLength={data.length}
-        next={() => setPage((prev) => prev + 1)}
-        hasMore={page < initialData?.getPostByCategory.totalPages}
-        loader={<h1>Loading..</h1>}
-        endMessage={<NoMore text={'Talks End'} />}
-        style={{ width: '100%' }}
-      >
-        <h2>Talks!</h2>
-        <ul className={TalkStyle.cardContainer}>
-          {data?.map((el) => (
-            <TalkColumn data={el} key={el.id} />
-          ))}
-        </ul>
-      </InfiniteScroll>
+      <>
+        <title>The Folks | Talk</title>
+
+        <InfiniteScroll
+          dataLength={data.length}
+          next={() => setPage((prev) => prev + 1)}
+          hasMore={page < initialData?.getPostByCategory.totalPages}
+          loader={<h1>Loading..</h1>}
+          endMessage={<NoMore text={'Talks End'} />}
+          style={{ width: '100%' }}
+        >
+          <h2>Talks!</h2>
+          <ul className={TalkStyle.cardContainer}>
+            {data?.map((el) => (
+              <TalkColumn data={el} key={el.id} />
+            ))}
+          </ul>
+        </InfiniteScroll>
+      </>
     );
   };
 

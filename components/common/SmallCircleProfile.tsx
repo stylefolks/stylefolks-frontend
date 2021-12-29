@@ -1,6 +1,6 @@
 import CircleProfileImage from 'components/common/CircleProfileImage';
 import Link from 'next/link';
-import UserStyle from 'styles/User.module.scss';
+import UserStyle from 'styles/user/User.module.scss';
 interface IPropsSmallCircleProfile {
   name: string;
   profileImg: string;

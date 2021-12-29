@@ -14,7 +14,7 @@ import {
   FirstCategoryName,
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
-import UserStyle from 'styles/User.module.scss';
+import UserStyle from 'styles/user/User.module.scss';
 import UserContentsBlockTypeStyle from 'styles/user/component/UserContentsBlockType.module.scss';
 import UserContentsPlainTypeStyle from 'styles/user/component/UserContentsPlainType.module.scss';
 import UserPageStyle from 'styles/user/UserPage.module.scss';

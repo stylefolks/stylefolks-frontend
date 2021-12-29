@@ -73,36 +73,39 @@ const IndexPage: React.FC<
   }, []);
 
   return (
-    <InfiniteScroll
-      dataLength={data.length}
-      next={() => setPage((prev) => prev + 1)}
-      hasMore={data.length < initialData?.getAllPosts.totalResults}
-      loader={<h1>Loading..</h1>}
-      endMessage={<NoMore text={'Posts End'} />}
-      style={{ position: 'relative' }}
-    >
-      <ul className={MainStyle.cardsContainer}>
-        {data.map((el) => (
-          <Link href={`/post/${el.id}`} key={el.id}>
-            <a>
-              <li>
-                <div className={UtilStyle.imageSquareContainer}>
-                  <Image
-                    alt={el.title}
-                    src={el.titleImg || VacantImage}
-                    layout="fill"
-                    blurDataURL={el.titleImg}
-                    placeholder="blur"
-                    quality={50}
-                    objectFit="cover"
-                  />
-                </div>
-              </li>
-            </a>
-          </Link>
-        ))}
-      </ul>
-    </InfiniteScroll>
+    <>
+      <title>The Folks</title>
+      <InfiniteScroll
+        dataLength={data.length}
+        next={() => setPage((prev) => prev + 1)}
+        hasMore={data.length < initialData?.getAllPosts.totalResults}
+        loader={<h1>Loading..</h1>}
+        endMessage={<NoMore text={'Posts End'} />}
+        style={{ position: 'relative' }}
+      >
+        <ul className={MainStyle.cardsContainer}>
+          {data.map((el) => (
+            <Link href={`/post/${el.id}`} key={el.id}>
+              <a>
+                <li>
+                  <div className={UtilStyle.imageSquareContainer}>
+                    <Image
+                      alt={el.title}
+                      src={el.titleImg || VacantImage}
+                      layout="fill"
+                      blurDataURL={el.titleImg}
+                      placeholder="blur"
+                      quality={50}
+                      objectFit="cover"
+                    />
+                  </div>
+                </li>
+              </a>
+            </Link>
+          ))}
+        </ul>
+      </InfiniteScroll>
+    </>
   );
 };
 

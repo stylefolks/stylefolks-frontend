@@ -4,9 +4,9 @@ import { ModifyButton } from 'components/common/button/ModifyButton';
 import CommentBox from 'components/common/comments/CommentBox';
 import useEachPost from 'hooks/pages/post/useEachPost';
 import Link from 'next/link';
-import PostStyle from 'styles/Post.module.scss';
+import PostStyle from 'styles/post/Post.module.scss';
 import EditorViewer from '../../components/upload/EditorViewer';
-import CategoryStyle from '../../styles/Category.module.scss';
+import CategoryStyle from 'styles/post/Category.module.scss';
 
 export const Post = () => {
   const { state, actions } = useEachPost();
@@ -25,6 +25,7 @@ export const Post = () => {
 
   return (
     <>
+      <title>The Folks | Post</title>
       <div className={PostStyle.wrapper}>
         <div className={PostStyle.divider} />
         <section className={CategoryStyle.categoryContainer}>

@@ -6,12 +6,7 @@ module.exports = {
   },
   reactStrictMode: true,
   images: {
-    domains: [
-      'thefolksofstyle.s3.amazonaws.com',
-      'localhost',
-      '*',
-      'm.footagebrothers.com',
-    ],
+    domains: ['thefolksofstyle.s3.amazonaws.com', 'localhost', '*'],
   },
 
   webpack: (config) => {

@@ -60,20 +60,23 @@ const Column: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     }, [page]);
 
     return (
-      <InfiniteScroll
-        dataLength={data.length}
-        next={() => setPage((prev) => prev + 1)}
-        hasMore={page < initialData?.getPostByCategory.totalPages}
-        loader={<h1>Loading..</h1>}
-        endMessage={<NoMore text={'Column End'} />}
-      >
-        <h2>Column!</h2>
-        <ul className={ColumnStyle.cardContainer}>
-          {data?.map((el, index) => (
-            <ColumnCard key={el.id + el.title + index} data={el} />
-          ))}
-        </ul>
-      </InfiniteScroll>
+      <>
+        <title>The Folks | Column</title>
+        <InfiniteScroll
+          dataLength={data.length}
+          next={() => setPage((prev) => prev + 1)}
+          hasMore={page < initialData?.getPostByCategory.totalPages}
+          loader={<h1>Loading..</h1>}
+          endMessage={<NoMore text={'Column End'} />}
+        >
+          <h2>Column!</h2>
+          <ul className={ColumnStyle.cardContainer}>
+            {data?.map((el, index) => (
+              <ColumnCard key={el.id + el.title + index} data={el} />
+            ))}
+          </ul>
+        </InfiniteScroll>
+      </>
     );
   };
 

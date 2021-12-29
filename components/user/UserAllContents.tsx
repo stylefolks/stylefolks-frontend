@@ -12,7 +12,7 @@ import {
   getUserPost,
   getUserPostVariables,
 } from 'src/__generated__/getUserPost';
-import UserStyle from 'styles/User.module.scss';
+import UserStyle from 'styles/user/User.module.scss';
 
 interface IPropsUserAllContents {
   nickname: string;

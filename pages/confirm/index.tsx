@@ -42,6 +42,7 @@ const Confirm: React.FC = () => {
 
   return (
     <div>
+      <title>The Folks | Confirm</title>
       {loading ? 'Wait For Confirming You!' : 'Verify DONE!'}
       <h1>{router.query.code}</h1>
     </div>

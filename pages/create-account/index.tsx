@@ -4,7 +4,7 @@ import useCreateAccount from 'hooks/pages/create-account/useCreateAccount';
 import Link from 'next/link';
 import React from 'react';
 import UtilStyle from 'styles/common/Util.module.scss';
-import LoginStyle from 'styles/Login.module.scss';
+import LoginStyle from 'styles/login/Login.module.scss';
 
 export const CreateAccount = () => {
   const { state, actions } = useCreateAccount();

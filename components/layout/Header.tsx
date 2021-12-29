@@ -6,8 +6,8 @@ import { useLazyMe } from 'hooks/common/useMe';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import UtilStyle from 'styles/common/Util.module.scss';
-import GNBStyle from 'styles/GNB.module.scss';
-import ProfileStyle from 'styles/Profile.module.scss';
+import GNBStyle from 'styles/common/GNB.module.scss';
+import ProfileStyle from 'styles/user/Profile.module.scss';
 import Nav from './Nav';
 
 //https://stackoverflow.com/questions/66499705/how-would-i-update-the-authorization-header-from-a-cookie-on-a-graphql-apollo-mu
