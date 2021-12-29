@@ -1,7 +1,7 @@
 import { faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import FooterStyle from '../../styles/Footer.module.scss';
+import FooterStyle from 'styles/common/Footer.module.scss';
 
 const FOOTER_ICON_MAP = [
   { icon: faInstagram, href: '#1' },

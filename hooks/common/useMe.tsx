@@ -12,14 +12,6 @@ export const useLazyMe = () => {
   };
 
   const result = useLazyQuery<meQuery>(ME_QUERY, {
-    context: {
-      headers: {
-        'folks-token':
-          typeof window !== 'undefined'
-            ? localStorage.getItem('folks-token')
-            : '',
-      },
-    },
     nextFetchPolicy: 'network-only',
     fetchPolicy: 'network-only',
     onCompleted,

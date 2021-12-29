@@ -14,8 +14,8 @@ import {
 import {
   FirstCategoryName,
   SecondCategoryName,
-} from '../../src/__generated__/globalTypes';
-import CategoryStyle from '../../styles/Category.module.scss';
+} from 'src/__generated__/globalTypes';
+import CategoryStyle from 'styles/post/Category.module.scss';
 
 interface IProps {
   firstCategory:

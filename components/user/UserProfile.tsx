@@ -19,7 +19,7 @@ import {
   findByNickName_findByNickName_crews,
   findByNickName_findByNickName_user,
 } from 'src/__generated__/findByNickName';
-import UserStyle from 'styles/User.module.scss';
+import UserStyle from 'styles/user/User.module.scss';
 
 interface IUserProfileProps {
   user: findByNickName_findByNickName_user | null;

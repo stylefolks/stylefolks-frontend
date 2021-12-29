@@ -51,6 +51,7 @@ const Upload = () => {
 
   return (
     <>
+      <title>The Folks | Upload</title>
       <div className="wrapper">
         <CategorySelector
           firstCategory={data?.getCategoryByUserRole.firstCategory}

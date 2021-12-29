@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import UseWindowDimension from 'hooks/common/useWindowDimension';
 import Link from 'next/link';
 import { getPostByCategory } from 'src/__generated__/getPostByCategory';
-import UserStyle from 'styles/User.module.scss';
+import UserStyle from 'styles/user/User.module.scss';
 import UserContentsPlaintTypeStyle from 'styles/user/component/UserContentsPlainType.module.scss';
 import { makePreContents } from 'utils/Utils';
 

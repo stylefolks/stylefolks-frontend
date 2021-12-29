@@ -3,7 +3,7 @@ import { isLoggedInVar } from 'cache/common/common.cache';
 import Comments from 'components/common/comments/Comments';
 import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
 import React, { useEffect } from 'react';
-import CommentBoxStyle from 'styles/CommentBox.module.scss';
+import CommentBoxStyle from 'styles/post/CommentBox.module.scss';
 import { ModifyButton } from '../button/ModifyButton';
 import useCommentBox from './useCommentBox';
 

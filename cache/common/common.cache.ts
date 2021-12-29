@@ -2,7 +2,7 @@ import { makeVar, ReactiveVar } from '@apollo/client';
 import { SecondCategoryName, UserRole } from 'src/__generated__/globalTypes';
 import { FirstCategoryName } from './../../src/__generated__/globalTypes';
 
-interface IUserInforVar {
+export interface IUserInforVar {
   email: string;
   id: number | null;
   role: UserRole;

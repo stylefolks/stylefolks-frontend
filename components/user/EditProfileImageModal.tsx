@@ -1,7 +1,7 @@
 import BackDrop from 'components/common/shared/BackDrop';
 import Modal from 'HOC/Modal';
 import React from 'react';
-import UploadModalStyle from 'styles/UploadModal.module.scss';
+import UploadModalStyle from 'styles/upload/UploadModal.module.scss';
 import useEditProfileImageModal from './hooks/useEditProfileImageModal';
 
 interface IEditProps {

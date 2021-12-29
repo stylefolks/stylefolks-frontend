@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import Router from 'next/router';
 import React from 'react';
+import 'styles/globals.css';
 import { createSpinner, removeSpinner } from 'utils/Utils';
 import Layout from '../components/layout/Layout';
 import Wrapper from '../components/Wrapper';

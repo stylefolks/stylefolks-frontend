@@ -4,7 +4,7 @@ import LoggedInUserProfileImage from 'components/user/LoggedInUserProfileImage';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { getEachPostComments_getEachPostComments_comments_user } from 'src/__generated__/getEachPostComments';
-import CommentBoxStyle from 'styles/CommentBox.module.scss';
+import CommentBoxStyle from 'styles/post/CommentBox.module.scss';
 import { CancelButton } from '../button/CancelButton';
 import { CompleteButton } from '../button/CompleteButton';
 import { DeleteButton } from '../button/DeleteButton';

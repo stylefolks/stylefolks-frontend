@@ -2,7 +2,7 @@ import QuitButton from 'components/common/button/QuitButton';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
-import GNBStyle from 'styles/GNB.module.scss';
+import GNBStyle from 'styles/common/GNB.module.scss';
 interface IProps {
   onClick: () => void;
   isVisible: boolean;

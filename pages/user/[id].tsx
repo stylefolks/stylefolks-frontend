@@ -7,7 +7,7 @@ import useUser from 'hooks/pages/user/useUser';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React from 'react';
-import UserStyle from 'styles/User.module.scss';
+import UserStyle from 'styles/user/User.module.scss';
 
 const DynamicUserProfile = dynamic(
   () => import('components/user/UserProfile'),
@@ -32,21 +32,24 @@ const User = () => {
   if (loading) return <PageChange />;
 
   return (
-    <div className={UserStyle.container}>
-      <div className={UserStyle.userContainer}>
-        <DynamicUserProfile
-          user={data.findByNickName.user}
-          crews={data.findByNickName.crews}
-        />
+    <>
+      <title>The Folks | User | {nickname}</title>
+      <div className={UserStyle.container}>
+        <div className={UserStyle.userContainer}>
+          <DynamicUserProfile
+            user={data.findByNickName.user}
+            crews={data.findByNickName.crews}
+          />
+        </div>
+        {isUserTotal ? (
+          <UserAllContents nickname={nickname} />
+        ) : (
+          <UserContents nickname={nickname} />
+        )}
+        <EditProfileModal doRefetch={doRefetch} />
+        <EditProfileImageModal doRefetch={doRefetch} />
       </div>
-      {isUserTotal ? (
-        <UserAllContents nickname={nickname} />
-      ) : (
-        <UserContents nickname={nickname} />
-      )}
-      <EditProfileModal doRefetch={doRefetch} />
-      <EditProfileImageModal doRefetch={doRefetch} />
-    </div>
+    </>
   );
 };
 

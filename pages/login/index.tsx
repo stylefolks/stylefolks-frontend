@@ -3,7 +3,7 @@ import { FormError } from 'components/common/FormError';
 import useLogin from 'hooks/pages/login/useLogin';
 import Link from 'next/link';
 import UtilStyle from 'styles/common/Util.module.scss';
-import LoginStyle from 'styles/Login.module.scss';
+import LoginStyle from 'styles/login/Login.module.scss';
 
 export const Login = () => {
   const { state, actions } = useLogin();

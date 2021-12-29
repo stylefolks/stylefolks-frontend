@@ -18,34 +18,37 @@ const Crew = () => {
   if (!data || error) return <div>Error</div>;
 
   return (
-    <div className={CrewPageStyle.container}>
-      <CrewProfile
-        refetch={refetch}
-        data={data?.getCrewByName?.crew}
-        managerId={data?.getCrewByName?.manager?.id}
-        isJoined={isJoined}
-        doJoin={doJoin}
-        doDepart={doDepart}
-      />
-      <CrewIntroduction
-        introduction={data?.getCrewByName?.crew?.introduction}
-      />
-      <CrewJoinedPeople
-        users={data?.getCrewByName?.users}
-        managerId={data?.getCrewByName?.manager?.id}
-      />
-      <CrewNotice crewId={data?.getCrewByName?.crew?.id} />
-      <CrewOOTD
-        crewId={data?.getCrewByName?.crew?.id}
-        users={data?.getCrewByName?.users}
-      />
-      <CrewManagePeopleModal
-        refetch={refetch}
-        crewName={data?.getCrewByName?.crew?.name}
-        users={data?.getCrewByName?.users}
-        isVisible={visible.isVisibleCrewUserManageModal}
-      />
-    </div>
+    <>
+      <title>The Folks | Crew</title>
+      <div className={CrewPageStyle.container}>
+        <CrewProfile
+          refetch={refetch}
+          data={data?.getCrewByName?.crew}
+          managerId={data?.getCrewByName?.manager?.id}
+          isJoined={isJoined}
+          doJoin={doJoin}
+          doDepart={doDepart}
+        />
+        <CrewIntroduction
+          introduction={data?.getCrewByName?.crew?.introduction}
+        />
+        <CrewJoinedPeople
+          users={data?.getCrewByName?.users}
+          managerId={data?.getCrewByName?.manager?.id}
+        />
+        <CrewNotice crewId={data?.getCrewByName?.crew?.id} />
+        <CrewOOTD
+          crewId={data?.getCrewByName?.crew?.id}
+          users={data?.getCrewByName?.users}
+        />
+        <CrewManagePeopleModal
+          refetch={refetch}
+          crewName={data?.getCrewByName?.crew?.name}
+          users={data?.getCrewByName?.users}
+          isVisible={visible.isVisibleCrewUserManageModal}
+        />
+      </div>
+    </>
   );
 };
 

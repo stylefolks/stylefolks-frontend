@@ -3,7 +3,7 @@ import { userInfoVar } from 'cache/common/common.cache';
 import UseWindowDimension from 'hooks/common/useWindowDimension';
 import Image from 'next/image';
 import vacantImage from 'public/vacantImage.png';
-import ProfileStyle from 'styles/Profile.module.scss';
+import ProfileStyle from 'styles/user/Profile.module.scss';
 
 interface IPropsLoggedInUserProfileImage {
   staticWidth?: string;

@@ -11,7 +11,7 @@ import { deleteTemp, deleteTempVariables } from 'src/__generated__/deleteTemp';
 import { getCategoryByUserRole_getCategoryByUserRole_tempPosts } from 'src/__generated__/getCategoryByUserRole';
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
 import UtilStyle from 'styles/common/Util.module.scss';
-import TempStyle from 'styles/TempPost.module.scss';
+import TempStyle from 'styles/post/TempPost.module.scss';
 import TempUploadDialog from './TempUploadDialog';
 
 interface IProps {

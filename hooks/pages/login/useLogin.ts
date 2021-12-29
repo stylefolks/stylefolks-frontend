@@ -4,6 +4,7 @@ import { LOGIN_MUTATION } from 'graphql/user/mutations';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { login, loginVariables } from 'src/__generated__/login';
+import { useLazyMe } from './../../common/useMe';
 
 interface ILoginForm {
   email: string;
@@ -12,7 +13,7 @@ interface ILoginForm {
 
 const useLogin = () => {
   const router = useRouter();
-
+  const [getUserData] = useLazyMe();
   const {
     register,
     getValues,
@@ -22,9 +23,15 @@ const useLogin = () => {
     mode: 'onChange',
   });
 
-  if (router.query.keyword === 'true') {
-    router.push('/login');
-  }
+  const doUseMeRefetch = (token: string) => {
+    getUserData({
+      context: {
+        headers: {
+          'folks-token': token,
+        },
+      },
+    });
+  };
 
   const onSubmit = () => {
     if (!loading) {
@@ -48,6 +55,9 @@ const useLogin = () => {
       if (localStorage.getItem('folks-token')) {
         isLoggedInVar(true);
         authTokenVar(token);
+        console.log('onCompleted', token);
+
+        doUseMeRefetch(token);
         router.push('/');
       }
     } else {
@@ -68,6 +78,10 @@ const useLogin = () => {
       onCompleted,
       onError,
     });
+
+  if (router.query.keyword === 'true') {
+    router.push('/login');
+  }
 
   return {
     state: { isValid, loading, loginMutationResult, errors },

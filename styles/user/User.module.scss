@@ -38,7 +38,7 @@
 
 .userInfoWrapper {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 
   & > div:nth-child(2) {
     margin-left: 50px;
@@ -63,8 +63,8 @@
   }
 
   @media screen and (max-width: $media-phone) {
-    width: $userpage-profile-size / 1.4;
-    height: $userpage-profile-size / 1.4;
+    width: div($userpage-profile-size, 1.4);
+    height: div($userpage-profile-size, 1.4);
     h4,
     h2 {
       margin: 0px;
@@ -117,14 +117,14 @@
     right: 0px;
     bottom: 0px;
     height: $userpage-profile-size;
-    width: $userpage-profile-size/2;
+    width: div($userpage-profile-size, 2);
     background: transparent;
     background-color: transparent;
     opacity: 0;
     border: 1px solid white;
-    border-bottom-right-radius: $userpage-profile-size * 2;
-    border-top-right-radius: $userpage-profile-size * 2;
-    width: $userpage-profile-size/2;
+    border-bottom-right-radius: multiple($userpage-profile-size, 2);
+    border-top-right-radius: multiple($userpage-profile-size, 2);
+    width: div($userpage-profile-size, 2);
     box-sizing: border-box;
     background-color: black;
   }
@@ -133,23 +133,17 @@
     position: absolute;
     border: 1px solid white;
     height: $userpage-profile-size;
-    width: $userpage-profile-size/2;
+    width: div($userpage-profile-size, 2);
     box-sizing: border-box;
-    border-bottom-left-radius: $userpage-profile-size * 2;
-    border-top-left-radius: $userpage-profile-size * 2;
+    border-bottom-left-radius: multiple($userpage-profile-size, 2);
+    border-top-left-radius: multiple($userpage-profile-size, 2);
     left: 0px;
   }
 
   @media screen and (max-width: $media-phone) {
-    width: $userpage-profile-size / 1.4;
-    height: $userpage-profile-size / 1.4;
+    width: div($userpage-profile-size, 1.4);
+    height: div($userpage-profile-size, 1.4);
   }
-}
-
-.userContentsContainer {
-  margin-top: 24px;
-  display: flex;
-  justify-content: space-between;
 }
 
 .userButtonWrapper {

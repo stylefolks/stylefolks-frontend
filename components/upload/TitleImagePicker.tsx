@@ -1,7 +1,7 @@
 import { useReactiveVar } from '@apollo/client';
 import { postStatusVar, writtenPostVar } from 'cache/common/common.cache';
 import Image from 'next/image';
-import UploadStyle from 'styles/Upload.module.scss';
+import UploadStyle from 'styles/upload/Upload.module.scss';
 
 const TitleImagePicker: React.FC = () => {
   const post = useReactiveVar(writtenPostVar);

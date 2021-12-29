@@ -58,39 +58,43 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     }, [page]);
 
     return (
-      <InfiniteScroll
-        dataLength={data.length}
-        next={() => setPage((prev) => prev + 1)}
-        hasMore={data.length < initialData?.getAllCrew.totalResults}
-        loader={<h1>Loading..</h1>}
-        endMessage={<NoMore text={'Crew End'} />}
-      >
-        <ul className={CrewPageStyle.crewMainPageContentsContainer}>
-          {data?.map((el, index) => (
-            <Link href={`/crew/${el.name}`} key={el.id + el.name + index}>
-              <a>
-                <li
-                  className={CrewPageStyle.crewMainPageEachContents}
-                  style={{
-                    backgroundImage: `url(${
-                      el.backgroundImg ? el.backgroundImg : ''
-                    })`,
-                  }}
-                >
-                  <div>
-                    <CircleProfileImage profileImg={el.profileImg} />
-                  </div>
-                  <h2>
-                    {el.name}
-                    {'\u00A0'} <FontAwesomeIcon icon={faUser} />
-                    {el.followerCount}
-                  </h2>
-                </li>
-              </a>
-            </Link>
-          ))}
-        </ul>
-      </InfiniteScroll>
+      <>
+        <title>The Folks | Crew</title>
+
+        <InfiniteScroll
+          dataLength={data.length}
+          next={() => setPage((prev) => prev + 1)}
+          hasMore={data.length < initialData?.getAllCrew.totalResults}
+          loader={<h1>Loading..</h1>}
+          endMessage={<NoMore text={'Crew End'} />}
+        >
+          <ul className={CrewPageStyle.crewMainPageContentsContainer}>
+            {data?.map((el, index) => (
+              <Link href={`/crew/${el.name}`} key={el.id + el.name + index}>
+                <a>
+                  <li
+                    className={CrewPageStyle.crewMainPageEachContents}
+                    style={{
+                      backgroundImage: `url(${
+                        el.backgroundImg ? el.backgroundImg : ''
+                      })`,
+                    }}
+                  >
+                    <div>
+                      <CircleProfileImage profileImg={el.profileImg} />
+                    </div>
+                    <h2>
+                      {el.name}
+                      {'\u00A0'} <FontAwesomeIcon icon={faUser} />
+                      {el.followerCount}
+                    </h2>
+                  </li>
+                </a>
+              </Link>
+            ))}
+          </ul>
+        </InfiniteScroll>
+      </>
     );
   };
 
