@@ -10,13 +10,13 @@ export const makePreContents = (data: string) => {
 };
 
 export const createSpinner = () => {
-  document.body.classList.add('body-page-transition');
+  // document.body.classList.add('body-page-transition');
   ReactDOM.render(<PageChange />, document.getElementById('page-transition'));
 };
 
 export const removeSpinner = () => {
   ReactDOM.unmountComponentAtNode(document.getElementById('page-transition'));
-  document.body.classList.remove('body-page-transition');
+  // document.body.classList.remove('body-page-transition');
 };
 
 export default {};

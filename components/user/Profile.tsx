@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import UtilStyle from 'styles/common/Util.module.scss';
 import ProfileStyle from 'styles/user/Profile.module.scss';
+import { removeSpinner } from 'utils/Utils';
 import LoggedInUserProfileImage from './LoggedInUserProfileImage';
 
 interface IModalState {
@@ -40,6 +41,7 @@ const Profile: React.FC<IProfileProps> = ({ user }) => {
     localStorage.clear();
     isLoggedInVar(false);
     userInfoVar({ ...initialUserInfoVar });
+    removeSpinner();
     router.push('/login');
   };
 

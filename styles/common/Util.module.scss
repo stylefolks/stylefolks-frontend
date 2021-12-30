@@ -353,10 +353,11 @@ $delayandduration: 4;
 }
 
 .smallCircleProfileWrapper {
-  width: 48px;
-  height: 48px;
+  position: static;
   border-radius: 100%;
   overflow: hidden;
+  width: fit-content;
+  height: fit-content;
 }
 
 .gridImage {
