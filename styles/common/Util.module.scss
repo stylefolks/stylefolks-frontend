@@ -354,10 +354,10 @@ $delayandduration: 4;
 
 .smallCircleProfileWrapper {
   position: static;
+  display: flex;
+  align-items: center;
   border-radius: 100%;
   overflow: hidden;
-  width: fit-content;
-  height: fit-content;
 }
 
 .gridImage {

@@ -19,9 +19,9 @@ import {
   getCrewPostByRoleVariables,
 } from 'src/__generated__/getCrewPostByRole';
 import { CrewUserGrade } from 'src/__generated__/globalTypes';
+import GridStyle from 'styles/common/Grid.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 import UserPageStyle from 'styles/user/UserPage.module.scss';
-
 interface IPropsCrewOOTD {
   crewId: number;
   users: getCrewByName_getCrewByName_users[];
@@ -36,7 +36,6 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId, users }) => {
   const [role, setRole] = useState(CrewUserGrade.CrewManager);
   const [page, setPage] = useState<number>(1);
   const { width, height } = UseWindowDimension();
-  // const [inputTake, setInputTake] = useState<number | null>(20);
 
   const handlePage = (_page: number) => {
     setPage(_page);
@@ -82,16 +81,22 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId, users }) => {
         </div>
         <div className={CrewPageStyle.crewOutfitContentsContainer}>
           {data?.getCrewPostByRole.posts.length ? (
-            <ul className={CrewPageStyle.crewOutfitContentsWrapper}>
+            <ul className={GridStyle.gridContentsBlockList}>
               {data?.getCrewPostByRole.posts.map((el) => (
                 <li key={el.id}>
                   <Link href={`/post/${el.id}`}>
                     <a>
-                      <div className={CrewPageStyle.gridImage}>
+                      <div>
                         <Image
                           className="image"
                           src={el.titleImg || VacantImage}
-                          layout="fill"
+                          layout={'responsive'}
+                          width={512}
+                          height={512}
+                          objectFit="cover"
+                          objectPosition="center"
+                          placeholder="blur"
+                          blurDataURL={el.titleImg}
                           alt={el.titleImg}
                         />
                       </div>
