@@ -39,6 +39,22 @@ const CategorySelector: React.FC<IProps> = ({
     (el) => el.name === writtenPostVar().firstCategoryName
   )[0]?.secondCategory;
 
+  const makeFirstCategory = (
+    _firstCategory: getCategoryByUserRole_getCategoryByUserRole_firstCategory[]
+  ) => {
+    let newFirstCategory = _firstCategory;
+
+    if (!crews.length) {
+      newFirstCategory = firstCategory.filter((el) => el.name !== 'CREW');
+    }
+
+    if (!brands.length) {
+      newFirstCategory = firstCategory.filter((el) => el.name !== 'FOLKS');
+    }
+
+    return newFirstCategory;
+  };
+
   useEffect(() => {
     if (!isModify) {
       writtenPostVar({
@@ -74,7 +90,10 @@ const CategorySelector: React.FC<IProps> = ({
       writtenPostVar({ ...writtenPostVar(), crewId: null });
     }
 
-    if (writtenPostVar().firstCategoryName === FirstCategoryName.CREW) {
+    if (
+      writtenPostVar().firstCategoryName === FirstCategoryName.CREW &&
+      crews.length
+    ) {
       writtenPostVar({
         ...writtenPostVar(),
         crewId: crews[0].id,
@@ -126,7 +145,7 @@ const CategorySelector: React.FC<IProps> = ({
               });
             }}
           >
-            {firstCategory?.map((el) => (
+            {makeFirstCategory(firstCategory)?.map((el) => (
               <option key={el.name}>{el.name}</option>
             ))}
           </select>
@@ -149,7 +168,7 @@ const CategorySelector: React.FC<IProps> = ({
             </>
           )}
 
-          {post.firstCategoryName === FirstCategoryName.CREW && (
+          {post.firstCategoryName === FirstCategoryName.CREW && crews.length && (
             <>
               <span> Of </span>
               <select

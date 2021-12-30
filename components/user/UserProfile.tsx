@@ -70,10 +70,12 @@ const UserProfile: React.FC<IUserProfileProps> = ({
                 pageUser?.profileImg ? pageUser?.profileImg : vacantImage.src
               }
               alt="profile-image"
-              width="120px"
-              height="120px"
-              layout={'intrinsic'}
-              unoptimized={true}
+              width={120}
+              height={120}
+              layout="fixed"
+              objectFit="cover"
+              objectPosition="center"
+              // unoptimized={true}
               placeholder="blur"
               blurDataURL={
                 pageUser?.profileImg ? pageUser?.profileImg : vacantImage.src
@@ -123,6 +125,8 @@ const UserProfile: React.FC<IUserProfileProps> = ({
                   key={el.id}
                   name={el.name}
                   profileImg={el.profileImg}
+                  width={48}
+                  height={48}
                 />
               ))
             : ''}

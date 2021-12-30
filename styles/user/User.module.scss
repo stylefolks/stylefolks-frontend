@@ -63,8 +63,6 @@
   }
 
   @media screen and (max-width: $media-phone) {
-    width: div($userpage-profile-size, 1.4);
-    height: div($userpage-profile-size, 1.4);
     h4,
     h2 {
       margin: 0px;
@@ -95,6 +93,11 @@
     height: 30px;
     margin: 5px 0px;
     margin-left: 8px;
+
+    @media screen and (max-width: $media-phone) {
+      width: 18px;
+      height: 18px;
+    }
   }
 }
 
@@ -254,6 +257,8 @@
       position: absolute;
       top: 0px;
       visibility: hidden;
+      width: 0px;
+      height: 0px;
     }
   }
 
@@ -275,13 +280,13 @@
 
     & > a {
       & > span {
-        position: absolute;
         visibility: visible;
+        position: absolute;
+        top: 50px;
         width: 60px;
         text-overflow: ellipsis;
-        white-space: nowrap;
         overflow: hidden;
-        top: 50px;
+        white-space: nowrap;
       }
     }
 
@@ -289,13 +294,6 @@
       margin-right: 0px;
     }
   }
-}
-
-.userJoinCrewImage {
-  width: 48px;
-  height: 48px;
-  border-radius: 100%;
-  overflow: hidden;
 }
 
 .userProfileButtonContainer {
@@ -312,93 +310,6 @@
       margin-bottom: 16px;
     }
   }
-}
-
-//userAllContents
-
-.userAllContentsContainer {
-  width: 100%;
-}
-
-.userAllEachContents {
-  & > a {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 20px;
-    border: 1px solid black;
-    border-radius: 10px;
-    margin: 15px 0px;
-    position: relative;
-    text-decoration: none;
-
-    & > div {
-      display: flex;
-      align-items: center;
-      // & > span {
-      //   font-size: 18px;
-
-      //   &:nth-child(2) {
-      //     text-overflow: ellipsis;
-      //     white-space: nowrap;
-      //     overflow: hidden;
-      //     width: 120px;
-      //   }
-
-      //   @media screen and (max-width: $media-phone) {
-      //     font-size: 12px;
-      //   }
-      // }
-    }
-  }
-}
-
-.userAllEachContentsTitle {
-  display: flex;
-  flex-direction: column;
-  margin-left: 24px;
-  & > span {
-    font-size: 18px;
-
-    @media screen and (max-width: $media-phone) {
-      font-size: 12px;
-    }
-  }
-
-  & > span:nth-child(2) {
-    margin-top: 4px;
-
-    text-decoration: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 180px;
-
-    @media screen and (max-width: $media-phone) {
-      width: 120px;
-    }
-  }
-}
-
-.userAllEachContentsButtons {
-  & > button {
-    width: 48px;
-    font-size: 12px;
-
-    &:first-child {
-      margin-right: 8px;
-    }
-  }
-}
-
-.userContentsPlainEachContentBlinder {
-  height: 150px;
-  overflow: hidden;
-  // border: 1px solid $back-color-main;
-  // background-color: $blur-color;
-  filter: blur(0.7px);
-  padding: 12px 20px;
-  width: calc(293px * 3);
 }
 
 .categoryAllPostButton {

@@ -3,6 +3,8 @@ import vacantImage from 'public/vacantImage.png';
 import UtilStyle from 'styles/common/Util.module.scss';
 interface IPropsCircleProfileImage {
   profileImg: string;
+  width: number;
+  height: number;
 }
 
 const CircleProfileImage: React.FC<IPropsCircleProfileImage> = ({
@@ -11,8 +13,11 @@ const CircleProfileImage: React.FC<IPropsCircleProfileImage> = ({
   return (
     <div className={UtilStyle.smallCircleProfileWrapper}>
       <Image
-        width="48px"
-        height="48px"
+        width={48}
+        height={48}
+        layout="fixed"
+        objectFit="cover"
+        objectPosition="center"
         src={profileImg ? profileImg : vacantImage}
         alt="crewImage"
         placeholder="blur"

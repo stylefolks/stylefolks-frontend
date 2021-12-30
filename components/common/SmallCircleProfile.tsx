@@ -5,19 +5,27 @@ interface IPropsSmallCircleProfile {
   name: string;
   profileImg: string;
   link: string;
+  width: number;
+  height: number;
 }
 
 const SmallCircleProfile: React.FC<IPropsSmallCircleProfile> = ({
   name,
   profileImg,
   link,
+  width,
+  height,
 }) => {
   return (
     <li className={UserStyle.userJoinCrewWrapper}>
       <Link href={link}>
         <a>
-          <CircleProfileImage profileImg={profileImg} />
-          <span>{name}</span>
+          <CircleProfileImage
+            profileImg={profileImg}
+            width={width}
+            height={height}
+          />
+          <span className="joinName">{name}</span>
         </a>
       </Link>
     </li>

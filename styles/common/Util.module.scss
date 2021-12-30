@@ -353,8 +353,9 @@ $delayandduration: 4;
 }
 
 .smallCircleProfileWrapper {
-  width: 48px;
-  height: 48px;
+  position: static;
+  display: flex;
+  align-items: center;
   border-radius: 100%;
   overflow: hidden;
 }

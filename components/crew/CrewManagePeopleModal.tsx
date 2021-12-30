@@ -95,7 +95,11 @@ const CrewManagePeopleModal: React.FC<IProps> = ({
                 ?.map((el) => (
                   <li key={el.user.id}>
                     <div>
-                      <CircleProfileImage profileImg={el.user.profileImg} />
+                      <CircleProfileImage
+                        profileImg={el.user.profileImg}
+                        width={48}
+                        height={48}
+                      />
                       <span>{el.user.nickname}</span>
                       <span>{el.grade}</span>
                     </div>

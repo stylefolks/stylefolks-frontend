@@ -81,7 +81,11 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
                     }}
                   >
                     <div>
-                      <CircleProfileImage profileImg={el.profileImg} />
+                      <CircleProfileImage
+                        profileImg={el.profileImg}
+                        width={48}
+                        height={48}
+                      />
                     </div>
                     <h2>
                       {el.name}
