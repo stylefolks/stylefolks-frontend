@@ -1,11 +1,9 @@
 import { useQuery } from '@apollo/client';
 import NoPost from 'components/common/NoPost';
 import PagesDivider from 'components/common/PagesDivider';
-import format from 'date-fns/format';
+import TalkColumn from 'components/talk/TalkColumn';
 import { GET_POST_BY_CATEGORY } from 'graphql/post/queries';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import VacantImage from 'public/vacantImage.png';
 import React, { useState } from 'react';
 import {
   getPostByCategory,
@@ -15,7 +13,6 @@ import {
   FirstCategoryName,
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
-import UtilStyle from 'styles/common/Util.module.scss';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
 interface IPropsCrewNotice {
@@ -52,49 +49,26 @@ const CrewNotice: React.FC<IPropsCrewNotice> = ({ crewId }) => {
       <div>
         {data?.getPostByCategory.post.length ? (
           <ul>
-            {data?.getPostByCategory.post?.map((el) => (
-              <li
-                key={el.id}
-                className={CrewPageStyle.noticeWrapper}
-                onClick={() => router.push(`/post/${el.id}`)}
-              >
-                <div>
-                  <div className={UtilStyle.imageContainer}>
-                    <Image
-                      className="image"
-                      src={el.titleImg || VacantImage}
-                      layout="fill"
-                      alt={el.title}
-                    />
-                  </div>
-                  <div className={CrewPageStyle.eachNoticeInfoWrapper}>
-                    <h3>
-                      DATE : {format(new Date(el.createdAt), 'yyyy-MM-dd')}
-                    </h3>
-                    <h3>TITLE : {el.title}</h3>
-                    <h3>VIEW : {el.viewCount}</h3>
-                  </div>
-                </div>
-                <div className={CrewPageStyle.eachNoticeWritterWrapper}>
-                  <h3>By </h3>
-                  <div>
-                    <div className={UtilStyle.imageSmallCircleContainer}>
-                      <Image
-                        className="image"
-                        src={el.user.profileImg || VacantImage}
-                        layout="fill"
-                        alt={el.user.profileImg}
-                      />
-                    </div>
-                    <h4>{el.user.nickname}</h4>
-                  </div>
-                </div>
-              </li>
-            ))}
+            {data?.getPostByCategory.post?.map((el) => {
+              const { id, title, titleImg, viewCount, contents, createdAt } =
+                el;
+              const { nickname } = el.user;
+              return (
+                <TalkColumn
+                  key={id}
+                  id={id}
+                  title={title}
+                  titleImg={titleImg}
+                  viewCount={viewCount}
+                  contents={contents}
+                  createdAt={createdAt}
+                  nickname={nickname}
+                />
+              );
+            })}
           </ul>
         ) : (
           <NoPost />
-          // <div>No Post Yet</div>
         )}
         <PagesDivider
           totalPages={data?.getPostByCategory.totalPages}
