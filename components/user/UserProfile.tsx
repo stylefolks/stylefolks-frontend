@@ -69,17 +69,16 @@ const UserProfile: React.FC<IUserProfileProps> = ({
               src={
                 pageUser?.profileImg ? pageUser?.profileImg : vacantImage.src
               }
+              blurDataURL={
+                pageUser?.profileImg ? pageUser?.profileImg : vacantImage.src
+              }
               alt="profile-image"
               width={120}
               height={120}
               layout="fixed"
               objectFit="cover"
-              objectPosition="center"
-              // unoptimized={true}
               placeholder="blur"
-              blurDataURL={
-                pageUser?.profileImg ? pageUser?.profileImg : vacantImage.src
-              }
+              quality={70}
             />
           </div>
           <div className={UserStyle.userInfoBioWrapper}>
@@ -116,20 +115,19 @@ const UserProfile: React.FC<IUserProfileProps> = ({
         )}
       </div>
       <div className={UserStyle.userJoinCrewContainer}>
-        {crews?.length ? <h4>Joined Crew</h4> : ''}
+        {crews?.length && <h4>Joined Crew</h4>}
         <ul>
-          {crews?.length
-            ? crews?.map((el) => (
-                <SmallCircleProfile
-                  link={`/crew/${el.name}`}
-                  key={el.id}
-                  name={el.name}
-                  profileImg={el.profileImg}
-                  width={48}
-                  height={48}
-                />
-              ))
-            : ''}
+          {crews?.length &&
+            crews?.map((el) => (
+              <SmallCircleProfile
+                link={`/crew/${el.name}`}
+                key={el.id}
+                name={el.name}
+                profileImg={el.profileImg}
+                width={48}
+                height={48}
+              />
+            ))}
         </ul>
       </div>
     </>

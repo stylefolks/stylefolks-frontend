@@ -17,7 +17,6 @@ const CircleProfileImage: React.FC<IPropsCircleProfileImage> = ({
         height={48}
         layout="fixed"
         objectFit="cover"
-        objectPosition="center"
         src={profileImg ? profileImg : vacantImage}
         alt="crewImage"
         placeholder="blur"

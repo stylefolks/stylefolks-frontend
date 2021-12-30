@@ -28,15 +28,17 @@ const LoggedInUserProfileImage: React.FC<IPropsLoggedInUserProfileImage> = ({
           ? staticWidth
           : (width * 4) / 100 >= 40
           ? (width * 4) / 100
-          : '40px'
+          : 40
       }
       height={
         staticHeight
           ? staticHeight
           : (width * 4) / 100 >= 40
           ? (width * 4) / 100
-          : '40px'
+          : 40
       }
+      layout="fixed"
+      objectFit="cover"
       alt="profileImage"
     />
   );

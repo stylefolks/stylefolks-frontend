@@ -41,16 +41,18 @@ const CrewJoinedPeople: React.FC<ICrewJoinedPeople> = ({
               ''
             )}
           </div>
-
           <ul>
-            {users?.map((el) => (
-              <SmallCircleProfile
-                link={`/user/${el.user.nickname}`}
-                key={el.user.id}
-                name={el.user.nickname}
-                profileImg={el.user.profileImg}
-              />
-            ))}
+            {users &&
+              users?.map((el) => (
+                <SmallCircleProfile
+                  link={`/user/${el.user.nickname}`}
+                  key={el.user.id}
+                  name={el.user.nickname}
+                  profileImg={el.user.profileImg}
+                  width={48}
+                  height={48}
+                />
+              ))}
           </ul>
         </>
       ) : (

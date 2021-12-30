@@ -8,7 +8,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userInfoVar } from 'cache/common/common.cache';
-import { mediaStandard } from 'constants/constants';
 import UseWindowDimension from 'hooks/common/useWindowDimension';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -77,11 +76,14 @@ const CrewProfile: React.FC<ICrewProfileProps> = ({
         <div className={CrewProfileStyle.imgWrapper}>
           <Image
             src={data?.profileImg ? data?.profileImg : vacantImage}
+            blurDataURL={data?.profileImg}
+            width={120}
+            height={120}
             alt="profile-image"
-            width={width > mediaStandard ? '160px' : '80px'}
-            height={width > mediaStandard ? '160px' : '80px'}
-            // placeholder="blur"
-            // blurDataURL={profileImg as string}
+            layout="fixed"
+            objectFit="cover"
+            quality={70}
+            placeholder="blur"
           />
         </div>
         <h2>{data?.name}</h2>

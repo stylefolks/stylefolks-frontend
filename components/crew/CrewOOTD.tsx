@@ -90,7 +90,7 @@ const CrewOOTD: React.FC<IPropsCrewOOTD> = ({ crewId, users }) => {
                         <Image
                           className="image"
                           src={el.titleImg || VacantImage}
-                          layout={'responsive'}
+                          layout="responsive"
                           width={512}
                           height={512}
                           objectFit="cover"

@@ -25,7 +25,7 @@ const SmallCircleProfile: React.FC<IPropsSmallCircleProfile> = ({
             width={width}
             height={height}
           />
-          <span className="joinName">{name}</span>
+          <span>{name}</span>
         </a>
       </Link>
     </li>
