@@ -390,3 +390,12 @@ $delayandduration: 4;
     }
   }
 }
+
+.container {
+  width: 100%;
+  margin-top: 12px;
+
+  @media screen and (max-width: $media-phone) {
+    margin-top: 0px;
+  }
+}

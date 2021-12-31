@@ -52,13 +52,15 @@ const TalkColumn: React.FC<TalkColumnProps> = (props) => {
               )}
             </div>
           </div>
-          <div style={{ width: '128px' }}>
+          <div
+            style={{ width: '96px', borderRadius: '10px', overflow: 'hidden' }}
+          >
             <Image
               alt={title}
               src={titleImg || VacantImage}
               layout={'responsive'}
-              width={512}
-              height={512}
+              width={356}
+              height={356}
               objectFit="cover"
               objectPosition="center"
               placeholder="blur"
