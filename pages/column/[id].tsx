@@ -83,8 +83,8 @@ const ColumnDetail: React.FC<
             <h1>Column</h1>
           </a>
         </Link>
-        <h1>{'>'}</h1>
-        <Link href="/column">
+        <h1>&nbsp; {' > '} &nbsp; </h1>
+        <Link href={`/column/${secondCategoryName}`}>
           <a>
             <h1>{secondCategoryName}</h1>
           </a>

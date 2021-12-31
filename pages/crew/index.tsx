@@ -1,7 +1,8 @@
-import { ApolloError, useLazyQuery } from '@apollo/client';
+import { ApolloError, gql, useLazyQuery, useQuery } from '@apollo/client';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CircleProfileImage from 'components/common/CircleProfileImage';
+import PageChange from 'components/pageChange/PageChange';
 import { GET_ALL_CREW } from 'graphql/crew/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -9,6 +10,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { canMakeCrew } from 'src/__generated__/canMakeCrew';
 import {
   getAllCrew,
   getAllCrewVariables,
@@ -16,6 +18,14 @@ import {
 } from 'src/__generated__/getAllCrew';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 import NoMore from '../../components/common/NoMore';
+
+const CAN_MAKE_CREW = gql`
+  query canMakeCrew {
+    canMakeCrew {
+      ok
+    }
+  }
+`;
 
 const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
   ({ data: initialData }) => {
@@ -35,6 +45,12 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         setData((prev) => [...prev, ...moreData?.getAllCrew.crew]);
       }
     };
+
+    const {
+      data: canMakeData,
+      loading: canMakeLoading,
+      error: canMakeError,
+    } = useQuery<canMakeCrew>(CAN_MAKE_CREW);
 
     const [getCrewData, { data: moreData, loading, error, refetch }] =
       useLazyQuery<getAllCrew, getAllCrewVariables>(GET_ALL_CREW, {
@@ -57,10 +73,20 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
       getMorePost(page);
     }, [page]);
 
+    if (canMakeLoading) {
+      return <PageChange />;
+    }
+
     return (
       <>
         <title>The Folks | Crew</title>
-
+        {canMakeData?.canMakeCrew.ok ? (
+          <Link href="/make-crew">
+            <a>당신의 크루를 만들어보세요!</a>
+          </Link>
+        ) : (
+          ''
+        )}
         <InfiniteScroll
           dataLength={data.length}
           next={() => setPage((prev) => prev + 1)}
