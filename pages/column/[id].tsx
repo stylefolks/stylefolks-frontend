@@ -1,6 +1,6 @@
 import { ApolloError, useLazyQuery } from '@apollo/client';
-import ColumnCard from 'components/column/ColumnCard';
 import NoMore from 'components/common/NoMore';
+import TalkColumn from 'components/talk/TalkColumn';
 import { GET_POST_BY_CATEGORY } from 'graphql/post/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
@@ -91,9 +91,32 @@ const ColumnDetail: React.FC<
       </div>
 
       <ul className={ColumnStyle.cardContainer}>
-        {data?.map((el, index) => (
-          <ColumnCard key={el.id + el.title + index} data={el} />
-        ))}
+        {data?.map((el, index) => {
+          const {
+            id,
+            title,
+            createdAt,
+            comments,
+            contents,
+            viewCount,
+            titleImg,
+            user,
+          } = el;
+
+          return (
+            <TalkColumn
+              id={id}
+              key={id}
+              title={title}
+              createdAt={createdAt}
+              commentsLength={comments.length}
+              contents={contents}
+              viewCount={viewCount}
+              titleImg={titleImg}
+              nickname={user.nickname}
+            />
+          );
+        })}
       </ul>
     </InfiniteScroll>
   );
