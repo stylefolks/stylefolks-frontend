@@ -68,6 +68,7 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
           loader={<h1>Loading..</h1>}
           endMessage={<NoMore text={'Crew End'} />}
         >
+          <h1>Crew</h1>
           <ul className={CrewPageStyle.crewMainPageContentsContainer}>
             {data?.map((el, index) => (
               <Link href={`/crew/${el.name}`} key={el.id + el.name + index}>

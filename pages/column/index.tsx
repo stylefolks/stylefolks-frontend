@@ -1,102 +1,136 @@
-import { ApolloError, useLazyQuery } from '@apollo/client';
-import NoMore from 'components/common/NoMore';
+import TalkColumn from 'components/talk/TalkColumn';
 import { GET_POST_BY_CATEGORY } from 'graphql/post/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
+import Link from 'next/link';
+import React from 'react';
+import { getPostByCategory } from 'src/__generated__/getPostByCategory';
 import {
-  getPostByCategory,
-  getPostByCategoryVariables,
-  getPostByCategory_getPostByCategory_post,
-} from 'src/__generated__/getPostByCategory';
-import { FirstCategoryName } from 'src/__generated__/globalTypes';
-import ColumnStyle from 'styles/column/ColumnPage.module.scss';
-import ColumnCard from '../../components/column/ColumnCard';
+  FirstCategoryName,
+  SecondCategoryName,
+} from 'src/__generated__/globalTypes';
 
 const Column: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
-  ({ data: initialData }) => {
-    const router = useRouter();
-    const [page, setPage] = useState<number>(2);
-    const [data, setData] = useState<
-      getPostByCategory_getPostByCategory_post[]
-    >(initialData.getPostByCategory.post);
-
-    const onCompleted = (data: getPostByCategory) => {
-      if (data?.getPostByCategory?.ok) {
-        setData((prev) => [...prev, ...moreData?.getPostByCategory.post]);
-      }
-    };
-
-    const onError = (error: ApolloError) => {
-      alert(error);
-      router.push('/');
-    };
-
-    const [getPostByCategoryData, { data: moreData, loading, error }] =
-      useLazyQuery<getPostByCategory, getPostByCategoryVariables>(
-        GET_POST_BY_CATEGORY,
-        {
-          onError,
-          onCompleted,
-        }
-      );
-
-    useEffect(() => {
-      const getMorePost = async (_page: number) => {
-        getPostByCategoryData({
-          variables: {
-            input: {
-              page: _page,
-              inputTake: 9,
-              firstCategoryName: FirstCategoryName.COLUMN,
-            },
-          },
-        });
-      };
-      getMorePost(page);
-    }, [page]);
-
+  ({ data: { columnData, challengeData } }) => {
     return (
       <>
         <title>The Folks | Column</title>
-        <InfiniteScroll
-          dataLength={data.length}
-          next={() => setPage((prev) => prev + 1)}
-          hasMore={page < initialData?.getPostByCategory.totalPages}
-          loader={<h1>Loading..</h1>}
-          endMessage={<NoMore text={'Column End'} />}
-        >
-          <h2>Column!</h2>
-          <ul className={ColumnStyle.cardContainer}>
-            {data?.map((el, index) => (
-              <ColumnCard key={el.id + el.title + index} data={el} />
-            ))}
-          </ul>
-        </InfiniteScroll>
+        <section>
+          <div>
+            <div style={{ display: 'flex' }}>
+              <h1>Column</h1>
+              <Link href={`column/${SecondCategoryName.USER_COLUMN}`}>
+                <a>Column</a>
+              </Link>
+            </div>
+            <ul>
+              {columnData?.getPostByCategory.post.map((el) => {
+                const {
+                  id,
+                  comments,
+                  contents,
+                  createdAt,
+                  title,
+                  titleImg,
+                  user,
+                  viewCount,
+                } = el;
+                const { nickname } = user;
+                return (
+                  <TalkColumn
+                    key={id}
+                    id={id}
+                    commentsLength={comments.length}
+                    contents={contents}
+                    createdAt={createdAt}
+                    title={title}
+                    titleImg={titleImg}
+                    viewCount={viewCount}
+                    nickname={nickname}
+                  />
+                );
+              })}
+            </ul>
+          </div>
+
+          <div>
+            <div style={{ display: 'flex' }}>
+              <h1>Challenge</h1>
+              <Link href={`column/${SecondCategoryName.CHALLENGE}`}>
+                <a>Challenge</a>
+              </Link>
+            </div>
+            <ul>
+              {challengeData?.getPostByCategory.post.map((el) => {
+                const {
+                  id,
+                  comments,
+                  contents,
+                  createdAt,
+                  title,
+                  titleImg,
+                  user,
+                  viewCount,
+                } = el;
+                const { nickname } = user;
+                return (
+                  <TalkColumn
+                    key={id}
+                    id={id}
+                    commentsLength={comments.length}
+                    contents={contents}
+                    createdAt={createdAt}
+                    title={title}
+                    titleImg={titleImg}
+                    viewCount={viewCount}
+                    nickname={nickname}
+                  />
+                );
+              })}
+            </ul>
+          </div>
+        </section>
       </>
     );
   };
 
 export const getServerSideProps: GetServerSideProps<{
-  data: getPostByCategory;
-}> = async () => {
+  data: {
+    columnData: getPostByCategory;
+    challengeData: getPostByCategory;
+  };
+}> = async (ctx) => {
   const apolloClient = initializeApollo();
-  const data: { data: getPostByCategory } = await apolloClient.query({
+  const columnData: { data: getPostByCategory } = await apolloClient.query({
     query: GET_POST_BY_CATEGORY,
     variables: {
       input: {
         page: 1,
-        inputTake: 9,
+        inputTake: 3,
         firstCategoryName: FirstCategoryName.COLUMN,
+        secondCategoryName: SecondCategoryName.USER_COLUMN,
+      },
+    },
+  });
+
+  const challengeData: { data: getPostByCategory } = await apolloClient.query({
+    query: GET_POST_BY_CATEGORY,
+    variables: {
+      input: {
+        page: 1,
+        inputTake: 3,
+        firstCategoryName: FirstCategoryName.TALK,
+        secondCategoryName: SecondCategoryName.CHALLENGE,
       },
     },
   });
 
   return addApolloState(apolloClient, {
     props: {
-      data: data.data,
+      data: {
+        columnData: columnData.data,
+        challengeData: challengeData.data,
+      },
     },
   });
 };
