@@ -9,18 +9,20 @@ import {
   FirstCategoryName,
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
+import ColumnStyle from 'styles/column/ColumnPage.module.scss';
+import UtilStyle from 'styles/common/Util.module.scss';
 
 const Column: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
   ({ data: { columnData, challengeData } }) => {
     return (
       <>
         <title>The Folks | Column</title>
-        <section>
+        <section className={UtilStyle.container}>
           <div>
-            <div style={{ display: 'flex' }}>
+            <div className={ColumnStyle.moreButtonWrapper}>
               <h1>Column</h1>
               <Link href={`column/${SecondCategoryName.USER_COLUMN}`}>
-                <a>Column</a>
+                <a>See More</a>
               </Link>
             </div>
             <ul>
@@ -54,10 +56,10 @@ const Column: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
           </div>
 
           <div>
-            <div style={{ display: 'flex' }}>
+            <div className={ColumnStyle.moreButtonWrapper}>
               <h1>Challenge</h1>
               <Link href={`column/${SecondCategoryName.CHALLENGE}`}>
-                <a>Challenge</a>
+                <a>See More</a>
               </Link>
             </div>
             <ul>

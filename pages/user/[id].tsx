@@ -7,6 +7,7 @@ import useUser from 'hooks/pages/user/useUser';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import React from 'react';
+import UtilStyle from 'styles/common/Util.module.scss';
 import UserStyle from 'styles/user/User.module.scss';
 
 const DynamicUserProfile = dynamic(
@@ -34,7 +35,7 @@ const User = () => {
   return (
     <>
       <title>The Folks | User | {nickname}</title>
-      <div className={UserStyle.container}>
+      <div className={UtilStyle.container}>
         <div className={UserStyle.userContainer}>
           <DynamicUserProfile
             user={data.findByNickName.user}

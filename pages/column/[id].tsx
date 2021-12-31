@@ -18,6 +18,7 @@ import {
   SecondCategoryName,
 } from 'src/__generated__/globalTypes';
 import ColumnStyle from 'styles/column/ColumnPage.module.scss';
+
 const ColumnDetail: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ data: initialData, secondCategoryName }) => {

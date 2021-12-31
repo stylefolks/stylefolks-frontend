@@ -65,3 +65,19 @@
     }
   }
 }
+
+.moreButtonWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0px;
+
+  & > h1 {
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  a {
+    font-size: 12px;
+  }
+}

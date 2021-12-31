@@ -1,11 +1,3 @@
-.container {
-  width: 100%;
-  margin-top: 44px;
-
-  @media screen and (max-width: $media-phone) {
-    margin-top: 0px;
-  }
-}
 .userContainer {
   display: flex;
   flex-direction: column;
