@@ -67,7 +67,7 @@ const Talk: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
           endMessage={<NoMore text={'Talks End'} />}
           style={{ width: '100%' }}
         >
-          <h2>Talks!</h2>
+          <h1>Talks</h1>
           <ul className={TalkStyle.cardContainer}>
             {data?.map((el) => {
               const { id, title, titleImg, contents, createdAt, viewCount } =
