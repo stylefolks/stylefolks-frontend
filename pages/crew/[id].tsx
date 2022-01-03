@@ -10,7 +10,7 @@ import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 
 const Crew = () => {
   const { state, actions } = useEachCrew();
-  const { data, loading, error, isJoined, visible } = state;
+  const { data, loading, error, visible, isJoined, isManager } = state;
   const { refetch, doDepart, doJoin } = actions;
 
   if (loading) return <div>Loading...</div>;
@@ -22,10 +22,10 @@ const Crew = () => {
       <title>The Folks | Crew</title>
       <div className={CrewPageStyle.container}>
         <CrewProfile
-          refetch={refetch}
           data={data?.getCrewByName?.crew}
-          managerId={data?.getCrewByName?.manager?.id}
+          isManager={isManager}
           isJoined={isJoined}
+          refetch={refetch}
           doJoin={doJoin}
           doDepart={doDepart}
         />

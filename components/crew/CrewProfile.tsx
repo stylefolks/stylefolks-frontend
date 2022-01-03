@@ -1,4 +1,4 @@
-import { ApolloQueryResult, useReactiveVar } from '@apollo/client';
+import { ApolloQueryResult } from '@apollo/client';
 import { faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import {
   faCog,
@@ -7,7 +7,6 @@ import {
   faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { userInfoVar } from 'cache/common/common.cache';
 import UseWindowDimension from 'hooks/common/useWindowDimension';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,7 +22,8 @@ import CrewProfileStyle from 'styles/crew/CrewProfile.module.scss';
 import CrewModifyModal from './CrewModifyModal';
 interface ICrewProfileProps {
   data: getCrewByName_getCrewByName_crew;
-  managerId: number;
+
+  isManager: boolean;
   isJoined: boolean;
   doJoin: () => void;
   doDepart: () => void;
@@ -40,17 +40,14 @@ const LINK_TYPE_HASH = {
 
 const CrewProfile: React.FC<ICrewProfileProps> = ({
   data,
-  managerId,
+  isManager,
   isJoined,
   doJoin,
   doDepart,
   refetch,
 }) => {
-  // const { name, profileImg, backgroundImg, link } = data;
-  const { width, height } = UseWindowDimension();
-  const userInfo = useReactiveVar(userInfoVar);
+  const { width } = UseWindowDimension();
   const [visible, setVisible] = useState<boolean>(false);
-  const isManager = managerId === userInfo.id;
 
   return (
     <div
