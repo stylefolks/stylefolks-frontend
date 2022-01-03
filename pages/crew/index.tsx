@@ -82,7 +82,9 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         <title>The Folks | Crew</title>
         {canMakeData?.canMakeCrew.ok ? (
           <Link href="/make-crew">
-            <a>당신의 크루를 만들어보세요!</a>
+            <a className={CrewPageStyle.makeCrewText}>
+              <h1>당신의 크루를 만들어보세요!</h1>
+            </a>
           </Link>
         ) : (
           ''
