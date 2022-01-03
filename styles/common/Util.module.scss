@@ -202,8 +202,17 @@ $delayandduration: 4;
   flex-direction: column;
   width: 100%;
 
-  label {
-    margin: 0.6rem 0;
+  & > label {
+    font-size: 16px;
+  }
+
+  & > input {
+    height: 32px;
+    margin: 8px 0px;
+  }
+
+  & > button {
+    margin: 8px 0px;
   }
 
   @media screen and (max-width: $media-phone) {

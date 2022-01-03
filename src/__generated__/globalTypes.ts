@@ -70,6 +70,14 @@ export interface CreateCommentInput {
   comment: string;
 }
 
+export interface CreateCrewInput {
+  name?: string | null;
+  link?: CrewLinkOptionInputType[] | null;
+  profileImg?: string | null;
+  backgroundImg?: string | null;
+  introduction?: string | null;
+}
+
 export interface CreatePostInput {
   title: string;
   contents: string;
