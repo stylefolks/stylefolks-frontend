@@ -59,3 +59,11 @@ export const GET_CREW_POST_BY_ROLE = gql`
   }
   ${POST_FRAGMENT}
 `;
+
+export const CAN_MAKE_CREW = gql`
+  query canMakeCrew {
+    canMakeCrew {
+      ok
+    }
+  }
+`;

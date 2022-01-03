@@ -1,6 +1,6 @@
-import { useReactiveVar, useQuery, useMutation } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { modalVisibleVar, userInfoVar } from 'cache/common/common.cache';
-import { JOIN_CREW, DEPART_CREW } from 'graphql/crew/mutations';
+import { DEPART_CREW, JOIN_CREW } from 'graphql/crew/mutations';
 import { GET_CREW_BY_NAME } from 'graphql/crew/queries';
 import { useRouter } from 'next/router';
 import { departCrew, departCrewVariables } from 'src/__generated__/departCrew';
@@ -15,6 +15,7 @@ const useEachCrew = () => {
   const { id } = router.query;
   const visible = useReactiveVar(modalVisibleVar);
   const userInfo = useReactiveVar(userInfoVar);
+
   const { data, loading, error, refetch } = useQuery<
     getCrewByName,
     getCrewByNameVariables
@@ -25,6 +26,8 @@ const useEachCrew = () => {
       },
     },
   });
+
+  const isManager = data?.getCrewByName?.manager?.id === userInfo.id;
 
   const onCompletedJoinCrew = (data: joinCrew) => {
     if (data.joinCrew.ok) {
@@ -88,7 +91,7 @@ const useEachCrew = () => {
   };
 
   return {
-    state: { data, loading, error, isJoined, visible },
+    state: { data, loading, error, isJoined, visible, isManager },
     actions: { refetch, doJoin, doDepart },
   };
 };

@@ -1,9 +1,9 @@
-import { ApolloError, gql, useLazyQuery, useQuery } from '@apollo/client';
+import { ApolloError, useLazyQuery, useQuery } from '@apollo/client';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CircleProfileImage from 'components/common/CircleProfileImage';
 import PageChange from 'components/pageChange/PageChange';
-import { GET_ALL_CREW } from 'graphql/crew/queries';
+import { CAN_MAKE_CREW, GET_ALL_CREW } from 'graphql/crew/queries';
 import { addApolloState, initializeApollo } from 'lib/apolloClient';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Link from 'next/link';
@@ -18,14 +18,6 @@ import {
 } from 'src/__generated__/getAllCrew';
 import CrewPageStyle from 'styles/crew/CrewPage.module.scss';
 import NoMore from '../../components/common/NoMore';
-
-const CAN_MAKE_CREW = gql`
-  query canMakeCrew {
-    canMakeCrew {
-      ok
-    }
-  }
-`;
 
 const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
   ({ data: initialData }) => {
@@ -50,7 +42,7 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
       data: canMakeData,
       loading: canMakeLoading,
       error: canMakeError,
-    } = useQuery<canMakeCrew>(CAN_MAKE_CREW);
+    } = useQuery<canMakeCrew>(CAN_MAKE_CREW, { fetchPolicy: 'network-only' });
 
     const [getCrewData, { data: moreData, loading, error, refetch }] =
       useLazyQuery<getAllCrew, getAllCrewVariables>(GET_ALL_CREW, {
@@ -82,7 +74,9 @@ const Crew: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
         <title>The Folks | Crew</title>
         {canMakeData?.canMakeCrew.ok ? (
           <Link href="/make-crew">
-            <a>당신의 크루를 만들어보세요!</a>
+            <a className={CrewPageStyle.makeCrewText}>
+              <h1>당신의 크루를 만들어보세요!</h1>
+            </a>
           </Link>
         ) : (
           ''
