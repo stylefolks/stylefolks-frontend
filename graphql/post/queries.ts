@@ -43,6 +43,7 @@ export const GET_EACH_POST_COMMENTS = gql`
       comments {
         comment
         id
+        createdAt
         user {
           ...UserParts
         }

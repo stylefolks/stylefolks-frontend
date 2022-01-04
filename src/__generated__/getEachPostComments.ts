@@ -18,6 +18,7 @@ export interface getEachPostComments_getEachPostComments_comments {
   __typename: "Comments";
   comment: string;
   id: number;
+  createdAt: any;
   user: getEachPostComments_getEachPostComments_comments_user;
 }
 

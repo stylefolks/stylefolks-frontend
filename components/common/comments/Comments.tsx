@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { getEachPostComments_getEachPostComments_comments_user } from 'src/__generated__/getEachPostComments';
 import CommentBoxStyle from 'styles/post/CommentBox.module.scss';
+import { makeCommentTime } from 'utils/Utils';
 import { CancelButton } from '../button/CancelButton';
 import { CompleteButton } from '../button/CompleteButton';
 import { DeleteButton } from '../button/DeleteButton';
@@ -16,6 +17,7 @@ interface IPropsComment {
   postId: number;
   commentId: number;
   loading: boolean;
+  createdAt: string;
   onSave: ({ value, commentId }: { value: string; commentId: number }) => void;
   onDelete: (commentId: number) => void;
 }
@@ -26,6 +28,7 @@ const Comments: React.FC<IPropsComment> = ({
   postId,
   commentId,
   loading,
+  createdAt,
   onSave,
   onDelete,
 }) => {
@@ -55,9 +58,10 @@ const Comments: React.FC<IPropsComment> = ({
         </Link>
       </div>
       {!edit ? (
-        <>
+        <div className={CommentBoxStyle.textWrapper}>
           <span>{comment}</span>
-        </>
+          <span>{makeCommentTime(createdAt)}</span>
+        </div>
       ) : (
         <textarea onChange={onChange} value={value}></textarea>
       )}

@@ -19,4 +19,8 @@ export const removeSpinner = () => {
   // document.body.classList.remove('body-page-transition');
 };
 
+export const makeCommentTime = (time: string) => {
+  return time.replace('T', ' ').split('.')[0].replace('-', '.');
+};
+
 export default {};
