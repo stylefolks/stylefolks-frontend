@@ -56,6 +56,7 @@ const CommentBox: React.FC<ICommentBoxProps> = ({ postId }) => {
             key={index}
             postId={postId}
             commentId={el.id}
+            createdAt={el.createdAt}
           />
         ))}
       </ul>

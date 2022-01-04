@@ -51,6 +51,7 @@
   margin: 1.5vh 0;
   border-bottom: 1px solid $back-color-main;
   padding: 1vh 0;
+  min-height: 72px;
 
   & > .profileWrapper {
     & > a {
@@ -62,11 +63,6 @@
     }
   }
 
-  & > span {
-    margin: 0px 12px;
-    white-space: pre-line;
-    width: 100%;
-  }
   & > textarea {
     min-height: 40px;
     min-width: calc(100% - 80px - 10vw);
@@ -80,6 +76,33 @@
   }
 }
 
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  align-items: flex-start;
+
+  & > span {
+    &:first-child {
+      // white-space: pre-line;
+      min-height: calc(72px - 32px);
+
+      @media screen and (max-width: $media-phone) {
+        max-height: 180px;
+        overflow-y: scroll;
+      }
+    }
+    &:nth-child(2) {
+      color: gray;
+    }
+  }
+
+  width: 100%;
+}
+
 .buttonSpace {
   display: flex;
   justify-content: space-between;
@@ -88,8 +111,8 @@
   margin-right: 12px;
 
   & > button {
-    width: 38px;
-    height: 38px;
+    width: 24px;
+    height: 24px;
     margin: 0px;
     border-radius: 100%;
 
