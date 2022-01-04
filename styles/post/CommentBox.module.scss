@@ -89,6 +89,14 @@
     &:first-child {
       // white-space: pre-line;
       min-height: calc(72px - 32px);
+
+      @media screen and (max-width: $media-phone) {
+        max-height: 180px;
+        overflow-y: scroll;
+      }
+    }
+    &:nth-child(2) {
+      color: gray;
     }
   }
 
