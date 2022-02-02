@@ -4,6 +4,7 @@ import {
   isAlertVar,
   isLoggedInVar,
   modalVisibleVar,
+  refreshTokenVar,
   userInfoVar,
   writtenPostVar,
 } from 'cache/common/common.cache';
@@ -18,6 +19,12 @@ export const nickname = {
 export const token = {
   read() {
     return authTokenVar();
+  },
+};
+
+export const refreshToken = {
+  read() {
+    return refreshTokenVar();
   },
 };
 

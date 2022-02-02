@@ -76,8 +76,13 @@ export const initialUserInfoVar: IUserInforVar = {
 
 const token =
   typeof window !== 'undefined' ? localStorage.getItem('folks-token') : '';
+const refreshToken =
+  typeof window !== 'undefined'
+    ? localStorage.getItem('folks-refresh-token')
+    : '';
 export const isLoggedInVar = makeVar(Boolean(token));
 export const authTokenVar = makeVar(token);
+export const refreshTokenVar = makeVar(refreshToken);
 export const userInfoVar: ReactiveVar<IUserInforVar> = makeVar({
   ...initialUserInfoVar,
 });
