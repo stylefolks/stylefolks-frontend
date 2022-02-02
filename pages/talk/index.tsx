@@ -7,9 +7,9 @@ import React from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { getPostByCategory } from 'src/__generated__/getPostByCategory';
 import { FirstCategoryName } from 'src/__generated__/globalTypes';
+import UtilStyle from 'styles/common/Util.module.scss';
 import TalkStyle from 'styles/talk/TalkPage.module.scss';
 import TalkColumn from '../../components/talk/TalkColumn';
-
 const Talk: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ data: initialData }) => {
@@ -30,7 +30,7 @@ const Talk: React.FC<
         endMessage={<NoMore text={'Talks End'} />}
         style={{ width: '100%' }}
       >
-        <h1>Talks</h1>
+        <h1 className={UtilStyle.mainPageTitle}>Talks</h1>
         <ul className={TalkStyle.cardContainer}>
           {data?.map((el) => {
             const { id, title, titleImg, contents, createdAt, viewCount } = el;
