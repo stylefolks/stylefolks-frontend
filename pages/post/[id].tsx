@@ -28,7 +28,7 @@ export const Post = () => {
   if (error)
     return (
       <div>
-        에러가 발생했습니다.{' '}
+        에러가 발생했습니다.
         <button onClick={() => route.back()}>뒤로가기</button>
       </div>
     );

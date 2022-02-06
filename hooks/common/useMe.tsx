@@ -4,6 +4,11 @@ import { ME_QUERY } from 'graphql/user/queries';
 import { meQuery } from 'src/__generated__/meQuery';
 
 export const useLazyMe = () => {
+  const onError = (error: Error) => {
+    if (error.message === 'EXPIRE_TOKEN') {
+    }
+  };
+
   const onCompleted = (data: meQuery) => {
     if (data?.me) {
       const { __typename, id, ...input } = data?.me;
@@ -15,6 +20,7 @@ export const useLazyMe = () => {
     nextFetchPolicy: 'network-only',
     fetchPolicy: 'network-only',
     onCompleted,
+    onError,
   });
   return result;
 };

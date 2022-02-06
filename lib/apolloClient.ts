@@ -23,6 +23,7 @@ import { folksServer } from 'config';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import { useMemo } from 'react';
+import { refreshTokenVar } from './../cache/common/common.cache';
 
 export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 
@@ -32,6 +33,7 @@ const httpLink = createHttpLink({
   uri: folksServer,
   headers: {
     'folks-token': authTokenVar() || '',
+    'folks-refresh-token': refreshTokenVar() || '',
   },
 });
 
@@ -40,11 +42,13 @@ const httpLink = createHttpLink({
 const authLink = new ApolloLink((operation, forward) => {
   //로컬스토리지로부터 토큰 받아오기
   const token = authTokenVar();
+  const refreshToken = refreshTokenVar();
 
   // HTTP headers 세팅을 위해 setContext method 사용
   operation.setContext({
     headers: {
       'folks-token': token ? token : '',
+      'folks-refresh-token': refreshToken ? refreshToken : '',
     },
   });
 
