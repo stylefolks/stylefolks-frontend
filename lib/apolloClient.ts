@@ -31,6 +31,7 @@ let apolloClient;
 
 const httpLink = createHttpLink({
   uri: folksServer,
+  credentials: 'include',
   headers: {
     'folks-token': authTokenVar() || '',
     'folks-refresh-token': refreshTokenVar() || '',

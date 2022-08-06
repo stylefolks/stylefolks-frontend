@@ -28,12 +28,6 @@ const App = ({ Component, pageProps }) => {
       <Head>
         <Head>
           <meta charSet="utf-8" />
-          {/* 백엔드 api https설정 전까지 임시 방편 */}
-          <meta
-            httpEquiv="Content-Security-Policy"
-            content="upgrade-insecure-requests"
-          />
-          {/* 백엔드 api https설정 전까지 임시 방편 */}
           <meta name="description" content="Description" />
           <meta name="keywords" content="Keywords" />
           <title> The-folks</title>

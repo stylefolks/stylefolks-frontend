@@ -73,6 +73,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
           body: formdata,
           headers: {
             'folks-token': localStorage.getItem('folks-token'),
+            credentials: 'include',
           },
         })
       ).json();

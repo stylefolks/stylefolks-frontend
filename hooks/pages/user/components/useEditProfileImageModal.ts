@@ -58,6 +58,7 @@ const useEditProfileImageModal = ({ doRefetch }: IProps) => {
           body: formBody,
           headers: {
             'folks-token': localStorage.getItem('folks-token'),
+            credentials: 'include',
           },
         })
       ).json();
@@ -99,6 +100,7 @@ const useEditProfileImageModal = ({ doRefetch }: IProps) => {
         headers: {
           'Content-Type': 'application/json',
           'folks-token': localStorage.getItem('folks-token'),
+          credentials: 'include',
         },
       })
     ).json();
