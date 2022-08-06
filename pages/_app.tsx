@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client';
+import Head from 'next/head';
 import Router from 'next/router';
 import React from 'react';
 import 'styles/globals.css';
@@ -23,13 +24,29 @@ Router.events.on('routeChangeError', (url) => {
 const App = ({ Component, pageProps }) => {
   const apolloClient = useApollo(pageProps);
   return (
-    <ApolloProvider client={apolloClient}>
-      <Wrapper>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Wrapper>
-    </ApolloProvider>
+    <>
+      <Head>
+        <Head>
+          <meta charSet="utf-8" />
+          {/* 백엔드 api https설정 전까지 임시 방편 */}
+          <meta
+            httpEquiv="Content-Security-Policy"
+            content="upgrade-insecure-requests"
+          />
+          {/* 백엔드 api https설정 전까지 임시 방편 */}
+          <meta name="description" content="Description" />
+          <meta name="keywords" content="Keywords" />
+          <title> The-folks</title>
+        </Head>
+      </Head>
+      <ApolloProvider client={apolloClient}>
+        <Wrapper>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Wrapper>
+      </ApolloProvider>
+    </>
   );
 };
 
