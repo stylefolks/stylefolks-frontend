@@ -28,8 +28,8 @@ const App = ({ Component, pageProps }) => {
       <Head>
         <Head>
           <meta charSet="utf-8" />
-          <meta name="description" content="Description" />
-          <meta name="keywords" content="Keywords" />
+          <meta name="description" content="재미있는 패션 커뮤니티" />
+          <meta name="keywords" content="패션커뮤니티" />
           <title> The-folks</title>
         </Head>
       </Head>

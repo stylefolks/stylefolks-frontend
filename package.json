@@ -1,6 +1,5 @@
 {
   "name": "stylefolks-frontend",
-  "homepage": "https://www.the-folks.com/",
   "version": "0.1.0",
   "private": true,
   "scripts": {

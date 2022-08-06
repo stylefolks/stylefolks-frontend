@@ -10,8 +10,8 @@ module.exports = {
     service: {
       name: 'stylefolks-backend',
       url:
-        process.env.NODE_ENV === 'production'
-          ? 'https://api.the-folks.com/graphql'
+        process.env.NODE_ENV !== 'production'
+          ? 'http://api.the-folks.com/graphql'
           : 'http://localhost:4000/graphql',
       // // url: 'http://localhost:4000/graphql',
       // url: folksServer,

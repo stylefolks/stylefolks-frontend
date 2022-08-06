@@ -31,7 +31,6 @@ let apolloClient;
 
 const httpLink = createHttpLink({
   uri: folksServer,
-  credentials: 'include',
   headers: {
     'folks-token': authTokenVar() || '',
     'folks-refresh-token': refreshTokenVar() || '',
@@ -47,6 +46,7 @@ const authLink = new ApolloLink((operation, forward) => {
 
   // HTTP headers 세팅을 위해 setContext method 사용
   operation.setContext({
+    // credentials: 'include',
     headers: {
       'folks-token': token ? token : '',
       'folks-refresh-token': refreshToken ? refreshToken : '',
