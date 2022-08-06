@@ -18,7 +18,7 @@ module.exports = {
 
     return config;
   },
-  webpackDevMiddleware: (config) => {
-    return config;
-  },
+  // webpackDevMiddleware: (config) => {
+  //   return config;
+  // },
 };
