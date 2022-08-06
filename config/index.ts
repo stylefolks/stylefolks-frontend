@@ -5,5 +5,5 @@
 // export const folksServerNoGql = dev
 //   ? 'http://localhost:4000'
 //   : 'http://api.the-folks.com';
-export const folksServer = `http://api.the-folks.com/graphql`;
-export const folksServerNoGql = `http://api.the-folks.com`;
+export const folksServer = `https://api.the-folks.com/graphql`;
+export const folksServerNoGql = `https://api.the-folks.com`;
