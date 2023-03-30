@@ -21,7 +21,7 @@ const IndexPage: React.FC<
     <>
       <title>The Folks</title>
       <InfiniteScroll
-        dataLength={data.length}
+        dataLength={data?.length || 0}
         next={() => setPage((prev) => prev + 1)}
         hasMore={data.length < initialData?.getAllPosts.totalResults}
         loader={<h1>Loading..</h1>}
@@ -57,24 +57,25 @@ const IndexPage: React.FC<
   );
 };
 
-export const getServerSideProps: GetServerSideProps<{ data: getAllPosts }> =
-  async () => {
-    const apolloClient = initializeApollo();
-    const data: { data: getAllPosts } = await apolloClient.query({
-      query: GET_ALL_POSTS_QUERY,
-      variables: {
-        input: {
-          page: 1,
-          inputTake: 13,
-        },
+export const getServerSideProps: GetServerSideProps<{
+  data: getAllPosts;
+}> = async () => {
+  const apolloClient = initializeApollo();
+  const data: { data: getAllPosts } = await apolloClient.query({
+    query: GET_ALL_POSTS_QUERY,
+    variables: {
+      input: {
+        page: 1,
+        inputTake: 13,
       },
-    });
+    },
+  });
 
-    return addApolloState(apolloClient, {
-      props: {
-        data: data.data,
-      },
-    });
-  };
+  return addApolloState(apolloClient, {
+    props: {
+      data: data.data,
+    },
+  });
+};
 
 export default IndexPage;

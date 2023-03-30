@@ -104,19 +104,17 @@ const CategorySelector: React.FC<IProps> = ({
   return (
     <>
       <section className={CategoryStyle.categoryContainer}>
-        <div>
-          <div>
-            <span>Write Your Own Story named as </span>
-            <input
-              autoFocus={true}
-              type="text"
-              placeholder="Title"
-              value={post.title}
-              onChange={(e) =>
-                writtenPostVar({ ...post, title: e.target.value })
-              }
-            />
-          </div>
+        <div className={CategoryStyle.typeTitleContainer}>
+          <span>Write Your Own Story named as </span>
+          <input
+            autoFocus={true}
+            type="text"
+            placeholder="Title"
+            value={post.title}
+            onChange={(e) => writtenPostVar({ ...post, title: e.target.value })}
+          />
+        </div>
+        <div className={CategoryStyle.selectCategoryContainer}>
           {
             <>
               <span> in </span>
@@ -168,24 +166,25 @@ const CategorySelector: React.FC<IProps> = ({
             </>
           )}
 
-          {post.firstCategoryName === FirstCategoryName.CREW && crews.length && (
-            <>
-              <span> Of </span>
-              <select
-                value={crews?.filter((el) => el.id === post.crewId)[0]?.name}
-                onChange={(el) => {
-                  const selectedIndex = el.target.options.selectedIndex;
-                  const selectElement = crews[selectedIndex];
+          {post.firstCategoryName === FirstCategoryName.CREW &&
+            crews.length > 0 && (
+              <>
+                <span> Of </span>
+                <select
+                  value={crews?.filter((el) => el.id === post.crewId)[0]?.name}
+                  onChange={(el) => {
+                    const selectedIndex = el.target.options.selectedIndex;
+                    const selectElement = crews[selectedIndex];
 
-                  writtenPostVar({ ...post, crewId: selectElement.id });
-                }}
-              >
-                {crews.map((el) => (
-                  <option key={el.name}>{el.name}</option>
-                ))}
-              </select>
-            </>
-          )}
+                    writtenPostVar({ ...post, crewId: selectElement.id });
+                  }}
+                >
+                  {crews?.map((el) => (
+                    <option key={el.name}>{el.name}</option>
+                  ))}
+                </select>
+              </>
+            )}
         </div>
       </section>
     </>

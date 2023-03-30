@@ -83,6 +83,7 @@ const WysiwygEditor: React.FC<Props> = (props) => {
       setLoading(false);
       removeSpinner();
       alert('이미지 업로드 에러 발생 : 임시 저장 후 새로고침 후 시도해주세요!');
+      console.error(error);
     }
   };
 

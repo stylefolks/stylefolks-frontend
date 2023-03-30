@@ -4,6 +4,32 @@
 
 - The Advanced Fashion Community를 지향하는 웹을 만들고 있습니다.
 
+## UI/UX
+
+### 로그인
+
+<img src="./gifs/thefolks-login.gif">
+
+### 마이페이지
+
+<img src="./gifs/thefolks-mypage.gif">
+
+### 게시글
+
+<img src="./gifs/thefolks-post.gif">
+
+### 댓글
+
+<img src="./gifs/thefolks-comment.gif">
+
+### 크루 만들기
+
+<img src="./gifs/thefolks-crew-made.gif">
+
+### 크루 세부페이지
+
+<img src="./gifs/thefolks-crew-relation.gif">
+
 ## Tech Stack
 
 ### FE

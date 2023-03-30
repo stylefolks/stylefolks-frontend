@@ -84,9 +84,9 @@ const Crew: React.FC<
         ''
       )}
       <InfiniteScroll
-        dataLength={data.length}
+        dataLength={data?.length || 0}
         next={() => setPage((prev) => prev + 1)}
-        hasMore={data.length < initialData?.getAllCrew.totalResults}
+        hasMore={data?.length || 0 < initialData?.getAllCrew.totalResults}
         loader={<h1>Loading..</h1>}
         endMessage={<NoMore text={'Crew End'} />}
       >

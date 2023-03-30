@@ -1,20 +1,52 @@
 .categoryContainer {
   font-size: 22px;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   margin: 2vh 0;
+}
+
+.typeTitleContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  span {
+    width: fit-content;
+    display: block;
+  }
 
   input {
+    width: calc(100% - 16px);
     font-size: 22px;
-    max-width: 10vw;
+    padding: 8px 0px;
     border: 1px solid white;
+    border-radius: 4px;
 
     &:focus {
       border: 1px solid black;
     }
   }
+
+  @media screen and (max-width: $media-phone) {
+    flex-direction: column;
+    input {
+      display: block;
+      font-size: 16px;
+      width: 100%;
+      border: 1px solid white;
+
+      &:focus {
+        border: 1px solid black;
+      }
+    }
+
+    select {
+      font-size: 16px;
+      border: 0.5px solid white;
+      background-color: white;
+    }
+  }
+}
+
+.selectCategoryContainer {
+  width: 100%;
 
   select {
     font-size: 22px;
@@ -37,6 +69,7 @@
       display: block;
       font-size: 16px;
       min-width: 220px;
+
       // max-width: 10vw;
       border: 1px solid white;
 

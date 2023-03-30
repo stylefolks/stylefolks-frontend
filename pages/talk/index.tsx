@@ -23,7 +23,7 @@ const Talk: React.FC<
       <title>The Folks | Talk</title>
 
       <InfiniteScroll
-        dataLength={data.length}
+        dataLength={data?.length || 0}
         next={() => setPage((prev) => prev + 1)}
         hasMore={page < initialData?.getPostByCategory.totalPages}
         loader={<h1>Loading..</h1>}
